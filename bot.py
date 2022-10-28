@@ -4,7 +4,7 @@ import nextcord
 from nextcord.ext import commands
 import os
 
-staff = 1035378549403684864
+
 bot = commands.Bot()
 
 # messages (just for loading cogs commands)
@@ -29,7 +29,7 @@ async def load(interaction: nextcord.Interaction, extension):
         except nextcord.ext.commands.errors.ExtensionNotFound:
             await interaction.send(f'The cog `{extension}` was not found.')
     else:
-        await interaction.send(noperm)
+        await interaction.response.send(noperm, ephemeral=True)
 
 @bot.slash_command()
 async def unload(interaction: nextcord.Interaction, extension):
@@ -44,7 +44,7 @@ async def unload(interaction: nextcord.Interaction, extension):
         except nextcord.ext.commands.errors.ExtensionNotFound:
             await interaction.send(f'The cog `{extension}` was not found.')
     else:
-        await interaction.send(noperm)
+        await interaction.response.send(noperm, ephemeral=True)
 
 @bot.slash_command()
 async def reload(interaction: nextcord.Interaction, extension):
@@ -59,7 +59,7 @@ async def reload(interaction: nextcord.Interaction, extension):
         except nextcord.ext.commands.errors.ExtensionNotFound:
             await interaction.send(f'The cog `{extension}` was not found!')
     else:
-        await interaction.send(noperm)
+        await interaction.response.send(noperm, ephemeral=True)
 
 # Load Cogs
 for filename in os.listdir('./cogs'):
