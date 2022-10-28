@@ -1,7 +1,7 @@
 # Rosebot v3
 The Rosebot Discord bot written using Nextcord
 
-# Roadmap
+## Roadmap
 There's a lot of things we'd like to do with this bot, but here's a general idea of our current scope of the project
 
 ### Commands
@@ -22,5 +22,10 @@ There's a lot of things we'd like to do with this bot, but here's a general idea
    
 
 ### Other Features
-#### Semi-auto updating
-get latest files from git repo and restart bot on an admin or dev-only command (like `/update`)
+#### Bot Management
+- [x] Cogs
+  - [x] Load Cogs
+  - [x] Unload Cogs
+  - [x] Reload Cogs
+- [ ] Shutdown bot correctly (instead of just an exit)
+- [ ] Get bot token from database
