@@ -35,14 +35,21 @@ async def on_ready():
     print(f'We have logged in as {bot.user}')
 
 # Load Commands
-@bot.slash_command()
+@bot.slash_command(description="[Admin] Load cogs")
 async def load(interaction: nextcord.Interaction, extension):
     if interaction.user.id in admins:
         try:
-            bot.load_extension(f'cogs.{extension}')
-            msg=f'Loaded cog `{extension}`!'
-            await interaction.send(msg)
-            print(msg)
+            cogs_list = ''
+            if extension is None:
+                for filename in os.listdir('./cogs'):
+                    if filename.endswith('.py'):
+                        cogs_list += ( ' • ' + filename.strip('.py') + '\n')
+                await interaction.send(f'Available Cogs:\n{cogs_list}')
+            else:
+                bot.load_extension(f'cogs.{extension}')
+                msg=f'Loaded cog `{extension}`!'
+                await interaction.send(msg)
+                print(msg)
         except nextcord.ext.commands.errors.ExtensionAlreadyLoaded:
             await interaction.send(f'The cog `{extension}` is already loaded.')
         except nextcord.ext.commands.errors.ExtensionNotFound:
@@ -54,10 +61,17 @@ async def load(interaction: nextcord.Interaction, extension):
 async def unload(interaction: nextcord.Interaction, extension):
     if interaction.user.id in admins:
         try:
-            bot.unload_extension(f'cogs.{extension}')
-            msg=f'Unloaded cog `{extension}`!'
-            await interaction.send(msg)
-            print(msg)
+            cogs_list = ''
+            if extension is None:
+                for filename in os.listdir('./cogs'):
+                    if filename.endswith('.py'):
+                        cogs_list += ( ' • ' + filename.strip('.py') + '\n')
+                await interaction.send(f'Available Cogs:\n{cogs_list}')
+            else:
+                bot.unload_extension(f'cogs.{extension}')
+                msg=f'Unloaded cog `{extension}`!'
+                await interaction.send(msg)
+                print(msg)
         except nextcord.ext.commands.errors.ExtensionNotLoaded:
             await interaction.send(f'The cog `{extension}` is not loaded.')
         except nextcord.ext.commands.errors.ExtensionNotFound:
@@ -69,14 +83,28 @@ async def unload(interaction: nextcord.Interaction, extension):
 async def reload(interaction: nextcord.Interaction, extension):
     if interaction.user.id in admins:
         try:
-            bot.reload_extension(f'cogs.{extension}')
-            msg=f'Reloaded cog `{extension}`!'
-            await interaction.send(msg)
-            print(msg)
+            cogs_list = ''
+            if extension is None:
+                for filename in os.listdir('./cogs'):
+                    if filename.endswith('.py'):
+                        cogs_list += ( ' • ' + filename.strip('.py') + '\n')
+                await interaction.send(f'Available Cogs:\n{cogs_list}')
+            else:
+                bot.reload_extension(f'cogs.{extension}')
+                msg=f'Reloaded cog `{extension}`!'
+                await interaction.send(msg)
+                print(msg)
         except nextcord.ext.commands.errors.ExtensionNotLoaded:
             await interaction.send(f'The cog `{extension}` is not loaded.')
         except nextcord.ext.commands.errors.ExtensionNotFound:
             await interaction.send(f'The cog `{extension}` was not found!')
+    else:
+        await interaction.response.send(noperm, ephemeral=True)
+
+@bot.slash_command(description='[Admin] Stop the bot')
+async def stop(interaction: nextcord.Interaction, extension):
+    if interaction.user.id in admins:
+        await interaction.send('**⚠️ Stopping the bot!**')
     else:
         await interaction.response.send(noperm, ephemeral=True)
 
