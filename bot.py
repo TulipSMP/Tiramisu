@@ -105,6 +105,7 @@ async def reload(interaction: nextcord.Interaction, extension):
 async def stop(interaction: nextcord.Interaction, extension):
     if interaction.user.id in admins:
         await interaction.send('**⚠️ Stopping the bot!**')
+        exit(0)
     else:
         await interaction.response.send(noperm, ephemeral=True)
 
