@@ -1,13 +1,13 @@
 import nextcord
 from nextcord.ext import commands
 
-
 class Moderation(commands.Cog):
     def __init__(self, bot):
         self.client = bot
     
     # Variables
-    error_msg=f'⚠️ **An Error Occured!**\n```\n{e}\n```\nPlease report this to the devs.'
+    def errorMsg(error):
+        return f'⚠️ **An Error Occured!**\n```\n{e}\n```\nPlease report this to the devs.'
     staff = 1035378549403684864
     TESTING_GUILD_ID=1035313572638638110
     noperm = f'No permission!'

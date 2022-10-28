@@ -1,0 +1,8 @@
+mysql:
+  host: 'localhost'
+  port: '3306'
+  user: 'tiramisu'
+  pass: 'passwordSecure'
+
+messages:
+  noperm: 'No permission'
