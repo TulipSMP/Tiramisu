@@ -14,7 +14,7 @@ class Catboy(commands.Cog):
         print('Cog catboy.py loaded!')
 
     # Commands
-    @commands.command(description="Try me!", guild_ids=[TESTING_GUILD_ID])
+    @nextcord.slash_command(description="Try me!", guild_ids=[TESTING_GUILD_ID])
     async def fizz(interaction: nextcord.Interaction):
         await interaction.send(f"Yes, fizz is indeed a catboy. I am a discord bot so I am always right.")
         print(f"Reminded {interaction.user.name} that fizzdev is indeed a catboy.")

@@ -14,12 +14,14 @@ class Hello(commands.Cog):
         print('Cog hello.py loaded!')
 
     # Commands
-    @commands.command(description="Hello!", guild_ids=[TESTING_GUILD_ID])
+    @nextcord.slash_command(description="Hello!", guild_ids=[TESTING_GUILD_ID])
     async def hello(self, interaction: nextcord.Interaction):
         await interaction.response.send_message(f"Hello World! I'm {bot.user}!")
         await print(f"Said hello to {interaction.user.name}.")
 
-    @nextcord.slash_command(guild_ids=[TESTING_GUILD_ID])
+    @nextcord.slash_command(name="slashcog",
+        description="Testing slash commands in a cog",
+        guild_ids=[TESTING_GUILD_ID])
     async def slashcog(self, interaction: nextcord.Interaction):
         #  This is a slash command in a cog
         await interaction.response.send_message("Hello I am a slash command in a cog!")
