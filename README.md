@@ -30,6 +30,6 @@ There's a lot of things we'd like to do with this bot, but here's a general idea
 - [ ] Shutdown bot correctly (instead of just an exit)
 
 #### Messages & Variables
-- [ ] Load ALL messages from yaml or db
+- [ ] Load ALL reused messages from yaml
 - [ ] Get bot token from yaml or db
 - [ ] Get role and guild IDs from yaml or db

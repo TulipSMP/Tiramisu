@@ -1,4 +1,5 @@
 import nextcord
+import logging
 from nextcord.ext import commands
 
 
@@ -12,12 +13,14 @@ class Catboy(commands.Cog):
     @commands.Cog.listener()
     async def on_ready(self):
         print('Cog catboy.py loaded!')
+        logging.info('Loaded cog catboy.py')
 
     # Commands
     @nextcord.slash_command(description="Try me!", guild_ids=[TESTING_GUILD_ID])
     async def fizz(self, interaction: nextcord.Interaction):
         await interaction.send(f"Yes, fizz is indeed a catboy. I am a discord bot so I am always right.")
-        print(f"Reminded {interaction.user.name} that fizzdev is indeed a catboy.")
+        logging.debug(f'Reminded {interaction.user} that fizz is a catboy.')
 
 def setup(bot):
     bot.add_cog(Catboy(bot))
+    logging.debug('Setup cog "catboy"')

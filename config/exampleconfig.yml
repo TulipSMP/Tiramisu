@@ -6,3 +6,4 @@ mysql:
 
 messages:
   noperm: 'No permission'
+  noperm_log: f'User {interactions.user} tried to run "{cmd}" but doesnt have permission!'

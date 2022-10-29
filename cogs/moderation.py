@@ -1,16 +1,25 @@
 import nextcord
+import logging
 from nextcord.ext import commands
 
 class Moderation(commands.Cog):
     def __init__(self, bot):
         self.client = bot
     
+    # Error Function
+    def error(error):
+        logging.error(f"Error in moderation.py: {error}")
+        return f'⚠️ **An Error Occured!**\n```\n{error}\n```\nPlease report this to the devs.'
+
+    # No Permission Function
+    def noperm(cmd):
+        logging.debug(f'{interaction.user.name} (ID: {interaction.user.id}) \
+            tried to run "{cmd}" but doesnt have permission!')
+        return 'No Permission!'
+
     # Variables
-    def errorMsg(error):
-        return f'⚠️ **An Error Occured!**\n```\n{e}\n```\nPlease report this to the devs.'
     staff = 1035378549403684864
     TESTING_GUILD_ID=1035313572638638110
-    noperm = f'No permission!'
 
     # Channel & Role IDs
     ANNOUNCEMENT_CHANNEL=0000000000000000000
@@ -19,7 +28,7 @@ class Moderation(commands.Cog):
     # Events
     @commands.Cog.listener()
     async def on_ready(self):
-        print('Cog moderation.py loaded!')
+        logging.info('Cog moderation.py loaded!')
 
     # Commands
     @commands.command(description="Warn a User", guild_ids=[TESTING_GUILD_ID])
@@ -28,13 +37,14 @@ class Moderation(commands.Cog):
             if reason is None:
                 reason = "No reason given."
             try:
-                await arg.send(f"**You have been warned!**\nReason: __{reason}__\nPlease do not do this again. Make sure you have read the server rules.")
+                await arg.send(f"**You have been warned!**\nReason: __{reason}__\n\
+                    Please do not do this again. Make sure you have read the server rules.")
                 await interaction.send(f"{arg.mention} has been warned for:\n{reason}")
+                logging.debug(f'{interaction.user} warned {arg.display_name} for {reason}')
             except BaseException as e:
-                await interaction.send(error_msg)
-                print(error_msg)
+                await interaction.send(error(e), ephemeral=True)
         else:
-            await interaction.response.send(noperm, ephemeral=True)
+            await interaction.response.send(noperm('announce'), ephemeral=True)
 
     @commands.command(description="Make an announcement!", guild_ids=[TESTING_GUILD_ID])
     async def announce(interaction: nextcord.Interaction, ping: bool, message: str):
@@ -48,10 +58,9 @@ class Moderation(commands.Cog):
                 await channel.send(f"{prepend}> {message}\n*Announced by <@{interaction.user.id}>.*")
                 await interaction.send(f"Announcement sent! See <#{ANNOUNCEMENT_CHANNEL}>")
             except BaseException as e:
-                await interaction.send(error_msg)
-                print(error_msg)
+                await interaction.send(error(e), ephemeral=True)
         else:
-            await interaction.response.send(noperm, ephemeral=True)
+            await interaction.response.send(noperm('announce'), ephemeral=True)
 
 def setup(bot):
     bot.add_cog(Moderation(bot))

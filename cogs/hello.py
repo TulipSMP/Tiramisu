@@ -1,4 +1,5 @@
 import nextcord
+import logging
 from nextcord.ext import commands
 
 
@@ -12,19 +13,14 @@ class Hello(commands.Cog):
     @commands.Cog.listener()
     async def on_ready(self):
         print('Cog hello.py loaded!')
+        logging.info('Loaded cog hello.py')
 
     # Commands
     @nextcord.slash_command(description="Hello!", guild_ids=[TESTING_GUILD_ID])
     async def hello(self, interaction: nextcord.Interaction):
-        await interaction.response.send_message(f"Hello World! I'm {bot.user}!")
-        await print(f"Said hello to {interaction.user.name}.")
-
-    @nextcord.slash_command(name="slashcog",
-        description="Testing slash commands in a cog",
-        guild_ids=[TESTING_GUILD_ID])
-    async def slashcog(self, interaction: nextcord.Interaction):
-        #  This is a slash command in a cog
-        await interaction.response.send_message("Hello I am a slash command in a cog!")
+        await interaction.response.send_message(f"Hello {interaction.user.display_name}! I'm {bot.display_name}!")
+        logging.debug(f"Said hello to {interaction.user.name}.")
 
 def setup(bot):
     bot.add_cog(Hello(bot))
+    logging.debug('Setup cog "hello"')
