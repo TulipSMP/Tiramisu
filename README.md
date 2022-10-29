@@ -28,4 +28,8 @@ There's a lot of things we'd like to do with this bot, but here's a general idea
   - [x] Unload Cogs
   - [x] Reload Cogs
 - [ ] Shutdown bot correctly (instead of just an exit)
-- [ ] Get bot token from database
+
+#### Messages & Variables
+- [ ] Load ALL messages from yaml or db
+- [ ] Get bot token from yaml or db
+- [ ] Get role and guild IDs from yaml or db
