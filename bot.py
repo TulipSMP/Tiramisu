@@ -3,6 +3,7 @@
 import nextcord
 from nextcord.ext import commands
 import os
+import sys
 
 import logging
 import mysql.connector
@@ -111,7 +112,7 @@ async def stop(interaction: nextcord.Interaction, extension):
     if interaction.user.id in admins:
         await interaction.send('**⚠️ Stopping the bot!**')
         logging.info(f'{interaction.user} stopped the bot.')
-        exit(0)
+        sys.exit("Stopping...")
     else:
         await interaction.response.send(noperm, ephemeral=True)
         cmd = 'stop'
