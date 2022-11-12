@@ -6,7 +6,7 @@ import os
 import sys
 
 import logging
-import mysql.connector
+import mysqlclient.connector as mysql.connector
 import yaml
 
 with open("config/config.yml", "r") as ymlfile:

@@ -2,4 +2,4 @@
 nextcord
 logging
 yaml
-mysql
+mysqlclient
