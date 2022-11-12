@@ -5,6 +5,9 @@ mysql:
   pass: ''
   db: 'tiramisu'
 
+discord:
+  token: 'MTAzNTMyMzc1OTY4ODY3OTQ0NA.Gfbtej.DBm7Y82JguDyFjmEFoUaSzV30LslLj2xiMmwUA'
+
 messages:
   noperm: 'No permission'
   noperm_log: f'User {interactions.user} tried to run "{cmd}" but doesnt have permission!'

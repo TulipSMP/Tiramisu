@@ -30,6 +30,9 @@ noperm_log = cfg["messages"]["noperm_log"]
 cursor.execute("SELECT * FROM admins")
 admins = cursor.fetchall()
 
+# Load token from cfg
+bot_token = cfg["discord"]["token"]
+
 # Print to log when successfully logged in
 @bot.event
 async def on_ready():
@@ -123,4 +126,4 @@ for filename in os.listdir('./cogs'):
         bot.load_extension(f'cogs.{filename[:-3]}')
 
 # Run the Bot
-bot.run('MTAzNTMyMzc1OTY4ODY3OTQ0NA.Gfbtej.DBm7Y82JguDyFjmEFoUaSzV30LslLj2xiMmwUA')
+bot.run(bot_token)
