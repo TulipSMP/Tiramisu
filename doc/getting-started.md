@@ -1,11 +1,15 @@
 # Getting Started
+
 First, clone this repository. To do so, run the following command:
+
 ```sh
 git clone https://github.com/RoseSMP/rosebot-3
 ```
 
 ## Installing
-#### Dependencies
+
+### Dependencies
+
 For using this bot, you'll need to have `python` and `pip` installed. These packages are installed by default on most modern distributions. Then, you can install all dependencies with the following command (on most operating systems). 
 ```sh
 pip install -r requirements.txt
@@ -18,12 +22,17 @@ If you're on ms windows, try this command:
 ```powershell
 py -m pip install -r requirements.txt
 ```
-#### Database
+
+
+### Database
+
 You'll need a MySQL database running for this bot to store data in. If you don't know how to setup a MySQL database you can check [their documentation](https://dev.mysql.com/doc/mysql-getting-started/en/). 
 
 After that's set up and running, edit the [config/config.yml](../config/config.yml) file (see [exampleconfig.yml](../config/exampleconfig.yml) for help) to apply to your instance.
 
+
 ## Running
+
 Running the bot is as simple as running one command:
 ```sh
 python3 bot.py
