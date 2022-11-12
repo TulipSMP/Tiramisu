@@ -1,5 +1,5 @@
+from logger42 import logger
 import nextcord
-import logging
 from nextcord.ext import commands
 
 class Moderation(commands.Cog):
@@ -8,12 +8,12 @@ class Moderation(commands.Cog):
     
     # Error Function
     def error(error):
-        logging.error(f"Error in moderation.py: {error}")
+        logger.error(f"Error in moderation.py: {error}")
         return f'⚠️ **An Error Occured!**\n```\n{error}\n```\nPlease report this to the devs.'
 
     # No Permission Function
     def noperm(cmd):
-        logging.debug(f'{interaction.user.name} (ID: {interaction.user.id}) \
+        logger.debug(f'{interaction.user.name} (ID: {interaction.user.id}) \
             tried to run "{cmd}" but doesnt have permission!')
         return 'No Permission!'
 
@@ -28,7 +28,7 @@ class Moderation(commands.Cog):
     # Events
     @commands.Cog.listener()
     async def on_ready(self):
-        logging.info('Cog moderation.py loaded!')
+        logger.info('Cog moderation.py loaded!')
 
     # Commands
     @commands.command(description="Warn a User", guild_ids=[TESTING_GUILD_ID])
@@ -40,7 +40,7 @@ class Moderation(commands.Cog):
                 await arg.send(f"**You have been warned!**\nReason: __{reason}__\n\
                     Please do not do this again. Make sure you have read the server rules.")
                 await interaction.send(f"{arg.mention} has been warned for:\n{reason}")
-                logging.debug(f'{interaction.user} warned {arg.display_name} for {reason}')
+                logger.debug(f'{interaction.user} warned {arg.display_name} for {reason}')
             except BaseException as e:
                 await interaction.send(error(e), ephemeral=True)
         else:

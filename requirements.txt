@@ -1,5 +1,5 @@
 # Dependencies
 nextcord
-logging
+logging42
 yaml
 mysqlclient
