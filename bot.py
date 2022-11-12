@@ -3,6 +3,7 @@
 import nextcord
 from nextcord.ext import commands
 import os
+import sys
 
 import logging
 import mysql.connector
@@ -63,7 +64,7 @@ async def load(interaction: nextcord.Interaction, extension):
         cmd = 'load'
         logging.debug(noperm_log)
 
-@bot.slash_command()
+@bot.slash_command(description="[Admin] Unload cogs")
 async def unload(interaction: nextcord.Interaction, extension):
     if interaction.user.id in admins:
         try:
@@ -86,7 +87,7 @@ async def unload(interaction: nextcord.Interaction, extension):
         cmd = 'unload'
         logging.debug(noperm_log)
 
-@bot.slash_command()
+@bot.slash_command(description="[Admin] Reload cogs")
 async def reload(interaction: nextcord.Interaction, extension):
     if interaction.user.id in admins:
         try:
@@ -114,7 +115,7 @@ async def stop(interaction: nextcord.Interaction, extension):
     if interaction.user.id in admins:
         await interaction.send('**⚠️ Stopping the bot!**')
         logging.info(f'{interaction.user} stopped the bot.')
-        exit(0)
+        sys.exit("Stopping...")
     else:
         await interaction.response.send(noperm, ephemeral=True)
         cmd = 'stop'

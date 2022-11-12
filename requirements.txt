@@ -1,0 +1,5 @@
+# Dependencies
+nextcord
+logging
+yaml
+mysql
