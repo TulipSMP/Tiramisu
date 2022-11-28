@@ -1,5 +1,5 @@
 # Dependencies
 nextcord
 logging42
-yaml
+pyyaml
 mysqlclient
