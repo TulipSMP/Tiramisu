@@ -8,14 +8,14 @@ import os
 import sys
 
 
-import mysqlclient.connector
+import mysql.connector
 import yaml
 
 with open("config/config.yml", "r") as ymlfile:
     cfg = yaml.load(ymlfile, Loader=yaml.FullLoader)
 
 bot = commands.Bot()
-sql = mysqlclient.connect(
+sql = mysql.connector(
     host=cfg["mysql"]["host"],
     user=cfg["mysql"]["user"],
     password=cfg["mysql"]["pass"],
