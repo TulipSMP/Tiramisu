@@ -2,4 +2,4 @@
 nextcord
 logging42
 pyyaml
-mysqlclient
+mysql-connector-python
