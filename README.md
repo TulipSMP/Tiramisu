@@ -21,8 +21,10 @@ There's a lot of things we'd like to do with this bot, but here's a general idea
   1. Hidden message 
   1. Create private channel (in reports category) visible by staff and reporter
   1. Message in #mod-chat or another channel abt report, linking to the new channel
-  1. non-slash command (like `!close`) that DMs the user their report ticket was closed, makes the channel read-only, and hides it from the ticketer.
-   
+  1. command that DMs the user their report ticket was closed, makes the channel read-only, and hides it from the ticketer.
+- [ ] Ticketing system
+  1. Simple command or button to create ticket
+  1. ticket categories 
 
 ### Other Features
 #### Bot Management
