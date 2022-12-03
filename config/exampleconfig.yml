@@ -3,6 +3,7 @@ mysql:
   port: '3306'
   user: 'tiramisu'
   pass: 'passwordSecure'
+  db: 'databaseName'
 
 discord:
   token: 'YourBotToken'
