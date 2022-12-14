@@ -4,6 +4,8 @@ mysql:
   user: 'root'
   pass: ''
   db: 'tiramisu'
+  tables:
+    - "admins"
 
 discord:
   token: 'MTAzNTMyMzc1OTY4ODY3OTQ0NA.Gfbtej.DBm7Y82JguDyFjmEFoUaSzV30LslLj2xiMmwUA'
@@ -11,6 +13,11 @@ discord:
 messages:
   noperm: 'No permission'
   noperm_log: f'User {interactions.user} tried to run "{cmd}" but doesnt have permission!'
+
+# Note: non-db storage still uses the tables value for what 
+#   values need stored.
+storage:
+  db: False
 
 cog_submodules:
   use_cog_submodules: True

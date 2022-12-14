@@ -7,23 +7,43 @@ from nextcord.ext import commands
 import os
 import sys
 
-
-import mysql.connector
 import yaml
 
 with open("config/config.yml", "r") as ymlfile:
     cfg = yaml.load(ymlfile, Loader=yaml.FullLoader)
 
 bot = commands.Bot()
-sql = mysql.connector(
-    host=cfg["mysql"]["host"],
-    user=cfg["mysql"]["user"],
-    password=cfg["mysql"]["pass"],
-    database=cfg["mysql"]["db"]
-)
-cursor = sql.cursor()
 
-cursor.execute("CREATE TABLE IF NOT EXISTS admins (id BIGINT, permission INT)")
+# Database, if used
+if cfg["storage"]["db"]:
+    logger.info("Using Database Storage...")
+    import mysql.connector
+    sql = mysql.connector(
+        host=cfg["mysql"]["host"],
+        user=cfg["mysql"]["user"],
+        password=cfg["mysql"]["pass"],
+        database=cfg["mysql"]["db"]
+    )
+    cursor = sql.cursor()
+
+    for table in cfg["mysql"]["tables"]:
+        cursor.execute(f"CREATE TABLE IF NOT EXISTS {table} (id BIGINT, permission INT)")
+# If not used, create local stuff
+else:
+    logger.info("Using Local Storage...")
+    try:
+        os.mkdir("./config/storage/")
+    except FileExistsError:
+        logger.debug("Local storage already exists.")
+    # Dict for tables
+    # Ensure all ttableables exist
+    for table in cfg["mysql"]["tables"]:
+        if os.path.exists(f"./config/storage/{table}.yml"):
+            logger.debug(f"Local table {table} already exists.")
+        else:
+            with open(f"./config/storage/{table}.yml") as :
+                0
+        counter += 1
 
 # messages (just for loading cogs commands)
 noperm = cfg["messages"]["noperm"]
