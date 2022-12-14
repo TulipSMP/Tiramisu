@@ -10,3 +10,8 @@ discord:
 messages:
   noperm: 'No permission'
   noperm_log: f'User {interactions.user} tried to run "{cmd}" but doesnt have permission!'
+
+tiramisu:
+  use_cog_submodules: False
+  cog_submodules:
+    #- "rsmp"
