@@ -33,17 +33,37 @@ else:
     logger.info("Using Local Storage...")
     try:
         os.mkdir("./config/storage/")
+        logger.debug("Made dir './config/storage'")
     except FileExistsError:
         logger.debug("Local storage already exists.")
-    # Dict for tables
-    # Ensure all ttableables exist
+    # Create db.yml
+    with open("./config/storage/db.yml", "r") as db_r_ymlfile:
+            db = yaml.safe_load(db_r_ymlfile, Loader=yaml.FullLoader)
+            logger.debug("Opened db.yml (for reading)")
+    # Be able to save it later
+    def localdb_save(load=db, context='None given'):
+        try:
+            with open("./config/storage/db.yml", "w") as db_w_ymlfile:
+                    db_w = yaml.safe_dump(load, db_w_ymlfile, Loader=yaml.FullLoader)
+                    logger.info(f"Saved db.yml for reason: '{context}'.")
+            return True
+        except Exception as e:
+            logger.errors(f"localdb_save() UNSUCCESSFUL!")
+            logger.errors(f"localdb_save() FAILED WITH ERROR '{e}'!")
+            return False
+    # Ensure all tables exist
+    logger.info("Checking if tables exist...")
     for table in cfg["mysql"]["tables"]:
-        if os.path.exists(f"./config/storage/{table}.yml"):
-            logger.debug(f"Local table {table} already exists.")
-        else:
-            with open(f"./config/storage/{table}.yml") as :
-                0
-        counter += 1
+        for v in db.iteritems():
+            if table in v:
+                logger.debug(f"Table '{table}' exists.")
+            else:
+                db_new = yaml.safe_load(f"""
+                {db}
+                {table}: []
+                """)
+                localdb_save(load=db_new, context='Adding table ' + table + '.')
+                logger.debug(f"Added table {table}.")
 
 # messages (just for loading cogs commands)
 noperm = cfg["messages"]["noperm"]
@@ -136,6 +156,8 @@ async def reload(interaction: nextcord.Interaction, extension):
 async def stop(interaction: nextcord.Interaction, extension):
     if interaction.user.id in admins:
         await interaction.send('**⚠️ Stopping the bot!**')
+        if not cfg["storage"]["db"]:
+            localdb_save(context="Stop Command")
         logger.info(f'{interaction.user} stopped the bot.')
         sys.exit("Stopping...")
     else:
