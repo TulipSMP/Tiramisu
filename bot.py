@@ -58,6 +58,9 @@ else:
             logger.error(f"localdb_save() UNSUCCESSFUL!")
             logger.error(f"localdb_save() FAILED WITH ERROR '{e}'!")
             return False
+    # Make sure `db` isnt None
+    if db == None:
+        db = yaml.safe_load('')
     # Ensure all tables exist
     logger.info("Checking if tables exist...")
     try:
