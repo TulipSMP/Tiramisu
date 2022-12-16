@@ -4,15 +4,26 @@ mysql:
   user: 'root'
   pass: ''
   db: 'tiramisu'
+  tables:
+    - "admins"
 
 discord:
   token: 'MTAzNTMyMzc1OTY4ODY3OTQ0NA.Gfbtej.DBm7Y82JguDyFjmEFoUaSzV30LslLj2xiMmwUA'
+  testing_guild: 1035313572638638110
+  roles:
+    staff: 1035378549403684864
 
 messages:
-  noperm: 'No permission'
-  noperm_log: f'User {interactions.user} tried to run "{cmd}" but doesnt have permission!'
+  noperm: '**🚫 No permission**'
+  noperm_log: 'A user tried to run a command but doesnt have permisson.'
+
+# Note: non-db storage still uses the tables value for what 
+#   values need stored.
+# WARNING: See docs/local-db.yml!
+storage:
+  db: False
 
 cog_submodules:
-  use_cog_submodules: True
+  use_cog_submodules: False
   cog_submodules:
     - "rsmp"
