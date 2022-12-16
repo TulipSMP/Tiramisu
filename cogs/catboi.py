@@ -1,18 +1,19 @@
 from logging42 import logger
 import nextcord
 from nextcord.ext import commands
-
+import yaml
 
 class Catboy(commands.Cog):
     def __init__(self, bot):
         self.client = bot
     
-    TESTING_GUILD_ID=1035313572638638110
+    with open("config/config.yml", "r") as ymlfile:
+        cfg = yaml.load(ymlfile, Loader=yaml.FullLoader)
+    TESTING_GUILD_ID=cfg["discord"]["testing_guild"]
 
     # Events
     @commands.Cog.listener()
     async def on_ready(self):
-        print('Cog catboy.py loaded!')
         logger.info('Loaded cog catboy.py')
 
     # Commands
