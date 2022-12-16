@@ -55,8 +55,8 @@ else:
                     logger.info(f"Saved db.yml for reason: '{context}'.")
             return True
         except Exception as e:
-            logger.errors(f"localdb_save() UNSUCCESSFUL!")
-            logger.errors(f"localdb_save() FAILED WITH ERROR '{e}'!")
+            logger.error(f"localdb_save() UNSUCCESSFUL!")
+            logger.error(f"localdb_save() FAILED WITH ERROR '{e}'!")
             return False
     # Ensure all tables exist
     logger.info("Checking if tables exist...")
@@ -66,7 +66,9 @@ else:
                 if table in k:
                     logger.debug(f"Table '{table}' exists.")
                 else:
-                    db_new = yaml.safe_load(f"{db}\n{table}: []\n")
+                    with open('./config/storage/db.yml', 'r') as db_old:
+                        yaml = str(db_old) + '\n' + table + ': []\n'
+                    db_new = yaml.safe_load(yaml)
                     localdb_save(load=db_new, context='Adding table ' + table + '.')
                     logger.debug(f"Added table {table}.")
     except AttributeError:
