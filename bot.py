@@ -61,6 +61,7 @@ else:
     # Make sure `db` isnt None
     if db == None:
         db = yaml.safe_load('')
+        logger.trace('CHECK: db.yml was None! Will be fixed later')
     # Ensure all tables exist
     logger.info("Checking if tables exist...")
     try:
