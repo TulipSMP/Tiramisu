@@ -1,6 +1,7 @@
 from logging42 import logger
 import nextcord
 from nextcord.ext import commands
+import yaml
 
 class Moderation(commands.Cog):
     def __init__(self, bot):
@@ -18,8 +19,11 @@ class Moderation(commands.Cog):
         return 'No Permission!'
 
     # Variables
-    staff = 1035378549403684864
-    TESTING_GUILD_ID=1035313572638638110
+    with open("config/config.yml", "r") as ymlfile:
+        cfg = yaml.load(ymlfile, Loader=yaml.FullLoader)
+    TESTING_GUILD_ID=cfg["discord"]["testing_guild"]
+
+    staff = cfg["discord"]["roles"]["staff"]
 
     # Channel & Role IDs
     ANNOUNCEMENT_CHANNEL=0000000000000000000

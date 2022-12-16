@@ -1,19 +1,22 @@
 from logging42 import logger
 import nextcord
 from nextcord.ext import commands
-
+import yaml
 
 class Hello(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
-        
-    TESTING_GUILD_ID=1035313572638638110
+    
+    with open("config/config.yml", "r") as ymlfile:
+        cfg = yaml.load(ymlfile, Loader=yaml.FullLoader)
+    TESTING_GUILD_ID=cfg["discord"]["testing_guild"]
 
     # Events
     @commands.Cog.listener()
     async def on_ready(self):
-        print('Cog hello.py loaded!')
         logger.info('Loaded cog hello.py')
+
+    bot = commands.Bot()
 
     # Commands
     @nextcord.slash_command(description="Hello!", guild_ids=[TESTING_GUILD_ID])
