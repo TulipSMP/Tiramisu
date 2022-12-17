@@ -199,11 +199,11 @@ for filename in os.listdir('./cogs'):
     if filename.endswith('.py'):
         bot.load_extension(f'cogs.{filename[:-3]}')
 # Load Cogs from enabled Submodules
-if cfg["cog_submodules"]["use_cog_submodules"]:
-    for submodule in cfg["cog_submodules"]["cog_submodules"]:
-        for filename in os.listdir(f'./cogs/{submodule}'):
-            if filename.endswith(".py"):
-                bot.load_extension(f"cogs.{submodule}.{filename[:-3]}")
+#if cfg["cog_submodules"]["use_cog_submodules"]:
+#    for submodule in cfg["cog_submodules"]["cog_submodules"]:
+#        for filename in os.listdir(f'./cogs/{submodule}'):
+#            if filename.endswith(".py"):
+#                bot.load_extension(f"cogs.{submodule}.{filename[:-3]}")
 
 # Run the Bot
 bot.run(bot_token)

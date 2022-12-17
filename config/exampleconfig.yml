@@ -19,7 +19,7 @@ messages:
 storage:
   db: False
 
-cog_submodules:
-  use_cog_submodules: False
-  cog_submodules:
-    #- "rsmp"
+#cog_submodules:
+#  use_cog_submodules: False
+#  cog_submodules:
+#    #- "rsmp"
