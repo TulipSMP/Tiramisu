@@ -3,11 +3,11 @@
 First, clone this repository. To do so, run the following command:
 
 ```sh
-git clone https://github.com/RoseSMP/rosebot-3.git
+git clone https://github.com/RoseSMP/Tiramisu.git
 ```
 If you want to also clone our custom cogs specific to RoseSMP, run the following command instead:
 ```sh
-git clone --recurse-submodules https://github.com/RoseSMP/rosebot-3.git
+git clone --recurse-submodules https://github.com/RoseSMP/Tiramisu.git
 ```
 
 ## Installing

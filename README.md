@@ -1,5 +1,5 @@
-# Rosebot v3
-The Rosebot Discord bot written using Nextcord
+# Tiramisu
+An open source discord bot for all audiences, developed by the folks at RoseSMP.
 
 ## Getting Started
 See [Getting Started](./doc/getting-started.md) for instructions on how to run and develop this bot.
