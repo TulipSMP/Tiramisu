@@ -19,8 +19,8 @@ TESTING_GUILD_ID=cfg["discord"]["testing_guild"]
 # Database, if used
 if cfg["storage"]["db"]:
     logger.info("Using Database Storage...")
-    import mysql
-    sql = mysql.connector(
+    from mysql import connector as mysql_connector
+    sql = mysql_connector(
         host=cfg["mysql"]["host"],
         user=cfg["mysql"]["user"],
         password=cfg["mysql"]["pass"],
