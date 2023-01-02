@@ -32,9 +32,9 @@ There's a lot of things we'd like to do with this bot, but here's a general idea
   - [x] Load Cogs
   - [x] Unload Cogs
   - [x] Reload Cogs
-- [ ] Shutdown bot correctly (instead of just an exit)
+- [x] Shutdown bot correctly (instead of just an exit)
 
 #### Messages & Variables
 - [ ] Load ALL reused messages from yaml
-- [ ] Get bot token from yaml or db
+- [x] Get bot token from yaml or db
 - [ ] Get role and guild IDs from yaml or db
