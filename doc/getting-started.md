@@ -10,6 +10,11 @@ If you want to also clone our custom cogs specific to RoseSMP, run the following
 git clone --recurse-submodules https://github.com/RoseSMP/Tiramisu.git
 ```
 
+Then, change into the directory:
+```sh
+cd Tiramisu/
+```
+
 ## Installing
 
 ### Dependencies
@@ -41,3 +46,4 @@ Running the bot is as simple as running one command:
 ```sh
 python3 bot.py
 ```
+See [Running Automatically](running-automatically.md) for how to autostart the bot on systemd systems.
