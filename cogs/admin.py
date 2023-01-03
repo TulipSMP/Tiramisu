@@ -44,7 +44,7 @@ class Admin(commands.Cog):
                 await interaction.send(f'**An Error occured:**\n```\n{ex}\n```\nPlease contact the devs.')
             logger.debug(f'{interaction.user.name} added {user.name}')
         else:
-            await interaction.send(admin.cfg["messages"]["noperm"], ephemeral=True)
+            await interaction.send(cfg["messages"]["noperm"], ephemeral=True)
 
 def setup(bot):
     bot.add_cog(Admin(bot))
