@@ -1,8 +1,8 @@
 mysql:
-  host: '127.0.0.1'
+  host: 'localhost'
   port: '3306'
-  user: 'root'
-  pass: ''
+  user: 'tiramisu'
+  pass: 'ImACatb0y!'
   db: 'tiramisu'
   tables:
     - "admins"
@@ -21,7 +21,7 @@ messages:
 #   values need stored.
 # WARNING: See docs/local-db.yml!
 storage:
-  db: False
+  db: True
 
 #cog_submodules:
 #  use_cog_submodules: False
