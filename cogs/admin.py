@@ -11,7 +11,6 @@ class Admin(commands.Cog):
     with open("config/config.yml", "r") as ymlfile:
         cfg = yaml.load(ymlfile, Loader=yaml.FullLoader)
     TESTING_GUILD_ID=cfg["discord"]["testing_guild"]
-
     # Database
     logger.debug("Logging into DB from admin.py")
     import mysql.connector
@@ -34,7 +33,7 @@ class Admin(commands.Cog):
         pass
         # This command is to set up the following as subcommands
     
-    @main.subcommand(description="[Admin] Add and administrator", guild_ids=[TESTING_GUILD_ID])
+    @bot.subcommand(description="[Admin] Add and administrator", guild_ids=[TESTING_GUILD_ID])
     async def add(self, interaction: nextcord.Interaction, user: nextcord.Member):
         if interaction.user.id == cfg["discord"]["owner"]:
             try:
