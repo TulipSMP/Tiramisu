@@ -6,7 +6,7 @@ import mysql.connector
 
 class Admin(commands.Cog):
     def __init__(self, bot):
-        self.client = bot
+        self.bot = bot
 
     # Load Yaml
     with open("config/config.yml", "r") as ymlfile:
@@ -15,9 +15,6 @@ class Admin(commands.Cog):
     
     # Test guild ID
     TESTING_GUILD_ID=cfg["discord"]["testing_guild"]
-
-    # Please forgive me
-    self = 0
 
     # Database
     logger.debug("Logging into DB from admin.py")
