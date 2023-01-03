@@ -35,7 +35,7 @@ class Admin(commands.Cog):
         # This command is to set up the following as subcommands
     
     @nextcord.slash_command(description="[Admin] Add and administrator", guild_ids=[TESTING_GUILD_ID])
-    async def add(self, interaction: nextcord.Interaction, user: nextcord.Interaction.user):
+    async def add(self, interaction: nextcord.Interaction, user: nextcord.Member):
         if interaction.user.id == interaction.user.owner_id:
             try:
                 cursor.execute(f"INSERT INTO admins (id, permission) VALUES ('{user.id}', 1);")
