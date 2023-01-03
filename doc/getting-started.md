@@ -60,8 +60,11 @@ Here is the next part of `config.yml`:
 ```yml
 discord:
   token: 'YourBotToken'
+  owner: 00000000000000
 ```
-This is where you should put the token your bot uses to log in with. Replace `YourBotToken` with your bot's access token. If you don't know how to make a bot, read [this doc](creating-a-bot.md).
+`token` is where you should put the token your bot uses to log in with. Replace `YourBotToken` with your bot's access token. If you don't know how to make a bot, read [this doc](creating-a-bot.md).
+
+`owner` is the user ID of the person hosting this bot instance. They can add administrators and other things only the person hosting the bot should have permission to do.
 
 After it's all configured, save and continue to the next step!
 (If you're using `nano` type `Ctrl`+`o`,`Enter`, `Ctrl`+`x`, to save and quit.)
