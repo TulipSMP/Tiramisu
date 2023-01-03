@@ -35,12 +35,12 @@ class Admin(commands.Cog):
         logger.info('Loaded cog admin.py')
 
     # Commands
-    @nextcord.slash_command(guild_ids=[TESTING_GUILD_ID])
+    @nextcord.slash_command(guild_ids=[TESTING_GUILD_ID], description='[Admin] ')
     async def admin(self, interaction: nextcord.Interaction):
         pass
         # This command is to set up the following as subcommands
     
-
+    # Add an instance administrator
     @admin.subcommand(description="Add an administrator")
     async def add(self, interaction: nextcord.Interaction, user: nextcord.Member):
         if interaction.user.id == self.botowner:
