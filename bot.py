@@ -90,7 +90,10 @@ if cfg["storage"]["db"] == True:
     admins = cursor.fetchall()
 else:
     try:
-        admins = db["admins"]
+        admins = []
+        for a_id in db['admins']:
+            admins.append(a_id)
+        logger.info(f'Loaded Admins: {admins}')
     except TypeError:
         logger.debug("In 'db.yml', table 'admins' is either empty or is invalid.")
         admins = []
