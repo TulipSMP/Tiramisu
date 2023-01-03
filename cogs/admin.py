@@ -30,12 +30,12 @@ class Admin(commands.Cog):
 
     # Commands
     @nextcord.slash_command(guild_ids=[TESTING_GUILD_ID])
-    async def admin(self, interaction: nextcord.Interaction):
+    async def admin(self, interaction: nextcord.Interaction, cfg=cfg):
         pass
         # This command is to set up the following as subcommands
     
     @admin.subcommand(description="[Admin] Add and administrator")
-    async def add(self, interaction: nextcord.Interaction, user: nextcord.Member, cfg=cfg):
+    async def add(self, interaction: nextcord.Interaction, user: nextcord.Member):
         if interaction.user.id == cfg["discord"]["owner"]:
             try:
                 cursor.execute(f"INSERT INTO admins (id, permission) VALUES ('{user.id}', 1);")
