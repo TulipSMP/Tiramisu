@@ -4,8 +4,6 @@ mysql:
   user: 'tiramisu'
   pass: 'ImACatb0y!'
   db: 'tiramisu'
-  tables:
-    - "admins"
 
 discord:
   token: 'MTAzNTMyMzc1OTY4ODY3OTQ0NA.Gfbtej.DBm7Y82JguDyFjmEFoUaSzV30LslLj2xiMmwUA'

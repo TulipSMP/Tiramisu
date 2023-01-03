@@ -27,8 +27,7 @@ sql = mysql.connector.connect(
 )
 cursor = sql.cursor()
 
-for table in cfg["mysql"]["tables"]:
-    cursor.execute(f"CREATE TABLE IF NOT EXISTS {table} (id BIGINT, permission INT)")
+cursor.execute(f"CREATE TABLE IF NOT EXISTS admins (id BIGINT, permission INT)")
 
 cursor.execute("SELECT * FROM admins")
 admins = cursor.fetchall()
