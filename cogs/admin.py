@@ -6,6 +6,7 @@ import mysql.connector
 
 class Admin(commands.Cog):
     def __init__(self, bot):
+        self = None
         self.client = bot
 
     with open("config/config.yml", "r") as ymlfile:
