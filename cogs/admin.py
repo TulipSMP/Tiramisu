@@ -40,10 +40,9 @@ class Admin(commands.Cog):
         pass
         # This command is to set up the following as subcommands
     
+    """
     @admin.subcommand(description="Add an administrator")
     async def add(self, interaction: nextcord.Interaction, user: nextcord.Member):
-        await interaction.send(f'Bot Owner: "{self.botowner}"')
-        """
         if interaction.user.id == self.botowner:
             sql = self.sql
             cursor = sql.cursor()
