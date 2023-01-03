@@ -85,7 +85,7 @@ else:
 
 
 # load from the table of admins
-if cfg["storage"]["db"]:
+if cfg["storage"]["db"] == True:
     cursor.execute("SELECT * FROM admins")
     admins = cursor.fetchall()
 else:
