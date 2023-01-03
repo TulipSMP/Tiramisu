@@ -17,7 +17,7 @@ class Admin(commands.Cog):
     TESTING_GUILD_ID=cfg["discord"]["testing_guild"]
 
     # Please forgive me
-    self = None
+    self = 0
 
     # Database
     logger.debug("Logging into DB from admin.py")
