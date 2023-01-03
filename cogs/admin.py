@@ -35,7 +35,7 @@ class Admin(commands.Cog):
     
     @admin.subcommand(description="[Admin] Add and administrator")
     async def add(self, interaction: nextcord.Interaction, user: nextcord.Member):
-        if interaction.user.id == cfg["discord"]["owner"]:
+        if interaction.user.id == admin.cfg["discord"]["owner"]:
             try:
                 cursor.execute(f"INSERT INTO admins (id, permission) VALUES ('{user.id}', 1);")
                 await interaction.send(f"Added {user.mention} as an admin.")
@@ -43,7 +43,7 @@ class Admin(commands.Cog):
                 await interaction.send(f'**An Error occured:**\n```\n{ex}\n```\nPlease contact the devs.')
             logger.debug(f'{interaction.user.name} added {user.name}')
         else:
-            await interaction.send(cfg["messages"]["noperm"], ephemeral=True)
+            await interaction.send(admin.cfg["messages"]["noperm"], ephemeral=True)
 
 def setup(bot):
     bot.add_cog(Admin(bot))
