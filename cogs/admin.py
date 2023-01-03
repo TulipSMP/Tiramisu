@@ -33,7 +33,7 @@ class Admin(commands.Cog):
         pass
         # This command is to set up the following as subcommands
     
-    @admin.subcommand(description="[Admin] Add and administrator", guild_ids=[TESTING_GUILD_ID])
+    @admin.subcommand(description="[Admin] Add and administrator")
     async def add(self, interaction: nextcord.Interaction, user: nextcord.Member):
         if interaction.user.id == cfg["discord"]["owner"]:
             try:
