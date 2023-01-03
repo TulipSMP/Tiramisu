@@ -38,6 +38,8 @@ class Admin(commands.Cog):
     
     @admin.subcommand(description="Add an administrator")
     async def add(self, interaction: nextcord.Interaction, user: nextcord.Member):
+        msg = f'Bot Owner: "{self.botowner}"'
+        """
         if interaction.user.id == self.botowner:
             sql = self.sql
             cursor = sql.cursor()
@@ -49,6 +51,7 @@ class Admin(commands.Cog):
             logger.debug(f'{interaction.user.name} added {user.name}')
         else:
             await interaction.send(cfg["messages"]["noperm"], ephemeral=True)
+        """
 
 def setup(bot):
     bot.add_cog(Admin(bot))
