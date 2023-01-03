@@ -19,7 +19,7 @@ class Admin(commands.Cog):
     # Database
     logger.debug("Logging into DB from admin.py")
     import mysql.connector
-    self.sql = mysql.connector.connect(
+    sql = mysql.connector.connect(
         host=cfg["mysql"]["host"],
         user=cfg["mysql"]["user"],
         password=cfg["mysql"]["pass"],
@@ -27,7 +27,7 @@ class Admin(commands.Cog):
     )
 
     # Load bot owner from yaml
-    self.botowner = cfg["discord"]["owner"]
+    botowner = cfg["discord"]["owner"]
 
     # Events
     @commands.Cog.listener()
