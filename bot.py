@@ -16,87 +16,23 @@ bot = commands.Bot()
 
 TESTING_GUILD_ID=cfg["discord"]["testing_guild"]
 
-# Database, if used
-if cfg["storage"]["db"] == True:
-    logger.info("Using Database Storage...")
-    import mysql.connector
-    sql = mysql.connector.connect(
-        host=cfg["mysql"]["host"],
-        user=cfg["mysql"]["user"],
-        password=cfg["mysql"]["pass"],
-        database=cfg["mysql"]["db"]
-    )
-    cursor = sql.cursor()
+# Database
+logger.info("Using Database Storage...")
+import mysql.connector
+sql = mysql.connector.connect(
+    host=cfg["mysql"]["host"],
+    user=cfg["mysql"]["user"],
+    password=cfg["mysql"]["pass"],
+    database=cfg["mysql"]["db"]
+)
+cursor = sql.cursor()
 
-    for table in cfg["mysql"]["tables"]:
-        cursor.execute(f"CREATE TABLE IF NOT EXISTS {table} (id BIGINT, permission INT)")
-else:
-    logger.warning("Using Local Storage...")
-    try:
-        os.mkdir("./config/storage/")
-        logger.debug("Made dir './config/storage'.")
-    except FileExistsError:
-        logger.debug("Local storage already exists.")
-    try:
-        os.mknod("./config/storage/db.yml")
-        logger.debug("Made file './config/storage/db.yml'.")
-    except FileExistsError:
-        logger.debug("'./config/storage/db.yml' already exists.")
-    # Create db.yml
-    with open("./config/storage/db.yml", "r") as db_r_ymlfile:
-            db = yaml.load(db_r_ymlfile, Loader=yaml.FullLoader)
-            logger.debug("Opened db.yml (for reading)")
-    # Be able to save it later
-    def localdb_save(load=db, context='None given'):
-        try:
-            with open("./config/storage/db.yml", "w") as db_w_ymlfile:
-                    db_w = yaml.safe_dump(load, db_w_ymlfile)
-                    logger.info(f"Saved db.yml for reason: '{context}'.")
-            return True
-        except Exception as e:
-            logger.error(f"localdb_save() UNSUCCESSFUL!")
-            logger.error(f"localdb_save() FAILED WITH ERROR '{e}'!")
-            return False
-    # Make sure `db` isnt None
-    if db == None:
-        db = yaml.safe_load('')
-        logger.trace('CHECK: db.yml was None! Will be fixed later')
-    # Ensure all tables exist
-    logger.info("Checking if tables exist...")
-    try:
-        for table in cfg["mysql"]["tables"]:
-            for k in db:
-                if table in k:
-                    logger.debug(f"Table '{table}' exists.")
-                else:
-                    with open('./config/storage/db.yml', 'r') as db_old:
-                        yaml = str(db_old) + '\n' + table + ': []\n'
-                    db_new = yaml.safe_load(yaml)
-                    localdb_save(load=db_new, context='Adding table ' + table + '.')
-                    logger.debug(f"Added table {table}.")
-    except AttributeError:
-        logger.debug('db.yml is empty. Creating tables...')
-        new_yaml = ''
-        for table in cfg["mysql"]["tables"]:
-            new_yaml += f"\n{table}: []\n"
-            localdb_save(context=f"Adding table {table}", load=new_yaml)
-    logger.info("Tables check Done.")
+for table in cfg["mysql"]["tables"]:
+    cursor.execute(f"CREATE TABLE IF NOT EXISTS {table} (id BIGINT, permission INT)")
 
+cursor.execute("SELECT * FROM admins")
+admins = cursor.fetchall()
 
-
-# load from the table of admins
-if cfg["storage"]["db"] == True:
-    cursor.execute("SELECT * FROM admins")
-    admins = cursor.fetchall()
-else:
-    try:
-        admins = []
-        for a_id in db['admins']:
-            admins.append(a_id)
-        logger.info(f'Loaded Admins: {admins}')
-    except TypeError:
-        logger.debug("In 'db.yml', table 'admins' is either empty or is invalid.")
-        admins = []
 
 # Load things from cfg
 bot_token = cfg["discord"]["token"]
@@ -195,17 +131,6 @@ async def stop(interaction: nextcord.Interaction):
         await interaction.send(noperm, ephemeral=True)
         cmd = 'stop'
         logger.debug(noperm_log)
-
-# Load Cogs
-for filename in os.listdir('./cogs'):
-    if filename.endswith('.py'):
-        bot.load_extension(f'cogs.{filename[:-3]}')
-# Load Cogs from enabled Submodules
-#if cfg["cog_submodules"]["use_cog_submodules"]:
-#    for submodule in cfg["cog_submodules"]["cog_submodules"]:
-#        for filename in os.listdir(f'./cogs/{submodule}'):
-#            if filename.endswith(".py"):
-#                bot.load_extension(f"cogs.{submodule}.{filename[:-3]}")
 
 # Run the Bot
 bot.run(bot_token)

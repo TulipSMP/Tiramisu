@@ -1,6 +1,3 @@
 # Python compiled files
 __pycache__
 *.pyc
-# Storage yml
-config/storage/*
-config/storage

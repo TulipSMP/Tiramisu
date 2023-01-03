@@ -1,3 +1,0 @@
-[submodule "rsmp"]
-    path = "cogs/rsmp"
-    url = "https://github.com/RoseSMP/rsmp-cogs"

@@ -16,14 +16,3 @@ discord:
 messages:
   noperm: '**🚫 No permission**'
   noperm_log: 'A user tried to run a command but doesnt have permisson.'
-
-# Note: non-db storage still uses the tables value for what 
-#   values need stored.
-# WARNING: See docs/local-db.yml!
-storage:
-  db: True
-
-#cog_submodules:
-#  use_cog_submodules: False
-#  cog_submodules:
-#    - "rsmp"
