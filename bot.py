@@ -31,7 +31,7 @@ if cfg["storage"]["db"] == True:
     for table in cfg["mysql"]["tables"]:
         cursor.execute(f"CREATE TABLE IF NOT EXISTS {table} (id BIGINT, permission INT)")
 else:
-    logger.info("Using Local Storage...")
+    logger.warning("Using Local Storage...")
     try:
         os.mkdir("./config/storage/")
         logger.debug("Made dir './config/storage'.")
