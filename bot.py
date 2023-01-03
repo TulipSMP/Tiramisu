@@ -184,7 +184,7 @@ async def reload(interaction: nextcord.Interaction, extension=None):
 async def stop(interaction: nextcord.Interaction):
     if interaction.user.id in admins:
         await interaction.send('**⚠️ Stopping the bot!**')
-        if not cfg["storage"]["db"]:
+        if not cfg["storage"]["db"] == True:
             localdb_save(context="Stop Command")
         logger.info(f'{interaction.user} stopped the bot.')
         sys.exit("Stopping...")
