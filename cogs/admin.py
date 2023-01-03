@@ -32,7 +32,7 @@ class Admin(commands.Cog):
 
     # Commands
     @nextcord.slash_command(guild_ids=[TESTING_GUILD_ID])
-    async def admin(self, interaction: nextcord.Interaction, cfg=cfg):
+    async def admin(self, interaction: nextcord.Interaction):
         pass
         # This command is to set up the following as subcommands
     
