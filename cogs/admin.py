@@ -21,7 +21,6 @@ class Admin(commands.Cog):
         password=cfg["mysql"]["pass"],
         database=cfg["mysql"]["db"]
     )
-    cursor = sql.cursor()
 
     # Load bot owner from yaml
     self.botowner = cfg["discord"]["owner"]
@@ -40,7 +39,8 @@ class Admin(commands.Cog):
     @admin.subcommand(description="Add an administrator")
     async def add(self, interaction: nextcord.Interaction, user: nextcord.Member):
         if interaction.user.id == self.botowner:
-            cursor = self.sql.cursor()
+            sql = self.sql
+            cursor = sql.cursor()
             try:
                 cursor.execute(f"INSERT INTO admins (id, permission) VALUES ('{user.id}', 1);")
                 await interaction.send(f"Added {user.mention} as an admin.")
