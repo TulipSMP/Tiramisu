@@ -36,7 +36,7 @@ class Admin(commands.Cog):
     
     @admin.subcommand(description="[Admin] Add and administrator")
     async def add(self, interaction: nextcord.Interaction, user: nextcord.Member, cfg=cfg):
-        if interaction.user.id == cfg["discord"]["owner"]:
+        if interaction.user.id == 705150784941064293:
             try:
                 cursor.execute(f"INSERT INTO admins (id, permission) VALUES ('{user.id}', 1);")
                 await interaction.send(f"Added {user.mention} as an admin.")
