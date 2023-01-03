@@ -15,7 +15,7 @@ class Admin(commands.Cog):
     # Database
     logger.debug("Logging into DB from admin.py")
     import mysql.connector
-    sql = mysql.connector.connect(
+    self.sql = mysql.connector.connect(
         host=cfg["mysql"]["host"],
         user=cfg["mysql"]["user"],
         password=cfg["mysql"]["pass"],
@@ -24,7 +24,7 @@ class Admin(commands.Cog):
     cursor = sql.cursor()
 
     # Load bot owner from yaml
-    botowner = cfg["discord"]["owner"]
+    self.botowner = cfg["discord"]["owner"]
 
     # Events
     @commands.Cog.listener()
@@ -38,8 +38,9 @@ class Admin(commands.Cog):
         # This command is to set up the following as subcommands
     
     @admin.subcommand(description="Add an administrator")
-    async def add(self, interaction: nextcord.Interaction, user: nextcord.Member, botowner=botowner, cursor=cursor):
-        if interaction.user.id == 705150784941064293:
+    async def add(self, interaction: nextcord.Interaction, user: nextcord.Member):
+        if interaction.user.id == self.botowner:
+            cursor = self.sql.cursor()
             try:
                 cursor.execute(f"INSERT INTO admins (id, permission) VALUES ('{user.id}', 1);")
                 await interaction.send(f"Added {user.mention} as an admin.")
