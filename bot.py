@@ -17,7 +17,7 @@ bot = commands.Bot()
 TESTING_GUILD_ID=cfg["discord"]["testing_guild"]
 
 # Database, if used
-if cfg["storage"]["db"]:
+if cfg["storage"]["db"] == True:
     logger.info("Using Database Storage...")
     import mysql.connector
     sql = mysql.connector.connect(
@@ -30,7 +30,6 @@ if cfg["storage"]["db"]:
 
     for table in cfg["mysql"]["tables"]:
         cursor.execute(f"CREATE TABLE IF NOT EXISTS {table} (id BIGINT, permission INT)")
-# If not used, create local stuff
 else:
     logger.info("Using Local Storage...")
     try:
