@@ -21,7 +21,7 @@ messages:
 #   values need stored.
 # WARNING: See docs/local-db.yml!
 storage:
-  db: False
+  db: True
 
 #cog_submodules:
 #  use_cog_submodules: False
