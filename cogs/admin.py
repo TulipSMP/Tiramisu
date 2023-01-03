@@ -6,13 +6,19 @@ import mysql.connector
 
 class Admin(commands.Cog):
     def __init__(self, bot):
-        self = None
         self.client = bot
 
+    # Load Yaml
     with open("config/config.yml", "r") as ymlfile:
         cfg = yaml.load(ymlfile, Loader=yaml.FullLoader)
     logger.info(f'CONFIG.yml:\n{cfg}')
+    
+    # Test guild ID
     TESTING_GUILD_ID=cfg["discord"]["testing_guild"]
+
+    # Please forgive me
+    self = None
+
     # Database
     logger.debug("Logging into DB from admin.py")
     import mysql.connector
@@ -39,7 +45,7 @@ class Admin(commands.Cog):
     
     @admin.subcommand(description="Add an administrator")
     async def add(self, interaction: nextcord.Interaction, user: nextcord.Member):
-        msg = f'Bot Owner: "{self.botowner}"'
+        await interaction.send(f'Bot Owner: "{self.botowner}"')
         """
         if interaction.user.id == self.botowner:
             sql = self.sql
