@@ -4,7 +4,7 @@ from nextcord.ext import commands
 import yaml
 import mysql.connector
 
-class Catboy(commands.Cog):
+class Admin(commands.Cog):
     def __init__(self, bot):
         self.client = bot
 
