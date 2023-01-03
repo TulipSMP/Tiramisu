@@ -27,9 +27,9 @@ sql = mysql.connector.connect(
 )
 cursor = sql.cursor()
 
-cursor.execute(f"CREATE TABLE IF NOT EXISTS admins (id BIGINT, permission INT)")
+cursor.execute(f"CREATE TABLE IF NOT EXISTS admins (id BIGINT, permission INT);")
 
-cursor.execute("SELECT * FROM admins")
+cursor.execute("SELECT * FROM admins;")
 admins = cursor.fetchall()
 
 

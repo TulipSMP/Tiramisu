@@ -12,6 +12,17 @@ class Catboy(commands.Cog):
         cfg = yaml.load(ymlfile, Loader=yaml.FullLoader)
     TESTING_GUILD_ID=cfg["discord"]["testing_guild"]
 
+    # Database
+    logger.debug("Logging into DB from admin.py")
+    import mysql.connector
+    sql = mysql.connector.connect(
+        host=cfg["mysql"]["host"],
+        user=cfg["mysql"]["user"],
+        password=cfg["mysql"]["pass"],
+        database=cfg["mysql"]["db"]
+    )
+    cursor = sql.cursor()
+
     # Events
     @commands.Cog.listener()
     async def on_ready(self):
@@ -26,8 +37,11 @@ class Catboy(commands.Cog):
     @nextcord.slash_command(description="[Admin] Add and administrator", guild_ids=[TESTING_GUILD_ID])
     async def add(self, interaction: nextcord.Interaction, user: nextcord.Interaction.user):
         if interaction.user.id == interaction.user.owner_id:
-            await interaction.send(f"Adding {user.mention} as an admin.", ephemeral=True)
-            await interaction.send("Error: not set up.")
+            try:
+                cursor.execute(f"INSERT INTO admins (id, permission) VALUES ('{user.id}', 1);")
+                await interaction.send(f"Added {user.mention} as an admin.")
+            except Exception as ex:
+                await interaction.send(f'**An Error occured:**\n```\n{ex}\n```\nPlease contact the devs.')
             logger.debug(f'{interaction.user.name} added {user.name}')
         else:
             await interaction.send(cfg["messages"]["noperm"], ephemeral=True)
