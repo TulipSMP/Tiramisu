@@ -17,7 +17,7 @@ bot = commands.Bot()
 TESTING_GUILD_ID=cfg["discord"]["testing_guild"]
 
 # Database, if used
-if cfg["storage"]["db"]:
+if cfg["storage"]["db"] == True:
     logger.info("Using Database Storage...")
     import mysql.connector
     sql = mysql.connector.connect(
@@ -30,9 +30,8 @@ if cfg["storage"]["db"]:
 
     for table in cfg["mysql"]["tables"]:
         cursor.execute(f"CREATE TABLE IF NOT EXISTS {table} (id BIGINT, permission INT)")
-# If not used, create local stuff
 else:
-    logger.info("Using Local Storage...")
+    logger.warning("Using Local Storage...")
     try:
         os.mkdir("./config/storage/")
         logger.debug("Made dir './config/storage'.")
@@ -86,12 +85,15 @@ else:
 
 
 # load from the table of admins
-if cfg["storage"]["db"]:
+if cfg["storage"]["db"] == True:
     cursor.execute("SELECT * FROM admins")
     admins = cursor.fetchall()
 else:
     try:
-        admins = db["admins"]
+        admins = []
+        for a_id in db['admins']:
+            admins.append(a_id)
+        logger.info(f'Loaded Admins: {admins}')
     except TypeError:
         logger.debug("In 'db.yml', table 'admins' is either empty or is invalid.")
         admins = []
@@ -185,7 +187,7 @@ async def reload(interaction: nextcord.Interaction, extension=None):
 async def stop(interaction: nextcord.Interaction):
     if interaction.user.id in admins:
         await interaction.send('**⚠️ Stopping the bot!**')
-        if not cfg["storage"]["db"]:
+        if not cfg["storage"]["db"] == True:
             localdb_save(context="Stop Command")
         logger.info(f'{interaction.user} stopped the bot.')
         sys.exit("Stopping...")
