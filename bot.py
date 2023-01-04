@@ -53,13 +53,13 @@ async def on_ready():
     logger.info(f'Logged in as {bot.user}')
 
 # Load Commands
-# Pre requisite for subcommands
+# Prerequisite for subcommands
 @nextcord.slash_command(guild_ids=[TESTING_GUILD_ID])
 async def cogs(self, interaction: nextcord.Interaction):
     pass
 
 # List Cogs
-@cogs.subcommand(description='List cogs')
+@nextcord.slash_command(description='List cogs', guild_ids=[TESTING_GUILD_ID])
 async def list(self, interaction: nextcord.Interaction):
     cogs_list = ''
     for filename in os.listdir('./cogs'):
@@ -69,7 +69,7 @@ async def list(self, interaction: nextcord.Interaction):
     logger.debug(f"Listed cogs for {interaction.user}")
 
 # Load Cogs
-@cogs.subcommand(description="Load cogs")
+@nextcord.slash_command(description="Load cogs", guild_ids=[TESTING_GUILD_ID])
 async def load(interaction: nextcord.Interaction, extension=None):
     if interaction.user.id in admins:
         try:
@@ -87,7 +87,7 @@ async def load(interaction: nextcord.Interaction, extension=None):
         logger.debug(noperm_log)
 
 # Unload Cogs
-@cogs.subcommand(description="Unload cogs")
+@nextcord.slash_command(description="Unload cogs", guild_ids=[TESTING_GUILD_ID])
 async def unload(interaction: nextcord.Interaction, extension=None):
     if interaction.user.id in admins:
         try:
@@ -105,7 +105,7 @@ async def unload(interaction: nextcord.Interaction, extension=None):
         logger.debug(noperm_log)
 
 # Reload Cogs
-@cogs.subcommand(description="Reload cogs")
+@nextcord.slash_command(description="Reload cogs", guild_ids=[TESTING_GUILD_ID])
 async def reload(interaction: nextcord.Interaction, extension=None):
     if interaction.user.id in admins:
         try:
@@ -123,7 +123,7 @@ async def reload(interaction: nextcord.Interaction, extension=None):
         logger.debug(noperm_log)
 
 # Stop the Bot
-@bot.slash_command(description='Stop the bot')
+@bot.slash_command(description='Stop the bot', guild_ids=[TESTING_GUILD_ID])
 async def stop(interaction: nextcord.Interaction):
     if interaction.user.id in admins:
         await interaction.send('**⚠️ Stopping the bot!**')
