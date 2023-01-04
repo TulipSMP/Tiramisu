@@ -25,12 +25,20 @@ sql = mysql.connector.connect(
     password=cfg["mysql"]["pass"],
     database=cfg["mysql"]["db"]
 )
+
+# Load Adminsitrators from DB
 cursor = sql.cursor()
-
 cursor.execute(f"CREATE TABLE IF NOT EXISTS admins (id BIGINT, permission INT);")
-
 cursor.execute("SELECT id FROM admins;")
-admins = cursor.fetchall()
+admins_raw = cursor.fetchall()
+### And parse the convoluted output
+admins = []
+for admin_id in admins_raw:
+    admin_str = f'{admin_id}'
+    admin_new = admin_str.replace(',', '')
+    admin_new = admin_new.replace('(', '')
+    admin_new = admin_new.replace(')', '')
+    admins.append(admin_new)
 
 
 # Load things from cfg
