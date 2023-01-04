@@ -32,11 +32,13 @@ class Admin(commands.Cog):
     # Load Admins from DB
     cursor = sql.cursor()
     cursor.execute('SELECT id FROM admins;')
-    admins = cursor.fetchall()
-    #admins = []
-    #for admin_id in admins_raw:
-    #    admin_new = admin_id.replace(',', '', 1)
-    #    admins.append(admin_new)
+    admins_raw = cursor.fetchall()
+    admins = []
+    for admin_id in admins_raw:
+        admin_new = admin_id.replace(',', '')
+        admin_new = admin_new.replace('(', '')
+        admin_new = admin_new.replace(')', '')
+        admins.append(admin_new)
 
     # Events
     @commands.Cog.listener()
