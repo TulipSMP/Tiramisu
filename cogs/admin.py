@@ -35,7 +35,8 @@ class Admin(commands.Cog):
     admins_raw = cursor.fetchall()
     admins = []
     for admin_id in admins_raw:
-        admin_new = admin_id.replace(',', '')
+        admin_str = f'{admin_id}'
+        admin_new = admin_str.replace(',', '')
         admin_new = admin_new.replace('(', '')
         admin_new = admin_new.replace(')', '')
         admins.append(admin_new)
