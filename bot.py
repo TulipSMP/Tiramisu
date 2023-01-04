@@ -54,14 +54,20 @@ async def on_ready():
 
 # Load Commands
 # Pre requisite for subcommands
-@nextcord.slash_command(description='List available Cogs', guild_ids=[TESTING_GUILD_ID])
+@nextcord.slash_command(guild_ids=[TESTING_GUILD_ID])
 async def cogs(self, interaction: nextcord.Interaction):
+    pass
+
+# List Cogs
+@cogs.subcommand(description='List cogs')
+async def list(self, interaction: nextcord.Interaction):
     cogs_list = ''
     for filename in os.listdir('./cogs'):
         if filename.endswith('.py'):
             cogs_list += ( ' • ' + filename.strip('.py') + '\n')
     await interaction.send(f'Available Cogs:\n{cogs_list}')
     logger.debug(f"Listed cogs for {interaction.user}")
+
 # Load Cogs
 @cogs.subcommand(description="Load cogs")
 async def load(interaction: nextcord.Interaction, extension=None):
