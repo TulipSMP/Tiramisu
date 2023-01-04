@@ -6,7 +6,7 @@ import nextcord
 from nextcord.ext import commands
 import os
 import sys
-
+import sqlite3
 import yaml
 
 with open("config/config.yml", "r") as ymlfile:
@@ -18,14 +18,19 @@ TESTING_GUILD_ID=cfg["discord"]["testing_guild"]
 
 # Database
 logger.info("Using Database Storage...")
-import mysql.connector
-sql = mysql.connector.connect(
-    host=cfg["mysql"]["host"],
-    user=cfg["mysql"]["user"],
-    password=cfg["mysql"]["pass"],
-    database=cfg["mysql"]["db"]
-)
-cursor = sql.cursor()
+
+if cfg["storage"] == "sqlite":
+    sql = sqlite3.connect('storage.db')
+    cursor = sql.cursor()
+else:
+    import mysql.connector
+    sql = mysql.connector.connect(
+        host=cfg["mysql"]["host"],
+        user=cfg["mysql"]["user"],
+        password=cfg["mysql"]["pass"],
+        database=cfg["mysql"]["db"]
+    )
+    cursor = sql.cursor()
 
 cursor.execute(f"CREATE TABLE IF NOT EXISTS admins (id BIGINT, permission INT);")
 
@@ -58,7 +63,7 @@ async def load(interaction: nextcord.Interaction, extension=None):
                 await interaction.send(f'Available Cogs:\n{cogs_list}')
                 logger.debug(f"Listed cogs for {interaction.user}")
             else:
-                bot.load_extension(f'cogs.{extension}')
+                bot.load_extension(f'cogs.{extension}', cursor)
                 await interaction.send(f'Loaded cog `{extension}`!')
         except nextcord.ext.commands.errors.ExtensionAlreadyLoaded:
             await interaction.send(f'The cog `{extension}` is already loaded.')

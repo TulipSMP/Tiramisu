@@ -3,6 +3,7 @@ import nextcord
 from nextcord.ext import commands
 import yaml
 import mysql.connector
+import sqlite3
 
 class Admin(commands.Cog):
     def __init__(self, bot):
@@ -14,14 +15,18 @@ class Admin(commands.Cog):
 
     # Database
     logger.debug("Logging into DB from admin.py")
-    import mysql.connector
-    sql = mysql.connector.connect(
-        host=cfg["mysql"]["host"],
-        user=cfg["mysql"]["user"],
-        password=cfg["mysql"]["pass"],
-        database=cfg["mysql"]["db"]
-    )
-    cursor = sql.cursor()
+    if cfg["storage"] == "sqlite":
+        sql = sqlite3.connect('storage.db')
+        cursor = sql.cursor()
+    else:
+        import mysql.connector
+        sql = mysql.connector.connect(
+            host=cfg["mysql"]["host"],
+            user=cfg["mysql"]["user"],
+            password=cfg["mysql"]["pass"],
+            database=cfg["mysql"]["db"]
+        )
+        cursor = sql.cursor()
 
     # Events
     @commands.Cog.listener()
