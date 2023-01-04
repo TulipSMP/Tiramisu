@@ -4,7 +4,7 @@ from nextcord.ext import commands
 import yaml
 import os
 
-class Hello(commands.Cog):
+class Git(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
     
@@ -26,5 +26,5 @@ class Hello(commands.Cog):
         logger.info(f"Pulled from git.")
 
 def setup(bot):
-    bot.add_cog(Hello(bot))
-    logger.debug('Setup cog "hello"')
+    bot.add_cog(Git(bot))
+    logger.debug('Setup cog "git"')
