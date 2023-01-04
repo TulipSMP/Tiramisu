@@ -46,7 +46,7 @@ async def on_ready():
 
 # Load Commands
 # Pre requisite for subcommands
-@nextcord.slash_command(description='List available Cogs',guild_ids=[TESTING_GUILD_ID])
+@nextcord.slash_command(description='List available Cogs', guild_ids=[TESTING_GUILD_ID])
 async def cogs(self, interaction: nextcord.Interaction):
     cogs_list = ''
     for filename in os.listdir('./cogs'):
@@ -55,7 +55,7 @@ async def cogs(self, interaction: nextcord.Interaction):
     await interaction.send(f'Available Cogs:\n{cogs_list}')
     logger.debug(f"Listed cogs for {interaction.user}")
 # Load Cogs
-@cogs.subcommand(description="Load cogs", guild_ids=[TESTING_GUILD_ID])
+@cogs.subcommand(description="Load cogs")
 async def load(interaction: nextcord.Interaction, extension=None):
     if interaction.user.id in admins:
         try:
@@ -73,7 +73,7 @@ async def load(interaction: nextcord.Interaction, extension=None):
         logger.debug(noperm_log)
 
 # Unload Cogs
-@cogs.subcommand(description="Unload cogs", guild_ids=[TESTING_GUILD_ID])
+@cogs.subcommand(description="Unload cogs")
 async def unload(interaction: nextcord.Interaction, extension=None):
     if interaction.user.id in admins:
         try:
@@ -91,7 +91,7 @@ async def unload(interaction: nextcord.Interaction, extension=None):
         logger.debug(noperm_log)
 
 # Reload Cogs
-@cogs.subcommand(description="Reload cogs", guild_ids=[TESTING_GUILD_ID])
+@cogs.subcommand(description="Reload cogs")
 async def reload(interaction: nextcord.Interaction, extension=None):
     if interaction.user.id in admins:
         try:
@@ -109,7 +109,7 @@ async def reload(interaction: nextcord.Interaction, extension=None):
         logger.debug(noperm_log)
 
 # Stop the Bot
-@bot.slash_command(description='Stop the bot', guild_ids=[TESTING_GUILD_ID])
+@bot.slash_command(description='Stop the bot')
 async def stop(interaction: nextcord.Interaction):
     if interaction.user.id in admins:
         await interaction.send('**⚠️ Stopping the bot!**')
