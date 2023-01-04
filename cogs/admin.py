@@ -91,7 +91,7 @@ class Admin(commands.Cog):
                     cursor.execute(f'DELETE FROM TABLE WHERE id IS {user.id}')
                     await interaction.send(f'Removed {show_user} from admins.')
                 else:
-                    await interaction.send
+                    await interaction.send(f'User {user.name} (ID: {user.id}) is not an admin.')
             except Exception as ex:
                 await interaction.send(f'**An Error occured:**\n```\n{ex}\n```\nPlease contact the devs.')
                 logger.exception(f'{ex}')
