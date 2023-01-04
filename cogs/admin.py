@@ -53,9 +53,10 @@ class Admin(commands.Cog):
             try:
                 cursor.execute(f"INSERT INTO admins (id, permission) VALUES ('{user.id}', 1);")
                 await interaction.send(f"Added {user.mention} as an admin.")
+                logger.debug(f'{interaction.user.name} added {user.name} as bot administrator')
             except Exception as ex:
                 await interaction.send(f'**An Error occured:**\n```\n{ex}\n```\nPlease contact the devs.')
-            logger.debug(f'{interaction.user.name} added {user.name}')
+                logger.exception(f'{ex}')
         else:
             await interaction.send(cfg["messages"]["noperm"], ephemeral=True)
     
@@ -65,9 +66,31 @@ class Admin(commands.Cog):
         if interaction.user.id == self.botowner or interaction.user.id in self.admins:
             msg = f'**Registered Administrators:**\n'
             for id in self.admins:
-                msg += f'‣ {id}\n'
+                msg += f'• {id}\n'
             await interaction.send(msg)
             logger.debug(f"Listed administrators {self.admins} for {interaction.user.name} ({interaction.user.id})")
+        else:
+            await interaction.send(self.cfg["messages"]["noperm"], ephemeral=True)
+            logger.debug(self.cfg["messages"]["noperm_log"])
+    
+    # Remove administrators
+    @admin.subcommand(description='Remove an administrator')
+    async def rm(self, interaction: nextcord.Interaction, user: nextcord.Member, mention_user=True):
+        if interaction.user.id == self.botowner or interaction.user.id in self.admins:
+            cursor = self.sql.cursor()
+            if mention_user:
+                show_user = user.mention
+            else:
+                show_user = user.name
+            try:
+                if user.id in self.admins:
+                    cursor.execute(f'DELETE FROM TABLE WHERE id IS {user.id}')
+                    await interaction.send(f'Removed {show_user} from admins.')
+                else:
+                    await interaction.send
+            except Exception as ex:
+                await interaction.send(f'**An Error occured:**\n```\n{ex}\n```\nPlease contact the devs.')
+                logger.exception(f'{ex}')
         else:
             await interaction.send(self.cfg["messages"]["noperm"], ephemeral=True)
             logger.debug(self.cfg["messages"]["noperm_log"])
