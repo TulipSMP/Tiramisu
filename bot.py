@@ -29,7 +29,7 @@ cursor = sql.cursor()
 
 cursor.execute(f"CREATE TABLE IF NOT EXISTS admins (id BIGINT, permission INT);")
 
-cursor.execute("SELECT * FROM admins;")
+cursor.execute("SELECT id FROM admins;")
 admins = cursor.fetchall()
 
 

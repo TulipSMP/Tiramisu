@@ -29,13 +29,18 @@ class Admin(commands.Cog):
     # Load bot owner from yaml
     botowner = cfg["discord"]["owner"]
 
+    # Load Admins from DB
+    cursor = sql.cursor()
+    cursor.execute('SELECT id FROM admins;')
+    admins = cursor.fetchall()
+
     # Events
     @commands.Cog.listener()
     async def on_ready(self):
         logger.info('Loaded cog admin.py')
 
     # Commands
-    @nextcord.slash_command(guild_ids=[TESTING_GUILD_ID], description='[Admin] ')
+    @nextcord.slash_command(guild_ids=[TESTING_GUILD_ID])
     async def admin(self, interaction: nextcord.Interaction):
         pass
         # This command is to set up the following as subcommands
@@ -53,6 +58,19 @@ class Admin(commands.Cog):
             logger.debug(f'{interaction.user.name} added {user.name}')
         else:
             await interaction.send(cfg["messages"]["noperm"], ephemeral=True)
+    
+    # List administrators
+    @admin.subcommand(description='List administrators')
+    async def list(self, interaction: nextcord.Interaction):
+        if interaction.user.id == self.botowner or interaction.user.id in self.admins:
+            msg = f'**Registered Administrators:**\n'
+            for id in self.admins:
+                msg += f'‣ {id}\n'
+            await interaction.send(msg)
+            logger.debug(f"Listed administrators {self.admins} for {interaction.user.name} ({interaction.user.id})")
+        else:
+            await interaction.send(self.cfg["messages"]["noperm"], ephemeral=True)
+            logger.debug(self.cfg["messages"]["noperm_log"])
 
 def setup(bot):
     bot.add_cog(Admin(bot))
