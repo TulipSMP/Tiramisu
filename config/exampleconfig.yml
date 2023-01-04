@@ -10,4 +10,4 @@ discord: # The token for your bot. Make a bot at discord.com/developers
   owner: 00000000000000000
 messages: # Messages that are frequently resued.
   noperm: 'No permission'
-  noperm_log: f'User {interactions.user} tried to run "{cmd}" but doesnt have permission!'
+  noperm_log: f'A user tried to run a command but doesnt have permisson.'

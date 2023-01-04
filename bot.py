@@ -45,18 +45,22 @@ async def on_ready():
     logger.info(f'Logged in as {bot.user}')
 
 # Load Commands
+# Pre requisite for subcommands
+@nextcord.slash_command(description='List available Cogs',guild_ids=[TESTING_GUILD_ID])
+async def cogs(self, interaction: nextcord.Interaction):
+    cogs_list = ''
+    for filename in os.listdir('./cogs'):
+        if filename.endswith('.py'):
+            cogs_list += ( ' • ' + filename.strip('.py') + '\n')
+    await interaction.send(f'Available Cogs:\n{cogs_list}')
+    logger.debug(f"Listed cogs for {interaction.user}")
 # Load Cogs
-@bot.slash_command(description="[Admin] Load cogs", guild_ids=[TESTING_GUILD_ID])
+@cogs.subcommand(description="Load cogs", guild_ids=[TESTING_GUILD_ID])
 async def load(interaction: nextcord.Interaction, extension=None):
     if interaction.user.id in admins:
         try:
-            cogs_list = ''
             if extension is None:
-                for filename in os.listdir('./cogs'):
-                    if filename.endswith('.py'):
-                        cogs_list += ( ' • ' + filename.strip('.py') + '\n')
-                await interaction.send(f'Available Cogs:\n{cogs_list}')
-                logger.debug(f"Listed cogs for {interaction.user}")
+                await interaction.send("Please specify a cog.", ephemeral=True)
             else:
                 bot.load_extension(f'cogs.{extension}')
                 await interaction.send(f'Loaded cog `{extension}`!')
@@ -66,21 +70,15 @@ async def load(interaction: nextcord.Interaction, extension=None):
             await interaction.send(f'The cog `{extension}` was not found.')
     else:
         await interaction.send(noperm, ephemeral=True)
-        cmd = 'load'
         logger.debug(noperm_log)
 
 # Unload Cogs
-@bot.slash_command(description="[Admin] Unload cogs", guild_ids=[TESTING_GUILD_ID])
+@cogs.subcommand(description="Unload cogs", guild_ids=[TESTING_GUILD_ID])
 async def unload(interaction: nextcord.Interaction, extension=None):
     if interaction.user.id in admins:
         try:
-            cogs_list = ''
             if extension is None:
-                for filename in os.listdir('./cogs'):
-                    if filename.endswith('.py'):
-                        cogs_list += ( ' • ' + filename.strip('.py') + '\n')
-                await interaction.send(f'Available Cogs:\n{cogs_list}')
-                logger.debug(f"Listed cogs for {interaction.user}")
+                await interaction.send("Please specify a cog.", ephemeral=True)
             else:
                 bot.unload_extension(f'cogs.{extension}')
                 await interaction.send(f'Unloaded cog `{extension}`!')
@@ -90,21 +88,15 @@ async def unload(interaction: nextcord.Interaction, extension=None):
             await interaction.send(f'The cog `{extension}` was not found.')
     else:
         await interaction.send(noperm, ephemeral=True)
-        cmd = 'unload'
         logger.debug(noperm_log)
 
 # Reload Cogs
-@bot.slash_command(description="[Admin] Reload cogs", guild_ids=[TESTING_GUILD_ID])
+@cogs.subcommand(description="Reload cogs", guild_ids=[TESTING_GUILD_ID])
 async def reload(interaction: nextcord.Interaction, extension=None):
     if interaction.user.id in admins:
         try:
-            cogs_list = ''
             if extension is None:
-                for filename in os.listdir('./cogs'):
-                    if filename.endswith('.py'):
-                        cogs_list += ( ' • ' + filename.strip('.py') + '\n')
-                await interaction.send(f'Available Cogs:\n{cogs_list}')
-                logger.debug(f"Listed cogs for {interaction.user}")
+                await interaction.send("Please specify a cog.", ephemeral=True)
             else:
                 bot.reload_extension(f'cogs.{extension}')
                 await interaction.send(f'Reloaded cog `{extension}`!')
@@ -114,11 +106,10 @@ async def reload(interaction: nextcord.Interaction, extension=None):
             await interaction.send(f'The cog `{extension}` was not found!')
     else:
         await interaction.send(noperm, ephemeral=True)
-        cmd = 'reload'
         logger.debug(noperm_log)
 
 # Stop the Bot
-@bot.slash_command(description='[Admin] Stop the bot', guild_ids=[TESTING_GUILD_ID])
+@bot.slash_command(description='Stop the bot', guild_ids=[TESTING_GUILD_ID])
 async def stop(interaction: nextcord.Interaction):
     if interaction.user.id in admins:
         await interaction.send('**⚠️ Stopping the bot!**')
@@ -126,7 +117,6 @@ async def stop(interaction: nextcord.Interaction):
         sys.exit("Stopping...")
     else:
         await interaction.send(noperm, ephemeral=True)
-        cmd = 'stop'
         logger.debug(noperm_log)
 
 # Load Cogs
