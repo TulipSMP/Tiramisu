@@ -53,20 +53,20 @@ async def on_ready():
     logger.info(f'Logged in as {bot.user}')
 
 # Load Commands
-# Prerequisite for subcommands
-@nextcord.slash_command(guild_ids=[TESTING_GUILD_ID])
-async def cogs(self, interaction: nextcord.Interaction):
-    pass
 
 # List Cogs
 @nextcord.slash_command(description='List cogs', guild_ids=[TESTING_GUILD_ID])
 async def list(self, interaction: nextcord.Interaction):
-    cogs_list = ''
-    for filename in os.listdir('./cogs'):
-        if filename.endswith('.py'):
-            cogs_list += ( ' • ' + filename.strip('.py') + '\n')
-    await interaction.send(f'Available Cogs:\n{cogs_list}')
-    logger.debug(f"Listed cogs for {interaction.user}")
+    if interaction.user.id in admins:
+        cogs_list = ''
+        for filename in os.listdir('./cogs'):
+            if filename.endswith('.py'):
+                cogs_list += ( ' • ' + filename.strip('.py') + '\n')
+        await interaction.send(f'Available Cogs:\n{cogs_list}')
+        logger.debug(f"Listed cogs for {interaction.user}")
+    else:
+        await interaction.send(noperm, ephemeral=True)
+        logger.debug(noperm_log)
 
 # Load Cogs
 @nextcord.slash_command(description="Load cogs", guild_ids=[TESTING_GUILD_ID])
