@@ -3,6 +3,7 @@ import nextcord
 from nextcord.ext import commands
 import yaml
 import mysql.connector
+import sqlite3
 
 class Admin(commands.Cog):
     def __init__(self, bot):
@@ -18,28 +19,18 @@ class Admin(commands.Cog):
 
     # Database
     logger.debug("Logging into DB from admin.py")
-    import mysql.connector
-    sql = mysql.connector.connect(
-        host=cfg["mysql"]["host"],
-        user=cfg["mysql"]["user"],
-        password=cfg["mysql"]["pass"],
-        database=cfg["mysql"]["db"]
-    )
-
-    # Load bot owner from yaml
-    botowner = cfg["discord"]["owner"]
-
-    # Load Admins from DB
-    cursor = sql.cursor()
-    cursor.execute('SELECT id FROM admins;')
-    admins_raw = cursor.fetchall()
-    admins = []
-    for admin_id in admins_raw:
-        admin_str = f'{admin_id}'
-        admin_new = admin_str.replace(',', '')
-        admin_new = admin_new.replace('(', '')
-        admin_new = admin_new.replace(')', '')
-        admins.append(admin_new)
+    if cfg["storage"] == "sqlite":
+        sql = sqlite3.connect('storage.db')
+        cursor = sql.cursor()
+    else:
+        import mysql.connector
+        sql = mysql.connector.connect(
+            host=cfg["mysql"]["host"],
+            user=cfg["mysql"]["user"],
+            password=cfg["mysql"]["pass"],
+            database=cfg["mysql"]["db"]
+        )
+        cursor = sql.cursor()
 
     # Events
     @commands.Cog.listener()
