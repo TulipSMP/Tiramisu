@@ -75,7 +75,7 @@ async def cogs(self, interaction: nextcord.Interaction):
 
 # Load Cogs
 @bot.slash_command(description="Load cogs")
-async def load(self, interaction: nextcord.Interaction, extension=None):
+async def load(interaction: nextcord.Interaction, guild_ids=[TESTING_GUILD_ID]):
     if interaction.user.id in admins:
         try:
             if extension is None:
@@ -93,7 +93,7 @@ async def load(self, interaction: nextcord.Interaction, extension=None):
 
 # Unload Cogs
 @bot.slash_command(description="Unload cogs")
-async def unload(self, interaction: nextcord.Interaction, extension=None):
+async def unload(interaction: nextcord.Interaction, guild_ids=[TESTING_GUILD_ID]):
     if interaction.user.id in admins:
         try:
             if extension is None:
@@ -111,7 +111,7 @@ async def unload(self, interaction: nextcord.Interaction, extension=None):
 
 # Reload Cogs
 @bot.slash_command(description="Reload cogs")
-async def reload(self, interaction: nextcord.Interaction, extension=None):
+async def reload(interaction: nextcord.Interaction, guild_ids=[TESTING_GUILD_ID]):
     if interaction.user.id in admins:
         try:
             if extension is None:
