@@ -139,9 +139,12 @@ async def stop(interaction: nextcord.Interaction):
         logger.debug(noperm_log)
 
 # Load Cogs
+loaded_cogs = []
 for filename in os.listdir('./cogs'):
     if filename.endswith('.py'):
         bot.load_extension(f'cogs.{filename[:-3]}')
+    loaded_cogs.append(f'{filename[:-3]}')
+logger.info(f'Loaded Cogs: {loaded_cogs}')
 
 # Run the Bot
 bot.run(bot_token)
