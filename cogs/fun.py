@@ -54,4 +54,4 @@ class FunCommands(commands.Cog):
     
 def setup(bot):
     bot.add_cog(FunCommands(bot))
-    logger.debug('Setup cog "fun_commands"')
+    logger.info('Setup cog "fun_commands"')
