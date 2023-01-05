@@ -1,5 +1,5 @@
 # Dependencies
 nextcord
-logging
-yaml
-mysqlclient
+logging42
+pyyaml
+mysql-connector-python

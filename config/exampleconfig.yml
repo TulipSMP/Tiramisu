@@ -1,9 +1,13 @@
 mysql:
-  host: 'localhost'
-  port: '3306'
-  user: 'tiramisu'
-  pass: 'passwordSecure'
+  host: 'localhost' # The host of your mysql server. localhost if hosted on the same machine.
+  port: '3306'      # The port of your mysql server. Default 3306
+  user: 'tiramisu'  # MySQL user to access database as
+  pass: 'passwordSecure'  # Your user's MySQL password
+  db: 'databaseName' # The name of the database to connect to
 
-messages:
+discord: # The token for your bot. Make a bot at discord.com/developers
+  token: 'YourBotToken'
+  owner: 00000000000000000
+messages: # Messages that are frequently resued.
   noperm: 'No permission'
-  noperm_log: f'User {interactions.user} tried to run "{cmd}" but doesnt have permission!'
+  noperm_log: f'A user tried to run a command but doesnt have permisson.'

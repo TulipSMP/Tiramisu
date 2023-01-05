@@ -1,5 +1,5 @@
-# Rosebot v3
-The Rosebot Discord bot written using Nextcord
+# Tiramisu
+An open source discord bot for all audiences, developed by the folks at RoseSMP.
 
 ## Getting Started
 See [Getting Started](./doc/getting-started.md) for instructions on how to run and develop this bot.
@@ -21,8 +21,10 @@ There's a lot of things we'd like to do with this bot, but here's a general idea
   1. Hidden message 
   1. Create private channel (in reports category) visible by staff and reporter
   1. Message in #mod-chat or another channel abt report, linking to the new channel
-  1. non-slash command (like `!close`) that DMs the user their report ticket was closed, makes the channel read-only, and hides it from the ticketer.
-   
+  1. command that DMs the user their report ticket was closed, makes the channel read-only, and hides it from the ticketer.
+- [ ] Ticketing system
+  1. Simple command or button to create ticket
+  1. ticket categories 
 
 ### Other Features
 #### Bot Management
@@ -30,9 +32,9 @@ There's a lot of things we'd like to do with this bot, but here's a general idea
   - [x] Load Cogs
   - [x] Unload Cogs
   - [x] Reload Cogs
-- [ ] Shutdown bot correctly (instead of just an exit)
+- [x] Shutdown bot correctly (instead of just an exit)
 
 #### Messages & Variables
 - [ ] Load ALL reused messages from yaml
-- [ ] Get bot token from yaml or db
+- [x] Get bot token from yaml or db
 - [ ] Get role and guild IDs from yaml or db
