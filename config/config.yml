@@ -10,6 +10,8 @@ discord:
   token: 'MTAzNTMyMzc1OTY4ODY3OTQ0NA.Gfbtej.DBm7Y82JguDyFjmEFoUaSzV30LslLj2xiMmwUA'
   testing_guild: 1035313572638638110
   owner: 705150784941064293
+  roles:
+    staff: 000000000000000000
 
 messages:
   noperm: '**🚫 No permission**'
