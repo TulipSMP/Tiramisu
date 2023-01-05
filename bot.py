@@ -74,7 +74,7 @@ async def cogs(self, interaction: nextcord.Interaction):
         logger.debug(noperm_log)
 
 # Load Cogs
-@cogs.subcommand(description="Load cogs", guild_ids=[TESTING_GUILD_ID])
+@cogs.subcommand(description="Load cogs")
 async def load(interaction: nextcord.Interaction, extension=None):
     if interaction.user.id in admins:
         try:
@@ -92,7 +92,7 @@ async def load(interaction: nextcord.Interaction, extension=None):
         logger.debug(noperm_log)
 
 # Unload Cogs
-@cogs.subcommand(description="Unload cogs", guild_ids=[TESTING_GUILD_ID])
+@cogs.subcommand(description="Unload cogs")
 async def unload(interaction: nextcord.Interaction, extension=None):
     if interaction.user.id in admins:
         try:
@@ -110,7 +110,7 @@ async def unload(interaction: nextcord.Interaction, extension=None):
         logger.debug(noperm_log)
 
 # Reload Cogs
-@cogs.subcommand(description="Reload cogs", guild_ids=[TESTING_GUILD_ID])
+@cogs.subcommand(description="Reload cogs")
 async def reload(interaction: nextcord.Interaction, extension=None):
     if interaction.user.id in admins:
         try:
