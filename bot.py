@@ -61,7 +61,7 @@ async def on_ready():
 
 # List Cogs
 @bot.slash_command(description='List cogs', guild_ids=[TESTING_GUILD_ID])
-async def cogs(self, interaction: nextcord.Interaction):
+async def cogs(interaction: nextcord.Interaction):
     if interaction.user.id in admins:
         cogs_list = ''
         for filename in os.listdir('./cogs'):
@@ -74,8 +74,8 @@ async def cogs(self, interaction: nextcord.Interaction):
         logger.debug(noperm_log)
 
 # Load Cogs
-@bot.slash_command(description="Load cogs")
-async def load(guild_ids=[TESTING_GUILD_ID]):
+@bot.slash_command(description="Load cogs", guild_ids=[TESTING_GUILD_ID])
+async def load(interaction: nextcord.Interaction):
     if interaction.user.id in admins:
         try:
             if extension is None:
@@ -92,8 +92,8 @@ async def load(guild_ids=[TESTING_GUILD_ID]):
         logger.debug(noperm_log)
 
 # Unload Cogs
-@bot.slash_command(description="Unload cogs")
-async def unload(guild_ids=[TESTING_GUILD_ID]):
+@bot.slash_command(description="Unload cogs", guild_ids=[TESTING_GUILD_ID])
+async def unload(interaction: nextcord.Interaction):
     if interaction.user.id in admins:
         try:
             if extension is None:
@@ -110,8 +110,8 @@ async def unload(guild_ids=[TESTING_GUILD_ID]):
         logger.debug(noperm_log)
 
 # Reload Cogs
-@bot.slash_command(description="Reload cogs")
-async def reload(guild_ids=[TESTING_GUILD_ID]):
+@bot.slash_command(description="Reload cogs", guild_ids=[TESTING_GUILD_ID])
+async def reload(interaction: nextcord.Interaction):
     if interaction.user.id in admins:
         try:
             if extension is None:
