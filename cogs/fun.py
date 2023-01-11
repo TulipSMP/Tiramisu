@@ -36,6 +36,7 @@ class FunCommands(commands.Cog):
             "My sources say no.",
             "Outlook not so good.",
             "Very doubtful.",
+            "Certainly. Fizzdev is a catboy."
         ]
         response = random.choice(responses)
         await interaction.response.send_message(response)
