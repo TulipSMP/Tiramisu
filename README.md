@@ -17,11 +17,16 @@ There's a lot of things we'd like to do with this bot, but here's a general idea
 - [ ] `/help`: sends DM to user about available commands
 - [ ] `/ip`: sends server IP address (for minecraft servers)
 - [ ]  `/report `
-  1. Options: User reported (optional), in mc or discord, rule #, notes (optional)
-  1. Hidden message 
-  1. Create private channel (in reports category) visible by staff and reporter
-  1. Message in #mod-chat or another channel abt report, linking to the new channel
-  1. command that DMs the user their report ticket was closed, makes the channel read-only, and hides it from the ticketer.
+  * [ ] Report Players
+    1. Options: User reported (optional), in mc or discord, rule #, notes (optional)
+    1. Hidden message 
+    1. Create private channel (in reports category) visible by staff and reporter
+    1. Message in #mod-chat or another channel abt report, linking to the new channel
+    1. command that DMs the user their report ticket was closed, makes the channel read-only, and hides it from the ticketer.
+  * [ ] Report vulnerabilities/bugs
+    1. Options: where, when, what
+    1. reward for players reporting
+    1. listed in private channel just for mods/admins
 - [ ] Ticketing system
   1. Simple command or button to create ticket
   1. ticket categories 
