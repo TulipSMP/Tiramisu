@@ -1,6 +1,9 @@
 # Tiramisu
 An open source discord bot for all audiences, developed by the folks at RoseSMP.
 
+### ⚠️ Not Ready for Production
+This bot is not finished, and is far from useable. In the meantime, feel free to open a pull request to help us out.
+
 ## Getting Started
 See [Getting Started](./doc/getting-started.md) for instructions on how to run and develop this bot.
 
