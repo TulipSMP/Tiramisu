@@ -16,4 +16,5 @@ discord:
 # Commonly used messages for fetching information
 messages:
   noperm: '**🚫 No permission**'
-  noperm_log: 'A user tried to run a command but doesnt have permisson.'
+  noperm_log: '[[user]] (ID: [[user_id]]) tried to run "[[command]]" but doesnt have permission!'
+  error: '⚠️ **An Error Occured!**\n```\n[[error]]\n```\nPlease report this to the devs.'
