@@ -151,7 +151,7 @@ async def stop(interaction: nextcord.Interaction):
 # Load Cogs
 loaded_cogs = []
 for filename in os.listdir('./cogs'):
-    if filename.endswith('.py'):
+    if filename.endswith('.py') and filename not in cfg['cog_dontload']:
         bot.load_extension(f'cogs.{filename[:-3]}')
     loaded_cogs.append(f'{filename[:-3]}')
 logger.info(f'Loaded Cogs: {loaded_cogs}')

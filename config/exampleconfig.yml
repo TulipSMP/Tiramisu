@@ -13,6 +13,11 @@ discord:
   roles:
     staff: 000000000000000000
 
+# List of .py files in `cogs/` to NOT load.
+# If a file ends in .py and is in `cogs/` it will be loaded by default
+cog_dontload:
+  - 'database_functions.py'
+
 # Commonly used messages for fetching information
 messages:
   noperm: '**🚫 No permission**'

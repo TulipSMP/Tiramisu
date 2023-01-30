@@ -13,6 +13,9 @@ discord:
   roles:
     staff: 000000000000000000
 
+cog_dontload:
+  - 'database_functions.py'
+
 messages:
   noperm: '**🚫 No permission**'
   noperm_log: '[[user]] (ID: [[user_id]]) tried to run "[[command]]" but doesnt have permission!'
