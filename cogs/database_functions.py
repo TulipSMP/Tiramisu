@@ -16,11 +16,6 @@ class Database(commands.Cog):
     # What settings each guild should be able to load
     with open("config/settings.yml", "r") as ymlfile:
         settings = yaml.load(ymlfile, Loader=yaml.FullLoader)
-    # Load instance owner from yaml
-    botowner = cfg["discord"]["owner"]
-
-    # Test guild ID
-    TESTING_GUILD_ID=cfg["discord"]["testing_guild"]
 
     # Database
     logger.debug("Logging into DB from database.py")
@@ -28,7 +23,6 @@ class Database(commands.Cog):
         sql = sqlite3.connect('storage.db')
         cursor = sql.cursor()
     else:
-        import mysql.connector
         sql = mysql.connector.connect(
             host=cfg["mysql"]["host"],
             user=cfg["mysql"]["user"],
@@ -38,23 +32,48 @@ class Database(commands.Cog):
         cursor = sql.cursor()
 
     # Functions
-    def guild_tables_create(guild, table=None):
+    # Creates tables for DB
+    @logger.catch
+    def guild_tables_create(self, guild, table=None):
         if table == 'admins' or table == None:
-            self.cursor(f'CREATE TABLE admins_{guild.id} ( id int, admin bit );')
+            self.cursor(f'CREATE TABLE IF NOT EXISTS admins_{guild.id} ( id int, admin bit );')
+            logger.info(f'Created table "admins_{guild.id}", if it doesnt already exist!')
         if table == 'settings' or table == None:
-            self.cursor(f'CREATE TABLE settings_{guild.id} ( val string, enabled bit );')
+            self.cursor(f'CREATE TABLE IF NOT EXISTS settings_{guild.id} ( setting string, value string );')
             for setting in settings['settings']:
-                if settings['settings'][setting] == 'id':
-                    self.cursor(f'')
-
-    # Events
-    @commands.Cog.listener()
-    async def on_ready(self):
-        logger.info('Loaded cog admin.py')
-    @commands.Cog.listener()
-    async def on_guild_join(self, guild):
-        self.cursor(f'CREATE TABLE admins_{guild.id} ( id int, admin bit );')
-
+                self.cursor(f'INSERT INTO settings_{guild.id} ( setting, enabled ) VALUES ( {setting}, none );')
+            logger.info(f'Created table "settings_{guild.id}", if it doesnt already exist!')
+    # Fetch information from DB
+    # Default to settings if no table is specified
+    @logger.catch
+    def guild_tables_fetch(self, guild, setting):
+        if setting == None or setting == 'admin':
+            self.cursor(f'SELECT id FROM admins_{guild.id} WHERE admin=1;')
+            return self.cursor.fetchall()
+        else:
+            self.cursor(f'SELECT enabled FROM admins_{guild.id} WHERE admin=1;')
+            return self.cursor.fetchall()
+    # Change information in DB
+    # Should ALWAYS return true if successfull, false if an error occurred
+    @logger.catch
+    def guild_tables_set(self, guild, setting, value, clear=False):
+        if setting == 'admin' and clear == True:
+            try:
+                self.cursor(f'DELETE FROM admins_{guild.id} WHERE id IS {value}')
+                logger.debug(f'Removed id {value} from table admins_{guild.id}')
+                return True
+            except:
+                logger.warning(f'Failed to delete ID {value} from table admins_{guild.id}!')
+                return False
+        if setting == 'admin' and clear == False:
+            try:
+                self.cursor(f'INSERT INTO admins_{guild.id} ( id, admin ) VALUES ( {value}, 1 )')
+                logger.debug(f'Added id {value} to table admins_{guild.id}')
+                return True
+            except:
+                logger.debug(f'Failed to add id {value} to table admins_{guild.id}!')
+                return False
+        
 def setup(bot):
     bot.add_cog(Database(bot))
-    logger.debug('Setup cog "database"')
+    logger.debug('Setup library "database"')
