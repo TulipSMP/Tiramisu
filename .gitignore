@@ -4,4 +4,4 @@ __pycache__
 # SQLite Databases
 *.db
 # Configuration
-config.yml
+config/config.yml
