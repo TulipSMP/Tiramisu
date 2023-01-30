@@ -36,10 +36,10 @@ class Database(commands.Cog):
         cursor = sql.cursor()
 
     # Events
-    @commands.Cog.listener()
+    @bot.event
     async def on_ready(self):
         logger.info('Loaded cog admin.py')
-    @commands.Cog.listener()
+    @bot.event
     async def on_guild_join(self, guild):
         db.guild_tables_create(self.cursor, guild)
 
