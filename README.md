@@ -18,7 +18,7 @@ There's a lot of things we'd like to do with this bot, but here's a general idea
 
 #### For Users
 - [ ] `/help`: sends DM to user about available commands
-- [ ] `/ip`: sends server IP address (for minecraft servers)
+- [ ] `/ip`: sends server IP address and join info (for game servers)
 - [ ]  `/report `
   * [ ] Report Players
     1. Options: User reported (optional), in mc or discord, rule #, notes (optional)
@@ -33,6 +33,13 @@ There's a lot of things we'd like to do with this bot, but here's a general idea
 - [ ] Ticketing system
   1. Simple command or button to create ticket
   1. ticket categories 
+- [ ] Mod application system
+  * Question 'modules'
+    - multiple choice
+    - yes/no
+    - free answer
+  * Configurable per guild
+  * Different position applications (guild configurable)
 
 ### Other Features
 #### Bot Management
@@ -46,4 +53,4 @@ There's a lot of things we'd like to do with this bot, but here's a general idea
 - [x] Load most reused messages from yaml
 - [x] Get bot token from yaml
 - [ ] Get role and guild IDs from db
-- [ ] Server-specific settings system via db
+- [ ] Guild-specific settings system via db
