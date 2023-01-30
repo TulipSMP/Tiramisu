@@ -3,8 +3,9 @@
 First, clone this repository. To do so, run the following command:
 
 ```sh
-git clone https://github.com/RoseSMP/Tiramisu.git
+git clone -b prod https://github.com/RoseSMP/Tiramisu.git
 ```
+(Omit the `-b prod` portion if you're doing development)
 
 Then, change into the directory:
 ```sh
