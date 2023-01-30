@@ -34,10 +34,6 @@ class Admin(commands.Cog):
         )
         cursor = sql.cursor()
 
-    # Fetch Admins from DB
-    def db_fetch_admins(guild):
-        Admin.cursor(f'')
-
     # Events
     @commands.Cog.listener()
     async def on_ready(self):
