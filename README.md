@@ -43,6 +43,7 @@ There's a lot of things we'd like to do with this bot, but here's a general idea
 - [x] Shutdown bot correctly (instead of just an exit)
 
 #### Messages & Variables
-- [ ] Load ALL reused messages from yaml
-- [x] Get bot token from yaml or db
-- [ ] Get role and guild IDs from yaml or db
+- [x] Load most reused messages from yaml
+- [x] Get bot token from yaml
+- [ ] Get role and guild IDs from db
+- [ ] Server-specific settings system via db
