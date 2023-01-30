@@ -12,6 +12,7 @@ Then, change into the directory:
 cd Tiramisu/
 ```
 
+
 ## Installing
 
 ### Dependencies
@@ -41,6 +42,10 @@ After that's set up and running, edit the [config/config.yml](../config/config.y
 
 After MySQL is set up and running, you'll need to configure the bot. 
 
+First, copy over the config file
+```sh
+cp config/exampleconfig.yml config/config.yml
+```
 
 #### MySQL
 Open `config/config.yml` with an editor such as `nano` (like so: `nano config/config.yml`). Below is the first portion of the ymlfile:
