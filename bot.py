@@ -72,7 +72,7 @@ async def on_ready():
 # List Cogs
 @bot.slash_command(description='List cogs', guild_ids=[TESTING_GUILD_ID])
 async def cogs(interaction: nextcord.Interaction):
-    if interaction.user.id in admins:
+    if interaction.user.id in cfg['discord']['co_owners'] or interaction.user.id == cfg['discord']['owner']:
         cogs_list = ''
         for filename in os.listdir('./cogs'):
             if filename.endswith('.py'):
@@ -86,7 +86,7 @@ async def cogs(interaction: nextcord.Interaction):
 # Load Cogs
 @bot.slash_command(description="Load cogs", guild_ids=[TESTING_GUILD_ID])
 async def load(interaction: nextcord.Interaction):
-    if interaction.user.id in admins:
+    if interaction.user.id in cfg['discord']['co_owners'] or interaction.user.id == cfg['discord']['owner']:
         try:
             if extension is None:
                 await interaction.send("Please specify a cog.", ephemeral=True)
@@ -104,7 +104,7 @@ async def load(interaction: nextcord.Interaction):
 # Unload Cogs
 @bot.slash_command(description="Unload cogs", guild_ids=[TESTING_GUILD_ID])
 async def unload(interaction: nextcord.Interaction):
-    if interaction.user.id in admins:
+    if interaction.user.id in cfg['discord']['co_owners'] or interaction.user.id == cfg['discord']['owner']:
         try:
             if extension is None:
                 await interaction.send("Please specify a cog.", ephemeral=True)
@@ -122,7 +122,7 @@ async def unload(interaction: nextcord.Interaction):
 # Reload Cogs
 @bot.slash_command(description="Reload cogs", guild_ids=[TESTING_GUILD_ID])
 async def reload(interaction: nextcord.Interaction):
-    if interaction.user.id in admins:
+    if interaction.user.id in cfg['discord']['co_owners'] or interaction.user.id == cfg['discord']['owner']:
         try:
             if extension is None:
                 await interaction.send("Please specify a cog.", ephemeral=True)
@@ -140,7 +140,7 @@ async def reload(interaction: nextcord.Interaction):
 # Stop the Bot
 @bot.slash_command(description='Stop the bot', guild_ids=[TESTING_GUILD_ID])
 async def stop(interaction: nextcord.Interaction):
-    if interaction.user.id in admins:
+    if interaction.user.id in cfg['discord']['co_owners'] or interaction.user.id == cfg['discord']['owner']:
         await interaction.send('**⚠️ Stopping the bot!**')
         logger.info(f'{interaction.user} stopped the bot.')
         sys.exit("Stopping...")
