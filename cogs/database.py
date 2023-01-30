@@ -2,7 +2,7 @@ from logging42 import logger
 import nextcord
 from nextcord.ext import commands
 import yaml
-import mysql.connector
+import mysql.connector 
 import sqlite3
 from database_functions import DatabaseFunctions as db
 
