@@ -1,5 +1,5 @@
 # Guild Settings
-#### ⚠️ This feature is still in development! Some features here may not exist yet, or may not be functional in their current state.
+### ⚠️ This feature is still in development! Some features here may not exist yet, or may not be functional in their current state.
 Tiramisu is designed to work across multiple servers, each able to configure the bot to work for them. 
 
 ## config/settings.yml
@@ -8,22 +8,15 @@ While instance settings are saved in `config/config.yml`, a list of settings are
 Here is an example of this file:
 ```yaml
 settings:
-  - system_channel: 'id'
-  - announcement_channel: 'id'
-  - announcement_role: 'id'
-  - staff_role: 'id'
-  - commands_channel: 'id'
+  - 'system_channel'
+  - 'announcement_channel'
+  - 'announcement_role'
+  - 'staff_role'
+  - 'server_admin'
+  - 'commands_channel'
 ```
-Each entry has its name, like `system_channel`, and a type, like `id`. Here are the types of settings that can be set:
 
-* Strings:
-    - str
-    - string
-* Booleans (true/false):
-    - bool
-    - boolean
-    - bit
-* IDs (for channels and roles):
-    - id
+## Database
+On the low-level, each guild the bot is in should have a database called `settings_{guild.id}` (where `{guild.id}` is the guild's ID). In this database, there are two columns/values: `setting` and `value`. Both are strings.
 
-If a type is not found here, it will be set as a string.
+Currently each setting can have only one value, and values cannot exceed 255 characters.
