@@ -4,6 +4,7 @@ from nextcord.ext import commands
 import yaml
 import mysql.connector
 import sqlite3
+from cogs import DatabaseFunctions as db
 
 class Database(commands.Cog):
     def __init__(self, bot):
@@ -40,7 +41,7 @@ class Database(commands.Cog):
         logger.info('Loaded cog admin.py')
     @commands.Cog.listener()
     async def on_guild_join(self, guild):
-        self.cursor(f'CREATE TABLE admins_{guild.id} ( id int, admin bit );')
+        db.guild_tables_create(self.cursor, guild)
 
 def setup(bot):
     bot.add_cog(Database(bot))

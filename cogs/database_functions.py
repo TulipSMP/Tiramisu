@@ -4,7 +4,7 @@ import yaml
 import mysql.connector
 import sqlite3
 
-class Database():
+class DatabaseFunctions():
     def __init__(self):
         logger.debug('Imported database_functions!')
 
