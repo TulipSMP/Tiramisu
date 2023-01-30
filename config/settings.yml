@@ -1,0 +1,8 @@
+# Names of settings each guild can set for themselves
+settings:
+  - system_channel: 'boolean'
+  - announcement_channel: 'id'
+  - announcement_role: 'id'
+  - staff_role: 'id'
+  - server_admin: 'id'
+  - commands_channel: 'id'

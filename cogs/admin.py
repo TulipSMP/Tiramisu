@@ -16,7 +16,6 @@ class Admin(commands.Cog):
     # Load instance owner from yaml
     botowner = cfg["discord"]["owner"]
 
-
     # Test guild ID
     TESTING_GUILD_ID=cfg["discord"]["testing_guild"]
 
@@ -35,10 +34,17 @@ class Admin(commands.Cog):
         )
         cursor = sql.cursor()
 
+    # Fetch Admins from DB
+    def db_fetch_admins(guild):
+        Admin.cursor(f'')
+
     # Events
     @commands.Cog.listener()
     async def on_ready(self):
         logger.info('Loaded cog admin.py')
+    @commands.Cog.listener()
+    async def on_guild_join(self, guild):
+        self.cursor(f'CREATE TABLE admins_')
 
     # Commands
     @nextcord.slash_command(guild_ids=[TESTING_GUILD_ID])
