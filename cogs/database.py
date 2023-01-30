@@ -4,7 +4,7 @@ from nextcord.ext import commands
 import yaml
 import mysql.connector
 import sqlite3
-from cogs import DatabaseFunctions as db
+from database_functions import DatabaseFunctions as db
 
 class Database(commands.Cog):
     def __init__(self, bot):
