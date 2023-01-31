@@ -1,36 +1,22 @@
-# WARNING: This is NOT a cog and SHOULD NOT be loaded by bot.py!
 from logging42 import logger
+import nextcord
+from nextcord.ext import commands
 import yaml
-import mysql.connector
+import mysql.connector 
 import sqlite3
 
-class DatabaseFunctions():
-    def __init__(self):
-        logger.debug('Imported database_functions!')
+class DatabaseFunctions(commands.Cog):
+    def __init__(self, bot):
+        self.bot = bot
 
     # Load Yaml
-    # Instance Config
     with open("config/config.yml", "r") as ymlfile:
         cfg = yaml.load(ymlfile, Loader=yaml.FullLoader)
-    # What settings each guild should be able to load
-    #with open("config/settings.yml", "r") as ymlfile:
-    #    settings = yaml.load(ymlfile, Loader=yaml.FullLoader)
+    logger.info(f'CONFIG.yml:\n{cfg}')
+    with open("config/settings.yml", "r") as ymlfile:
+        settings = yaml.load(ymlfile, Loader=yaml.FullLoader)
 
-    # Database
-    #logger.debug("Logging into DB from database.py")
-    #if cfg["storage"] == "sqlite":
-    #    sql = sqlite3.connect('storage.db')
-    #    cursor = sql.cursor()
-    #else:
-    #    sql = mysql.connector.connect(
-    #        host=cfg["mysql"]["host"],
-    #        user=cfg["mysql"]["user"],
-    #        password=cfg["mysql"]["pass"],
-    #        database=cfg["mysql"]["db"]
-    #    )
-    #    cursor = sql.cursor()
-
-    # Functions
+        # Functions
     # Creates tables for DB
     @logger.catch
     def guild_tables_create(cursor, guild, table=None):
@@ -74,6 +60,15 @@ class DatabaseFunctions():
             except:
                 logger.debug(f'Failed to add id {value} to table admins_{guild.id}!')
                 return False
-        
-def setup():
-    logger.debug('Setup library "database"')
+
+    # Events
+    @bot.event
+    async def on_ready(self):
+        logger.info('Loaded cog database_functions.py')
+    @bot.event
+    async def on_guild_join(self, guild):
+        db.guild_tables_create(self.cursor, guild)
+
+def setup(bot):
+    bot.add_cog(Database(bot))
+    logger.debug('Setup cog "database_functions"')
