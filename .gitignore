@@ -1,4 +1,7 @@
 # Python compiled files
 __pycache__
 *.pyc
+# SQLite Databases
 *.db
+# Configuration
+config/config.yml

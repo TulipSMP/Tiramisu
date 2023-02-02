@@ -1,0 +1,8 @@
+# Names of settings each guild can set for themselves
+settings:
+  - 'system_channel'
+  - 'announcement_channel'
+  - 'announcement_role'
+  - 'staff_role'
+  - 'server_admin'
+  - 'commands_channel'

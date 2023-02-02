@@ -13,7 +13,9 @@ class Admin(commands.Cog):
     with open("config/config.yml", "r") as ymlfile:
         cfg = yaml.load(ymlfile, Loader=yaml.FullLoader)
     logger.info(f'CONFIG.yml:\n{cfg}')
-    
+    # Load instance owner from yaml
+    botowner = cfg["discord"]["owner"]
+
     # Test guild ID
     TESTING_GUILD_ID=cfg["discord"]["testing_guild"]
 
@@ -36,6 +38,9 @@ class Admin(commands.Cog):
     @commands.Cog.listener()
     async def on_ready(self):
         logger.info('Loaded cog admin.py')
+    @commands.Cog.listener()
+    async def on_guild_join(self, guild):
+        self.cursor(f'CREATE TABLE admins_')
 
     # Commands
     @nextcord.slash_command(guild_ids=[TESTING_GUILD_ID])
@@ -46,7 +51,7 @@ class Admin(commands.Cog):
     # Add an instance administrator
     @admin.subcommand(description="Add an administrator")
     async def add(self, interaction: nextcord.Interaction, user: nextcord.Member):
-        if interaction.user.id == self.botowner:
+        if interaction.user.id == self.botowner or interaction.user.id in admins:
             cursor = self.sql.cursor()
             try:
                 cursor.execute(f"INSERT INTO admins (id, permission) VALUES ('{user.id}', 1);")

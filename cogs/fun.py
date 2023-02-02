@@ -1,5 +1,5 @@
-import random
 from logging42 import logger
+import random
 import nextcord
 from nextcord.ext import commands
 
@@ -35,9 +35,11 @@ class FunCommands(commands.Cog):
             "My reply is no.",
             "My sources say no.",
             "Outlook not so good.",
-            "Very doubtful.",
+            "Very doubtful."
         ]
         response = random.choice(responses)
+        if random.randint(1, 250) == 69:
+            response = "Certainly. Fizzdev is a catboy."
         await interaction.response.send_message(response)
     
     # Dice Command

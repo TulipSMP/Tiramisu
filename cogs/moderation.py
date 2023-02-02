@@ -7,16 +7,6 @@ class Moderation(commands.Cog):
     def __init__(self, bot):
         self.client = bot
     
-    # Error Function
-    def error(error):
-        logger.error(f"Error in moderation.py: {error}")
-        return f'⚠️ **An Error Occured!**\n```\n{error}\n```\nPlease report this to the devs.'
-
-    # No Permission Function
-    def noperm(cmd):
-        logger.debug(f'{interaction.user.name} (ID: {interaction.user.id}) \
-            tried to run "{cmd}" but doesnt have permission!')
-        return 'No Permission!'
 
     # Variables
     with open("config/config.yml", "r") as ymlfile:
@@ -28,6 +18,16 @@ class Moderation(commands.Cog):
     # Channel & Role IDs
     ANNOUNCEMENT_CHANNEL=0000000000000000000
     ANNOUNCEMENT_ROLE=0000000000000000000
+
+    # Error Function
+    def error(error):
+        logger.error(f"Error in moderation.py: {error}")
+        return cfg['messages']['error'].replace('[[error]]', error)
+
+    # No Permission Function
+    def noperm(cmd, interaction):
+        logger.debug(cfg['messages']['noperm_log'].replace('[[user]]', interaction.user.name).replace('[[user_id]]', interaction.user.id).replace('[[command]]', cmd))
+        return cfg['messages']['noperm']
 
     # Events
     @commands.Cog.listener()
@@ -48,7 +48,7 @@ class Moderation(commands.Cog):
             except BaseException as e:
                 await interaction.send(error(e), ephemeral=True)
         else:
-            await interaction.response.send(noperm('announce'), ephemeral=True)
+            await interaction.response.send(noperm('warn', interaction), ephemeral=True)
 
     @commands.command(description="Make an announcement!", guild_ids=[TESTING_GUILD_ID])
     async def announce(interaction: nextcord.Interaction, ping: bool, message: str):
@@ -64,7 +64,7 @@ class Moderation(commands.Cog):
             except BaseException as e:
                 await interaction.send(error(e), ephemeral=True)
         else:
-            await interaction.response.send(noperm('announce'), ephemeral=True)
+            await interaction.response.send(noperm('announce', interaction), ephemeral=True)
 
 def setup(bot):
     bot.add_cog(Moderation(bot))
