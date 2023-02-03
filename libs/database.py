@@ -55,8 +55,8 @@ class Database:
                 settings_exists = True
         if values:
             settings_absent = []
-            self.cursor.execute(f'SELECT setting FROM settings_{self.guild.id};')
-            tup = self.cursor.fetchall()
+            amend_settings = False
+            tup = self.cursor.execute(f'SELECT setting FROM settings_{self.guild.id};').fetchall()
             existing = list(itertools.chain(*tup))
             for setting in existing:
                 if setting in existing:
@@ -64,38 +64,48 @@ class Database:
                 else:
                     amend_settings = True
                     settings_absent.append(setting)
+            if amend_settings:
+                for setting in settings_absent:
+                    self.cursor.execute(f'INSERT INTO settings_{self.guild.id} ( setting, enabled ) VALUES ( {setting}, none )')
 
     # Fetch information from DB
     # Default to settings if no table is specified
     @logger.catch
-    def fetch(self, setting=None):
+    def fetch(self, setting, return_list=False, admin=False):
         """ Fetch information from Database """
-        if setting == None or setting == 'admin':
-            self.cursor.execute(f'SELECT id FROM admins_{guild.id} WHERE admin=1;')
-            tup = self.cursor.fetchall()
-            return list(itertools.chain(*tup))
+        if admin:
+            if return_list:
+                tup = self.cursor.execute(f'SELECT id FROM admins_{self.guild.id} WHERE admin=1;').fetchall()
+                return list(itertools.chain(*tup))
+            else:
+                return self.cursor.execute(f'SELECT id FROM admins_{self.guild.id} WHERE id={setting};').fetchone()
         else:
-            self.cursor.execute(f'SELECT enabled FROM settings_{guild.id} WHERE setting={setting};')
-            tup = self.cursor.fetchall()
-            return list(itertools.chain(*tup))
+            self.cursor.execute(f'SELECT enabled FROM settings_{self.guild.id} WHERE setting={setting};')
+            if return_list:
+                tup = self.cursor.fetchall()
+                return list(itertools.chain(*tup))
+            else:
+                return self.cursor.fetchone()
+
+            
     # Change information in DB
     # Should ALWAYS return true if successfull, false if an error occurred
     @logger.catch
-    def set(setting, value, clear=False):
+    def set(self, setting, value, clear=False):
         """ Set values within the Database """
         if setting == 'admin' and clear == True:
             try:
-                self.cursor.execute(f'DELETE FROM admins_{guild.id} WHERE id IS {value}')
-                logger.debug(f'Removed id {value} from table admins_{guild.id}')
+                self.cursor.execute(f'DELETE FROM admins_{self.guild.id} WHERE id IS {value}')
+                logger.debug(f'Removed id {value} from table admins_{self.guild.id}')
                 return True
             except:
-                logger.warning(f'Failed to delete ID {value} from table admins_{guild.id}!')
+                logger.warning(f'Failed to delete ID {value} from table admins_{self.guild.id}!')
                 return False
         if setting == 'admin' and clear == False:
             try:
-                self.cursor.execute(f'INSERT INTO admins_{guild.id} ( id, admin ) VALUES ( {value}, 1 )')
-                logger.debug(f'Added id {value} to table admins_{guild.id}')
+                self.cursor.execute(f'INSERT INTO admins_{self.guild.id} ( id, admin ) VALUES ( {value}, 1 )')
+                logger.debug(f'Added id {value} to table admins_{self.guild.id}')
                 return True
             except:
-                logger.debug(f'Failed to add id {value} to table admins_{guild.id}!')
+                logger.debug(f'Failed to add id {value} to table admins_{self.guild.id}!')
                 return False
