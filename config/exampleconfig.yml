@@ -18,7 +18,7 @@ discord:
 # List of .py files in `cogs/` to NOT load.
 # If a file ends in .py and is in `cogs/` it will be loaded by default
 cog_dontload:
-  - 'database_functions.py'
+  - 'bad_example.py'
 
 # Commonly used messages for fetching information
 messages:
