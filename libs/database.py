@@ -75,7 +75,11 @@ class Database:
         if admin:
             if return_list:
                 tup = self.cursor.execute(f'SELECT id FROM admins_{self.guild.id} WHERE admin=1;').fetchall()
-                return list(itertools.chain(*tup))
+                admin_list = list(itertools.chain(*tup))
+                if admin_list == None:
+                    return []
+                else:
+                    return admin_list
             else:
                 return self.cursor.execute(f'SELECT id FROM admins_{self.guild.id} WHERE id={setting};').fetchone()
         else:
