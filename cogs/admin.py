@@ -4,6 +4,7 @@ from nextcord.ext import commands
 import yaml
 import mysql.connector
 import sqlite3
+from libs.database import Database
 
 class Admin(commands.Cog):
     def __init__(self, bot):
@@ -18,21 +19,6 @@ class Admin(commands.Cog):
 
     # Test guild ID
     TESTING_GUILD_ID=cfg["discord"]["testing_guild"]
-
-    # Database
-    logger.debug("Logging into DB from admin.py")
-    if cfg["storage"] == "sqlite":
-        sql = sqlite3.connect('storage.db')
-        cursor = sql.cursor()
-    else:
-        import mysql.connector
-        sql = mysql.connector.connect(
-            host=cfg["mysql"]["host"],
-            user=cfg["mysql"]["user"],
-            password=cfg["mysql"]["pass"],
-            database=cfg["mysql"]["db"]
-        )
-        cursor = sql.cursor()
 
     # Events
     @commands.Cog.listener()
@@ -51,10 +37,14 @@ class Admin(commands.Cog):
     # Add an instance administrator
     @admin.subcommand(description="Add an administrator")
     async def add(self, interaction: nextcord.Interaction, user: nextcord.Member):
+        db = Database(interaction.guild, reason='Slash command: `admin add`')
+        admins = db.fetch(interaction.user.id, admin=True, return_list=True)
         if interaction.user.id == self.botowner or interaction.user.id in admins:
-            cursor = self.sql.cursor()
             try:
-                cursor.execute(f"INSERT INTO admins (id, permission) VALUES ('{user.id}', 1);")
+                if user.id in admins:
+                    await interaction.send(f'`{user.name}#{user.discriminator}` is already an admin! ||(Their ID is `{user.id}`)||')
+                else:
+                    db.set(setting, value)
                 await interaction.send(f"Added {user.mention} as an admin.")
                 logger.debug(f'{interaction.user.name} added {user.name} as bot administrator')
             except Exception as ex:
