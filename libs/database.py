@@ -29,7 +29,7 @@ class Database:
             )
             self.cursor = sql.cursor()
             self.db_type = 'mysql'
-        logger.debug(f'Initiated connection to {self.db_type} for {self.reason}.')
+        logger.debug(f'Initiated connection to {self.db_type} database for {self.reason}.')
 
     # Functions
     # Create database tables
@@ -92,7 +92,8 @@ class Database:
     # Should ALWAYS return true if successfull, false if an error occurred
     @logger.catch
     def set(self, setting, value, clear=False):
-        """ Set values within the Database """
+        """ Set values within the Database
+        If value is None, an admin will be removed or a setting will be set to none """
         if setting == 'admin' and clear == True:
             try:
                 self.cursor.execute(f'DELETE FROM admins_{self.guild.id} WHERE id IS {value}')
@@ -101,11 +102,26 @@ class Database:
             except:
                 logger.warning(f'Failed to delete ID {value} from table admins_{self.guild.id}!')
                 return False
-        if setting == 'admin' and clear == False:
+        elif setting == 'admin':
             try:
                 self.cursor.execute(f'INSERT INTO admins_{self.guild.id} ( id, admin ) VALUES ( {value}, 1 )')
                 logger.debug(f'Added id {value} to table admins_{self.guild.id}')
                 return True
             except:
-                logger.debug(f'Failed to add id {value} to table admins_{self.guild.id}!')
+                logger.warning(f'Failed to add id {value} to table admins_{self.guild.id}!')
+                return False
+        elif clear == True:
+            try:
+                self.cursor.execute(f"UPDATE settings_{self.guild.id} SET enabled = (CASE WHEN setting = '{setting}' THEN enabled = 'none'")
+                logger.debug(f'Set {setting} to {value} for table settings_{self.guild.id}')
+                return True
+            except:
+                logger.warning(f'Failed to set value {setting} to {value} for table settings_{self.guild.id}!')
+                return False
+        else:
+            try:
+                self.cursor.execute(f"UPDATE settings_{self.guild.id} SET enabled = (CASE WHEN setting = '{setting}' THEN enabled = '{value}'")
+                logger.debug(f'Set {setting} to {value} for table settings_{self.guild.id}')
+            except:
+                logger.warning(f'Failed to set value {setting} to {value} for table settings_{self.guild.id}!')
                 return False
