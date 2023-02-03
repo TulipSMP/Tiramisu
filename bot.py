@@ -6,7 +6,7 @@ import os
 import sys
 import sqlite3
 import yaml
-from shutil import copyfile
+import shutil
 
 # Ensure Config exists:
 if os.path.exists('config/config.yml'):
