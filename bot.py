@@ -8,13 +8,6 @@ import sqlite3
 import yaml
 from shutil import copyfile
 
-with open("config/config.yml", "r") as ymlfile:
-    cfg = yaml.load(ymlfile, Loader=yaml.FullLoader)
-
-bot = commands.Bot()
-
-TESTING_GUILD_ID=cfg["discord"]["testing_guild"]
-
 # Ensure Config exists:
 if os.path.exists('config/config.yml'):
     logger.debug('Successfully found config/config.yml')
@@ -25,6 +18,13 @@ else:
     except BaseException as e:
         logger.critical(f'{e}: Could not find config file! Try re-cloning the git repository.')
         sys.exit(1)
+
+with open("config/config.yml", "r") as ymlfile:
+    cfg = yaml.load(ymlfile, Loader=yaml.FullLoader)
+
+bot = commands.Bot()
+
+TESTING_GUILD_ID=cfg["discord"]["testing_guild"]
 
 # Database
 logger.info("Using Database Storage...")
