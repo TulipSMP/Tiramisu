@@ -3,4 +3,3 @@ nextcord
 logging42
 pyyaml
 mysql-connector-python
-itertools
