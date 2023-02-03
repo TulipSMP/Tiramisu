@@ -10,7 +10,6 @@ class Database:
         # Load Yaml
         with open("config/config.yml", "r") as ymlfile:
             self.cfg = yaml.load(ymlfile, Loader=yaml.FullLoader)
-        logger.info(f'CONFIG.yml:\n{cfg}')
         with open("config/settings.yml", "r") as ymlfile:
             self.settings = yaml.load(ymlfile, Loader=yaml.FullLoader)
         # Connect to Database
