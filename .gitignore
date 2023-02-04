@@ -5,3 +5,5 @@ __pycache__
 *.db
 # Configuration
 config/config.yml
+# Custom Cogs
+cogs/custom_*.py
