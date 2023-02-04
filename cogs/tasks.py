@@ -8,6 +8,7 @@ class Tasks(commands.Cog):
     """ This cog is for tasks that must be run on various bot events """
     def __init__(self, bot):
         self.bot = bot
+        self.client = nextcord.Client()
     
     with open("config/config.yml", "r") as ymlfile:
         cfg = yaml.load(ymlfile, Loader=yaml.FullLoader)
@@ -21,7 +22,7 @@ class Tasks(commands.Cog):
         logger.info('Loaded cog tasks.py')
         # Ensure databases exist for each guild the bot is in
         logger.info('Verifying Database...')
-        guilds = [guild.id for guild in client.guilds]
+        guilds = [guild.id for guild in self.client.guilds]
         for guild in guilds:
             db = Database(guild, reason = f'Verifying database for guild {guild.id} (on start).')
             db.verify()
