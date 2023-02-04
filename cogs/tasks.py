@@ -21,7 +21,8 @@ class Tasks(commands.Cog):
         logger.info('Loaded cog tasks.py')
         # Ensure databases exist for each guild the bot is in
         logger.info('Verifying Database...')
-        for guild in client.guilds:
+        guilds = [guild.id for guild in client.guilds]
+        for guild in guilds:
             db = Database(guild, reason = f'Verifying database for guild {guild.id} (on start).')
             db.verify()
     
