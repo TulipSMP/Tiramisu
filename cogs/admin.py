@@ -40,7 +40,7 @@ class Admin(commands.Cog):
         db = Database(interaction.guild, reason='Slash command: `admin add`')
         admins = db.fetch(interaction.user.id, admin=True, return_list=True)
         logger.info(f'ADMINS FOR GUILD {db.guild.name}: {admins}')
-        if interaction.user.id == self.botowner or interaction.user.id in admins:
+        if interaction.user.id == interaction.guild.owner_id or interaction.user.id in admins:
             try:
                 if admins is not None and user.id in admins:
                     await interaction.send(f'`{user.name}#{user.discriminator}` is already an admin! ||(Their ID is `{user.id}`)||')
@@ -57,10 +57,14 @@ class Admin(commands.Cog):
     # List administrators
     @admin.subcommand(description='List administrators')
     async def list(self, interaction: nextcord.Interaction):
-        if interaction.user.id == self.botowner or interaction.user.id in self.admins:
+        db = Database(interaction.guild, reason='Slash command: `admin list`')
+        admins = db.fetch(interaction.user.id, admin=True, return_list=True)
+        if interaction.user.id == interaction.guild.owner_id or interaction.user.id in admins:
             msg = f'**Registered Administrators:**\n'
-            for id in self.admins:
-                msg += f'• {id}\n'
+            for id in admins:
+                usr = self.bot.get_user(id)
+                name = usr.name
+                msg += f'• {name} `{id}`\n'
             await interaction.send(msg)
             logger.debug(f"Listed administrators {self.admins} for {interaction.user.name} ({interaction.user.id})")
         else:
@@ -70,7 +74,7 @@ class Admin(commands.Cog):
     # Remove administrators
     @admin.subcommand(description='Remove an administrator')
     async def rm(self, interaction: nextcord.Interaction, user: nextcord.Member, mention_user=True):
-        if interaction.user.id == self.botowner or interaction.user.id in self.admins:
+        if interaction.user.id == interaction.guild.owner_id or interaction.user.id in self.admins:
             cursor = self.sql.cursor()
             if mention_user:
                 show_user = user.mention
