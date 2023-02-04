@@ -61,12 +61,17 @@ class Admin(commands.Cog):
         admins = db.fetch(interaction.user.id, admin=True, return_list=True)
         if interaction.user.id == interaction.guild.owner_id or interaction.user.id in admins:
             msg = f'**Registered Administrators:**\n'
-            for id in admins:
-                usr = self.bot.get_user(id)
-                name = usr.name
-                msg += f'• {name} `{id}`\n'
-            await interaction.send(msg)
-            logger.debug(f"Listed administrators {self.admins} for {interaction.user.name} ({interaction.user.id})")
+            try:
+                for id in admins:
+                    usr = self.bot.get_user(id)
+                    name = usr.name
+                    msg += f'• {name} `{id}`\n'
+                await interaction.send(msg)
+                logger.debug(f"Listed administrators {self.admins} for {interaction.user.name} ({interaction.user.id})")
+            except Exception as ex:
+                await interaction.send(cfg['messages']['error'].replace('[[error]]', ex))
+                logger.error(f'Failed to fetch list of admins for guild {db.guild.id}! Error: {ex}', exc_info=True)
+                
         else:
             await interaction.send(self.cfg["messages"]["noperm"], ephemeral=True)
             logger.debug(self.cfg["messages"]["noperm_log"])
