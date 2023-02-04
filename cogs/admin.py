@@ -45,7 +45,7 @@ class Admin(commands.Cog):
                 if admins is not None and user.id in admins:
                     await interaction.send(f'`{user.name}#{user.discriminator}` is already an admin! ||(Their ID is `{user.id}`)||')
                 else:
-                    db.set(setting, value)
+                    db.set('admin', value)
                 await interaction.send(f"Added {user.mention} as an admin.")
                 logger.debug(f'{interaction.user.name} added {user.name} as bot administrator')
             except Exception as ex:
