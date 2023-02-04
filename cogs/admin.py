@@ -49,7 +49,7 @@ class Admin(commands.Cog):
                 await interaction.send(f"Added {user.mention} as an admin.")
                 logger.debug(f'{interaction.user.name} added {user.name} as bot administrator')
             except Exception as ex:
-                await interaction.send(self.cfg['messages']['error'].replace('[[error]]', ex))
+                await interaction.send(self.cfg['messages']['error'].replace('[[error]]', str(ex)))
                 logger.exception(f'{ex}')
         else:
             await interaction.send(self.cfg["messages"]["noperm"], ephemeral=True)
@@ -69,7 +69,7 @@ class Admin(commands.Cog):
                 await interaction.send(msg)
                 logger.debug(f"Listed administrators {admins} for {interaction.user.name} ({interaction.user.id})")
             except BaseException as ex:
-                await interaction.send(self.cfg['messages']['error'].replace('[[error]]', ex))
+                await interaction.send(self.cfg['messages']['error'].replace('[[error]]', str(ex)))
                 logger.error(f'Failed to fetch list of admins for guild {db.guild.id}! Error: {ex}', exc_info=True)
             except sqlite3.OperationalError:
                 await interaction.send(self.cfg['messages']['error'])
@@ -95,7 +95,7 @@ class Admin(commands.Cog):
                 else:
                     await interaction.send(f'User {user.name} (ID: {user.id}) is not an admin.')
             except Exception as ex:
-                await interaction.send(self.cfg['messages']['error'].replace('[[error]]', ex))
+                await interaction.send(self.cfg['messages']['error'].replace('[[error]]', str(ex)))
                 logger.exception(f'{ex}')
         else:
             await interaction.send(self.cfg["messages"]["noperm"], ephemeral=True)
