@@ -13,13 +13,15 @@ class Tasks(commands.Cog):
         cfg = yaml.load(ymlfile, Loader=yaml.FullLoader)
     TESTING_GUILD_ID=cfg["discord"]["testing_guild"]
 
+    client = nextcord.Client()
+
     # Events
     @commands.Cog.listener('on_ready')
     async def on_ready(self):
         logger.info('Loaded cog tasks.py')
         # Ensure databases exist for each guild the bot is in
         logger.info('Verifying Database...')
-        for guild in nextcord.Client.guilds:
+        for guild in client.guilds:
             db = Database(guild, reason = f'Verifying database for guild {guild.id} (on start).')
             db.verify()
     
