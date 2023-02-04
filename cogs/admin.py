@@ -15,8 +15,8 @@ class Admin(commands.Cog):
         logger.info(f'CONFIG.yml:\n{cfg}')
         self.cfg = cfg
 
-    # Test guild ID
-    TESTING_GUILD_ID=self.cfg["discord"]["testing_guild"]
+        # Test guild ID
+        self.TESTING_GUILD_ID=cfg["discord"]["testing_guild"]
 
     # Events
     @commands.Cog.listener()
@@ -27,7 +27,7 @@ class Admin(commands.Cog):
         self.cursor(f'CREATE TABLE admins_')
 
     # Commands
-    @nextcord.slash_command(guild_ids=[TESTING_GUILD_ID])
+    @nextcord.slash_command(guild_ids=[self.TESTING_GUILD_ID])
     async def admin(self, interaction: nextcord.Interaction):
         pass
         # This command is to set up the following as subcommands
