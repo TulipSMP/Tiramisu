@@ -9,16 +9,14 @@ from libs.database import Database
 class Admin(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
-
-    # Load Yaml
-    with open("config/config.yml", "r") as ymlfile:
-        cfg = yaml.load(ymlfile, Loader=yaml.FullLoader)
-    logger.info(f'CONFIG.yml:\n{cfg}')
-    # Load instance owner from yaml
-    botowner = cfg["discord"]["owner"]
+        # Load Yaml
+        with open("config/config.yml", "r") as ymlfile:
+            cfg = yaml.load(ymlfile, Loader=yaml.FullLoader)
+        logger.info(f'CONFIG.yml:\n{cfg}')
+        self.cfg = cfg
 
     # Test guild ID
-    TESTING_GUILD_ID=cfg["discord"]["testing_guild"]
+    TESTING_GUILD_ID=self.cfg["discord"]["testing_guild"]
 
     # Events
     @commands.Cog.listener()
@@ -49,10 +47,10 @@ class Admin(commands.Cog):
                 await interaction.send(f"Added {user.mention} as an admin.")
                 logger.debug(f'{interaction.user.name} added {user.name} as bot administrator')
             except Exception as ex:
-                await interaction.send(cfg['messages']['error'].replace('[[error]]', ex))
+                await interaction.send(self.cfg['messages']['error'].replace('[[error]]', ex))
                 logger.exception(f'{ex}')
         else:
-            await interaction.send(cfg["messages"]["noperm"], ephemeral=True)
+            await interaction.send(self.cfg["messages"]["noperm"], ephemeral=True)
     
     # List administrators
     @admin.subcommand(description='List administrators')
@@ -67,10 +65,12 @@ class Admin(commands.Cog):
                     name = usr.name
                     msg += f'• {name} `{id}`\n'
                 await interaction.send(msg)
-                logger.debug(f"Listed administrators {self.admins} for {interaction.user.name} ({interaction.user.id})")
-            except Exception as ex:
-                await interaction.send(cfg['messages']['error'].replace('[[error]]', ex))
+                logger.debug(f"Listed administrators {admins} for {interaction.user.name} ({interaction.user.id})")
+            except BaseException as ex:
+                await interaction.send(self.cfg['messages']['error'].replace('[[error]]', ex))
                 logger.error(f'Failed to fetch list of admins for guild {db.guild.id}! Error: {ex}', exc_info=True)
+            except sqlite3.OperationalError:
+                await interaction.send(self.cfg['messages']['error'])
                 
         else:
             await interaction.send(self.cfg["messages"]["noperm"], ephemeral=True)
