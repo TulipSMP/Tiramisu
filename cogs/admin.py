@@ -81,20 +81,21 @@ class Admin(commands.Cog):
     # Remove administrators
     @admin.subcommand(description='Remove an administrator')
     async def rm(self, interaction: nextcord.Interaction, user: nextcord.Member, mention_user=True):
-        if interaction.user.id == interaction.guild.owner_id or interaction.user.id in self.admins:
-            cursor = self.sql.cursor()
+        db = Database(interaction.guild, reason='Slash command: `admin rm`')
+        admins = db.fetch(interaction.user.id, admin=True, return_list=True)
+        if interaction.user.id == interaction.guild.owner_id or interaction.user.id in admins:
             if mention_user:
                 show_user = user.mention
             else:
                 show_user = user.name
             try:
-                if user.id in self.admins:
-                    cursor.execute(f'DELETE FROM TABLE WHERE id IS {user.id}')
+                if user.id in admins:
+                    db.set('admin', user.id, clear=True)
                     await interaction.send(f'Removed {show_user} from admins.')
                 else:
                     await interaction.send(f'User {user.name} (ID: {user.id}) is not an admin.')
             except Exception as ex:
-                await interaction.send(f'**An Error occured:**\n```\n{ex}\n```\nPlease contact the devs.')
+                await interaction.send(self.cfg['messages']['error'].replace('[[error]]', ex))
                 logger.exception(f'{ex}')
         else:
             await interaction.send(self.cfg["messages"]["noperm"], ephemeral=True)
