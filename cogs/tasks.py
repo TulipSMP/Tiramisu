@@ -18,9 +18,7 @@ class Tasks(commands.Cog):
     async def on_ready(self):
         logger.info('Loaded cog hello.py')
 
-    bot = commands.Bot()
-
-    @bot.event
+    @self.bot.event
     async def on_ready(self):
         # Ensure databases exist for each guild the bot is in
         logger.info('Verifying Database...')
@@ -28,7 +26,7 @@ class Tasks(commands.Cog):
             db = Database(guild, reason = f'Verifying database for guild {guild.id} (on start).')
             db.verify()
     
-    @bot.event
+    @self.bot.event
     async def on_guild_join(self, guild):
         # Create databases on joining a guild
         logger.info(f'Creating database tables for newly joined guild {guild.id}')
