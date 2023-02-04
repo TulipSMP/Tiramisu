@@ -24,4 +24,4 @@ cog_dontload:
 messages:
   noperm: '**🚫 No permission**'
   noperm_log: '[[user]] (ID: [[user_id]]) tried to run "[[command]]" but doesnt have permission!'
-  error: '⚠️ **An Error Occured!**\n```\n[[error]]\n```\nPlease report this to the devs.'
+  error: '⚠️ **An Error Occured!** ``` [[error]] ``` Please report this to the devs.'
