@@ -45,7 +45,7 @@ class Database:
             logger.info(f'Created table "settings_{self.guild.id}", if it doesnt already exist!')
     # Verify database exists and is correctly setup
     @logger.catch
-    def verify(self, tables=True, values=False):
+    def verify(self, tables=True, repair=True):
         """ Make sure tables exist, and create them if they dont """
         if tables:
             admins_exists = False
@@ -55,7 +55,7 @@ class Database:
                 admins_exists = True
             if f'settings_{self.guild.id}' in existing:
                 settings_exists = True
-        if values:
+        if repair:
             settings_absent = []
             amend_settings = False
             tup = self.cursor.execute(f'SELECT setting FROM settings_{self.guild.id};').fetchall()
@@ -69,10 +69,10 @@ class Database:
             if amend_settings:
                 for setting in settings_absent:
                     self.cursor.execute(f'INSERT INTO settings_{self.guild.id} ( setting, enabled ) VALUES ( {setting}, none )')
-        if not admins_exists:
+        if not admins_exists and repair:
             logger.warning(f'Created admins table for guild {self.guild.id} because it did not exist!')
             self.create(table='admins')
-        if not settings_exists:
+        if not settings_exists and repair:
             logger.warning(f'Created settings table for guild {self.guild.id} because it did not exist!')
             self.create(table='settings')
 
