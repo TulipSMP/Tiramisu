@@ -14,19 +14,16 @@ class Tasks(commands.Cog):
     TESTING_GUILD_ID=cfg["discord"]["testing_guild"]
 
     # Events
-    @commands.Cog.listener()
+    @commands.Cog.listener('on_ready')
     async def on_ready(self):
-        logger.info('Loaded cog hello.py')
-
-    @commands.Cog.listener()
-    async def on_ready(self):
+        logger.info('Loaded cog tasks.py')
         # Ensure databases exist for each guild the bot is in
         logger.info('Verifying Database...')
         for guild in nextcord.Client.guilds:
             db = Database(guild, reason = f'Verifying database for guild {guild.id} (on start).')
             db.verify()
     
-    @commands.Cog.listener()
+    @commands.Cog.listener('on_guild_join')
     async def on_guild_join(self, guild):
         # Create databases on joining a guild
         logger.info(f'Creating database tables for newly joined guild {guild.id}')
