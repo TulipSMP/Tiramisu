@@ -49,7 +49,7 @@ class Admin(commands.Cog):
                 await interaction.send(f"Added {user.mention} as an admin.")
                 logger.debug(f'{interaction.user.name} added {user.name} as bot administrator')
             except Exception as ex:
-                await interaction.send(f'**An Error occured:**\n```\n{ex}\n```\nPlease contact the devs.')
+                await interaction.send(cfg['messages']['error'].replace('[[error]]', ex))
                 logger.exception(f'{ex}')
         else:
             await interaction.send(cfg["messages"]["noperm"], ephemeral=True)
