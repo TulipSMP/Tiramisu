@@ -18,6 +18,7 @@ class Database:
             sql = sqlite3.connect('storage.db')
             self.cursor = sql.cursor()
             self.db_type = 'sqlite'
+            self.current_database = sqlite3
         else:
             import mysql.connector
             sql = mysql.connector.connect(
@@ -28,6 +29,7 @@ class Database:
             )
             self.cursor = sql.cursor()
             self.db_type = 'mysql'
+            self.current_database = mysql
         logger.debug(f'Initiated connection to {self.db_type} database for {self.reason}.')
 
     # Functions
@@ -85,7 +87,7 @@ class Database:
             if return_list:
                 try:
                     tup = self.cursor.execute(f'SELECT id FROM admins_{self.guild.id} WHERE admin=1;').fetchall()
-                except sqlite3.OperationalError or mysql.OperationalError:
+                except self.current_database.OperationalError:
                     self.create()
                     tup = self.cursor.execute(f'SELECT id FROM admins_{self.guild.id} WHERE admin=1;').fetchall()
 
