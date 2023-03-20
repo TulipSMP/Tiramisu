@@ -111,7 +111,7 @@ class Database:
     # Should ALWAYS return true if successfull, false if an error occurred
     @logger.catch
     def set(self, setting, value, clear=False):
-        """ Set values within the Database
+        """ Set values within the Database. Returns true if successful.
         If value is None, an admin will be removed or a setting will be set to none """
         if setting == 'admin' and clear == True:
             try:
