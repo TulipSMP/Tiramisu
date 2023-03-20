@@ -41,12 +41,17 @@ class Admin(commands.Cog):
         admins = db.fetch(interaction.user.id, admin=True, return_list=True)
         if interaction.user.id == interaction.guild.owner_id or interaction.user.id in admins:
             try:
-                if admins is not None and user.id in admins:
+                if user.id in admins:
                     await interaction.send(f'`{user.name}#{user.discriminator}` is already an admin! ||(Their ID is `{user.id}`)||')
                 else:
-                    db.set('admin', user.id)
-                await interaction.send(f"Added {user.mention} as an admin.")
-                logger.debug(f'{interaction.user.name} added {user.name} as bot administrator')
+                    if db.set('admin', user.id):
+                        logger.debug(f'{interaction.user.name} added {user.name} as bot administrator')
+                        await interaction.send(f"Added {user.mention} as an admin.")
+                    else:
+                        logger.warning(f'Failed to add {user.name}#{user.discriminator} as an admin in guild {db.guild.id}!')
+                        await interaction.send(f'Could not add __{user.name}#{user.discriminator}__ as an admin!')
+                    
+                
             except Exception as ex:
                 await interaction.send(self.cfg['messages']['error'].replace('[[error]]', str(ex)))
                 logger.exception(f'{ex}')
