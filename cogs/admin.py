@@ -39,7 +39,6 @@ class Admin(commands.Cog):
     async def add(self, interaction: nextcord.Interaction, user: nextcord.Member):
         db = Database(interaction.guild, reason='Slash command: `admin add`')
         admins = db.fetch(interaction.user.id, admin=True, return_list=True)
-        logger.info(f'ADMINS FOR GUILD {db.guild.name}: {admins}')
         if interaction.user.id == interaction.guild.owner_id or interaction.user.id in admins:
             try:
                 if admins is not None and user.id in admins:
