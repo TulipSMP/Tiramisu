@@ -141,6 +141,7 @@ class Database:
             try:
                 self.cursor.execute(f"UPDATE settings_{self.guild.id} SET enabled = (CASE WHEN setting = '{setting}' THEN enabled = '{value}'")
                 logger.info(f'Set {setting} to {value} for table settings_{self.guild.id}')
+                return True
             except:
                 logger.warning(f'Failed to set value {setting} to {value} for table settings_{self.guild.id}!')
                 return False
