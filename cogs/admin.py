@@ -73,8 +73,8 @@ class Admin(commands.Cog):
                     msg_admins += f'• {name} `{id}`\n'
                 if msg_admins == '':
                     msg = '**No Registered Administrators.**'
-                await interaction.send(msg)
                 logger.debug(f"Listed administrators {admins} for {interaction.user.name} ({interaction.user.id})")
+                await interaction.send(msg)
             except BaseException as ex:
                 await interaction.send(self.cfg['messages']['error'].replace('[[error]]', str(ex)))
                 #logger.error(f'Failed to fetch list of admins for guild {db.guild.id}! Error: {ex}', exc_info=True)
