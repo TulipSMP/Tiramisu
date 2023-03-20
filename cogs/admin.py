@@ -34,7 +34,7 @@ class Admin(commands.Cog):
         pass
         # This command is to set up the following as subcommands
     
-    # Add an instance administrator
+    # Add a guild administrator
     @admin.subcommand(description="Add an administrator")
     async def add(self, interaction: nextcord.Interaction, user: nextcord.Member):
         db = Database(interaction.guild, reason='Slash command: `admin add`')
