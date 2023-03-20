@@ -116,7 +116,7 @@ class Database:
         if setting == 'admin' and clear == True:
             try:
                 self.cursor.execute(f'DELETE FROM admins_{self.guild.id} WHERE id IS {value}')
-                logger.debug(f'Removed id {value} from table admins_{self.guild.id}')
+                logger.info(f'Removed id {value} from table admins_{self.guild.id}')
                 return True
             except:
                 logger.warning(f'Failed to delete ID {value} from table admins_{self.guild.id}!')
@@ -124,7 +124,7 @@ class Database:
         elif setting == 'admin':
             try:
                 self.cursor.execute(f'INSERT INTO admins_{self.guild.id} ( id, admin ) VALUES ( {value}, 1 )')
-                logger.debug(f'Added id {value} to table admins_{self.guild.id}')
+                logger.info(f'Added id {value} to table admins_{self.guild.id}')
                 return True
             except:
                 logger.warning(f'Failed to add id {value} to table admins_{self.guild.id}!')
@@ -132,7 +132,7 @@ class Database:
         elif clear == True:
             try:
                 self.cursor.execute(f"UPDATE settings_{self.guild.id} SET enabled = (CASE WHEN setting = '{setting}' THEN enabled = 'none'")
-                logger.debug(f'Set {setting} to {value} for table settings_{self.guild.id}')
+                logger.info(f'Set {setting} to {value} for table settings_{self.guild.id}')
                 return True
             except:
                 logger.warning(f'Failed to set value {setting} to {value} for table settings_{self.guild.id}!')
@@ -140,7 +140,7 @@ class Database:
         else:
             try:
                 self.cursor.execute(f"UPDATE settings_{self.guild.id} SET enabled = (CASE WHEN setting = '{setting}' THEN enabled = '{value}'")
-                logger.debug(f'Set {setting} to {value} for table settings_{self.guild.id}')
+                logger.info(f'Set {setting} to {value} for table settings_{self.guild.id}')
             except:
                 logger.warning(f'Failed to set value {setting} to {value} for table settings_{self.guild.id}!')
                 return False
