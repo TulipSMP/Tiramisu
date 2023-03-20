@@ -62,10 +62,13 @@ class Admin(commands.Cog):
         if interaction.user.id == interaction.guild.owner_id or interaction.user.id in admins:
             msg = f'**Registered Administrators:**\n'
             try:
+                msg_admins = ''
                 for id in admins:
                     usr = self.bot.get_user(id)
                     name = usr.name
-                    msg += f'• {name} `{id}`\n'
+                    msg_admins += f'• {name} `{id}`\n'
+                if msg_admins == '':
+                    msg = '**No Registered Administrators.**'
                 await interaction.send(msg)
                 logger.debug(f"Listed administrators {admins} for {interaction.user.name} ({interaction.user.id})")
             except BaseException as ex:
