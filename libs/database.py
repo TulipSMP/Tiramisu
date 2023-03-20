@@ -30,7 +30,7 @@ class Database:
             self.cursor = sql.cursor()
             self.db_type = 'mysql'
             self.current_database = mysql
-        logger.debug(f'Initiated connection to {self.db_type} database for {self.reason}.')
+        logger.info(f'Initiated connection to {self.db_type} database for {self.reason}.')
 
     # Functions
     # Create database tables
