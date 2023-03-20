@@ -83,7 +83,12 @@ class Database:
         """ Fetch information from Database """
         if admin:
             if return_list:
-                tup = self.cursor.execute(f'SELECT id FROM admins_{self.guild.id} WHERE admin=1;').fetchall()
+                try:
+                    tup = self.cursor.execute(f'SELECT id FROM admins_{self.guild.id} WHERE admin=1;').fetchall()
+                except sqlite3.OperationalError or mysql.OperationalError:
+                    self.create()
+                    tup = self.cursor.execute(f'SELECT id FROM admins_{self.guild.id} WHERE admin=1;').fetchall()
+
                 admin_list = list(itertools.chain(*tup))
                 if admin_list == None:
                     return []
