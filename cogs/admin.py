@@ -37,9 +37,9 @@ class Admin(commands.Cog):
     # Add a guild administrator
     @admin.subcommand(description="Add an administrator")
     async def add(self, interaction: nextcord.Interaction, user: nextcord.Member):
-        db = Database(interaction.guild, reason='Slash command: `admin add`')
-        admins = db.fetch(interaction.user.id, admin=True, return_list=True)
         if interaction.user.id == interaction.guild.owner_id or interaction.user.id in admins:
+            db = Database(interaction.guild, reason='Slash command: `admin add`')
+            admins = db.fetch(interaction.user.id, admin=True, return_list=True)
             try:
                 if user.id in admins:
                     await interaction.send(f'`{user.name}#{user.discriminator}` is already an admin! ||(Their ID is `{user.id}`)||')
@@ -61,9 +61,9 @@ class Admin(commands.Cog):
     # List administrators
     @admin.subcommand(description='List administrators')
     async def list(self, interaction: nextcord.Interaction):
-        db = Database(interaction.guild, reason='Slash command: `admin list`')
-        admins = db.fetch(interaction.user.id, admin=True, return_list=True)
         if interaction.user.id == interaction.guild.owner_id or interaction.user.id in admins:
+            db = Database(interaction.guild, reason='Slash command: `admin list`')
+            admins = db.fetch(interaction.user.id, admin=True, return_list=True)
             msg = f'**Registered Administrators:**\n'
             try:
                 msg_admins = ''
@@ -88,9 +88,9 @@ class Admin(commands.Cog):
     # Remove administrators
     @admin.subcommand(description='Remove an administrator')
     async def rm(self, interaction: nextcord.Interaction, user: nextcord.Member, mention_user=True):
-        db = Database(interaction.guild, reason='Slash command: `admin rm`')
-        admins = db.fetch(interaction.user.id, admin=True, return_list=True)
         if interaction.user.id == interaction.guild.owner_id or interaction.user.id in admins:
+            db = Database(interaction.guild, reason='Slash command: `admin rm`')
+            admins = db.fetch(interaction.user.id, admin=True, return_list=True)
             if mention_user:
                 show_user = user.mention
             else:
