@@ -36,7 +36,7 @@ class Debug(commands.Cog):
             table = 'Failed to fetch from guild! OperationalError!'
         else:
             await interaction.response.send_message(f"Found these values in table `{t_type}_{db.guild.id}`: ```\n{table} ```")
-        logger.debug(f"Said hello to {interaction.user.name}.")
+        logger.debug(f"Printed db contents for {interaction.user.name}.")
 
 def setup(bot):
     bot.add_cog(Debug(bot))
