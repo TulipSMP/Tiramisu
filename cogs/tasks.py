@@ -21,7 +21,7 @@ class Tasks(commands.Cog):
     async def on_ready(self):
         logger.info('Loaded cog tasks.py')
         # Ensure databases exist for each guild the bot is in
-        guilds = await self.bot.fetch_guilds(limit=None)
+        guilds = self.bot.fetch_guilds(limit=None).flatten()
         logger.info(f'Verifying Database. Guilds: {guilds}')
         for guild in guilds:
             db = Database(guild, reason = f'Verifying database for guild {guild.id} (on start).')
