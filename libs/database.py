@@ -52,7 +52,7 @@ class Database:
         if tables:
             admins_exists = False
             settings_exists = False
-            existing = self.cursor.execute('show tables;')
+            existing = self.cursor.execute('select * from sys.tables;').fetchall()
             if f'admins_{self.guild.id}' in existing:
                 admins_exists = True
             if f'settings_{self.guild.id}' in existing:
