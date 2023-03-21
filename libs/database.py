@@ -14,7 +14,7 @@ class Database:
         with open("config/settings.yml", "r") as ymlfile:
             self.settings = yaml.load(ymlfile, Loader=yaml.FullLoader)
         if self.cfg['storage'] == 'sqlite':
-            self.connect('init for sqlite')
+            self.connect('init')
 
     # Functions
     # Connect to DB
