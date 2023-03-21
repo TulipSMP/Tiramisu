@@ -177,3 +177,15 @@ class Database:
         except self.current_database.OperationalError:
             return False
             logger.warning(f'OperationalError when running raw command: "{command}"!')
+    
+    # Properly close DB
+    @logger.catch
+    def close(self):
+        """ Close the Database, if necessary """
+        if self.db_type == 'sqlite':
+            self.sql.commit()
+            self.sql.close()
+            logger.debug(f'Closed sqlite3 database connection reasoned "{self.reason}".')
+            return True
+        else:
+            return True
