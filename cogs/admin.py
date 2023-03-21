@@ -58,12 +58,12 @@ class Admin(commands.Cog):
             admins = db.fetch(interaction.user.id, admin=True, return_list=True)
             msg = f'**Registered Administrators:**\n'
             try:
-                msg_admins = ''
-                for id in admins:
-                    #usr = self.bot.get_user(id)
-                    #name = usr.name
-                    #msg_admins += f'• {name} `{id}`\n'
-                    msg_admins += f'• `{id}`\n'
+                msg_admins = admins
+                #for id in admins:
+                #    #usr = self.bot.get_user(id)
+                #    #name = usr.name
+                #    #msg_admins += f'• {name} `{id}`\n'
+                #    msg_admins += f'• `{id}`\n'
                 if msg_admins == '':
                     msg = '**No Registered Administrators.**'
                 logger.debug(f"Listed administrators {admins} for {interaction.user.name} ({interaction.user.id})")
