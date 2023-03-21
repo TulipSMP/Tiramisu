@@ -60,9 +60,10 @@ class Admin(commands.Cog):
             try:
                 msg_admins = ''
                 for id in admins:
-                    usr = self.bot.get_user(id)
-                    name = usr.name
-                    msg_admins += f'• {name} `{id}`\n'
+                    #usr = self.bot.get_user(id)
+                    #name = usr.name
+                    #msg_admins += f'• {name} `{id}`\n'
+                    msg_admins += f'• `{id}`\n'
                 if msg_admins == '':
                     msg = '**No Registered Administrators.**'
                 logger.debug(f"Listed administrators {admins} for {interaction.user.name} ({interaction.user.id})")
