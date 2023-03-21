@@ -1,4 +1,6 @@
 # Tiramisu
+##### Code Status: Active Development! Breaking changes and unstability is present this branch.
+
 An open source discord bot for all audiences, developed by the folks at RoseSMP.
 
 ### ⚠️ Not Ready for Production
