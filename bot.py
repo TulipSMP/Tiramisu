@@ -93,7 +93,7 @@ async def load(interaction: nextcord.Interaction, extension=None):
             if extension is None:
                 await interaction.send("Please specify a cog.", ephemeral=True)
             else:
-                bot.load_extension(f'cogs.{extension}', cursor)
+                bot.load_extension(f'cogs.{extension}')
                 await interaction.send(f'Loaded cog `{extension}`!')
         except nextcord.ext.commands.errors.ExtensionAlreadyLoaded:
             await interaction.send(f'The cog `{extension}` is already loaded.')
