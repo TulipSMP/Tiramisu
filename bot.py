@@ -141,7 +141,8 @@ async def reload(interaction: nextcord.Interaction, extension=None):
 @bot.slash_command(description='Stop the bot', guild_ids=[TESTING_GUILD_ID])
 async def stop(interaction: nextcord.Interaction, emergency=False):
     if interaction.user.id in cfg['discord']['co_owners'] or interaction.user.id == cfg['discord']['owner']:
-        cursor.commit()
+        if cfg["storage"] == "sqlite":
+            sql.commit()
         if emergency:
             os.system(f"sed -i 's/Restart=on-success/Restart=no/g' /home/{os.getenv('USER')}/.config/systemd/user/tiramisu.service")
         await interaction.send('**🛑 Stopping the bot!**')
