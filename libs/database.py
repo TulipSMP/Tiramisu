@@ -20,7 +20,7 @@ class Database:
     # Connect to DB
     @logger.catch
     def connect(self, subreason):
-                # Connect to Database
+        # Connect to Database
         if self.cfg["storage"] == "sqlite":
             import sqlite3
             sql = sqlite3.connect('storage.db')
