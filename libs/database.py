@@ -43,7 +43,7 @@ class Database:
         if table == 'settings' or table == None:
             self.cursor.execute(f'CREATE TABLE IF NOT EXISTS settings_{self.guild.id} ( setting string, value string );')
             for setting in self.settings['settings']:
-                self.cursor.execute(f'INSERT INTO settings_{self.guild.id} ( setting, enabled ) VALUES ( {setting}, none );')
+                self.cursor.execute(f'INSERT INTO settings_{self.guild.id} ( setting, value ) VALUES ( "{setting}", "none" );')
             logger.info(f'Created table "settings_{self.guild.id}", if it doesnt already exist!')
     # Verify database exists and is correctly setup
     @logger.catch
