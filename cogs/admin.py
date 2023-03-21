@@ -23,9 +23,6 @@ class Admin(commands.Cog):
     @commands.Cog.listener()
     async def on_ready(self):
         logger.info('Loaded cog admin.py')
-    @commands.Cog.listener()
-    async def on_guild_join(self, guild):
-        self.cursor(f'CREATE TABLE admins_')
 
     # Commands
     @nextcord.slash_command(guild_ids=[TESTING_GUILD_ID])
