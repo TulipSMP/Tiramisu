@@ -22,6 +22,7 @@ else:
 
 with open("config/config.yml", "r") as ymlfile:
     cfg = yaml.load(ymlfile, Loader=yaml.FullLoader)
+    logger.info(f'Successfully loaded config/config.yml: {cfg}')
 
 bot = commands.Bot()
 
