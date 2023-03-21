@@ -37,6 +37,7 @@ class Debug(commands.Cog):
         else:
             await interaction.response.send_message(f"Found these values in table `{t_type}_{db.guild.id}`: ```\n{table} ```")
         logger.debug(f"Printed db contents for {interaction.user.name}.")
+        db.close()
 
 def setup(bot):
     bot.add_cog(Debug(bot))

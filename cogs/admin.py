@@ -49,6 +49,7 @@ class Admin(commands.Cog):
             except Exception as ex:
                 await interaction.send(self.cfg['messages']['error'].replace('[[error]]', str(ex)))
                 logger.exception(f'{ex}')
+            db.close()
         else:
             await interaction.send(self.cfg["messages"]["noperm"], ephemeral=True)
     
@@ -74,7 +75,7 @@ class Admin(commands.Cog):
                 #logger.error(f'Failed to fetch list of admins for guild {db.guild.id}! Error: {ex}', exc_info=True)
             except sqlite3.OperationalError:
                 await interaction.send(self.cfg['messages']['error'])
-                
+            db.close()
         else:
             await interaction.send(self.cfg["messages"]["noperm"], ephemeral=True)
             logger.debug(self.cfg["messages"]["noperm_log"])
@@ -98,6 +99,7 @@ class Admin(commands.Cog):
             except Exception as ex:
                 await interaction.send(self.cfg['messages']['error'].replace('[[error]]', str(ex)))
                 logger.exception(f'{ex}')
+            db.close()
         else:
             await interaction.send(self.cfg["messages"]["noperm"], ephemeral=True)
             logger.debug(self.cfg["messages"]["noperm_log"])
