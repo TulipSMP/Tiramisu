@@ -52,7 +52,10 @@ class Database:
         if tables:
             admins_exists = False
             settings_exists = False
-            existing = self.cursor.execute('select * from information_schema.tables;').fetchall()
+            if self.db_type == 'sqlite':
+                existing = self.cursor.execute('select name from sqlite_schema where type="table" and name not like "sqlite_%";')
+            else:
+                existing = self.cursor.execute('select * from information_schema.tables;').fetchall()
             if f'admins_{self.guild.id}' in existing:
                 admins_exists = True
             if f'settings_{self.guild.id}' in existing:
