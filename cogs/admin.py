@@ -69,7 +69,7 @@ class Admin(commands.Cog):
                 await interaction.send(msg)
             except BaseException as ex:
                 await interaction.send(self.cfg['messages']['error'].replace('[[error]]', str(ex)))
-                #logger.error(f'Failed to fetch list of admins for guild {db.guild.id}! Error: {ex}', exc_info=True)
+                logger.error(f'Failed to fetch list of admins for guild {db.guild.id}! Error: {ex}', exc_info=True)
             except sqlite3.OperationalError:
                 await interaction.send(self.cfg['messages']['error'])
             db.close()
