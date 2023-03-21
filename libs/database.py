@@ -16,6 +16,7 @@ class Database:
         if self.cfg["storage"] == "sqlite":
             import sqlite3
             sql = sqlite3.connect('storage.db')
+            self.sql = sql
             self.cursor = sql.cursor()
             self.db_type = 'sqlite'
             self.current_database = sqlite3
@@ -39,13 +40,15 @@ class Database:
         """ Create Tables for Database required for every guild """
         if table == 'admins' or table == None:
             self.cursor.execute(f'CREATE TABLE IF NOT EXISTS admins_{self.guild.id} ( id int, admin bit );')
-            self.cursor.commit()
+            if self.db_type == 'sqlite':
+                self.sql.commit()
             logger.info(f'Created table "admins_{self.guild.id}", if it doesnt already exist!')
         if table == 'settings' or table == None:
             self.cursor.execute(f'CREATE TABLE IF NOT EXISTS settings_{self.guild.id} ( setting string, value string );')
             for setting in self.settings['settings']:
                 self.cursor.execute(f'INSERT INTO settings_{self.guild.id} ( setting, value ) VALUES ( "{setting}", "none" );')
-            self.cursor.commit()
+            if self.db_type == 'sqlite':
+                self.sql.commit()
             logger.info(f'Created table "settings_{self.guild.id}", if it doesnt already exist!')
     # Verify database exists and is correctly setup
     @logger.catch
@@ -62,7 +65,8 @@ class Database:
                 admins_exists = True
             if f'settings_{self.guild.id}' in existing:
                 settings_exists = True
-            self.cursor.commit()
+            if self.db_type == 'sqlite':
+                self.sql.commit()
         if repair:
             settings_absent = []
             amend_settings = False
@@ -77,7 +81,8 @@ class Database:
             if amend_settings:
                 for setting in settings_absent:
                     self.cursor.execute(f'INSERT INTO settings_{self.guild.id} ( setting, value ) VALUES ( "{setting}", "none" )')
-                self.cursor.commit()
+                if self.db_type == 'sqlite':
+                    self.sql.commit()
         if not admins_exists and repair:
             logger.warning(f'Created admins table for guild {self.guild.id} because it did not exist!')
             self.create(table='admins')
