@@ -73,7 +73,7 @@ class Database:
                     settings_absent.append(setting)
             if amend_settings:
                 for setting in settings_absent:
-                    self.cursor.execute(f'INSERT INTO settings_{self.guild.id} ( setting, enabled ) VALUES ( {setting}, none )')
+                    self.cursor.execute(f'INSERT INTO settings_{self.guild.id} ( setting, value ) VALUES ( {setting}, none )')
         if not admins_exists and repair:
             logger.warning(f'Created admins table for guild {self.guild.id} because it did not exist!')
             self.create(table='admins')
