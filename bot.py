@@ -143,6 +143,7 @@ async def stop(interaction: nextcord.Interaction, emergency=False):
     if interaction.user.id in cfg['discord']['co_owners'] or interaction.user.id == cfg['discord']['owner']:
         if cfg["storage"] == "sqlite":
             sql.commit()
+            sql.close()
         if emergency:
             os.system(f"sed -i 's/Restart=on-success/Restart=no/g' /home/{os.getenv('USER')}/.config/systemd/user/tiramisu.service")
         await interaction.send('**🛑 Stopping the bot!**')
