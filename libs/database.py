@@ -19,8 +19,8 @@ class Database:
     # Functions
     # Connect to DB
     @logger.catch
-    def connect(self, subreason):
-                # Connect to Database
+    def _connect(self, subreason):
+        """ Connect to Database, an internal method. please use .connect()"""
         if self.cfg["storage"] == "sqlite":
             import sqlite3
             sql = sqlite3.connect('storage.db')
@@ -30,19 +30,29 @@ class Database:
             self.current_database = sqlite3
         elif self.cfg["storage"] == "mysql":
             import mysql.connector
-            sql = mysql.connector.connect(
-                host=self.cfg["mysql"]["host"],
-                user=self.cfg["mysql"]["user"],
-                password=self.cfg["mysql"]["pass"],
-                database=self.cfg["mysql"]["db"]
-            )
-            self.cursor = sql.cursor()
-            self.db_type = 'mysql'
-            self.current_database = mysql
+            try:
+                sql = mysql.connector.connect(**{
+                    "host": self.cfg["mysql"]["host"],
+                    "user": self.cfg["mysql"]["user"],
+                    "password": self.cfg["mysql"]["pass"],
+                    "database": self.cfg["mysql"]["db"]
+                })
+                self.db_type = 'mysql'
+                return sql
+            except:
+                logger.exception(f'Could not connect to DB!')
+                return None
         else:
             logger.critical('Invalid storage type! Please edit the "storage" option in config/config.yml to either "mysql" or "sqlite" depending on which database you intend to use.')
             sys.exit(1)
         logger.info(f'Connected to {self.db_type} database in {subreason} for {self.reason}')
+    def connect(self, subreason):
+        """ Connect to database """
+        self.sql = self._connect(subreason)
+        if self.sql is not None:
+            self.cursor = sql.cursor()
+        else:
+            self.critical('Could not connect to database! Is it running? Are the correct options specified in config/config.yml?www')
     # Create database tables
     @logger.catch
     def create(self, table=None):
