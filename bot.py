@@ -10,11 +10,12 @@ import shutil
 
 # Ensure Config exists:
 if os.path.exists('config/config.yml'):
-    logger.debug('Successfully found config/config.yml')
+    logger.info('Successfully found config/config.yml!')
 else:
     try:
         shutil.copyfile('config/exampleconfig.yml','config/config.yml')
-        logger.error(f'Bot is not configured! Please edit config/config.yml')
+        logger.critical(f'Bot is not configured! Please edit config/config.yml')
+        sys.exit(1)
     except BaseException as e:
         logger.critical(f'{e}: Could not find config file! Try re-cloning the git repository.')
         sys.exit(1)
