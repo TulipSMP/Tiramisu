@@ -29,10 +29,10 @@ bot = commands.Bot()
 TESTING_GUILD_ID=cfg["discord"]["testing_guild"]
 
 # Database
-logger.info("Using Database Storage...")
 if cfg["storage"] == "sqlite":
     sql = sqlite3.connect('storage.db')
     cursor = sql.cursor()
+    logger.info(f'Using sqlite storage: storage.db')
 else:
     import mysql.connector
     sql = mysql.connector.connect(
@@ -42,6 +42,7 @@ else:
         database=cfg["mysql"]["db"]
     )
     cursor = sql.cursor()
+    logger.info(f'Using mySQL storage: {cfg["mysql"]["user"]}@{cfg["mysql"]["host"]}, database: {cfg["mysql"]["db"]}')
 
 # Load Adminsitrators from DB
 cursor = sql.cursor()
