@@ -46,11 +46,6 @@ class Admin(commands.Cog):
                     if db.set('admin', user.id):
                         logger.debug(f'{interaction.user.name} added {user.name} as bot administrator')
                         await interaction.send(f"Added {user.mention} as an admin.")
-                    else:
-                        logger.warning(f'Failed to add {user.name}#{user.discriminator} as an admin in guild {db.guild.id}!')
-                        await interaction.send(f'Could not add __{user.name}#{user.discriminator}__ as an admin!')
-                    
-                
             except Exception as ex:
                 await interaction.send(self.cfg['messages']['error'].replace('[[error]]', str(ex)))
                 logger.exception(f'{ex}')
