@@ -83,7 +83,11 @@ class Database:
         if repair:
             settings_absent = []
             amend_settings = False
-            tup = self.cursor.execute(f'SELECT setting FROM settings_{self.guild.id};').fetchall()
+            try:
+                tup = self.cursor.execute(f'SELECT setting FROM settings_{self.guild.id};').fetchall()
+            except self.current_database.OperationalError:
+                self.create('settings')
+                tup = self.cursor.execute(f'SELECT setting FROM settings_{self.guild.id};').fetchall()
             existing = list(itertools.chain(*tup))
             for setting in self.settings['settings']:
                 if setting in existing:
