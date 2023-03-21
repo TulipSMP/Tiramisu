@@ -145,3 +145,23 @@ class Database:
             except:
                 logger.warning(f'Failed to set value {setting} to {value} for table settings_{self.guild.id}!')
                 return False
+    
+    # Send raw commands to Database
+    @logger.catch
+    def raw(self, command, fetchall=True, fetchone=False):
+        """ Send a raw SQL query to the SQL server 
+        remember to use the correct table, admins_{self.guild.id} or settings_{self.guild.id}
+        Options: fetchall - use `.fetchall()` method and return result (default True)
+                 fetchone - use `.fetchone()` method and return result (default False)
+                 If both are false, execute bare command and return true if successful """
+        try:
+            if fetchone:
+                return self.cursor.execute(command).fetchone()
+            elif fetchall:
+                return self.cursor.execute(command).fetchall()
+            else:
+                self.cursor.execute(command)
+                return True
+        except self.current_database.OperationalError:
+            return False
+            logger.warning(f'OperationalError when running raw command: "{command}"!')
