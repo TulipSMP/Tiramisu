@@ -32,7 +32,10 @@ class Debug(commands.Cog):
         else:
             t_type = 'admin'
         table = db.raw(f'select * from {t_type}_{db.guild.id};')
-        await interaction.response.send_message(f"Found these values in table `{t_type}_{db.guild.id}`: ```\n{table} ```")
+        if table == False:
+            table = 'Failed to fetch from guild! OperationalError!'
+        else:
+            await interaction.response.send_message(f"Found these values in table `{t_type}_{db.guild.id}`: ```\n{table} ```")
         logger.debug(f"Said hello to {interaction.user.name}.")
 
 def setup(bot):
