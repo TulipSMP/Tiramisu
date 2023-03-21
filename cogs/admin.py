@@ -12,7 +12,6 @@ class Admin(commands.Cog):
         # Load Yaml
         with open("config/config.yml", "r") as ymlfile:
             cfg = yaml.load(ymlfile, Loader=yaml.FullLoader)
-        logger.info(f'CONFIG.yml:\n{cfg}')
         self.cfg = cfg
     
     with open("config/config.yml", "r") as ymlfile:
