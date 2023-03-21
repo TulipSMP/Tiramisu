@@ -23,10 +23,10 @@ class Database:
         else:
             import mysql.connector
             sql = mysql.connector.connect(
-                host=cfg["mysql"]["host"],
-                user=cfg["mysql"]["user"],
-                password=cfg["mysql"]["pass"],
-                database=cfg["mysql"]["db"]
+                host=self.cfg["mysql"]["host"],
+                user=self.cfg["mysql"]["user"],
+                password=self.cfg["mysql"]["pass"],
+                database=self.cfg["mysql"]["db"]
             )
             self.cursor = sql.cursor()
             self.db_type = 'mysql'
