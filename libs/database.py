@@ -1,9 +1,10 @@
 from logging42 import logger
 import yaml
 import itertools
+import sys
 
 class Database:
-    """ Fetch & Write information from Database """
+    """ Fetch & Write information to/from from Database """
     def __init__(self, guild, reason='No Reason Specified'):
         self.guild = guild
         self.reason = reason
@@ -12,7 +13,14 @@ class Database:
             self.cfg = yaml.load(ymlfile, Loader=yaml.FullLoader)
         with open("config/settings.yml", "r") as ymlfile:
             self.settings = yaml.load(ymlfile, Loader=yaml.FullLoader)
-        # Connect to Database
+        if self.cfg['storage'] == 'sqlite':
+            self.connect('init for sqlite')
+
+    # Functions
+    # Connect to DB
+    @logger.catch
+    def connect(self, subreason):
+                # Connect to Database
         if self.cfg["storage"] == "sqlite":
             import sqlite3
             sql = sqlite3.connect('storage.db')
@@ -20,7 +28,7 @@ class Database:
             self.cursor = sql.cursor()
             self.db_type = 'sqlite'
             self.current_database = sqlite3
-        else:
+        elif self.cfg["storage"] == "mysql":
             import mysql.connector
             sql = mysql.connector.connect(
                 host=self.cfg["mysql"]["host"],
@@ -31,13 +39,16 @@ class Database:
             self.cursor = sql.cursor()
             self.db_type = 'mysql'
             self.current_database = mysql
-        logger.info(f'Initiated connection to {self.db_type} database for {self.reason}.')
-
-    # Functions
+        else:
+            logger.critical('Invalid storage type! Please edit the "storage" option in config/config.yml to either "mysql" or "sqlite" depending on which database you intend to use.')
+            sys.exit(1)
+        logger.info(f'Connected to {self.db_type} database in {subreason} for {self.reason}')
     # Create database tables
     @logger.catch
     def create(self, table=None):
         """ Create Tables for Database required for every guild """
+        if self.cfg['storage'] == 'mysql':
+            self.connect('create')
         if table == 'admins' or table == None:
             self.cursor.execute(f'CREATE TABLE IF NOT EXISTS admins_{self.guild.id} ( id int, admin bit );')
             if self.db_type == 'sqlite':
@@ -54,6 +65,8 @@ class Database:
     @logger.catch
     def verify(self, tables=True, repair=True):
         """ Make sure tables exist, and create them if they dont """
+        if self.cfg['storage'] == 'mysql':
+            self.connect('verify')
         if tables:
             admins_exists = False
             settings_exists = False
@@ -95,6 +108,8 @@ class Database:
     @logger.catch
     def fetch(self, setting, return_list=False, admin=False):
         """ Fetch information from Database """
+        if self.cfg['storage'] == 'mysql':
+            self.connect('fetch')
         if admin:
             if return_list:
                 try:
@@ -125,6 +140,8 @@ class Database:
     def set(self, setting, value, clear=False):
         """ Set values within the Database. Returns true if successful.
         If value is None, an admin will be removed or a setting will be set to none """
+        if self.cfg['storage'] == 'mysql':
+            self.connect('set')
         if setting == 'admin' and clear == True:
             try:
                 self.cursor.execute(f'DELETE FROM admins_{self.guild.id} WHERE id IS {value}')
@@ -166,6 +183,8 @@ class Database:
         Options: fetchall - use `.fetchall()` method and return result (default True)
                  fetchone - use `.fetchone()` method and return result (default False)
                  If both are false, execute bare command and return true if successful """
+        if self.cfg['storage'] == 'mysql':
+            self.connect('raw')
         try:
             if fetchone:
                 return self.cursor.execute(command).fetchone()
