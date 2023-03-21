@@ -55,10 +55,10 @@ class Admin(commands.Cog):
     async def list(self, interaction: nextcord.Interaction):
         if interaction.user.id == interaction.guild.owner_id or interaction.user.id in admins:
             db = Database(interaction.guild, reason='Slash command: `admin list`')
-            admins = db.fetch(interaction.user.id, admin=True, return_list=True)
             msg = f'**Registered Administrators:**\n'
             try:
-                msg_admins = admins
+                msg_admins = db.fetch(interaction.user.id, admin=True, return_list=True)
+                logger.info('ADMINS TABLE:' + msg_admins)
                 #for id in admins:
                 #    #usr = self.bot.get_user(id)
                 #    #name = usr.name
