@@ -33,10 +33,11 @@ class Debug(commands.Cog):
             t_type = 'admin'
         table = db.raw(f'select * from {t_type}_{db.guild.id};')
         if table == False:
-            table = 'Failed to fetch from guild! OperationalError!'
+            table = 'Failed to fetch from database! OperationalError!'
+            logger.warning('Failed to fetch data from database!')
         else:
-            await interaction.response.send_message(f"Found these values in table `{t_type}_{db.guild.id}`: ```\n{table} ```")
-        logger.debug(f"Printed db contents for {interaction.user.name}.")
+            logger.debug(f"Printing db contents for {interaction.user.name}.")
+        await interaction.response.send_message(f"Found these values in table `{t_type}_{db.guild.id}`: ```\n{table} ```")
         db.close()
 
 def setup(bot):
