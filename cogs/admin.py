@@ -66,7 +66,7 @@ class Admin(commands.Cog):
                 #    msg_admins += f'• `{id}`\n'
                 if msg_admins == '':
                     msg = '**No Registered Administrators.**'
-                logger.debug(f"Listed administrators {admins} for {interaction.user.name} ({interaction.user.id})")
+                logger.debug(f"Listed administrators for {interaction.user.name} ({interaction.user.id})")
                 await interaction.send(msg)
             except BaseException as ex:
                 await interaction.send(self.cfg['messages']['error'].replace('[[error]]', str(ex)))
