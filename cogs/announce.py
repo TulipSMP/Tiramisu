@@ -3,6 +3,7 @@ import nextcord
 from nextcord.ext import commands
 import yaml
 from libs.database import Database
+from typing import Optional
 
 class Announce(commands.Cog):
     def __init__(self, bot):
@@ -19,7 +20,8 @@ class Announce(commands.Cog):
 
     # Commands
     @nextcord.slash_command(description="Make an announcement", guild_ids=[TESTING_GUILD_ID])
-    async def announce(self, interaction: nextcord.Interaction, announcement: str, ping=False):
+    async def announce(self, interaction: nextcord.Interaction, 
+        announcement: str, ping: Optional[bool] = nextcord.SlashOption(required=False, description='Should your announcement role be pinged?')):
         db = Database(interaction.guild, reason = 'Slash command `/announce`')
         if interaction.user.id in db.fetch('admins'):
             channel = db.fetch('announcement_channel')
