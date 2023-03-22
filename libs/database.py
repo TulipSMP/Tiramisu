@@ -125,9 +125,9 @@ class Database:
                 admin_list.remove(1)
                 return admin_list
             else:
-                return self.cursor.execute(f'SELECT id FROM admins_{self.guild.id} WHERE id={setting};').fetchone()
+                return self.cursor.execute(f'SELECT id FROM "admins_{self.guild.id}" WHERE id="{setting}";').fetchone()
         else:
-            self.cursor.execute(f'SELECT enabled FROM settings_{self.guild.id} WHERE setting={setting};')
+            self.cursor.execute(f'SELECT enabled FROM "settings_{self.guild.id}" WHERE setting="{setting}";')
             if return_list:
                 tup = self.cursor.fetchall()
                 return list(itertools.chain(*tup))
