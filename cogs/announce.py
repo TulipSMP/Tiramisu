@@ -37,6 +37,7 @@ Set it by copying the ID of the role, and using the command `/setting set settin
                     channel_obj = None
                 try:
                     role_obj = interaction.guild.get_role(int(role))
+                    logger.success(f'Role object is: {role_obj}')
                 except ValueError:
                     role_obj = None
                 if channel_obj == None:
