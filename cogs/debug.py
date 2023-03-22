@@ -42,7 +42,7 @@ class Debug(commands.Cog):
             await interaction.response.send_message(f"Found these values in table `{t_type}_{db.guild.id}`: ```\n{table} ```\nType: `{type(table)}`\
                 \nAre you (`{interaction.user.id}`) in list?: `{interaction.user.id in table}`")
         else:
-            await interaction.response.send_message(f"Found these values in table `{t_type}_{db.guild.id}`: ```\n{table} ```")
+            await interaction.response.send_message(f"Sending data to log")
             logger.info(f'Found this data in "{t_type}_{db.guild.id}":\n{table}')
         db.close()
 
