@@ -154,7 +154,7 @@ class Database:
     # Fetch information from DB
     # Default to settings if no table is specified
     @logger.catch
-    def fetch(self, setting, return_list=False, admin=False, verifying_settings=False):
+    def fetch(self, setting, admin=False, verifying_settings=False):
         """ Fetch information from Database """
         if self.cfg['storage'] == 'mysql':
             self.connect('fetch')
@@ -176,12 +176,8 @@ class Database:
                 else:
                     return False
             else:
-                self.cursor.execute(f'SELECT value FROM "settings_{self.guild.id}" WHERE setting="{setting}";')
-                if return_list:
-                    tup = self.cursor.fetchall()
-                    return list(itertools.chain(*tup))
-                else:
-                    return self.cursor.fetchone()
+                tup = self.cursor.execute(f'SELECT value FROM "settings_{self.guild.id}" WHERE setting="{setting}";').fetchone()
+                return tup.replace('(', '').replace(')', '').replace("'", '').replace(',', '')
 
             
     # Change information in DB
