@@ -76,20 +76,18 @@ class Database:
                 existing = self.cursor.execute('select * from information_schema.tables;').fetchall()
             if f'admins_{self.guild.id}' in existing:
                 admins_exists = True
+                logger.success(f'Admins table exists for guild {self.guild.id}')
             if f'settings_{self.guild.id}' in existing:
                 settings_exists = True
+                logger.success(f'Settings table exists for guild {self.guild.id}')
             if self.db_type == 'sqlite':
                 self.sql.commit()
         if repair:
             settings_absent = []
             amend_settings = False
-            #try:
-            #    tup = self.cursor.execute(f'SELECT setting FROM settings_{self.guild.id};').fetchall()
-            #except self.current_database.OperationalError:
-            #    self.create('settings')
-            #    tup = self.cursor.execute(f'SELECT setting FROM settings_{self.guild.id};').fetchall()
+            table = db.raw(f'select * from "settings_{db.guild.id}";')
             for setting in self.settings['settings']:
-                if self.fetch(setting, verifying_settings=True):
+                if setting in table:
                     pass
                 else:
                     settings_absent.append(setting)
