@@ -35,7 +35,7 @@ class Moderation(commands.Cog):
         show_message='Whether to publicly display a warn in your current channel, in addition to a DM.'):
         """ Warn a User """
         db = Database(interaction.guild.id, reason=f'Check for permission, `/warn`')
-        if interaction.user.id in db.fetch('admins'):
+        if interaction.user_id in db.fetch('admins'):
             try:
                 await user.send(f"*You have been warned in __{interaction.guild.name}__! For:*\n> **{reason}**\n\
                     Please make sure you have read this server's rules.")
