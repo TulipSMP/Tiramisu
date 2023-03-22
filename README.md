@@ -1,5 +1,5 @@
 # Tiramisu
-##### Code Status: Active Development! Breaking changes and unstability is present this branch.
+##### Code Status: Active Development! Breaking changes and unstability are present this branch.
 
 An open source discord bot for all audiences, developed by the folks at RoseSMP.
 
@@ -55,4 +55,4 @@ There's a lot of things we'd like to do with this bot, but here's a general idea
 - [x] Load most reused messages from yaml
 - [x] Get bot token from yaml
 - [ ] Get role and guild IDs from db
-- [ ] Guild-specific settings system via db
+- [x] Guild-specific settings system via db

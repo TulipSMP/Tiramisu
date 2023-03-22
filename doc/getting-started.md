@@ -32,6 +32,7 @@ py -m pip install -r requirements.txt
 
 
 ### Database
+###### NOTE: If you're using SQLite, you can skip the mysql portions entirely.
 
 You'll need a MySQL database running for this bot to store data in. If you don't know how to setup a MySQL database you can check [their documentation](https://dev.mysql.com/doc/mysql-getting-started/en/). 
 
