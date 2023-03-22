@@ -198,8 +198,8 @@ class Database:
                 self.cursor.execute(command)
                 return True
         except self.current_database.OperationalError:
-            return False
             logger.warning(f'OperationalError when running raw command: "{command}"!')
+            return False
     
     # Properly close DB
     @logger.catch
