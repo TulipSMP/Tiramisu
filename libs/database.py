@@ -121,8 +121,9 @@ class Database:
                 self.create()
                 tup = self.cursor.execute(f'SELECT * FROM "admins_{self.guild.id}";').fetchall()
             admin_list = list(itertools.chain(*tup))
-            while 1 in admin_list:
-                admin_list.remove(1)
+            for item in admin_list:
+                if item == 1:
+                    admin_list.remove(1)
             return admin_list
         else:
             self.cursor.execute(f'SELECT enabled FROM "settings_{self.guild.id}" WHERE setting="{setting}";')
