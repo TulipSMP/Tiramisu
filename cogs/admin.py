@@ -62,7 +62,8 @@ class Admin(commands.Cog):
                     if mention_admins:
                         msg_admins += f'• <@{admin}> `{admin}`\n'
                     else:
-                        msg_admins += f'• {admin}'
+                        admin_object = self.client.get_user(admin)
+                        msg_admins += f'• {admin_object.display_name}#{admin_object.discriminator} `{admin}`'
                 logger.debug(f"Listed administrators for {interaction.user.name} ({interaction.user.id})")
                 await interaction.send(msg + msg_admins)
             except BaseException as ex:
