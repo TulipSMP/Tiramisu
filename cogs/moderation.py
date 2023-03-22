@@ -31,7 +31,7 @@ class Moderation(commands.Cog):
 
     # Commands
     @nextcord.slash_command(description="Warn a User", guild_ids=[TESTING_GUILD_ID])
-    async def warn(interaction: nextcord.Interaction, user: nextcord.Member, reason='No reason given.',
+    async def warn(self, interaction: nextcord.Interaction, user: nextcord.Member, reason='No reason given.',
         show_message='Whether to publicly display a warn in your current channel, in addition to a DM.'):
         """ Warn a User """
         db = Database(interaction.guild.id, reason=f'Check for permission, `/warn`')
@@ -56,9 +56,9 @@ class Moderation(commands.Cog):
                 await interaction.send(error(e), ephemeral=True)
         else:
             await interaction.response.send(noperm('warn', interaction), ephemeral=True)
-
-    @commands.command(description="Make an announcement!", guild_ids=[TESTING_GUILD_ID])
-    async def announce(interaction: nextcord.Interaction, ping: bool, message: str):
+"""
+    @nextcord.slash_command(description="Make an announcement!", guild_ids=[TESTING_GUILD_ID])
+    async def announce(self, interaction: nextcord.Interaction, ping: bool, message: str):
         if interaction.user.get_role(staff):
             try:
                 if ping:
@@ -72,7 +72,7 @@ class Moderation(commands.Cog):
                 await interaction.send(error(e), ephemeral=True)
         else:
             await interaction.response.send(noperm('announce', interaction), ephemeral=True)
-
+"""
 def setup(bot):
     bot.add_cog(Moderation(bot))
     logger.debug('Setup cog "moderation"')
