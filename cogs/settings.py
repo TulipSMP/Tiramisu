@@ -75,6 +75,7 @@ class Settings(commands.Cog):
                 await interaction.send(message)
             else:
                 message = f'No such setting. Use `/setting get setting:all` to see available settings.'
+            db.close()
         else:
             await interaction.send(self.cfg['messages']['noperm'], ephemeral=True)
     
