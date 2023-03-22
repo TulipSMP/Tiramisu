@@ -20,7 +20,7 @@ class Settings(commands.Cog):
         logger.info('Loaded cog settings.py')
 
     # Commands
-    @nextcord.slash_command(description='Change and view settings', testing_guild=[TESTING_GUILD_ID])
+    @nextcord.slash_command(description='Change and view settings', guild_ids=[TESTING_GUILD_ID])
     def setting(self, interaction: nextcord.Interaction):
         pass
 
