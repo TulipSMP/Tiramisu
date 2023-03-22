@@ -27,6 +27,7 @@ class Announce(commands.Cog):
         if interaction.user.id in db.fetch('admins'):
             channel = db.fetch('announcement_channel')
             role = db.fetch('announcement_role')
+            logger.success(f'[DEBUG MESSAGE] Announcement channel: {role}')
             if channel == 'none':
                 await interaction.send('The announcement channel is not set!\n\
 Set it by copying the ID of the channel, and using the command `/setting set setting:announcement_channel`.')
