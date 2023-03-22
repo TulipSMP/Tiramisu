@@ -6,31 +6,33 @@ import os
 import sys
 import sqlite3
 import yaml
-from shutil import copyfile
+import shutil
+
+# Ensure Config exists:
+if os.path.exists('config/config.yml'):
+    logger.info('Successfully found config/config.yml!')
+else:
+    try:
+        shutil.copyfile('config/exampleconfig.yml','config/config.yml')
+        logger.critical(f'Bot is not configured! Please edit config/config.yml')
+        sys.exit(1)
+    except BaseException as e:
+        logger.critical(f'{e}: Could not find config file! Try re-cloning the git repository.')
+        sys.exit(1)
 
 with open("config/config.yml", "r") as ymlfile:
     cfg = yaml.load(ymlfile, Loader=yaml.FullLoader)
+    logger.info(f'Successfully loaded config/config.yml: {cfg}')
 
 bot = commands.Bot()
 
 TESTING_GUILD_ID=cfg["discord"]["testing_guild"]
 
-# Ensure Config exists:
-if os.path.exists('config/config.yml'):
-    logger.debug('Successfully found config/config.yml')
-else:
-    try:
-        shutil.copyfile('config/exampleconfig.yml','config/config.yml')
-        logger.error(f'Bot is not configured! Please edit config/config.yml')
-    except BaseException as e:
-        logger.critical(f'{e}: Could not find config file! Try re-cloning the git repository.')
-        sys.exit(1)
-
 # Database
-logger.info("Using Database Storage...")
 if cfg["storage"] == "sqlite":
     sql = sqlite3.connect('storage.db')
     cursor = sql.cursor()
+    logger.info(f'Using sqlite storage: storage.db')
 else:
     import mysql.connector
     sql = mysql.connector.connect(
@@ -40,6 +42,7 @@ else:
         database=cfg["mysql"]["db"]
     )
     cursor = sql.cursor()
+    logger.info(f'Using mySQL storage: {cfg["mysql"]["user"]}@{cfg["mysql"]["host"]}, database: {cfg["mysql"]["db"]}')
 
 # Load Adminsitrators from DB
 cursor = sql.cursor()
@@ -91,7 +94,7 @@ async def load(interaction: nextcord.Interaction, extension=None):
             if extension is None:
                 await interaction.send("Please specify a cog.", ephemeral=True)
             else:
-                bot.load_extension(f'cogs.{extension}', cursor)
+                bot.load_extension(f'cogs.{extension}')
                 await interaction.send(f'Loaded cog `{extension}`!')
         except nextcord.ext.commands.errors.ExtensionAlreadyLoaded:
             await interaction.send(f'The cog `{extension}` is already loaded.')
@@ -138,9 +141,12 @@ async def reload(interaction: nextcord.Interaction, extension=None):
 @bot.slash_command(description='Stop the bot', guild_ids=[TESTING_GUILD_ID])
 async def stop(interaction: nextcord.Interaction, emergency=False):
     if interaction.user.id in cfg['discord']['co_owners'] or interaction.user.id == cfg['discord']['owner']:
+        if cfg["storage"] == "sqlite":
+            sql.commit()
+            sql.close()
         if emergency:
             os.system(f"sed -i 's/Restart=on-success/Restart=no/g' /home/{os.getenv('USER')}/.config/systemd/user/tiramisu.service")
-        await interaction.send('**⚠️ Stopping the bot!**')
+        await interaction.send('**🛑 Stopping the bot!**')
         logger.info(f'{interaction.user} stopped the bot.')
         sys.exit("Stopping...")
     else:

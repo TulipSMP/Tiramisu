@@ -4,43 +4,25 @@ from nextcord.ext import commands
 import yaml
 import mysql.connector
 import sqlite3
+from libs.database import Database
 
 class Admin(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
-
-    # Load Yaml
+        # Load Yaml
+        with open("config/config.yml", "r") as ymlfile:
+            cfg = yaml.load(ymlfile, Loader=yaml.FullLoader)
+        self.cfg = cfg
+    
     with open("config/config.yml", "r") as ymlfile:
         cfg = yaml.load(ymlfile, Loader=yaml.FullLoader)
-    logger.info(f'CONFIG.yml:\n{cfg}')
-    # Load instance owner from yaml
-    botowner = cfg["discord"]["owner"]
-
     # Test guild ID
     TESTING_GUILD_ID=cfg["discord"]["testing_guild"]
-
-    # Database
-    logger.debug("Logging into DB from admin.py")
-    if cfg["storage"] == "sqlite":
-        sql = sqlite3.connect('storage.db')
-        cursor = sql.cursor()
-    else:
-        import mysql.connector
-        sql = mysql.connector.connect(
-            host=cfg["mysql"]["host"],
-            user=cfg["mysql"]["user"],
-            password=cfg["mysql"]["pass"],
-            database=cfg["mysql"]["db"]
-        )
-        cursor = sql.cursor()
 
     # Events
     @commands.Cog.listener()
     async def on_ready(self):
         logger.info('Loaded cog admin.py')
-    @commands.Cog.listener()
-    async def on_guild_join(self, guild):
-        self.cursor(f'CREATE TABLE admins_')
 
     # Commands
     @nextcord.slash_command(guild_ids=[TESTING_GUILD_ID])
@@ -48,30 +30,48 @@ class Admin(commands.Cog):
         pass
         # This command is to set up the following as subcommands
     
-    # Add an instance administrator
+    # Add a guild administrator
     @admin.subcommand(description="Add an administrator")
     async def add(self, interaction: nextcord.Interaction, user: nextcord.Member):
-        if interaction.user.id == self.botowner or interaction.user.id in admins:
-            cursor = self.sql.cursor()
+        if interaction.user.id == interaction.guild.owner_id or interaction.user.id in admins:
+            db = Database(interaction.guild, reason='Slash command: `admin add`')
+            admins = db.fetch(interaction.user.id, admin=True, return_list=True)
             try:
-                cursor.execute(f"INSERT INTO admins (id, permission) VALUES ('{user.id}', 1);")
-                await interaction.send(f"Added {user.mention} as an admin.")
-                logger.debug(f'{interaction.user.name} added {user.name} as bot administrator')
+                if user.id in admins:
+                    await interaction.send(f'`{user.name}#{user.discriminator}` is already an admin! ||(Their ID is `{user.id}`)||')
+                else:
+                    if db.set('admin', user.id):
+                        logger.debug(f'{interaction.user.name} added {user.name} as bot administrator')
+                    await interaction.send(f"Added {user.mention} as an admin.")
             except Exception as ex:
-                await interaction.send(f'**An Error occured:**\n```\n{ex}\n```\nPlease contact the devs.')
+                await interaction.send(self.cfg['messages']['error'].replace('[[error]]', str(ex)))
                 logger.exception(f'{ex}')
+            db.close()
         else:
-            await interaction.send(cfg["messages"]["noperm"], ephemeral=True)
+            await interaction.send(self.cfg["messages"]["noperm"], ephemeral=True)
     
     # List administrators
     @admin.subcommand(description='List administrators')
-    async def list(self, interaction: nextcord.Interaction):
-        if interaction.user.id == self.botowner or interaction.user.id in self.admins:
+    async def list(self, interaction: nextcord.Interaction, mention_admins=True):
+        if interaction.user.id == interaction.guild.owner_id or interaction.user.id in admins:
+            db = Database(interaction.guild, reason='Slash command: `admin list`')
             msg = f'**Registered Administrators:**\n'
-            for id in self.admins:
-                msg += f'• {id}\n'
-            await interaction.send(msg)
-            logger.debug(f"Listed administrators {self.admins} for {interaction.user.name} ({interaction.user.id})")
+            try:
+                msg_admins = ''
+                for admin in db.fetch('admins'):
+                    if mention_admins:
+                        msg_admins += f'• <@{admin}> `{admin}`\n'
+                    else:
+                        msg_agmins += f'• {admin}'
+                logger.debug(f"Listed administrators for {interaction.user.name} ({interaction.user.id})")
+                msg += msg_admins
+                await interaction.send(msg)
+            except BaseException as ex:
+                await interaction.send(self.cfg['messages']['error'].replace('[[error]]', str(ex)))
+                logger.error(f'Failed to fetch list of admins for guild {db.guild.id}! Error: {ex}', exc_info=True)
+            except sqlite3.OperationalError:
+                await interaction.send(self.cfg['messages']['error'])
+            db.close()
         else:
             await interaction.send(self.cfg["messages"]["noperm"], ephemeral=True)
             logger.debug(self.cfg["messages"]["noperm_log"])
@@ -79,21 +79,23 @@ class Admin(commands.Cog):
     # Remove administrators
     @admin.subcommand(description='Remove an administrator')
     async def rm(self, interaction: nextcord.Interaction, user: nextcord.Member, mention_user=True):
-        if interaction.user.id == self.botowner or interaction.user.id in self.admins:
-            cursor = self.sql.cursor()
+        if interaction.user.id == interaction.guild.owner_id or interaction.user.id in admins:
+            db = Database(interaction.guild, reason='Slash command: `admin rm`')
+            admins = db.fetch(interaction.user.id, admin=True, return_list=True)
             if mention_user:
                 show_user = user.mention
             else:
                 show_user = user.name
             try:
-                if user.id in self.admins:
-                    cursor.execute(f'DELETE FROM TABLE WHERE id IS {user.id}')
+                if user.id in admins:
+                    db.set('admin', user.id, clear=True)
                     await interaction.send(f'Removed {show_user} from admins.')
                 else:
                     await interaction.send(f'User {user.name} (ID: {user.id}) is not an admin.')
             except Exception as ex:
-                await interaction.send(f'**An Error occured:**\n```\n{ex}\n```\nPlease contact the devs.')
+                await interaction.send(self.cfg['messages']['error'].replace('[[error]]', str(ex)))
                 logger.exception(f'{ex}')
+            db.close()
         else:
             await interaction.send(self.cfg["messages"]["noperm"], ephemeral=True)
             logger.debug(self.cfg["messages"]["noperm_log"])

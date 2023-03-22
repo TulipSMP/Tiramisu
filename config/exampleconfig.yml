@@ -18,10 +18,10 @@ discord:
 # List of .py files in `cogs/` to NOT load.
 # If a file ends in .py and is in `cogs/` it will be loaded by default
 cog_dontload:
-  - 'database_functions.py'
+  - 'bad_example.py'
 
 # Commonly used messages for fetching information
 messages:
   noperm: '**🚫 No permission**'
   noperm_log: '[[user]] (ID: [[user_id]]) tried to run "[[command]]" but doesnt have permission!'
-  error: '⚠️ **An Error Occured!**\n```\n[[error]]\n```\nPlease report this to the devs.'
+  error: '⚠️ **An Error Occured!** ``` [[error]] ``` Please report this to the devs.'
