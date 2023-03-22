@@ -206,7 +206,7 @@ class Database:
                 return False
         elif clear == True:
             try:
-                self.cursor.execute(f"UPDATE settings_{self.guild.id} SET enabled = (CASE WHEN setting = '{setting}' THEN enabled = 'none'")
+                self.cursor.execute(f'UPDATE "settings_{self.guild.id}" SET value="{value}" WHERE setting="none"')
                 logger.info(f'Set {setting} to {value} for table settings_{self.guild.id}')
                 return True
             except:
@@ -214,7 +214,7 @@ class Database:
                 return False
         else:
             try:
-                self.cursor.execute(f"UPDATE settings_{self.guild.id} SET enabled = (CASE WHEN setting = '{setting}' THEN enabled = '{value}'")
+                self.cursor.execute(f'UPDATE "settings_{self.guild.id}" SET value="{value}" WHERE setting="{setting}"')
                 logger.info(f'Set {setting} to {value} for table settings_{self.guild.id}')
                 return True
             except:
