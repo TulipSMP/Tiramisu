@@ -52,8 +52,7 @@ class Admin(commands.Cog):
     
     # List administrators
     @admin.subcommand(description='List administrators')
-    async def list(self, interaction: nextcord.Interaction, mention_admins=nextcord.SlashOption(description='Should admins be pinged in the list?',
-            required=False, choices=bool, default=False)):
+    async def list(self, interaction: nextcord.Interaction, mention_admins=False):
         if interaction.user.id == interaction.guild.owner_id or interaction.user.id in admins:
             db = Database(interaction.guild, reason='Slash command: `admin list`')
             msg = f'**Registered Administrators:**\n'
