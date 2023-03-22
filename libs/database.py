@@ -117,10 +117,10 @@ class Database:
         if admin or setting == 'admins':
             if return_list:
                 try:
-                    tup = self.cursor.execute(f'SELECT id FROM admins_{self.guild.id} WHERE admin=1;').fetchall()
+                    tup = self.cursor.execute(f'SELECT id FROM admins_{self.guild.id};').fetchall()
                 except self.current_database.OperationalError:
                     self.create()
-                    tup = self.cursor.execute(f'SELECT id FROM admins_{self.guild.id} WHERE admin=1;').fetchall()
+                    tup = self.cursor.execute(f'SELECT id FROM admins_{self.guild.id};').fetchall()
 
                 admin_list = list(itertools.chain(*tup))
                 if admin_list == None:
