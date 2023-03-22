@@ -85,7 +85,7 @@ class Database:
         if repair:
             settings_absent = []
             amend_settings = False
-            table = db.raw(f'select * from "settings_{db.guild.id}";')
+            table = db.raw(f'select * from "settings_{self.guild.id}";')
             for setting in self.settings['settings']:
                 if setting in table:
                     pass
