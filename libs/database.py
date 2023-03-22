@@ -126,7 +126,7 @@ class Database:
             return admin_list
         else:
             if verifying_settings:
-                if setting in self.raw(f'SELECT setting FROM "settings_{self.guild.id}" WHERE setting="{setting}"'):
+                if setting in self.cursor.execute(f'SELECT setting FROM "settings_{self.guild.id}" WHERE setting="{setting}"').fetchall():
                     return True
                 else:
                     return False
