@@ -85,7 +85,11 @@ class Database:
         if repair:
             settings_absent = []
             amend_settings = False
-            table = self.raw(f'select * from "settings_{self.guild.id}";')
+            try:
+                table = self.cursor.execute(f'select * from "settings_{self.guild.id}";').fetchall()
+            except self.current_database.OperationalError:
+                self.create(table='settings')
+                table = self.cursor.execute(f'select * from "settings_{self.guild.id}";').fetchall()
             for setting in self.settings['settings']:
                 if setting in table:
                     pass
