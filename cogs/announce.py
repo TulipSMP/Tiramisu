@@ -32,8 +32,14 @@ Set it by copying the ID of the channel, and using the command `/setting set set
                 await interaction.send('The announcement role is not set!\n\
 Set it by copying the ID of the role, and using the command `/setting set setting:announcement_role`.')
             else:
-                channel_obj = self.client.get_channel(channel)
-                role_obj = interaction.guild.get_role(role)
+                try:
+                    channel_obj = self.client.get_channel(int(channel))
+                except ValueError:
+                    channel_obj = None
+                try:
+                    role_obj = interaction.guild.get_role(int(role))
+                except ValueError:
+                    role_obj = None
                 if channel_obj == None:
                     await interaction.send('The announcement channel is not set to an acceptable value!\n\
 Set it by copying the ID of the channel, and using the command `/setting set setting:announcement_channel`.')
