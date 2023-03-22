@@ -34,7 +34,7 @@ class Moderation(commands.Cog):
     async def warn(self, interaction: nextcord.Interaction, user: nextcord.Member, reason='No reason given.',
         show_message='Whether to publicly display a warn in your current channel, in addition to a DM.'):
         """ Warn a User """
-        db = Database(interaction.guild.id, reason=f'Check for permission, `/warn`')
+        db = Database(interaction.guild, reason=f'Check for permission, `/warn`')
         if interaction.user in db.fetch('admins'):
             try:
                 await user.send(f"*You have been warned in __{interaction.guild.name}__! For:*\n> **{reason}**\n\
