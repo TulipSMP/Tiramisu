@@ -30,7 +30,7 @@ class Moderation(commands.Cog):
         logger.info('Loaded cog moderation.py!')
 
     # Commands
-    @commands.command(description="Warn a User", guild_ids=[TESTING_GUILD_ID])
+    @nextcord.slash_command(description="Warn a User", guild_ids=[TESTING_GUILD_ID])
     async def warn(interaction: nextcord.Interaction, user: nextcord.Member, reason='No reason given.',
         show_message='Whether to publicly display a warn in your current channel, in addition to a DM.'):
         """ Warn a User """
