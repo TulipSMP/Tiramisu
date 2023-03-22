@@ -13,12 +13,6 @@ class Moderation(commands.Cog):
         cfg = yaml.load(ymlfile, Loader=yaml.FullLoader)
     TESTING_GUILD_ID=cfg["discord"]["testing_guild"]
 
-    staff = cfg["discord"]["roles"]["staff"]
-
-    # Channel & Role IDs
-    ANNOUNCEMENT_CHANNEL=0000000000000000000
-    ANNOUNCEMENT_ROLE=0000000000000000000
-
     # Error Function
     def error(error):
         logger.error(f"Error in moderation.py: {error}")
