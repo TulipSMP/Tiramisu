@@ -14,12 +14,12 @@ class Moderation(commands.Cog):
     TESTING_GUILD_ID=cfg["discord"]["testing_guild"]
 
     # Error Function
-    def error(error):
+    def error(self, error):
         logger.error(f"Error in moderation.py: {error}")
         return cfg['messages']['error'].replace('[[error]]', error)
 
     # No Permission Function
-    def noperm(cmd, interaction):
+    def noperm(self, cmd, interaction):
         logger.debug(cfg['messages']['noperm_log'].replace('[[user]]', interaction.user.name).replace('[[user_id]]', interaction.user.id).replace('[[command]]', cmd))
         return cfg['messages']['noperm']
 
