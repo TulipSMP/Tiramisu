@@ -58,7 +58,7 @@ class Admin(commands.Cog):
             msg = f'**Registered Administrators:**\n'
             try:
                 msg_admins = db.fetch('admins')
-                for id in admins:
+                for id in msg_admins:
                     usr = self.bot.get_user(id)
                     msg_admins += f'• {usr.name}#{usr.discriminator} `{usr.id}`\n'
                 logger.debug(f"Listed administrators for {interaction.user.name} ({interaction.user.id})")
