@@ -83,21 +83,20 @@ class Database:
         if repair:
             settings_absent = []
             amend_settings = False
-            try:
-                tup = self.cursor.execute(f'SELECT setting FROM settings_{self.guild.id};').fetchall()
-            except self.current_database.OperationalError:
-                self.create('settings')
-                tup = self.cursor.execute(f'SELECT setting FROM settings_{self.guild.id};').fetchall()
-            existing = list(itertools.chain(*tup))
+            #try:
+            #    tup = self.cursor.execute(f'SELECT setting FROM settings_{self.guild.id};').fetchall()
+            #except self.current_database.OperationalError:
+            #    self.create('settings')
+            #    tup = self.cursor.execute(f'SELECT setting FROM settings_{self.guild.id};').fetchall()
             for setting in self.settings['settings']:
-                if setting in existing:
+                if self.fetch(setting, verifying_settings=True):
                     pass
                 else:
-                    amend_settings = True
                     settings_absent.append(setting)
+                    amend_settings = True
             if amend_settings:
                 for setting in settings_absent:
-                    self.cursor.execute(f'INSERT INTO settings_{self.guild.id} ( setting, value ) VALUES ( "{setting}", "none" )')
+                    self.cursor.execute(f'INSERT INTO "settings_{self.guild.id}" ( setting, value ) VALUES ( "{setting}", "none" )')
                 if self.db_type == 'sqlite':
                     self.sql.commit()
         if not admins_exists and repair:
@@ -110,7 +109,7 @@ class Database:
     # Fetch information from DB
     # Default to settings if no table is specified
     @logger.catch
-    def fetch(self, setting, return_list=False, admin=False):
+    def fetch(self, setting, return_list=False, admin=False, verifying_settings=False):
         """ Fetch information from Database """
         if self.cfg['storage'] == 'mysql':
             self.connect('fetch')
@@ -126,12 +125,18 @@ class Database:
                     admin_list.remove(1)
             return admin_list
         else:
-            self.cursor.execute(f'SELECT value FROM "settings_{self.guild.id}" WHERE setting="{setting}";')
-            if return_list:
-                tup = self.cursor.fetchall()
-                return list(itertools.chain(*tup))
+            if verifying_settings:
+                if setting in self.raw(f'SELECT setting FROM "settings_{self.guild.id}" WHERE setting="{setting}"'):
+                    return True
+                else:
+                    return False
             else:
-                return self.cursor.fetchone()
+                self.cursor.execute(f'SELECT value FROM "settings_{self.guild.id}" WHERE setting="{setting}";')
+                if return_list:
+                    tup = self.cursor.fetchall()
+                    return list(itertools.chain(*tup))
+                else:
+                    return self.cursor.fetchone()
 
             
     # Change information in DB
