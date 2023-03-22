@@ -58,7 +58,7 @@ class Admin(commands.Cog):
             msg = f'**Registered Administrators:**\n'
             try:
                 msg_admins = ''
-                logger.critical(f'ADMINS IN DATABASE: {db.admins()}')
+                logger.critical(f'ADMINS IN DATABASE: {db.fetch("admins")}')
                 for admin in db.fetch('admins'):
                     if mention_admins:
                         msg_admins += f'• <@{admin}> `{admin}`\n'
