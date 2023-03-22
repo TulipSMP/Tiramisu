@@ -2,6 +2,7 @@ from logging42 import logger
 import nextcord
 from nextcord.ext import commands
 import yaml
+from libs.database import Database
 
 class Moderation(commands.Cog):
     def __init__(self, bot):
@@ -30,15 +31,27 @@ class Moderation(commands.Cog):
 
     # Commands
     @commands.command(description="Warn a User", guild_ids=[TESTING_GUILD_ID])
-    async def warn(interaction: nextcord.Interaction, arg: nextcord.Member, reason=str):
-        if interaction.user.get_role(staff):
-            if reason is None:
-                reason = "No reason given."
+    async def warn(interaction: nextcord.Interaction, user: nextcord.Member, reason='No reason given.',
+        show_message='Whether to publicly display a warn in your current channel, in addition to a DM.'):
+        """ Warn a User """
+        db = Database(interaction.guild.id, reason=f'Check for permission, `/warn`')
+        if interaction.user.name in db.fetch('admins'):
             try:
-                await arg.send(f"**You have been warned!**\nReason: __{reason}__\n\
-                    Please do not do this again. Make sure you have read the server rules.")
-                await interaction.send(f"{arg.mention} has been warned for:\n{reason}")
-                logger.debug(f'{interaction.user} warned {arg.display_name} for {reason}')
+                await user.send(f"*You have been warned in __{interaction.guild.name}__! For:*\n> **{reason}**\n\
+                    Please make sure you have read this server's rules.")
+                logger.debug(f'{interaction.user.id} warned {user.id} for {reason}')
+                await interaction.channel.send(f"{user.mention} has been warned for:\n{reason}", ephemeral=show_message)
+                try:
+                    modlog_channel = db.fetch('modlog_channel')
+                    if modlog_channel is not 'none' or modlog_channel is not None:
+                        log_channel = self.client.get_channel(modlog_channel)
+                        await log_channel.send(f'{user.mention} was warned by {interaction.user.name}#{interaction.user.discriminator} ID: `{interaction.user.id}`')
+                        logging_info = f'This action was logged successfully in {log_channel.mention}.'
+                    else:
+                        logging_info = f'Logging of moderation actions is not set up.'
+                except:
+                    logging_info = f'There was an error while trying to log this action.'
+                await interaction.send(f'{user.mention} was successfully warned!\n*{logging_info}*')
             except BaseException as e:
                 await interaction.send(error(e), ephemeral=True)
         else:
