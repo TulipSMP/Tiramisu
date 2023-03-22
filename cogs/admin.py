@@ -57,10 +57,10 @@ class Admin(commands.Cog):
             db = Database(interaction.guild, reason='Slash command: `admin list`')
             msg = f'**Registered Administrators:**\n'
             try:
-                msg_admins = db.fetch(interaction.user.id, admin=True, return_list=True)
+                msg_admins = db.fetch('admins', return_list=True)
                 for id in admins:
                     usr = self.bot.get_user(id)
-                    msg_admins += f'• {usr.name}#{usr.discriminatorw} `{usr.id}`\n'
+                    msg_admins += f'• {usr.name}#{usr.discriminator} `{usr.id}`\n'
                 logger.debug(f"Listed administrators for {interaction.user.name} ({interaction.user.id})")
                 await interaction.send(msg)
             except BaseException as ex:
