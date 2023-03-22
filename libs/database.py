@@ -177,7 +177,7 @@ class Database:
                     return False
             else:
                 tup = self.cursor.execute(f'SELECT value FROM "settings_{self.guild.id}" WHERE setting="{setting}";').fetchone()
-                return tup.replace('(', '').replace(')', '').replace("'", '').replace(',', '')
+                return str(tup).replace('(', '').replace(')', '').replace("'", '').replace(',', '')
 
             
     # Change information in DB
