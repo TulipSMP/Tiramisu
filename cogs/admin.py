@@ -63,10 +63,13 @@ class Admin(commands.Cog):
                         msg_admins += f'• <@{admin}> `{admin}`\n'
                     else:
                         user = self.bot.get_user(int(admin))
-                        if user.name == user.display_name:
-                            user_display = f'{user.name}#{user.discriminator}'
+                        if user != None:
+                            if user.name == user.display_name:
+                                user_display = f' {user.name}#{user.discriminator}'
+                            else:
+                                user_display = f' {user.name}#{user.discriminator} *({user.display_name})*'
                         else:
-                            user_display = f'{user.name}#{user.discriminator} *({user.display_name})*'
+                            user_display = ''
                         msg_admins += f'• {user_display} `{admin}`\n'
                 logger.debug(f"Listed administrators for {interaction.user.name} ({interaction.user.id})")
                 await interaction.send(msg + msg_admins)
