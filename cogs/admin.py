@@ -52,15 +52,17 @@ class Admin(commands.Cog):
     
     # List administrators
     @admin.subcommand(description='List administrators')
-    async def list(self, interaction: nextcord.Interaction):
+    async def list(self, interaction: nextcord.Interaction, mention_admins=True):
         if interaction.user.id == interaction.guild.owner_id or interaction.user.id in admins:
             db = Database(interaction.guild, reason='Slash command: `admin list`')
             msg = f'**Registered Administrators:**\n'
             try:
                 msg_admins = ''
                 for admin in db.fetch('admins'):
-                    usr = self.bot.get_user(admin)
-                    msg_admins += f'• {usr.name}#{usr.discriminator} `{usr.id}`\n'
+                    if mention_admins:
+                        msg_admins += f'• <@{admin}> `{admin}`\n'
+                    else:
+                        msg_agmins += f'• {admin}'
                 logger.debug(f"Listed administrators for {interaction.user.name} ({interaction.user.id})")
                 msg += msg_admins
                 await interaction.send(msg)
