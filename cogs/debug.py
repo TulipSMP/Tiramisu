@@ -38,7 +38,7 @@ class Debug(commands.Cog):
             logger.warning('Failed to fetch data from database!')
         else:
             logger.debug(f"Printing db contents for {interaction.user.name}.")
-        await interaction.response.send_message(f"Found these values in table `{t_type}_{db.guild.id}`: ```\n{table} ```")
+        await interaction.response.send_message(f"Found these values in table `{t_type}_{db.guild.id}`: ```\n{table} ```\nType: `{type(table)}`")
         db.close()
 
 def setup(bot):
