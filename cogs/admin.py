@@ -61,6 +61,7 @@ class Admin(commands.Cog):
                     usr = self.bot.get_user(id)
                     msg_admins += f'• {usr.name}#{usr.discriminator} `{usr.id}`\n'
                 logger.debug(f"Listed administrators for {interaction.user.name} ({interaction.user.id})")
+                msg += msg_admins
                 await interaction.send(msg)
             except BaseException as ex:
                 await interaction.send(self.cfg['messages']['error'].replace('[[error]]', str(ex)))
