@@ -25,7 +25,7 @@ class Settings(commands.Cog):
         pass
 
     @setting.subcommand(description='View settings')
-    def get(self, interaction: nextcord.Interaction, setting: str):
+    async def get(self, interaction: nextcord.Interaction, setting: str):
         db = Database(interaction.guild, reason='Slash command `/setting get`')
         if interaction.user.id in db.fetch('admins'):
             if setting in self.settings['settings']:
@@ -49,6 +49,7 @@ class Settings(commands.Cog):
                     message += f'• `{entry}`\n'
             else:
                 message = 'No such setting. Use `all` to get a list of all available settings'
+            await interaction.send(message)
         else:
             logger.debug(self.cfg['messages']['noperm_log'].replace('[[user]]', interaction,user.name).replace('[[user_id]]', interaction.user.id).replace('[[command]]', '/setting get'))
             await interaction.send(self.cfg['messages']['noperm'], ephemeral=True)
