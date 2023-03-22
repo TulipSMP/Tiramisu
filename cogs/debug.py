@@ -43,6 +43,7 @@ class Debug(commands.Cog):
                 \nAre you (`{interaction.user.id}`) in list?: `{interaction.user.id in table}`")
         else:
             await interaction.response.send_message(f"Found these values in table `{t_type}_{db.guild.id}`: ```\n{table} ```")
+            logger.info(f'Found this data in "{t_type}_{db.guild.id}":\n{table}')
         db.close()
 
 def setup(bot):
