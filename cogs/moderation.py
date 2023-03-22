@@ -37,11 +37,17 @@ class Moderation(commands.Cog):
         db = Database(interaction.guild.id, reason=f'Check for permission, `/warn`')
         try:
             admins = db.fetch('admins')
+            if admins == None:
+                raise TypeError
+            if interaction.user.id in admins:
+                permission = True
+            else:
+                permission = False
         except TypeError:
             logger.critical(f'Failed to check admin permissions from db for guild {interaction.guild.id} for user {interaction.user.id}!')
             interaction.send('Failed to check permissions!', ephemeral=True)
             return
-        if interaction.user.id in admins:
+        if permission:
             try:
                 await user.send(f"*You have been warned in __{interaction.guild.name}__! For:*\n> **{reason}**\n\
                     Please make sure you have read this server's rules.")
