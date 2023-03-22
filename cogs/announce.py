@@ -27,19 +27,19 @@ class Announce(commands.Cog):
             role = db.fetch('announcement_role')
             if channel == 'none':
                 await interaction.send('The announcement channel is not set!\n\
-                    Set it by copying the ID of the channel, and using the command `/setting set setting:announcement_channel`.')
+Set it by copying the ID of the channel, and using the command `/setting set setting:announcement_channel`.')
             elif role == 'none' and ping == True:
                 await interaction.send('The announcement role is not set!\n\
-                    Set it by copying the ID of the role, and using the command `/setting set setting:announcement_role`.')
+Set it by copying the ID of the role, and using the command `/setting set setting:announcement_role`.')
             else:
                 channel_obj = self.client.get_channel(channel)
                 role_obj = interaction.guild.get_role(role)
                 if channel_obj == None:
                     await interaction.send('The announcement channel is not set to an acceptable value!\n\
-                        Set it by copying the ID of the channel, and using the command `/setting set setting:announcement_channel`.')
+Set it by copying the ID of the channel, and using the command `/setting set setting:announcement_channel`.')
                 elif role_obj == None and ping == True:
                     await interaction.send('The announcement role is not set to an acceptable value!\n\
-                        Set it by copying the ID of the role, and using the command `/setting set setting:announcement_role`.')
+Set it by copying the ID of the role, and using the command `/setting set setting:announcement_role`.')
                 else:
                     announcement = announcement.replace('\n', '\n >')
                     if ping:
