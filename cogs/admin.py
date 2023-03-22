@@ -68,8 +68,9 @@ class Admin(commands.Cog):
             except BaseException as ex:
                 await interaction.send(self.cfg['messages']['error'].replace('[[error]]', str(ex)))
                 logger.error(f'Failed to fetch list of admins for guild {db.guild.id}! Error: {ex}', exc_info=True)
-            except sqlite3.OperationalError:
-                await interaction.send(self.cfg['messages']['error'])
+            except db.current_database.OperationalError:
+                logger.critical(f'OperationalError in `/admin list` for guild {db.guild.id}')
+                await interaction.send(self.cfg['messages']['error'].replace('[[error]]', 'OperationalError: either table does not exist, or database could not be accessed!'))
             db.close()
         else:
             await interaction.send(self.cfg["messages"]["noperm"], ephemeral=True)
