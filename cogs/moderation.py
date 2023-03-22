@@ -26,7 +26,7 @@ class Moderation(commands.Cog):
     # Events
     @commands.Cog.listener()
     async def on_ready(self):
-        logger.info('Cog moderation.py loaded!')
+        logger.info('Loaded cog moderation.py!')
 
     # Commands
     @commands.command(description="Warn a User", guild_ids=[TESTING_GUILD_ID])
