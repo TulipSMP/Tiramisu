@@ -51,7 +51,6 @@ class Settings(commands.Cog):
                 message = 'No such setting. Use `all` to get a list of all available settings'
             await interaction.send(message)
         else:
-            logger.debug(self.cfg['messages']['noperm_log'].replace('[[user]]', interaction,user.name).replace('[[user_id]]', interaction.user.id).replace('[[command]]', '/setting get'))
             await interaction.send(self.cfg['messages']['noperm'], ephemeral=True)
     
 def setup(bot):
