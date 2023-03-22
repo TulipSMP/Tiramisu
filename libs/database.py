@@ -63,7 +63,7 @@ class Database:
             logger.info(f'Created table "settings_{self.guild.id}", if it doesnt already exist!')
     # Verify database exists and is correctly setup
     @logger.catch
-    def verify(self, tables=True, repair=True):
+    def _verify(self, tables=True, repair=True):
         """ Make sure tables exist, and create them if they dont """
         if self.cfg['storage'] == 'mysql':
             self.connect('verify')
@@ -107,6 +107,16 @@ class Database:
         if not settings_exists and repair:
             logger.warning(f'Created settings table for guild {self.guild.id} because it did not exist!')
             self.create(table='settings')
+    
+    # New verify functino
+    @logger.catch
+    def verify(self):
+        """ New, simple verifying function """
+        # Fetch list of tables
+        # Check if tables exist, and print success to log
+        # If a table is missing, create it
+        # Fetch list of necessary settings
+        # if setting is missing, create it
 
     # Fetch information from DB
     # Default to settings if no table is specified
