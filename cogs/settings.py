@@ -40,7 +40,7 @@ class Settings(commands.Cog):
                     elif self.bot.get_user(int(value)) != None:
                         value_user = self.bot.get_user(int(value))
                         value = value_user.mention
-                except TypeError:
+                except TypeError or ValueError:
                     pass
                 message = f'Setting **{setting}** is currently set to __{value}__'
             elif setting == 'all':
