@@ -29,9 +29,10 @@ class Debug(commands.Cog):
         db = Database(interaction.guild, reason='Fetch for debugging')
         if settings:
             t_type = 'settings'
+            table = db.raw(f'select * from "settings_{db.guild.id}";')
         else:
             t_type = 'admins'
-        table = db.fetch('admins')
+            table = db.fetch('admins')
         if table == False:
             table = 'Failed to fetch from database! OperationalError!'
             logger.warning('Failed to fetch data from database!')
