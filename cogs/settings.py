@@ -33,6 +33,7 @@ class Settings(commands.Cog):
             if setting in self.settings['settings']:
                 value = db.fetch(setting)
                 try:
+                    logger.success(f'[DEBUG MESSAGE] Fetched announcement channel: {value}')
                     if self.bot.get_channel(int(value)) != None:
                         value_channel = self.bot.get_channel(int(value))
                         value = value_channel.mention
