@@ -201,6 +201,21 @@ class Database:
             logger.warning(f'OperationalError when running raw command: "{command}"!')
             return False
     
+    # Delete tables of a guild
+    @logger.catch
+    def delete(self, settings=True, admins=True):
+        """ Completely delete a guild's data """
+        if self.cfg['storage'] == 'mysql':
+            self.connect('delete')
+        if settings:
+            self.cursor.execute(f'drop table "settings_{self.guild.id}";')
+            logger.debug(f'Deleted table settings_{self.guild.id}.')
+        if admins:
+            self.cursor.execute(f'drop table "admins_{self.guild.id}";')
+            logger.debug(f'Deleted table admins_{self.guild.id}')
+        return True
+
+
     # Properly close DB
     @logger.catch
     def close(self):

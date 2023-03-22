@@ -36,6 +36,12 @@ class Tasks(commands.Cog):
         db.create()
         db.close()
 
+    @commands.Cog.listener('on_guild_leave')
+    async def on_guild_leave(self, guild):
+        logger.info(f'Removing tables for guild {guild.id} on leave!')
+        db = Database(guild, reason = f'Deletion upon guild leave')
+        db.delete()
+        db.close()
 
 def setup(bot):
     bot.add_cog(Tasks(bot))
