@@ -7,6 +7,8 @@ from libs.database import Database
 class Settings(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
+        with open('config/settings.yml', 'r') as settings_yml:
+                self.settings = yaml.load(settings_yml, Loader=yaml.FullLoader)
     
     with open("config/config.yml", "r") as ymlfile:
         cfg = yaml.load(ymlfile, Loader=yaml.FullLoader)
@@ -26,9 +28,7 @@ class Settings(commands.Cog):
     def get(self, interaction: nextcord.Interaction, setting: str):
         db = Database(interaction.guild, reason='Slash command `/setting get`')
         if interaction.user.id in db.fetch('admins'):
-            with open('config/settings.yml', 'r') as settings_yml:
-                settings = yaml.load(settings_yml, Loader=yaml.FullLoader)
-            if setting in settings['settings']:
+            if setting in self.settings['settings']:
                 value = db.fetch(setting)
                 try:
                     if self.bot.get_channel(int(value)) != None:
@@ -43,6 +43,12 @@ class Settings(commands.Cog):
                 except TypeError:
                     pass
                 message = f'Setting **{setting}** is currently set to __{value}__'
+            elif setting == 'all':
+                message = f'**Available settings:**\n'
+                for entry in self.settings:
+                    message += f'• `{entry}`\n'
+            else:
+                message = 'No such setting. Use `all` to get a list of all available settings'
         else:
             logger.debug(self.cfg['messages']['noperm_log'].replace('[[user]]', interaction,user.name).replace('[[user_id]]', interaction.user.id).replace('[[command]]', '/setting get'))
             await interaction.send(self.cfg['messages']['noperm'], ephemeral=True)
