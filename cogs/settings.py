@@ -1,0 +1,52 @@
+from logging42 import logger
+import nextcord
+from nextcord.ext import commands
+import yaml
+from libs.database import Database
+
+class Settings(commands.Cog):
+    def __init__(self, bot):
+        self.bot = bot
+    
+    with open("config/config.yml", "r") as ymlfile:
+        cfg = yaml.load(ymlfile, Loader=yaml.FullLoader)
+    TESTING_GUILD_ID=cfg["discord"]["testing_guild"]
+
+    # Events
+    @commands.Cog.listener()
+    async def on_ready(self):
+        logger.info('Loaded cog settings.py')
+
+    # Commands
+    @nextcord.slash_command(description='Change and view settings', testing_guild=[TESTING_GUILD_ID])
+    def setting(self, interaction: nextcord.Interaction):
+        pass
+
+    @setting.subcommand(description='View settings')
+    def get(self, interaction: nextcord.Interaction, setting: str):
+        db = Database(interaction.guild, reason='Slash command `/setting get`')
+        if interaction.user.id in db.fetch('admins'):
+            with open('config/settings.yml', 'r') as settings_yml:
+                settings = yaml.load(settings_yml, Loader=yaml.FullLoader)
+            if setting in settings['settings']:
+                value = db.fetch(setting)
+                try:
+                    if self.bot.get_channel(int(value)) != None:
+                        value_channel = self.bot.get_channel(int(value))
+                        value = value_channel.mention
+                    elif self.bot.get_role(int(value)) != None:
+                        value_role = self.bot.get_role(int(value))
+                        value = value_role.mention
+                    elif self.bot.get_user(int(value)) != None:
+                        value_user = self.bot.get_user(int(value))
+                        value = value_user.mention
+                except TypeError:
+                    pass
+                message = f'Setting **{setting}** is currently set to __{value}__'
+        else:
+            logger.debug(self.cfg['messages']['noperm_log'].replace('[[user]]', interaction,user.name).replace('[[user_id]]', interaction.user.id).replace('[[command]]', '/setting get'))
+            await interaction.send(self.cfg['messages']['noperm'], ephemeral=True)
+    
+def setup(bot):
+    bot.add_cog(Settings(bot))
+    logger.debug('Setup cog "settings"')
