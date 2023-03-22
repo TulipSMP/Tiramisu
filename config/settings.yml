@@ -6,3 +6,4 @@ settings:
   - 'staff_role'
   - 'server_admin'
   - 'commands_channel'
+  - 'modlog_channel'
