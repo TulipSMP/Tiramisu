@@ -114,7 +114,7 @@ class Database:
         """ Fetch information from Database """
         if self.cfg['storage'] == 'mysql':
             self.connect('fetch')
-        if admin:
+        if admin or setting == 'admins':
             if return_list:
                 try:
                     tup = self.cursor.execute(f'SELECT id FROM admins_{self.guild.id} WHERE admin=1;').fetchall()
