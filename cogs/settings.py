@@ -66,7 +66,7 @@ class Settings(commands.Cog):
                     should_clear = False
                 if db.set(setting, value, clear=should_clear):
                     if should_clear:
-                        message = f'Successfully set **{setting}** back to default.'
+                        message = f'Successfully set **{setting}** back to default.\nTo set it to a custom value, remember to use the `value:` option.'
                     else:
                         message = f'Successfully set **{setting}** to __{value}__'
                     logger.success(f'Changed setting "{setting}" for guild {db.guild.id}!')
