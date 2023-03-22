@@ -6,7 +6,8 @@ from libs.database import Database
 
 class Announce(commands.Cog):
     def __init__(self, bot):
-        self.client = bot
+        self.bot = bot
+        self.client = nextcord.Client()
     
     with open("config/config.yml", "r") as ymlfile:
         cfg = yaml.load(ymlfile, Loader=yaml.FullLoader)
