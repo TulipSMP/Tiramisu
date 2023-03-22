@@ -62,7 +62,7 @@ class Admin(commands.Cog):
                     if mention_admins:
                         msg_admins += f'• <@{admin}> `{admin}`\n'
                     else:
-                        msg_agmins += f'• {admin}'
+                        msg_admins += f'• {admin}'
                 logger.debug(f"Listed administrators for {interaction.user.name} ({interaction.user.id})")
                 msg += msg_admins
                 await interaction.send(msg)
