@@ -21,7 +21,7 @@ class Settings(commands.Cog):
 
     # Commands
     @nextcord.slash_command(description='Change and view settings', guild_ids=[TESTING_GUILD_ID])
-    def setting(self, interaction: nextcord.Interaction):
+    async def setting(self, interaction: nextcord.Interaction):
         pass
 
     @setting.subcommand(description='View settings')
