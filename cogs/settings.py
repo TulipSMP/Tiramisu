@@ -45,7 +45,7 @@ class Settings(commands.Cog):
                 message = f'Setting **{setting}** is currently set to __{value}__'
             elif setting == 'all':
                 message = f'**Available settings:**\n'
-                for entry in self.settings:
+                for entry in self.settings['settings']:
                     message += f'• `{entry}`\n'
             else:
                 message = 'No such setting. Use `all` to get a list of all available settings'
