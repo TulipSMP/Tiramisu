@@ -7,7 +7,6 @@ from libs.database import Database
 class Announce(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
-        self.client = nextcord.Client()
     
     with open("config/config.yml", "r") as ymlfile:
         cfg = yaml.load(ymlfile, Loader=yaml.FullLoader)
@@ -33,7 +32,7 @@ Set it by copying the ID of the channel, and using the command `/setting set set
 Set it by copying the ID of the role, and using the command `/setting set setting:announcement_role`.')
             else:
                 try:
-                    channel_obj = self.client.get_channel(int(channel))
+                    channel_obj = self.bot.get_channel(int(channel))
                 except ValueError:
                     channel_obj = None
                 try:
