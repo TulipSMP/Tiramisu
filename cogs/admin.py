@@ -59,8 +59,8 @@ class Admin(commands.Cog):
             try:
                 msg_admins = ''
                 for admin in db.fetch('admins'):
-                    #usr = self.bot.get_user(admin)
-                    msg_admins += f'• {admin}\n' #`{usr.id}`\n'
+                    usr = self.bot.get_user(admin)
+                    msg_admins += f'• {usr.name}#{usr.discriminator} `{usr.id}`\n'
                 logger.debug(f"Listed administrators for {interaction.user.name} ({interaction.user.id})")
                 msg += msg_admins
                 await interaction.send(msg)
