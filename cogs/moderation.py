@@ -45,7 +45,7 @@ class Moderation(commands.Cog):
                 permission = False
         except TypeError:
             logger.critical(f'Failed to check admin permissions from db for guild {interaction.guild.id} for user {interaction.user.id}!')
-            interaction.send('Failed to check permissions!', ephemeral=True)
+            await interaction.send('Failed to check permissions!', ephemeral=True)
             return
         if permission:
             try:
