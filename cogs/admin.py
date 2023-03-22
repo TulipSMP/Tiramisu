@@ -64,8 +64,7 @@ class Admin(commands.Cog):
                     else:
                         msg_admins += f'• {admin}'
                 logger.debug(f"Listed administrators for {interaction.user.name} ({interaction.user.id})")
-                msg += msg_admins
-                await interaction.send(msg)
+                await interaction.send(msg + msg_admins)
             except BaseException as ex:
                 await interaction.send(self.cfg['messages']['error'].replace('[[error]]', str(ex)))
                 logger.error(f'Failed to fetch list of admins for guild {db.guild.id}! Error: {ex}', exc_info=True)
