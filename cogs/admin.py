@@ -57,7 +57,7 @@ class Admin(commands.Cog):
             db = Database(interaction.guild, reason='Slash command: `admin list`')
             msg = f'**Registered Administrators:**\n'
             try:
-                msg_admins = db.fetch('admins', return_list=True)
+                msg_admins = db.fetch('admins')
                 for id in admins:
                     usr = self.bot.get_user(id)
                     msg_admins += f'• {usr.name}#{usr.discriminator} `{usr.id}`\n'
