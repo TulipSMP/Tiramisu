@@ -53,6 +53,21 @@ class Settings(commands.Cog):
         else:
             await interaction.send(self.cfg['messages']['noperm'], ephemeral=True)
     
+    @setting.subcommand(description='Change settings')
+    async def set(self, interaction: nextcord.Interaction, setting: str, value: str):
+        db = Database(interaction.guild, reason='Slash command `/setting set`')
+        if interaction.user.id in db.fetch('admins'):
+            if setting in self.settings['settings']:
+                if db.set(setting, value):
+                    message = f'Successfully set **{setting}** to __{value}__'
+                    logger.success(f'Changed setting "{setting}" for guild {db.guild.id}!')
+                else:
+                    message = f'Failed to set **{setting}**!'
+            else:
+                message = f'No such setting. Use `/setting get setting:all` to see available settings.'
+        else:
+            await interaction.send(self.cfg['messages']['noperm'], ephemeral=True)
+    
 def setup(bot):
     bot.add_cog(Settings(bot))
     logger.debug('Setup cog "settings"')
