@@ -112,11 +112,44 @@ class Database:
     @logger.catch
     def verify(self):
         """ New, simple verifying function """
+        if self.cfg['storage'] == 'mysql':
+            self.connect('verify')
         # Fetch list of tables
+        if self.db_type == 'sqlite':
+            table_list = self.cursor.execute(f'select name from sqlite_schema where type="table" and name not like "sqlite_%";').fetchall()
+        elif self.db_type == 'mysql':
+            table_list = self.cursor.execute(f'select * from information_schema.tables;').fetchall()
+        table_list = list(itertools.chain(*table_list))
         # Check if tables exist, and print success to log
+        table_check = ['admins', 'settings']
+        table_repair = []
+        for table in table_check:
+            if f'{table}_{self.guild.id}' in table_list:
+                logger.success(f'{table}_{self.guild.id} found during DB verification!')
+            else:
+                logger.warning(f'{table}_{self.guild.id} was not found during DB verification!')
+                table_repair.append(table)
         # If a table is missing, create it
+        for table in table_repair:
+            self.create(table)
+            logger.warning(f'Table {table}_{self.guild.id} did not exist, so it was created.')
         # Fetch list of necessary settings
+        with open('config/settings.yml') as settings_yml:
+            settings = yaml.load(settings_yml, Loader=yaml.FullLoader)
+        # Fetch existing settings from database
+        settings_existing = self.cursor.execute(f'select setting from "settings_{self.guild.id}";').fetchall()
+        settings_existing = list(itertools.chain(*settings_existing))
+        # Check what settings are missing
+        settings_missing = []
+        for setting in settings['settings']:
+            if setting in settings_existing:
+                pass
+            else:
+                settings_missing.append(setting)
         # if setting is missing, create it
+        for setting in settings_missing:
+            self.cursor.execute(f'insert into "settings_{self.guild.id}" ( setting, value ) values ( "{setting}", "none" );')
+        logger.success(f'Added settings {settings_missing} to table settings_{self.guild.id} because they did not exist!')
 
     # Fetch information from DB
     # Default to settings if no table is specified
