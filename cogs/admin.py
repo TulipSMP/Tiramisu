@@ -52,18 +52,22 @@ class Admin(commands.Cog):
     
     # List administrators
     @admin.subcommand(description='List administrators')
-    async def list(self, interaction: nextcord.Interaction, mention_admins=False):
+    async def list(self, interaction: nextcord.Interaction, mention_admins=None):
         if interaction.user.id == interaction.guild.owner_id or interaction.user.id in admins:
             db = Database(interaction.guild, reason='Slash command: `admin list`')
             msg = f'**Registered Administrators:**\n'
             try:
                 msg_admins = ''
-                logger.critical(f'ADMINS IN DATABASE: {db.fetch("admins")}')
                 for admin in db.fetch('admins'):
-                    if mention_admins:
+                    if mention_admins != None:
                         msg_admins += f'• <@{admin}> `{admin}`\n'
                     else:
-                        msg_admins += f'• `{admin}`\n'
+                        user = self.bot.get_user(int(admin))
+                        if user.name == user.display_name:
+                            user_display = f'{user.name}#{user.discriminator}'
+                        else:
+                            user_display = f'{user.name}#{user.discriminator} *({user.display_name})*'
+                        msg_admins += f'• {user_display} `{admin}`\n'
                 logger.debug(f"Listed administrators for {interaction.user.name} ({interaction.user.id})")
                 await interaction.send(msg + msg_admins)
             except BaseException as ex:
