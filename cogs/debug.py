@@ -30,7 +30,7 @@ class Debug(commands.Cog):
         if settings:
             t_type = 'settings'
         else:
-            t_type = 'admin'
+            t_type = 'admins'
         table = db.raw(f'select * from {t_type}_{db.guild.id};')
         if table == False:
             table = 'Failed to fetch from database! OperationalError!'
