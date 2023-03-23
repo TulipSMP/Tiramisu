@@ -52,9 +52,9 @@ Set it by copying the ID of the channel, and using the command `/setting set set
                     await interaction.send('The announcement role is not set to an acceptable value!\n\
 Set it by copying the ID of the role, and using the command `/setting set setting:announcement_role`.')
                     return
-                announcement = announcement.replace('\\n', '\n >')
+                announcement = announcement.replace('\\n', '\n')
                 if ping:
-                    await channel_obj.send(f'**Announcement!** ||{role_obj.mention}||\n> {announcement}\n*Announced By: {interaction.user.display_name}*')
+                    await channel_obj.send(f'**Announcement!** ||{role_obj.mention}||\n>>> {announcement}\n       *Announced By: {interaction.user.display_name}*')
                 else:
                     await channel_obj.send(f'**Announcement!** \n> {announcement}\n*Announced By: {interaction.user.display_name}*')
                 await interaction.send(f'Announcement sent! See {channel_obj.mention}')
