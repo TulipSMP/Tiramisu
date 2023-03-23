@@ -45,9 +45,13 @@ class Utilities(commands.Cog):
             if interaction.guild.member_count >= 10:
                 await interaction.response.defer()
             times = 0
-            for user in interaction.guild.humans:
-                await user.add_roles(role, atomic=True, reason=f'{interaction.user.name}#{interaction.user.discriminator} used the `/addrole` command')
-                times += 1
+            try:
+                for user in interaction.guild.humans:
+                    await user.add_roles(role, atomic=True, reason=f'{interaction.user.name}#{interaction.user.discriminator} used the `/addrole` command')
+                    times += 1
+            except nextcord.errors.NotFound:
+                await interaction.send(f'That is not a valid role!')
+                return
             await interaction.send(f'Added role `@{role.name}` to all {times} users.')            
         else:   
             await interaction.send(self.cfg['messages']['noperm'], ephemeral=True)
@@ -60,9 +64,13 @@ class Utilities(commands.Cog):
             if interaction.guild.member_count >= 10:
                 await interaction.response.defer()
             times = 0
-            for user in interaction.guild.humans:
-                await user.remove_roles(role, atomic=True, reason=f'{interaction.user.name}#{interaction.user.discriminator} used the `/delrole` command')
-                times += 1
+            try:
+                for user in interaction.guild.humans:
+                    await user.remove_roles(role, atomic=True, reason=f'{interaction.user.name}#{interaction.user.discriminator} used the `/delrole` command')
+                    times += 1
+            except nextcord.errors.NotFound:
+                await interaction.send(f'That is not a valid role!')
+                return
             await interaction.send(f'Removed role `@{role.name}` from all {times} users.')            
         else:   
             await interaction.send(self.cfg['messages']['noperm'], ephemeral=True)
