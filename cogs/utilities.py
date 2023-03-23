@@ -46,7 +46,7 @@ class Utilities(commands.Cog):
             await interaction.response.defer()
             times = 0
             for user in interaction.guild.humans:
-                await user.add_roles(role)
+                await user.add_roles(role, atomic=True, reason=f'{interaction.user.name}#{interaction.user.discriminator} used the `/addrole` command')
                 times += 1
             await interaction.send(f'Added role `@{role.name}` to all users.')            
         else:   
