@@ -55,7 +55,7 @@ class Moderation(commands.Cog):
             except BaseException as e:
                 await interaction.send(error(e), ephemeral=True)
         else:
-            await interaction.send(noperm('warn', interaction), ephemeral=True)
+            await interaction.send(self.cfg.noperm('warn', interaction), ephemeral=True)
 """
     @nextcord.slash_command(description="Make an announcement!", guild_ids=[TESTING_GUILD_ID])
     async def announce(self, interaction: nextcord.Interaction, ping: bool, message: str):
