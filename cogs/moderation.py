@@ -56,23 +56,7 @@ class Moderation(commands.Cog):
                 await interaction.send(error(e), ephemeral=True)
         else:
             await interaction.send(self.cfg.noperm('warn', interaction), ephemeral=True)
-"""
-    @nextcord.slash_command(description="Make an announcement!", guild_ids=[TESTING_GUILD_ID])
-    async def announce(self, interaction: nextcord.Interaction, ping: bool, message: str):
-        if interaction.user.get_role(staff):
-            try:
-                if ping:
-                    prepend = f'<@{ANNOUNCEMENT_ROLE}>:\n'
-                else:
-                    prepend = 'Announcement:'
-                channel = client.get_channel(ANNOUNCEMENT_CHANNEL)
-                await channel.send(f"{prepend}> {message}\n*Announced by <@{interaction.user.id}>.*")
-                await interaction.send(f"Announcement sent! See <#{ANNOUNCEMENT_CHANNEL}>")
-            except BaseException as e:
-                await interaction.send(error(e), ephemeral=True)
-        else:
-            await interaction.response.send(noperm('announce', interaction), ephemeral=True)
-"""
+
 def setup(bot):
     bot.add_cog(Moderation(bot))
     logger.debug('Setup cog "moderation"')
