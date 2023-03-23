@@ -54,7 +54,7 @@ Set it by copying the ID of the role, and using the command `/setting set settin
                     return
                 announcement = announcement.replace('\\n', '\n')
                 if ping:
-                    await channel_obj.send(f'**Announcement!** ||{role_obj.mention}||\n>>> {announcement}\n       *Announced By: {interaction.user.display_name}*')
+                    await channel_obj.send(f'**Announcement!** ||{role_obj.mention}||\n>>> {announcement}\n*         ——{interaction.user.display_name}*')
                 else:
                     await channel_obj.send(f'**Announcement!** \n> {announcement}\n*Announced By: {interaction.user.display_name}*')
                 await interaction.send(f'Announcement sent! See {channel_obj.mention}')
