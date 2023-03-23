@@ -8,3 +8,6 @@ settings:
   - 'commands_channel'
   - 'modlog_channel'
   - 'bugreports_channel'
+  - 'ip_address'
+  - 'ip_text'
+  - 'ip_game'
