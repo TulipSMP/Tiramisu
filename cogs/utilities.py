@@ -48,7 +48,7 @@ class Utilities(commands.Cog):
             time.sleep(15)
             times = 0
             for user in interaction.guild.members:
-                user.add_roles(role)
+                await user.add_roles(role)
                 times += 1
             await interaction.send(f'Added role `@{role.name}` to all users.')            
         else:   
