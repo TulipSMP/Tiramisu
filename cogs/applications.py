@@ -38,15 +38,15 @@ class Applications(commands.Cog):
         except ValueError:
             await interaction.send(f'The admins of this server have not set up applications! Ask them to set the `application_channel` setting to a valid channel ID.')
             return
-        message = f'**Mod Application Opened**\nBy: {interaction.user.name}#{interaction.user.discriminator} `{interaction.user.id}`'
+        message = f'**Mod Application Opened**\nBy: __{interaction.user.name}#{interaction.user.discriminator} `{interaction.user.id}`__'
         if position != None:
-            message += f'\nPosition Applied for: {position}'
-        message += f'\nAge Group: {age_group}'
+            message += f'\nPosition Applied for: __{position}__'
+        message += f'\nAge Group: __{age_group}__'
         if experience:
             message += '\n*This user has moderation experience*'
         else:
             message += '\n*This user does not have moderation experience*'
-        message += f'\nWhy should this user be chosen as a moderator?\n>>> {reason}'
+        message += f'\nWhy should this user be chosen as a moderator?\n> {reason}'
         await channel.send(message)
         await interaction.send(f'Your application has been submitted!')
         logger.info('Successfully completed an application.')
