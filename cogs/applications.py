@@ -32,7 +32,7 @@ class Applications(commands.Cog):
         position: Optional[str] = nextcord.SlashOption(description='What position are you applying for?', default=None, required=False, max_length=15),):
         db = Database(interaction.guild, reason = 'Slash command `/apply`')
         try:
-            channel = await interaction.guild.get_channel(int(db.fetch('application_channel'))) 
+            channel = interaction.guild.get_channel(int(db.fetch('application_channel'))) 
             if channel == None:
                 raise ValueError
         except ValueError:
