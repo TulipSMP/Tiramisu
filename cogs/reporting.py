@@ -72,7 +72,7 @@ class Reporting(commands.Cog):
                     extra_info = f'\n**Extra Information:** {extra}'
                 else:
                     extra_info = ''
-                await bugreports_channel.send(f'**Bug Report!** By: {interaction.user.mention})\
+                await bugreports_channel.send(f'**Bug Report!** By: {interaction.user.mention}\
 \n**Place:** {place}\n**Bug:** {behavior}\n**What should happen:** {expected}\n**How to Reproduce:** {reproduce}{extra_info}')
                 logger.info('Successfully completed a bug report action.')
                 await interaction.send(f'Successfully sent your bug report in {bugreports_channel.mention}!', ephemeral=True)
