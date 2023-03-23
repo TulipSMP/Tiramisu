@@ -12,7 +12,9 @@ class Moderation(commands.Cog):
         with open("config/config.yml", "r") as ymlfile:
             self.cfg = yaml.load(ymlfile, Loader=yaml.FullLoader)
     
-    TESTING_GUILD_ID=self.cfg["discord"]["testing_guild"]
+    with open("config/config.yml", "r") as ymlfile:
+        cfg = yaml.load(ymlfile, Loader=yaml.FullLoader)
+    TESTING_GUILD_ID = cfg["discord"]["testing_guild"]
 
     # Error Function
     def error(self, error):
