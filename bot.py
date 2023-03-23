@@ -24,8 +24,6 @@ with open("config/config.yml", "r") as ymlfile:
     cfg = yaml.load(ymlfile, Loader=yaml.FullLoader)
     logger.info(f'Successfully loaded config/config.yml: {cfg}')
 
-bot = commands.Bot()
-
 TESTING_GUILD_ID=cfg["discord"]["testing_guild"]
 
 # Database
@@ -64,6 +62,12 @@ bot_token = cfg["discord"]["token"]
 # messages (just for loading cogs commands)
 noperm = cfg["messages"]["noperm"]
 noperm_log = cfg["messages"]["noperm_log"]
+
+## INTENTS
+intents = nextcord.Intents.default()
+intents.members = True
+## LOGIN
+bot = commands.Bot(intents=intents)
 
 # Print to log when successfully logged in
 @bot.event
