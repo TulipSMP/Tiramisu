@@ -50,7 +50,7 @@ class Reporting(commands.Cog):
                 raise TypeError
             else:
                 await modlog_channel.send(f'**Minecraft Player Reported:**\nBy: {interaction.user.name}#{interaction.user.discriminator} (`{interaction.user.id}`)\
-\nReported User: `{player}``)\nReason: {reason}')
+\nReported User: `{player}`)\nReason: {reason}')
                 logger.info('Successfully completed a report player action.')
                 await interaction.send(f'Successfully sent your report to the moderators! Thanks for speaking up.', ephemeral=True)
         except TypeError:
