@@ -42,13 +42,29 @@ class Utilities(commands.Cog):
         role: Optional[nextcord.Role] = nextcord.SlashOption(description='What role to give everyone', required=True)):
         db = Database(interaction.guild, reason='Slash command `/addrole`')
         if interaction.user.id in db.fetch('admins'):
-            #if interaction.guild.member_count >= 20:
-            await interaction.response.defer()
+            if interaction.guild.member_count >= 10:
+                await interaction.response.defer()
             times = 0
             for user in interaction.guild.humans:
                 await user.add_roles(role, atomic=True, reason=f'{interaction.user.name}#{interaction.user.discriminator} used the `/addrole` command')
                 times += 1
-            await interaction.send(f'Added role `@{role.name}` to all users.')            
+            await interaction.send(f'Added role `@{role.name}` to all {times} users.')            
+        else:   
+            await interaction.send(self.cfg['messages']['noperm'], ephemeral=True)
+    
+    @nextcord.slash_command(description='Remove a specific role from all users', guild_ids=[TESTING_GUILD_ID])
+    async def delrole(self, interaction: nextcord.Interaction,
+        role: Optional[nextcord.Role] = nextcord.SlashOption(description='What role to remove from everyone', required=True)):
+        db = Database(interaction.guild, reason='Slash command `/delrole`')
+        if interaction.user.id in db.fetch('admins'):
+            if interaction.guild.member_count >= 10:
+                await interaction.response.defer()
+            times = 0
+            for user in interaction.guild.humans:
+                if role in user.roles:
+                    await user.add_roles(role, atomic=True, reason=f'{interaction.user.name}#{interaction.user.discriminator} used the `/delrole` command')
+                    times += 1
+            await interaction.send(f'Removed role `@{role.name}` from all {times} users that had it.')            
         else:   
             await interaction.send(self.cfg['messages']['noperm'], ephemeral=True)
 
