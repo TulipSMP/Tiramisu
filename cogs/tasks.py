@@ -26,6 +26,13 @@ class Tasks(commands.Cog):
         for guild in guilds:
             db = Database(guild, reason = f'Verifying database for guild {guild.id} (on start).')
             db.verify()
+            if not db.verify(custom='quizzes', check_others=False, check_settings=False):
+                with open('config/questions.yml', 'r') as ymlfile:
+                    q_config = yaml.load(ymlfile, Loader=yaml.FullLoader)
+                if db.create(table=q_config['database']['name'], custom=True, columns=q_config['database']['columns']):
+                    logger.success(f'Creates quizzes table for guild {guild.id}!')
+                else:
+                    logger.error(f'Failed to create quizzes table for guild {guild.id}')
         db.close()
     
     @commands.Cog.listener('on_guild_join')
@@ -34,13 +41,19 @@ class Tasks(commands.Cog):
         logger.info(f'Creating database tables for newly joined guild {guild.id}')
         db = Database(guild, reason = f'Creating database for new guild {guild.id}')
         db.create()
+        with open('config/questions.yml', 'r') as ymlfile:
+                    q_config = yaml.load(ymlfile, Loader=yaml.FullLoader)
+        if db.create(table=q_config['database']['name'], custom=True, columns=q_config['database']['columns']):
+            logger.success(f'Creates quizzes table for guild {guild.id}!')
+        else:
+            logger.error(f'Failed to create quizzes table for guild {guild.id}')
         db.close()
 
     @commands.Cog.listener('on_guild_leave')
     async def on_guild_leave(self, guild):
         logger.info(f'Removing tables for guild {guild.id} on leave!')
         db = Database(guild, reason = f'Deletion upon guild leave')
-        db.delete()
+        db.delete(custom=['quizzes'])
         db.close()
 
 def setup(bot):

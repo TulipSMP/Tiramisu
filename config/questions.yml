@@ -1,0 +1,37 @@
+database:
+  columns:
+    - 'id string'
+    - 'modules string'
+  name: 'quizzes'
+modules:
+  free_answer:
+    description: 'Answer a question'
+    prompt_type: 'question'
+  multiple_choice:
+    description: 'Select one of the available options'
+    prompt_type: 'select'
+    select_max: 1
+  multiple_select:
+    description: 'Select as many of the available options that apply'
+    prompt_type: 'select'
+    select_max: 0
+  yes_no:
+    description: 'Ask a yes or no question'
+    prompt_type: 'select_preset'
+    select_max: 1
+    select_preset:
+      - 'Yes'
+      - 'No'
+presets:
+  mod_application:
+    - yes_no:
+      prompt: 'Have you done moderation before?'
+    - multiple_select:
+      prompt: 'What is your age range? (in years)'
+      options:
+        - '13 - 14'
+        - '15 - 17'
+        - '18 - 20'
+        - '21+'
+    - free_answer:
+      prompt: 'Why do you think you would be a good fit for our mod team?'
