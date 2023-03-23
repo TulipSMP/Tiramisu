@@ -11,18 +11,18 @@ class Moderation(commands.Cog):
 
     # Variables
     with open("config/config.yml", "r") as ymlfile:
-        cfg = yaml.load(ymlfile, Loader=yaml.FullLoader)
+        self.cfg = yaml.load(ymlfile, Loader=yaml.FullLoader)
     TESTING_GUILD_ID=cfg["discord"]["testing_guild"]
 
     # Error Function
     def error(self, error):
         logger.error(f"Error in moderation.py: {error}")
-        return cfg['messages']['error'].replace('[[error]]', error)
+        return self.cfg['messages']['error'].replace('[[error]]', error)
 
     # No Permission Function
     def noperm(self, cmd, interaction):
         logger.debug(cfg['messages']['noperm_log'].replace('[[user]]', interaction.user.name).replace('[[user_id]]', interaction.user.id).replace('[[command]]', cmd))
-        return cfg['messages']['noperm']
+        return self.cfg['messages']['noperm']
 
     # Events
     @commands.Cog.listener()
@@ -53,9 +53,9 @@ class Moderation(commands.Cog):
                     logging_info = f'There was an error while trying to log this action.'
                 await interaction.send(f'{user.mention} was successfully warned!\n*{logging_info}*')
             except BaseException as e:
-                await interaction.send(error(e), ephemeral=True)
+                await interaction.send(self.error(e), ephemeral=True)
         else:
-            await interaction.send(self.cfg.noperm('warn', interaction), ephemeral=True)
+            await interaction.send(self.noperm('warn', interaction), ephemeral=True)
 
 def setup(bot):
     bot.add_cog(Moderation(bot))
