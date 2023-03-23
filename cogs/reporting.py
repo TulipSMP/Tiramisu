@@ -65,7 +65,7 @@ class Reporting(commands.Cog):
         db = Database(interaction.guild, reason='Slash command `/report user`')
         try:
             bugreports_channel =  interaction.guild.get_channel(int(db.fetch('bugreports_channel')))
-            if modlog_channel == None:
+            if bugreports_channel == None:
                 raise ValueError
             else:
                 if extra != None:
