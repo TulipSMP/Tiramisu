@@ -36,7 +36,7 @@ class Applications(commands.Cog):
             if channel == None:
                 raise ValueError
         except ValueError:
-            await interaction.send(f'The admins of this server have not set up applications! Ask them to set the `applications_channel` setting to a valid channel.')
+            await interaction.send(f'The admins of this server have not set up applications! Ask them to set the `applications_channel` setting to a valid channel ID.')
             return
         message = f'**Mod Application Opened**\nBy: {interaction.user.name}#{interaction.user.discriminator} `{interaction.user.id}`'
         if position != None:
