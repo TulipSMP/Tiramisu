@@ -17,7 +17,7 @@ class Utilities(commands.Cog):
     # Events
     @commands.Cog.listener()
     async def on_ready(self):
-        logger.info('Loaded cog catboy.py')
+        logger.info('Loaded cog utilities.py')
 
     # Commands
     @nextcord.slash_command(description="Get the Minecraft server IP", guild_ids=[TESTING_GUILD_ID])
@@ -37,5 +37,5 @@ class Utilities(commands.Cog):
         await interaction.send(f'**{game.title()} Server IP:** `{ip}`\n{text}{warn}')
 
 def setup(bot):
-    bot.add_cog(Catboy(bot))
-    logger.debug('Setup cog "catboy"')
+    bot.add_cog(Utilities(bot))
+    logger.debug('Setup cog "utilities"')
