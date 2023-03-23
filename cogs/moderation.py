@@ -40,6 +40,9 @@ class Moderation(commands.Cog):
         db = Database(interaction.guild, reason=f'Check for permission, `/warn`')
         if interaction.user.id in db.fetch('admins'):
             try:
+                if user.id == self.bot.user.id:
+                    await interaction.send('I cannot warn myself!')
+                    return
                 logger.debug(f'{interaction.user.id} warned {user.id} for {reason}')
                 await user.send(f"*You have been warned in __{interaction.guild.name}__! For:*\n>>> **{reason}**")
                 if show_message:
