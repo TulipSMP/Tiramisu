@@ -77,7 +77,7 @@ class Reporting(commands.Cog):
                 logger.info('Successfully completed a bug report action.')
                 await interaction.send(f'Successfully sent your bug report in {bugreports_channel.mention}!', ephemeral=True)
         except TypeError:
-            await interaction.send('The moderators have not yet (or incorrectly) set up where to send reports!\nAsk them to set the `bugreports_channel` setting to the ID of the channel where logs should be sent.')
+            await interaction.send('The moderators have not yet (or incorrectly) set up where to send reports!\nAsk them to set the `bugreports_channel` setting to the ID of the channel where bug reports should be sent.')
 def setup(bot):
     bot.add_cog(Reporting(bot))
     logger.debug('Setup cog "reporting"')
