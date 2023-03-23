@@ -7,10 +7,12 @@ from libs.database import Database
 class Utilities(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
+        with open("config/config.yml", "r") as ymlfile:
+            self.cfg = yaml.load(ymlfile, Loader=yaml.FullLoader)
     
     with open("config/config.yml", "r") as ymlfile:
-        self.cfg = yaml.load(ymlfile, Loader=yaml.FullLoader)
-    TESTING_GUILD_ID = self.cfg['discord']['testing_guild']
+        cfg = yaml.load(ymlfile, Loader=yaml.FullLoader)
+    TESTING_GUILD_ID = cfg['discord']['testing_guild']
 
     # Events
     @commands.Cog.listener()
