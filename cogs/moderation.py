@@ -38,7 +38,7 @@ class Moderation(commands.Cog):
         show_message: Optional[bool] = nextcord.SlashOption(description='If a warn message should be sent in your current channel, in addition to the warn.', default=True)):
         """ Warn a User """
         db = Database(interaction.guild, reason=f'Check for permission, `/warn`')
-        if interaction.user_id in db.fetch('admins'):
+        if interaction.user.id in db.fetch('admins'):
             try:
                 logger.debug(f'{interaction.user.id} warned {user.id} for {reason}')
                 await user.send(f"*You have been warned in __{interaction.guild.name}__! For:*\n>>> **{reason}**")
