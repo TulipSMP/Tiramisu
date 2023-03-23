@@ -33,7 +33,7 @@ class Reporting(commands.Cog):
                 raise TypeError
             else:
                 await modlog_channel.send(f'**User Reported:**\nBy: {interaction.user.name}#{interaction.user.discriminator} (`{interaction.user.id}`)\
-Reported User: {user.mention} ({user.name}#{user.discriminator}`{user.id}`)\nReason: {reason}')
+\nReported User: {user.mention} ({user.name}#{user.discriminator}`{user.id}`)\nReason: {reason}')
                 logger.info('Successfully completed a warn action.')
                 await interaction.send(f'Successfully sent your report to the moderators! Thanks for speaking up.', ephemeral=True)
         except TypeError:
