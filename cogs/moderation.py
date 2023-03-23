@@ -7,7 +7,7 @@ from typing import Optional
 
 class Moderation(commands.Cog):
     def __init__(self, bot):
-        self.client = bot
+        self.bot = bot
         
         with open("config/config.yml", "r") as ymlfile:
             self.cfg = yaml.load(ymlfile, Loader=yaml.FullLoader)
