@@ -3,6 +3,7 @@ import nextcord
 from nextcord.ext import commands
 import yaml
 from libs.database import Database
+from typing import Optional
 
 class Utilities(commands.Cog):
     def __init__(self, bot):
@@ -35,6 +36,22 @@ class Utilities(commands.Cog):
         if game == 'none':
             warn += '\nAsk the admins to change the setting `ip_game` to which game their server is for.'
         await interaction.send(f'**{game.title()} Server IP:** `{ip}`\n{text}{warn}')
+    
+    @nextcord.slash_command(description='Give all users a specific role', guild_ids=[TESTING_GUILD_ID])
+    async def addrole(self, interaction: nextcord.Interaction,
+        role: Optional[nextcord.Role] = nextcord.SlashOption(description='What role to give everyone', required=True)):
+        db = Database(interaction.guild, reason='Slash command `/addrole`')
+        if interaction.user.id in db.fetch('admins'):
+            #if interaction.guild.member_count >= 20:
+            await interaction.defer()
+            times = 0
+            for user in interaction.guild.members:
+                user.add_roles(role)
+                times += 1
+            await interaction.send(f'Added role `@{role.name}` to all users.')            
+        else:   
+            await interaction.send(self.cfg['messages']['noperm'], ephemeral=True)
+
 
 def setup(bot):
     bot.add_cog(Utilities(bot))
