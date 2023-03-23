@@ -3,16 +3,15 @@ import nextcord
 from nextcord.ext import commands
 import yaml
 from libs.database import Database
+from typing import Optional
 
 class Moderation(commands.Cog):
     def __init__(self, bot):
         self.client = bot
-    
-
-    # Variables
-    with open("config/config.yml", "r") as ymlfile:
-        self.cfg = yaml.load(ymlfile, Loader=yaml.FullLoader)
-    TESTING_GUILD_ID=cfg["discord"]["testing_guild"]
+        # Variables
+        with open("config/config.yml", "r") as ymlfile:
+            self.cfg = yaml.load(ymlfile, Loader=yaml.FullLoader)
+        self.TESTING_GUILD_ID=cfg["discord"]["testing_guild"]
 
     # Error Function
     def error(self, error):
@@ -30,27 +29,26 @@ class Moderation(commands.Cog):
         logger.info('Loaded cog moderation.py!')
 
     # Commands
-    @nextcord.slash_command(description="Warn a User", guild_ids=[TESTING_GUILD_ID])
-    async def warn(self, interaction: nextcord.Interaction, user: nextcord.Member, reason='No reason given.',
-        show_message='Whether to publicly display a warn in your current channel, in addition to a DM.'):
+    @nextcord.slash_command(description="Warn a User", guild_ids=[self.TESTING_GUILD_ID])
+    async def warn(self, interaction: nextcord.Interaction, user: nextcord.Member, 
+        reason: Optional[str] = nextcord.SlashOption(description='Why this user is being warned.', default='No reason given.', required=False),
+        show_message: Optional[bool] = nextcord.SlashOption(description='If a warn message should be sent in your current channel, in addition to the warn.', default=True)):
         """ Warn a User """
         db = Database(interaction.guild, reason=f'Check for permission, `/warn`')
-        if interaction.user in db.fetch('admins'):
+        if interaction.user_id in db.fetch('admins'):
             try:
-                await user.send(f"*You have been warned in __{interaction.guild.name}__! For:*\n> **{reason}**\n\
-                    Please make sure you have read this server's rules.")
                 logger.debug(f'{interaction.user.id} warned {user.id} for {reason}')
+                await user.send(f"*You have been warned in __{interaction.guild.name}__! For:*\n>>> **{reason}**")
                 await interaction.channel.send(f"{user.mention} has been warned for:\n{reason}", ephemeral=show_message)
                 try:
-                    modlog_channel = db.fetch('modlog_channel')
-                    if modlog_channel != 'none' or modlog_channel != None:
-                        log_channel = self.client.get_channel(modlog_channel)
-                        await log_channel.send(f'{user.mention} was warned by {interaction.user.name}#{interaction.user.discriminator} ID: `{interaction.user.id}`')
-                        logging_info = f'This action was logged successfully in {log_channel.mention}.'
+                    modlog_channel = self.client.get_channel( int(db.fetch('modlog_channel')) )
+                    if modlog_channel != None:
+                        await modlog_channel.send(f'{user.mention} was warned by {interaction.user.name}#{interaction.user.discriminator} ID: `{interaction.user.id}`')
+                        logging_info = f'This action was logged successfully in {modlog_channel.mention}.'
                     else:
-                        logging_info = f'Logging of moderation actions is not set up.'
+                        logging_info = f'This action could not be logged. Make sure the `modlog_channel` setting is correct.'
                 except:
-                    logging_info = f'There was an error while trying to log this action.'
+                    logging_info = f'This action could not be logged. Make sure the `modlog_channel` setting is correct.'
                 await interaction.send(f'{user.mention} was successfully warned!\n*{logging_info}*')
             except BaseException as e:
                 await interaction.send(self.error(e), ephemeral=True)
