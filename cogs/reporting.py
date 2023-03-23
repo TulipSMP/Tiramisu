@@ -38,6 +38,23 @@ class Reporting(commands.Cog):
                 await interaction.send(f'Successfully sent your report to the moderators! Thanks for speaking up.', ephemeral=True)
         except TypeError:
             await interaction.send('The moderators have not yet (or incorrectly) set up where to send reports!\nAsk them to set the `modlog_channel` setting to the ID of the channel where logs should be sent.')
+    
+    @report.subcommand(description='Report a minecraft player to the moderators')
+    async def player(self, interaction: nextcord.Interaction, 
+        player: Optional[str] = nextcord.SlashOption(description='The username of the player to report', required=True),
+        reason: Optional[str] = nextcord.SlashOption(description='Why are you reporting this player?', required=True),):
+        db = Database(interaction.guild, reason='Slash command `/report user`')
+        try:
+            modlog_channel =  interaction.guild.get_channel(int(db.fetch('modlog_channel')))
+            if modlog_channel == None:
+                raise TypeError
+            else:
+                await modlog_channel.send(f'**Minecraft Player Reported:**\nBy: {interaction.user.name}#{interaction.user.discriminator} (`{interaction.user.id}`)\
+\nReported User: `{player}``)\nReason: {reason}')
+                logger.info('Successfully completed a warn action.')
+                await interaction.send(f'Successfully sent your report to the moderators! Thanks for speaking up.', ephemeral=True)
+        except TypeError:
+            await interaction.send('The moderators have not yet (or incorrectly) set up where to send reports!\nAsk them to set the `modlog_channel` setting to the ID of the channel where logs should be sent.')
 def setup(bot):
     bot.add_cog(Reporting(bot))
     logger.debug('Setup cog "reporting"')
