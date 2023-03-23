@@ -20,7 +20,7 @@ class Utilities(commands.Cog):
         logger.info('Loaded cog utilities.py')
 
     # Commands
-    @nextcord.slash_command(description="Get the Minecraft server IP", guild_ids=[TESTING_GUILD_ID])
+    @nextcord.slash_command(description="Get the game server IP", guild_ids=[TESTING_GUILD_ID])
     async def ip(self, interaction: nextcord.Interaction):
         db = Database(interaction.guild, reason='Slash command `/ip`')
         ip = db.fetch('ip_address')
