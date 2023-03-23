@@ -50,10 +50,10 @@ class Moderation(commands.Cog):
                         await modlog_channel.send(f'{user.mention} was warned by {interaction.user.name}#{interaction.user.discriminator} ID: `{interaction.user.id}`')
                         logging_info = f'This action was logged successfully in {modlog_channel.mention}.'
                     else:
-                        logging_info = f'This action could not be logged. Make sure the `modlog_channel` setting is correct.'
+                        logging_info = f'This action was not logged. Make sure the `modlog_channel` setting is correct.'
                 except:
-                    logging_info = f'This action could not be logged. Make sure the `modlog_channel` setting is correct.'
-                await interaction.send(f'{user.mention} was successfully warned!\n*{logging_info}*')
+                    logging_info = f'This action was not logged. Make sure the `modlog_channel` setting is correct.'
+                await interaction.send(f'{user.mention} was successfully warned!\n*{logging_info}*', ephemeral=True)
             except BaseException as e:
                 await interaction.send(self.error(e), ephemeral=True)
         else:
