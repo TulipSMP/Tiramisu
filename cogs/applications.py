@@ -32,11 +32,11 @@ class Applications(commands.Cog):
         position: Optional[str] = nextcord.SlashOption(description='What position are you applying for?', default=None, required=False, max_length=15),):
         db = Database(interaction.guild, reason = 'Slash command `/apply`')
         try:
-            channel = await interaction.guild.get_channel(int(db.fetch('applications_channel'))) 
+            channel = await interaction.guild.get_channel(int(db.fetch('application_channel'))) 
             if channel == None:
                 raise ValueError
         except ValueError:
-            await interaction.send(f'The admins of this server have not set up applications! Ask them to set the `applications_channel` setting to a valid channel ID.')
+            await interaction.send(f'The admins of this server have not set up applications! Ask them to set the `application_channel` setting to a valid channel ID.')
             return
         message = f'**Mod Application Opened**\nBy: {interaction.user.name}#{interaction.user.discriminator} `{interaction.user.id}`'
         if position != None:
