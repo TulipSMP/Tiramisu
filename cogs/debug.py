@@ -45,6 +45,13 @@ class Debug(commands.Cog):
             await interaction.response.send_message(f"Sending data to log")
             logger.info(f'Found this data in "{t_type}_{db.guild.id}":\n{table}')
         db.close()
+    
+    @debug.subcommand(description='Show a list of all members', guild_ids=[TESTING_GUILD_ID])
+    async def members(self, interaction: nextcord.Interaction):
+        message = '**List Of all Members:**'
+        for user in interaction.guild.humans:
+            message += f'\n • {user.name}#{user.discriminator} ({user.display_name}) ID: `{user.id}`'
+        await interaction.send(message)
 
 def setup(bot):
     bot.add_cog(Debug(bot))
