@@ -19,7 +19,7 @@ class Moderation(commands.Cog):
     # Error Function
     def error(self, error):
         logger.error(f"Error in moderation.py: {error}")
-        return self.cfg['messages']['error'].replace('[[error]]', error)
+        return self.cfg['messages']['error'].replace('[[error]]', str(error))
 
     # No Permission Function
     def noperm(self, cmd, interaction):
