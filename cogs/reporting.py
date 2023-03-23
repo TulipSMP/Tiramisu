@@ -28,7 +28,7 @@ class Reporting(commands.Cog):
         reason: Optional[str] = nextcord.SlashOption(description='Why are you reporting this user?', required=True),):
         db = Database(interaction.guild, reason='Slash command `/report user`')
         try:
-            modlog_channel = self.bot.get_channel(int(db.fetch('modlog_channel')))
+            modlog_channel =  interaction.guild.get_channel(int(db.fetch('modlog_channel')))
             if modlog_channel == None:
                 raise TypeError
             else:
