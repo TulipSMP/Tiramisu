@@ -78,8 +78,8 @@ class Database:
     
     # Verify Databases
     @logger.catch
-    def verify(self, custom=None):
-        """ Verify admins_* and settings_* database for a certain guild """
+    def verify(self, custom=None, check_others=True):
+        """ Verify admins_* and settings_* table, or custom tables, for a certain guild """
         if self.cfg['storage'] == 'mysql':
             self.connect('verify')
         # Fetch list of tables
@@ -91,6 +91,8 @@ class Database:
         # Check if tables exist, and print success to log
         table_check = ['admins', 'settings']
         if custom != None:
+            if not check_others:
+                table_check = []
             if type(custom) == type(['li','st']):
                 for item in custom:
                     table_check.append(item)
