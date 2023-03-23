@@ -4,6 +4,7 @@ from nextcord.ext import commands
 import yaml
 from libs.database import Database
 from typing import Optional
+import time
 
 class Utilities(commands.Cog):
     def __init__(self, bot):
@@ -43,7 +44,8 @@ class Utilities(commands.Cog):
         db = Database(interaction.guild, reason='Slash command `/addrole`')
         if interaction.user.id in db.fetch('admins'):
             #if interaction.guild.member_count >= 20:
-            await interaction.defer()
+            await interaction.response.defer()
+            time.sleep(15)
             times = 0
             for user in interaction.guild.members:
                 user.add_roles(role)
