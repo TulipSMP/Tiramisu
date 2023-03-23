@@ -78,7 +78,7 @@ class Database:
     
     # Verify Databases
     @logger.catch
-    def verify(self, custom=None, check_others=True):
+    def verify(self, custom=None, check_others=True, check_settings=True):
         """ Verify admins_* and settings_* table, or custom tables, for a certain guild """
         if self.cfg['storage'] == 'mysql':
             self.connect('verify')
@@ -109,23 +109,24 @@ class Database:
         for table in table_repair:
             self.create(table)
             logger.warning(f'Table {table}_{self.guild.id} did not exist, so it was created.')
-        # Fetch list of necessary settings
-        with open('config/settings.yml') as settings_yml:
-            settings = yaml.load(settings_yml, Loader=yaml.FullLoader)
-        # Fetch existing settings from database
-        settings_existing = self.cursor.execute(f'select setting from "settings_{self.guild.id}";').fetchall()
-        settings_existing = list(itertools.chain(*settings_existing))
-        # Check what settings are missing
-        settings_missing = []
-        for setting in settings['settings']:
-            if setting in settings_existing:
-                pass
-            else:
-                settings_missing.append(setting)
-        # if setting is missing, create it
-        for setting in settings_missing:
-            self.cursor.execute(f'insert into "settings_{self.guild.id}" ( setting, value ) values ( "{setting}", "none" );')
-        logger.success(f'Added settings {settings_missing} to table settings_{self.guild.id} because they did not exist!')
+        if check_settings:
+            # Fetch list of necessary settings
+            with open('config/settings.yml') as settings_yml:
+                settings = yaml.load(settings_yml, Loader=yaml.FullLoader)
+            # Fetch existing settings from database
+            settings_existing = self.cursor.execute(f'select setting from "settings_{self.guild.id}";').fetchall()
+            settings_existing = list(itertools.chain(*settings_existing))
+            # Check what settings are missing
+            settings_missing = []
+            for setting in settings['settings']:
+                if setting in settings_existing:
+                    pass
+                else:
+                    settings_missing.append(setting)
+            # if setting is missing, create it
+            for setting in settings_missing:
+                self.cursor.execute(f'insert into "settings_{self.guild.id}" ( setting, value ) values ( "{setting}", "none" );')
+            logger.success(f'Added settings {settings_missing} to table settings_{self.guild.id} because they did not exist!')
 
     # Fetch information from DB
     # Default to settings if no table is specified
@@ -177,7 +178,7 @@ class Database:
     # Change information in DB
     # Should ALWAYS return true if successfull, false if an error occurred
     @logger.catch
-    def set(self, setting, value, clear=False):
+    def set(self, setting, value, clear=False, table=None):
         """ Set values within the Database. Returns true if successful.
         If value is None, an admin will be removed or a setting will be set to none """
         if self.cfg['storage'] == 'mysql':
@@ -206,6 +207,10 @@ class Database:
             except:
                 logger.warning(f'Failed to set value {setting} to {value} for table settings_{self.guild.id}!')
                 return False
+        elif table != None:
+            if clear:
+                self.cursor.execute(f'DELETE FROM "{table}_{self.guild.id}" WHERE {setting}="{value}";')
+                logger.info(f'Removed {setting} {value} from custom table {table}_{self.guild.id}')
         else:
             try:
                 self.cursor.execute(f'UPDATE "settings_{self.guild.id}" SET value="{value}" WHERE setting="{setting}"')
@@ -250,8 +255,9 @@ class Database:
             self.cursor.execute(f'drop table "admins_{self.guild.id}";')
             logger.debug(f'Deleted table admins_{self.guild.id}')
         if custom != None:
-            self.cursor.execute(f'drop table "{custom}_{self.guild.id}";')
-            logger.debug(f'Deleted custom table {custom}_{self.guild.id}.')
+            for table in custom:
+                self.cursor.execute(f'drop table "{table}_{self.guild.id}";')
+                logger.debug(f'Deleted custom table {table}_{self.guild.id}.')
         return True
 
 
