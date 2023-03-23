@@ -61,7 +61,7 @@ class Utilities(commands.Cog):
                 await interaction.response.defer()
             times = 0
             for user in interaction.guild.humans:
-                await user.add_roles(role, atomic=True, reason=f'{interaction.user.name}#{interaction.user.discriminator} used the `/delrole` command')
+                await user.remove_roles(role, atomic=True, reason=f'{interaction.user.name}#{interaction.user.discriminator} used the `/delrole` command')
                 times += 1
             await interaction.send(f'Removed role `@{role.name}` from all {times} users.')            
         else:   
