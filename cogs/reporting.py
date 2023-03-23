@@ -7,7 +7,7 @@ from typing import Optional
 
 class Reporting(commands.Cog):
     def __init__(self, bot):
-        self.client = bot
+        self.bot = bot
     
     with open("config/config.yml", "r") as ymlfile:
         cfg = yaml.load(ymlfile, Loader=yaml.FullLoader)
