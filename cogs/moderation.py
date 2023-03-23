@@ -42,7 +42,8 @@ class Moderation(commands.Cog):
             try:
                 logger.debug(f'{interaction.user.id} warned {user.id} for {reason}')
                 await user.send(f"*You have been warned in __{interaction.guild.name}__! For:*\n>>> **{reason}**")
-                await interaction.channel.send(f"{user.mention} has been warned for:\n{reason}", ephemeral=show_message)
+                if show_message:
+                    await interaction.channel.send(f"{user.mention} has been warned for:\n{reason}")
                 try:
                     modlog_channel = self.client.get_channel( int(db.fetch('modlog_channel')) )
                     if modlog_channel != None:
