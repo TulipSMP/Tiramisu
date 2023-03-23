@@ -46,7 +46,7 @@ class Debug(commands.Cog):
             logger.info(f'Found this data in "{t_type}_{db.guild.id}":\n{table}')
         db.close()
     
-    @debug.subcommand(description='Show a list of all members', guild_ids=[TESTING_GUILD_ID])
+    @debug.subcommand(description='Show a list of all members')
     async def members(self, interaction: nextcord.Interaction):
         message = '**List Of all Members:**'
         for user in interaction.guild.humans:
