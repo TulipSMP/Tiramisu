@@ -69,6 +69,20 @@ class Settings(commands.Cog):
                 else:
                     should_clear = False
                 if db.set(setting, value, clear=should_clear):
+                    try:
+                        if self.bot.get_channel(int(value)) != None:
+                            value_channel = self.bot.get_channel(int(value))
+                            value = value_channel.mention
+                        elif interaction.guild.get_role(int(value)) != None:
+                            value_role = interaction.guild.get_role(int(value))
+                            value = value_role.mention
+                        elif self.bot.get_user(int(value)) != None:
+                            value_user = self.bot.get_user(int(value))
+                            value = value_user.mention
+                    except TypeError:
+                        pass
+                    except ValueError:
+                        pass
                     if should_clear:
                         message = f'Successfully set **{setting}** back to default.\nTo set it to a custom value, remember to use the `value:` option.'
                     else:
