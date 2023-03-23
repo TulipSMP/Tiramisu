@@ -45,7 +45,7 @@ class Utilities(commands.Cog):
             #if interaction.guild.member_count >= 20:
             await interaction.response.defer()
             times = 0
-            for user in interaction.guild.members:
+            for user in interaction.guild.humans:
                 await user.add_roles(role)
                 times += 1
             await interaction.send(f'Added role `@{role.name}` to all users.')            
