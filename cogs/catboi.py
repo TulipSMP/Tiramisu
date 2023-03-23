@@ -2,10 +2,11 @@ from logging42 import logger
 import nextcord
 from nextcord.ext import commands
 import yaml
+from libs.database import Database
 
 class Catboy(commands.Cog):
     def __init__(self, bot):
-        self.client = bot
+        self.bot = bot
     
     with open("config/config.yml", "r") as ymlfile:
         cfg = yaml.load(ymlfile, Loader=yaml.FullLoader)
