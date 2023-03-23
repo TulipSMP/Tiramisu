@@ -30,13 +30,13 @@ class Reporting(commands.Cog):
         try:
             modlog_channel = self.bot.get_channel(int(db.fetch('modlog_channel')))
             if modlog_channel == None:
-                raise ValueError
+                raise TypeError
             else:
                 await modlog_channel.send(f'**User Reported:**\nBy: {interaction.user.name}#{interaction.user.discriminator} (`{interaction.user.id}`)\
 Reported User: {user.mention} ({user.name}#{user.discriminator}`{user.id}`)\nReason: {reason}')
                 logger.info('Successfully completed a warn action.')
                 await interaction.send(f'Successfully sent your report to the moderators! Thanks for speaking up.', ephemeral=True)
-        except ValueError:
+        except TypeError:
             await interaction.send('The moderators have not yet (or incorrectly) set up where to send reports!\nAsk them to set the `modlog_channel` setting to the ID of the channel where logs should be sent.')
 def setup(bot):
     bot.add_cog(Reporting(bot))
