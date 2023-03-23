@@ -55,6 +55,29 @@ class Reporting(commands.Cog):
                 await interaction.send(f'Successfully sent your report to the moderators! Thanks for speaking up.', ephemeral=True)
         except TypeError:
             await interaction.send('The moderators have not yet (or incorrectly) set up where to send reports!\nAsk them to set the `modlog_channel` setting to the ID of the channel where logs should be sent.')
+    @report.subcommand(description='Report a minecraft player to the moderators')
+    async def bug(self, interaction: nextcord.Interaction, 
+        place: Optional[str] = nextcord.SlashOption(description='Where does this bug occur?', required=True),
+        behavior: Optional[str] = nextcord.SlashOption(description='What happens when this bug occurs?', required=True),
+        expected: Optional[str] = nextcord.SlashOption(description='What should happen instead of this bug?', required=True),
+        reproduce: Optional[str] = nextcord.SlashOption(description='What do you have to do for this bug to happen?', required=True),
+        extra: Optional[str] = nextcord.SlashOption(description='Other info that might be helpful to us in fixing this bug', required=False, default=None)):
+        db = Database(interaction.guild, reason='Slash command `/report user`')
+        try:
+            bugreports_channel =  interaction.guild.get_channel(int(db.fetch('bugreports_channel')))
+            if modlog_channel == None:
+                raise TypeError
+            else:
+                if extra != None:
+                    extra_info = f'\n**Extra Information:** {extra}'
+                else:
+                    extra_info = ''
+                await bugreports_channel.send(f'**Bug Report!** By: {interaction.user.mention})\
+\n**Place:** {place}\n**Bug:** {behavior}\n**What should happen:** {expected}\n**How to Reproduce:** {reproduce}{extra_info}')
+                logger.info('Successfully completed a bug report action.')
+                await interaction.send(f'Successfully sent your bug report in {bugreports_channel.mention}!', ephemeral=True)
+        except TypeError:
+            await interaction.send('The moderators have not yet (or incorrectly) set up where to send reports!\nAsk them to set the `modlog_channel` setting to the ID of the channel where logs should be sent.')
 def setup(bot):
     bot.add_cog(Reporting(bot))
     logger.debug('Setup cog "reporting"')

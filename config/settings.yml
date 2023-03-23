@@ -7,3 +7,4 @@ settings:
   - 'server_admin'
   - 'commands_channel'
   - 'modlog_channel'
+  - 'bugreports_channel'
