@@ -22,7 +22,7 @@ class Applications(commands.Cog):
         logger.info('Loaded cog applications.py')
 
     # Commands
-    @nextcord.slash_command(description="Apply to be a moderator", guild_ids=[TESTING_GUILD_ID])
+    @nextcord.slash_command(description="Apply for a position", guild_ids=[TESTING_GUILD_ID])
     async def apply(self, interaction: nextcord.Interaction,
         age_group: Optional[str] = nextcord.SlashOption(description='What age group are you in?',
             required=True, choices=["13 - 14 years old", "15 - 17 years old", "18 - 20 years old", "21+ years old"]),
@@ -42,5 +42,5 @@ class Applications(commands.Cog):
         message += f'\nWhy should this user be chosen as a moderator?\n>>> {reason}'
 
 def setup(bot):
-    bot.add_cog(Catboy(bot))
+    bot.add_cog(Applications(bot))
     logger.debug('Setup cog "applications"')
