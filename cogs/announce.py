@@ -21,7 +21,7 @@ class Announce(commands.Cog):
     # Commands
     @nextcord.slash_command(description="Make an announcement", guild_ids=[TESTING_GUILD_ID])
     async def announce(self, interaction: nextcord.Interaction, 
-        announcement: Optional[str] = nextcord.SlashOption(required=True, description='What to say in the announcement'),
+        announcement: Optional[str] = nextcord.SlashOption(required=True, description='What to say in the announcement. Use `\\n` for a new line'),
         ping: Optional[bool] = nextcord.SlashOption(required=False, description='Should your announcement role be pinged?')):
         db = Database(interaction.guild, reason = 'Slash command `/announce`')
         if interaction.user.id in db.fetch('admins'):
@@ -54,7 +54,7 @@ Set it by copying the ID of the role, and using the command `/setting set settin
                     return
                 announcement = announcement.replace('\\n', '\n')
                 if ping:
-                    await channel_obj.send(f'**Announcement!** ||{role_obj.mention}||\n>>> {announcement}\n*         ——{interaction.user.display_name}*')
+                    await channel_obj.send(f'**Announcement!** ||{role_obj.mention}||\n>>> {announcement}\n         —{interaction.user.display_name}')
                 else:
                     await channel_obj.send(f'**Announcement!** \n> {announcement}\n*Announced By: {interaction.user.display_name}*')
                 await interaction.send(f'Announcement sent! See {channel_obj.mention}')
