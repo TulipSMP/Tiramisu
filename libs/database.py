@@ -15,6 +15,10 @@ class Database:
             self.settings = yaml.load(ymlfile, Loader=yaml.FullLoader)
         if self.cfg['storage'] == 'sqlite':
             self.connect('init')
+        
+        if type(self.guild) == type(100):
+            logger.critical(f'Database() should be invoked with a Guild() object, not a guild id!')
+            sys.exit(2)
 
     # Functions
     # Connect to DB
