@@ -49,12 +49,12 @@ class Database:
         logger.info(f'Connected to {self.db_type} database in {subreason} for {self.reason}')
     # Create database tables
     @logger.catch
-    def create(self, table=None):
+    def create(self, table=None, custom=False, columns=None):
         """ Create Tables for Database required for every guild """
         if self.cfg['storage'] == 'mysql':
             self.connect('create')
         if table == 'admins' or table == None:
-            self.cursor.execute(f'CREATE TABLE IF NOT EXISTS admins_{self.guild.id} ( id int, admin bit );')
+            self.cursor.execute(f'CREATE TABLE IF NOT EXISTS "admins_{self.guild.id}" ( id int, admin bit );')
             if self.db_type == 'sqlite':
                 self.sql.commit()
             logger.info(f'Created table "admins_{self.guild.id}", if it doesnt already exist!')
@@ -65,10 +65,20 @@ class Database:
             if self.db_type == 'sqlite':
                 self.sql.commit()
             logger.info(f'Created table "settings_{self.guild.id}", if it doesnt already exist!')
+        if custom:
+            if type(columns) != type(str([1,2,3])) or table == None:
+                logger.critical(f'A custom table was passed but it was not described correctly!')
+            else:
+                columns_string = ''
+                for item in columns:
+                    columns_string += f' {item},'
+                if columns_string.endswith(','):
+                    columns_string = columns_string.removesuffix(',')
+                self.cursor.execute(f'CREATE TABLE IF NOT EXISTS "{table}_{self.guild.id}" ({columns_string} );')
     
     # Verify Databases
     @logger.catch
-    def verify(self):
+    def verify(self, custom=None):
         """ Verify admins_* and settings_* database for a certain guild """
         if self.cfg['storage'] == 'mysql':
             self.connect('verify')
@@ -80,6 +90,12 @@ class Database:
         table_list = list(itertools.chain(*table_list))
         # Check if tables exist, and print success to log
         table_check = ['admins', 'settings']
+        if custom != None:
+            if type(custom) == type(['li','st']):
+                for item in custom:
+                    table_check.append(item)
+            else:
+                table_check.append(custom)
         table_repair = []
         for table in table_check:
             if f'{table}_{self.guild.id}' in table_list:
@@ -112,8 +128,14 @@ class Database:
     # Fetch information from DB
     # Default to settings if no table is specified
     @logger.catch
-    def fetch(self, setting, admin=False, verifying_settings=False):
-        """ Fetch information from Database """
+    def fetch(self, setting, admin=False, verifying_settings=False, custom=False, table=None, setting_row=None, select_row=None,
+        fetchall=False):
+        """ Fetch information from Database 
+        To access a custom table, the following optional parameters must be specified:
+            - custom=True
+            - setting_row (to check for `setting` in sql select)
+            - select_row (the row to return output from) 
+            - setting (what to check for in setting_row in sql select. should be a unique identifier)"""
         if self.cfg['storage'] == 'mysql':
             self.connect('fetch')
         if admin or setting == 'admins':
@@ -127,6 +149,18 @@ class Database:
                 if item == 1:
                     admin_list.remove(1)
             return admin_list
+        elif custom and table != None and setting_row != None and select_row != None:
+            logger.debug(f'Accessing custom table {table}_{self.guild.id}.')
+            try:
+                statement = f'SELECT "{select_row}" FROM "{table}_{self.guild.id}" WHERE {setting_row}="{setting}"'
+                if fetchall:
+                    tup = self.cursor.execute(statement).fetchall()
+                    return list(f"[{tup.replace('(', '').replace(')', '')}]")
+                else:
+                    tup = self.cursor.execute(statement).fetchone()
+                    return str(tup).replace('(', '').replace(')', '').replace("'", '').replace(',', '')
+            except self.current_database.OperationalError:
+                return False
         else:
             if verifying_settings:
                 if setting in self.cursor.execute(f'SELECT setting FROM "settings_{self.guild.id}" WHERE setting="{setting}"').fetchall():
@@ -203,7 +237,7 @@ class Database:
     
     # Delete tables of a guild
     @logger.catch
-    def delete(self, settings=True, admins=True):
+    def delete(self, settings=True, admins=True, custom=None):
         """ Completely delete a guild's data """
         if self.cfg['storage'] == 'mysql':
             self.connect('delete')
@@ -213,6 +247,9 @@ class Database:
         if admins:
             self.cursor.execute(f'drop table "admins_{self.guild.id}";')
             logger.debug(f'Deleted table admins_{self.guild.id}')
+        if custom != None:
+            self.cursor.execute(f'drop table "{custom}_{self.guild.id}";')
+            logger.debug(f'Deleted custom table {custom}_{self.guild.id}.')
         return True
 
 
