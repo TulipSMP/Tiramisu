@@ -31,6 +31,13 @@ class Applications(commands.Cog):
             choices={"Yes":True, "No":False}),
         position: Optional[str] = nextcord.SlashOption(description='What position are you applying for?', default=None, required=False, max_length=15),):
         db = Database(interaction.guild.id, reason = 'Slash command `/apply`')
+        try:
+            channel = await interaction.guild.get_channel(int(db.fetch('applications_channel'))) 
+            if channel == None:
+                raise ValueError
+        except ValueError:
+            await interaction.send(f'The admins of this server have not set up applications! Ask them to set the `applications_channel` setting to a valid channel.')
+            return
         message = f'**Mod Application Opened**\nBy: {interaction.user.name}#{interaction.user.discriminator} `{interaction.user.id}`'
         if position != None:
             message += f'\nPosition Applied for: {position}'
@@ -40,6 +47,9 @@ class Applications(commands.Cog):
         else:
             message += '\n*This user does not have moderation experience*'
         message += f'\nWhy should this user be chosen as a moderator?\n>>> {reason}'
+        await channel.send(message)
+        await interaction.send(f'Your application has been submitted!')
+        logger.info('Successfully completed an application.')
 
 def setup(bot):
     bot.add_cog(Applications(bot))

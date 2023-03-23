@@ -11,3 +11,4 @@ settings:
   - 'ip_address'
   - 'ip_text'
   - 'ip_game'
+  - 'application_channel'
