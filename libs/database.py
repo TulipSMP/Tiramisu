@@ -61,57 +61,11 @@ class Database:
             if self.db_type == 'sqlite':
                 self.sql.commit()
             logger.info(f'Created table "settings_{self.guild.id}", if it doesnt already exist!')
-    # Verify database exists and is correctly setup
-    @logger.catch
-    def _verify(self, tables=True, repair=True):
-        """ Make sure tables exist, and create them if they dont """
-        if self.cfg['storage'] == 'mysql':
-            self.connect('verify')
-        if tables:
-            admins_exists = False
-            settings_exists = False
-            if self.db_type == 'sqlite':
-                existing = self.cursor.execute('select name from sqlite_schema where type="table" and name not like "sqlite_%";').fetchall()
-            else:
-                existing = self.cursor.execute('select * from information_schema.tables;').fetchall()
-            if f'admins_{self.guild.id}' in existing:
-                admins_exists = True
-                logger.success(f'Admins table exists for guild {self.guild.id}')
-            if f'settings_{self.guild.id}' in existing:
-                settings_exists = True
-                logger.success(f'Settings table exists for guild {self.guild.id}')
-            if self.db_type == 'sqlite':
-                self.sql.commit()
-        if repair:
-            settings_absent = []
-            amend_settings = False
-            try:
-                table = self.cursor.execute(f'select * from "settings_{self.guild.id}";').fetchall()
-            except self.current_database.OperationalError:
-                self.create(table='settings')
-                table = self.cursor.execute(f'select * from "settings_{self.guild.id}";').fetchall()
-            for setting in self.settings['settings']:
-                if setting in table:
-                    pass
-                else:
-                    settings_absent.append(setting)
-                    amend_settings = True
-            if amend_settings:
-                for setting in settings_absent:
-                    self.cursor.execute(f'INSERT INTO "settings_{self.guild.id}" ( setting, value ) VALUES ( "{setting}", "none" )')
-                if self.db_type == 'sqlite':
-                    self.sql.commit()
-        if not admins_exists and repair:
-            logger.warning(f'Created admins table for guild {self.guild.id} because it did not exist!')
-            self.create(table='admins')
-        if not settings_exists and repair:
-            logger.warning(f'Created settings table for guild {self.guild.id} because it did not exist!')
-            self.create(table='settings')
     
-    # New verify functino
+    # Verify Databases
     @logger.catch
     def verify(self):
-        """ New, simple verifying function """
+        """ Verify admins_* and settings_* database for a certain guild """
         if self.cfg['storage'] == 'mysql':
             self.connect('verify')
         # Fetch list of tables
