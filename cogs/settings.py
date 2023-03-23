@@ -37,7 +37,7 @@ class Settings(commands.Cog):
                         value_channel = self.bot.get_channel(int(value))
                         value = value_channel.mention
                     elif interaction.guild.get_role(int(value)) != None:
-                        value_role = self.bot.get_role(int(value))
+                        value_role = interaction.guild.get_role(int(value))
                         value = value_role.mention
                     elif self.bot.get_user(int(value)) != None:
                         value_user = self.bot.get_user(int(value))
