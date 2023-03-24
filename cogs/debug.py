@@ -15,7 +15,7 @@ class Debug(commands.Cog):
     # Events
     @commands.Cog.listener()
     async def on_ready(self):
-        logger.info('Loaded cog hello.py')
+        logger.info('Loaded cog debug.py')
 
     bot = commands.Bot()
 
