@@ -52,25 +52,33 @@ class Admin(commands.Cog):
     
     # List administrators
     @admin.subcommand(description='List administrators')
-    async def list(self, interaction: nextcord.Interaction, mention_admins=True):
+    async def list(self, interaction: nextcord.Interaction, mention_admins=None):
         if interaction.user.id == interaction.guild.owner_id or interaction.user.id in admins:
             db = Database(interaction.guild, reason='Slash command: `admin list`')
             msg = f'**Registered Administrators:**\n'
             try:
                 msg_admins = ''
                 for admin in db.fetch('admins'):
-                    if mention_admins:
+                    if mention_admins != None:
                         msg_admins += f'• <@{admin}> `{admin}`\n'
                     else:
-                        msg_agmins += f'• {admin}'
+                        user = self.bot.get_user(int(admin))
+                        if user != None:
+                            if user.name == user.display_name:
+                                user_display = f' {user.name}#{user.discriminator}'
+                            else:
+                                user_display = f' {user.name}#{user.discriminator} *({user.display_name})*'
+                        else:
+                            user_display = ''
+                        msg_admins += f'• {user_display} `{admin}`\n'
                 logger.debug(f"Listed administrators for {interaction.user.name} ({interaction.user.id})")
-                msg += msg_admins
-                await interaction.send(msg)
+                await interaction.send(msg + msg_admins)
             except BaseException as ex:
                 await interaction.send(self.cfg['messages']['error'].replace('[[error]]', str(ex)))
                 logger.error(f'Failed to fetch list of admins for guild {db.guild.id}! Error: {ex}', exc_info=True)
-            except sqlite3.OperationalError:
-                await interaction.send(self.cfg['messages']['error'])
+            except db.current_database.OperationalError:
+                logger.critical(f'OperationalError in `/admin list` for guild {db.guild.id}')
+                await interaction.send(self.cfg['messages']['error'].replace('[[error]]', 'OperationalError: either table does not exist, or database could not be accessed!'))
             db.close()
         else:
             await interaction.send(self.cfg["messages"]["noperm"], ephemeral=True)
