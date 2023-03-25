@@ -9,6 +9,8 @@ This bot is not finished, and is far from useable. In the meantime, feel free to
 ## Getting Started
 See [Getting Started](./doc/getting-started.md) for instructions on how to run and develop this bot.
 
+All our documentation is in the [doc/](/doc/) directory.
+
 ## Roadmap
 There's a lot of things we'd like to do with this bot, but here's a general idea of our current scope of the project
 
