@@ -38,6 +38,10 @@ If you want to change a setting for some reason, use the `.set()` method:
 ```python
 db.set('your_setting', 'your_value')
 ```
+You should ALWAYS call the `.close()` method, which saves changes to the database if it's using `sqlite`.
+```python
+db.close()
+```
 
 ## Database
 On the low-level, each guild the bot is in has a table called `settings_{guild.id}` (where `{guild.id}` is the guild's ID). In this database, there are two columns/values: `setting` and `value`. Both are strings. This is checked whenever the bot starts, and tables are created whenever the bot joins a new guild.
