@@ -20,6 +20,14 @@ class Settings(commands.Cog):
     async def on_ready(self):
         logger.info('Loaded cog settings.py')
 
+    # Functions
+    def occurs(self, string: str, char: str):
+        count = 0
+        for i in string:
+            if i == char:
+                count += 1
+        return count
+
     # Commands
     @nextcord.slash_command(description='Change and view settings', guild_ids=[TESTING_GUILD_ID])
     async def setting(self, interaction: nextcord.Interaction):
@@ -70,15 +78,36 @@ class Settings(commands.Cog):
                     should_clear = False
                 if db.set(setting, value, clear=should_clear):
                     try:
-                        if self.bot.get_channel(int(value)) != None:
+                        try:
+                            value = int(value)
+                        except TypeError:
+                            pass
+                        except ValueError:
+                            pass
+                        if setting.endswith('_channel'):
+                            kind = 'channel'
+                        elif setting.endswith('_role'):
+                            kind = 'role'
+                        elif setting.endswith('_user'):
+                            kind = 'user'
+                        elif setting.endswith('_address'):
+                            kind = 'address'
+                        else:
+                            kind = 'text'
+                        if self.bot.get_channel(value) != None:
                             value_channel = self.bot.get_channel(int(value))
                             value = value_channel.mention
-                        elif interaction.guild.get_role(int(value)) != None:
+                            channel = True
+                        elif interaction.guild.get_role(value) != None:
                             value_role = interaction.guild.get_role(int(value))
                             value = value_role.mention
-                        elif self.bot.get_user(int(value)) != None:
+                            role = True
+                        elif self.bot.get_user(value) != None:
                             value_user = self.bot.get_user(int(value))
                             value = value_user.mention
+                            user = True
+                        elif self.occurs(value, '.') >= 2 and setting.endswith('_address'):
+                            address = True
                     except TypeError:
                         pass
                     except ValueError:
@@ -86,7 +115,16 @@ class Settings(commands.Cog):
                     if should_clear:
                         message = f'Successfully set **{setting}** back to default.\nTo set it to a custom value, remember to use the `value:` option.'
                     else:
-                        message = f'Successfully set **{setting}** to __{value}__'
+                        suffix = ''
+                        if kind == 'channel' and not channel:
+                            suffix = '\n**Warning:** This should be set to a valid channel!'
+                        elif kind == 'role' and not role:
+                            suffix = '\n**Warning:** This should be set to a valid role!'
+                        elif kind == 'user' and not user:
+                            suffix = '\n**Warning:** This should be set to a valid user!'
+                        elif kind == 'address' and not address:
+                            suffix = '\n**Warning:** This should be set to a valid address!'
+                        message = f'Successfully set **{setting}** to __{value}__{suffix}'
                     logger.success(f'Changed setting "{setting}" for guild {db.guild.id}!')
                 else:
                     message = f'Failed to set **{setting}**!'
