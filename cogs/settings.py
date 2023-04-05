@@ -94,6 +94,12 @@ class Settings(commands.Cog):
                             kind = 'address'
                         else:
                             kind = 'text'
+
+                        channel = False
+                        role = False
+                        user = False
+                        address = False
+
                         if self.bot.get_channel(value) != None:
                             value_channel = self.bot.get_channel(int(value))
                             value = value_channel.mention
