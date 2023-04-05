@@ -85,6 +85,7 @@ class Settings(commands.Cog):
                         except ValueError:
                             pass
                         if setting.endswith('_channel'):
+                            setting = setting.trim().replace('<#', '').replace('>')
                             kind = 'channel'
                         elif setting.endswith('_role'):
                             kind = 'role'
