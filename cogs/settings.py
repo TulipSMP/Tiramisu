@@ -91,18 +91,18 @@ class Settings(commands.Cog):
 
                 if db.set(setting, value, clear=should_clear):
                     try:
-                        try:
-                            value = int(value)
-                        except TypeError:
-                            pass
-                        except ValueError:
-                            pass
+                        value = int(value)
+                    except TypeError:
+                        pass
+                    except ValueError:
+                        pass
 
-                        channel = False
-                        role = False
-                        user = False
-                        address = False
-
+                    channel = False
+                    role = False
+                    user = False
+                    address = False
+                    
+                    try:
                         if self.bot.get_channel(value) != None:
                             value_channel = self.bot.get_channel(int(value))
                             value = value_channel.mention
