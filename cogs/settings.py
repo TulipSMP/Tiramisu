@@ -76,6 +76,19 @@ class Settings(commands.Cog):
                     should_clear = True
                 else:
                     should_clear = False
+                
+                if setting.endswith('_channel'):
+                    setting = setting.strip().replace('<#', '').replace('>', '')
+                    kind = 'channel'
+                elif setting.endswith('_role'):
+                    kind = 'role'
+                elif setting.endswith('_user'):
+                    kind = 'user'
+                elif setting.endswith('_address'):
+                    kind = 'address'
+                else:
+                    kind = 'text'
+
                 if db.set(setting, value, clear=should_clear):
                     try:
                         try:
@@ -84,17 +97,6 @@ class Settings(commands.Cog):
                             pass
                         except ValueError:
                             pass
-                        if setting.endswith('_channel'):
-                            setting = setting.strip().replace('<#', '').replace('>')
-                            kind = 'channel'
-                        elif setting.endswith('_role'):
-                            kind = 'role'
-                        elif setting.endswith('_user'):
-                            kind = 'user'
-                        elif setting.endswith('_address'):
-                            kind = 'address'
-                        else:
-                            kind = 'text'
 
                         channel = False
                         role = False
