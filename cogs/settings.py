@@ -9,11 +9,16 @@ class Settings(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
         with open('config/settings.yml', 'r') as settings_yml:
-                self.settings = yaml.load(settings_yml, Loader=yaml.FullLoader)
+            self.settings = yaml.load(settings_yml, Loader=yaml.FullLoader)
     
+    # Fetch yaml values for use in function definitions
     with open("config/config.yml", "r") as ymlfile:
         cfg = yaml.load(ymlfile, Loader=yaml.FullLoader)
     TESTING_GUILD_ID=cfg["discord"]["testing_guild"]
+
+    with open("config/settings.yml", "r") as settings_yml:
+        settings_raw = yaml.load(settings_yml, Loader=yaml.FullLoader)
+        SETTINGS = settings_raw['settings']
 
     # Events
     @commands.Cog.listener()
@@ -35,7 +40,7 @@ class Settings(commands.Cog):
 
     @setting.subcommand(description='View settings')
     async def get(self, interaction: nextcord.Interaction, 
-        setting: Optional[str] = nextcord.SlashOption(description='Which setting to view. Use "all" to get a list of available options.', required=True)):
+        setting: Optional[str] = nextcord.SlashOption(description='Which setting to view. Use "all" to get a list of available options.', required=True, options=SETTINGS + ['all'])):
         db = Database(interaction.guild, reason='Slash command `/setting get`')
         if interaction.user.id in db.fetch('admins'):
             if setting in self.settings['settings']:
@@ -67,7 +72,7 @@ class Settings(commands.Cog):
     
     @setting.subcommand(description='Change settings')
     async def set(self, interaction: nextcord.Interaction,
-        setting: Optional[str] = nextcord.SlashOption(description='Which setting to change', required=True),
+        setting: Optional[str] = nextcord.SlashOption(description='Which setting to change', required=True, options=SETTINGS),
         value: Optional[str] = nextcord.SlashOption(description='What to change it to', default='none')):
         db = Database(interaction.guild, reason='Slash command `/setting set`')
         if interaction.user.id in db.fetch('admins'):
@@ -101,7 +106,7 @@ class Settings(commands.Cog):
                     role = False
                     user = False
                     address = False
-                    
+
                     try:
                         if self.bot.get_channel(value) != None:
                             value_channel = self.bot.get_channel(int(value))
