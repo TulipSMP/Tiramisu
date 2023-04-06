@@ -8,10 +8,9 @@ from typing import Optional
 class Announce(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
-    
-    with open("config/config.yml", "r") as ymlfile:
-        cfg = yaml.load(ymlfile, Loader=yaml.FullLoader)
-    TESTING_GUILD_ID=cfg["discord"]["testing_guild"]
+        with open("config/config.yml", "r") as ymlfile:
+            self.cfg = yaml.load(ymlfile, Loader=yaml.FullLoader)
+
 
     # Events
     @commands.Cog.listener()
@@ -19,7 +18,7 @@ class Announce(commands.Cog):
         logger.info('Loaded cog announce.py')
 
     # Commands
-    @nextcord.slash_command(description="Make an announcement", guild_ids=[TESTING_GUILD_ID])
+    @nextcord.slash_command(description="Make an announcement")
     async def announce(self, interaction: nextcord.Interaction, 
         announcement: Optional[str] = nextcord.SlashOption(required=True, description='What to say in the announcement. Use `\\n` for a new line'),
         ping: Optional[bool] = nextcord.SlashOption(required=False, description='Should your announcement role be pinged?')):

@@ -11,9 +11,6 @@ class Utilities(commands.Cog):
         with open("config/config.yml", "r") as ymlfile:
             self.cfg = yaml.load(ymlfile, Loader=yaml.FullLoader)
     
-    with open("config/config.yml", "r") as ymlfile:
-        cfg = yaml.load(ymlfile, Loader=yaml.FullLoader)
-    TESTING_GUILD_ID = cfg['discord']['testing_guild']
 
     # Events
     @commands.Cog.listener()
@@ -21,7 +18,7 @@ class Utilities(commands.Cog):
         logger.info('Loaded cog utilities.py')
 
     # Commands
-    @nextcord.slash_command(description="Get the game server IP", guild_ids=[TESTING_GUILD_ID])
+    @nextcord.slash_command(description="Get the game server IP")
     async def ip(self, interaction: nextcord.Interaction):
         db = Database(interaction.guild, reason='Slash command `/ip`')
         ip = db.fetch('ip_address')
@@ -37,7 +34,7 @@ class Utilities(commands.Cog):
             warn += '\nAsk the admins to change the setting `ip_game` to which game their server is for.'
         await interaction.send(f'**{game.title()} Server IP:** `{ip}`\n{text}{warn}')
     
-    @nextcord.slash_command(description='Give all users a specific role', guild_ids=[TESTING_GUILD_ID])
+    @nextcord.slash_command(description='Give all users a specific role')
     async def addrole(self, interaction: nextcord.Interaction,
         role: Optional[nextcord.Role] = nextcord.SlashOption(description='What role to give everyone', required=True)):
         db = Database(interaction.guild, reason='Slash command `/addrole`')
@@ -56,7 +53,7 @@ class Utilities(commands.Cog):
         else:   
             await interaction.send(self.cfg['messages']['noperm'], ephemeral=True)
     
-    @nextcord.slash_command(description='Remove a specific role from all users', guild_ids=[TESTING_GUILD_ID])
+    @nextcord.slash_command(description='Remove a specific role from all users')
     async def delrole(self, interaction: nextcord.Interaction,
         role: Optional[nextcord.Role] = nextcord.SlashOption(description='What role to remove from everyone', required=True)):
         db = Database(interaction.guild, reason='Slash command `/delrole`')

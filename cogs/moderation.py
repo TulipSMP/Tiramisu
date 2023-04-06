@@ -12,10 +12,6 @@ class Moderation(commands.Cog):
         with open("config/config.yml", "r") as ymlfile:
             self.cfg = yaml.load(ymlfile, Loader=yaml.FullLoader)
     
-    with open("config/config.yml", "r") as ymlfile:
-        cfg = yaml.load(ymlfile, Loader=yaml.FullLoader)
-    TESTING_GUILD_ID = cfg["discord"]["testing_guild"]
-
     # Error Function
     def error(self, error):
         logger.error(f"Error in moderation.py: {error}")
@@ -32,7 +28,7 @@ class Moderation(commands.Cog):
         logger.info('Loaded cog moderation.py!')
 
     # Commands
-    @nextcord.slash_command(description="Warn a User", guild_ids=[TESTING_GUILD_ID])
+    @nextcord.slash_command(description="Warn a User")
     async def warn(self, interaction: nextcord.Interaction, user: nextcord.Member, 
         reason: Optional[str] = nextcord.SlashOption(description='Why this user is being warned.', default='No reason given.', required=False),
         show_message: Optional[bool] = nextcord.SlashOption(description='If a warn message should be sent in your current channel, in addition to the warn.', default=True)):

@@ -12,9 +12,6 @@ class Applications(commands.Cog):
         with open("config/config.yml", "r") as ymlfile:
             self.cfg = yaml.load(ymlfile, Loader=yaml.FullLoader)
     
-    with open("config/config.yml", "r") as ymlfile:
-        cfg = yaml.load(ymlfile, Loader=yaml.FullLoader)
-    TESTING_GUILD_ID=cfg["discord"]["testing_guild"]
 
     # Events
     @commands.Cog.listener()
@@ -22,7 +19,7 @@ class Applications(commands.Cog):
         logger.info('Loaded cog applications.py')
 
     # Commands
-    @nextcord.slash_command(description="Apply for a position", guild_ids=[TESTING_GUILD_ID])
+    @nextcord.slash_command(description="Apply for a position")
     async def apply(self, interaction: nextcord.Interaction,
         age_group: Optional[str] = nextcord.SlashOption(description='What age group are you in?',
             required=True, choices=["13 - 14 years old", "15 - 17 years old", "18 - 20 years old", "21+ years old"]),
