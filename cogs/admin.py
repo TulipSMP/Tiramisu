@@ -13,11 +13,6 @@ class Admin(commands.Cog):
         with open("config/config.yml", "r") as ymlfile:
             cfg = yaml.load(ymlfile, Loader=yaml.FullLoader)
         self.cfg = cfg
-    
-    with open("config/config.yml", "r") as ymlfile:
-        cfg = yaml.load(ymlfile, Loader=yaml.FullLoader)
-    # Test guild ID
-    TESTING_GUILD_ID=cfg["discord"]["testing_guild"]
 
     # Events
     @commands.Cog.listener()
@@ -25,7 +20,7 @@ class Admin(commands.Cog):
         logger.info('Loaded cog admin.py')
 
     # Commands
-    @nextcord.slash_command(guild_ids=[TESTING_GUILD_ID])
+    @nextcord.slash_command()
     async def admin(self, interaction: nextcord.Interaction):
         pass
         # This command is to set up the following as subcommands

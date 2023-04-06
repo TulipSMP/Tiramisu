@@ -14,7 +14,6 @@ class Settings(commands.Cog):
     # Fetch yaml values for use in function definitions
     with open("config/config.yml", "r") as ymlfile:
         cfg = yaml.load(ymlfile, Loader=yaml.FullLoader)
-    TESTING_GUILD_ID=cfg["discord"]["testing_guild"]
 
     with open("config/settings.yml", "r") as settings_yml:
         settings_raw = yaml.load(settings_yml, Loader=yaml.FullLoader)
@@ -34,7 +33,7 @@ class Settings(commands.Cog):
         return count
 
     # Commands
-    @nextcord.slash_command(description='Change and view settings', guild_ids=[TESTING_GUILD_ID])
+    @nextcord.slash_command(description='Change and view settings')
     async def setting(self, interaction: nextcord.Interaction):
         pass
 

@@ -9,9 +9,9 @@ class Reporting(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
     
-    with open("config/config.yml", "r") as ymlfile:
-        cfg = yaml.load(ymlfile, Loader=yaml.FullLoader)
-    TESTING_GUILD_ID=cfg["discord"]["testing_guild"]
+        with open("config/config.yml", "r") as ymlfile:
+            self.cfg = yaml.load(ymlfile, Loader=yaml.FullLoader)
+
 
     # Events
     @commands.Cog.listener()
@@ -19,7 +19,7 @@ class Reporting(commands.Cog):
         logger.info('Loaded cog reporting.py')
 
     # Commands
-    @nextcord.slash_command(description="Report a user or problem", guild_ids=[TESTING_GUILD_ID])
+    @nextcord.slash_command(description="Report a user or problem")
     async def report(self, interaction: nextcord.Interaction):
         pass
 

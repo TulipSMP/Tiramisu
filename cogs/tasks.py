@@ -9,10 +9,6 @@ class Tasks(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
         self.client = nextcord.Client()
-    
-    with open("config/config.yml", "r") as ymlfile:
-        cfg = yaml.load(ymlfile, Loader=yaml.FullLoader)
-    TESTING_GUILD_ID=cfg["discord"]["testing_guild"]
 
     client = nextcord.Client()
 
