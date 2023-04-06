@@ -132,7 +132,9 @@ class Settings(commands.Cog):
                         message = f'Successfully set **{setting}** back to default.\nTo set it to a custom value, remember to use the `value:` option.'
                     else:
                         suffix = ''
-                        if kind == 'channel' and not channel:
+                        if should_clear:
+                            pass
+                        elif kind == 'channel' and not channel:
                             suffix = '\n**Warning:** This should be set to a valid channel!'
                         elif kind == 'role' and not role:
                             suffix = '\n**Warning:** This should be set to a valid role!'
