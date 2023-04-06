@@ -83,7 +83,8 @@ class Settings(commands.Cog):
                     should_clear = False
                 
                 if setting.endswith('_channel'):
-                    setting = setting.strip().replace('<#', '').replace('>', '')
+                    #setting = setting.strip().replace('<#', '').replace('>', '') # <#1035326300900032522>
+                    setting = setting.strip(' <#>')
                     kind = 'channel'
                 elif setting.endswith('_role'):
                     kind = 'role'
