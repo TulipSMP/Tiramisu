@@ -44,7 +44,14 @@ db.close()
 ```
 
 ## Type Hinting
-Settings force the user to use a certain
+Inferred from the last part of a setting's name are types of settings (referred to as suffixes). If the user sets a setting to an unacceptable value, they are warned in the response message (but the value is currently still set). Additionally, types that are IDs strip the characters used in mentioning them from the input value, so that just the ID is saved to the database. This way, users can set channel, role, etc. settings without having to find the ID. The table below outlines different types and how they are handled:
+
+| Type  | Suffix | Characters Removed | Checks |
+|-------|--------|-------|--------|
+| Channel | `_channel` | ` <#>` | `self.bot.get_channel(value) != None` |
+| Role  | `_role` | ` <@&>` | `interaction.guild.get_role(value) != None` |
+| User | `_user` | ` <@>` | `self.bot.get_user(value) != None` |
+| Address | `_address` | None | `self.occurs(value, '.') >= 2` |
 
 ## Database
 On the low-level, each guild the bot is in has a table called `settings_{guild.id}` (where `{guild.id}` is the guild's ID). In this database, there are two columns/values: `setting` and `value`. Both are strings. This is checked whenever the bot starts, and tables are created whenever the bot joins a new guild.
