@@ -32,7 +32,7 @@ class Tasks(commands.Cog):
         db.create()
         # Set admin and DM them
         db.set('admin', guild.owner_id)
-        await guild.owner.send(f'''Thanks for adding me to your server! Use the `/admin` commands to add other administrators,\
+        await guild.owner.send(f'''Thanks for adding me to your server! Use the `/admin` commands to add other administrators, \
 and use the `/setting` commands to change settings for the bot.''')
         db.close()
 
