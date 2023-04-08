@@ -49,6 +49,9 @@ class Utilities(commands.Cog):
             except nextcord.errors.NotFound:
                 await interaction.send(f'That is not a valid role!')
                 return
+            except nextcord.errors.Forbidden:
+                await interaction.send(f'I do not have permission to assign people that role!')
+                return
             await interaction.send(f'Added role `@{role.name}` to all {times} users.')            
         else:   
             await interaction.send(self.cfg['messages']['noperm'], ephemeral=True)
