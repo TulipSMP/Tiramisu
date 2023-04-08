@@ -28,8 +28,8 @@ class Admin(commands.Cog):
     # Add a guild administrator
     @admin.subcommand(description="Add an administrator")
     async def add(self, interaction: nextcord.Interaction, user: nextcord.Member):
-        if interaction.user.id == interaction.guild.owner_id or interaction.user.id in admins:
-            db = Database(interaction.guild, reason='Slash command: `admin add`')
+        db = Database(interaction.guild, reason='Slash command `/admin add`')
+        if interaction.user.id == interaction.guild.owner_id or interaction.user.id in db.fetch('admins'):
             admins = db.fetch(interaction.user.id, admin=True, return_list=True)
             try:
                 if user.id in admins:
@@ -48,8 +48,8 @@ class Admin(commands.Cog):
     # List administrators
     @admin.subcommand(description='List administrators')
     async def list(self, interaction: nextcord.Interaction, mention_admins=None):
-        if interaction.user.id == interaction.guild.owner_id or interaction.user.id in admins:
-            db = Database(interaction.guild, reason='Slash command: `admin list`')
+        db = Database(interaction.guild, reason='Slash command `/admin list`')
+        if interaction.user.id == interaction.guild.owner_id or interaction.user.id in db.fetch('admins'):
             msg = f'**Registered Administrators:**\n'
             try:
                 msg_admins = ''
@@ -82,8 +82,8 @@ class Admin(commands.Cog):
     # Remove administrators
     @admin.subcommand(description='Remove an administrator')
     async def rm(self, interaction: nextcord.Interaction, user: nextcord.Member, mention_user=True):
+        db = Database(interaction.guils, reason='Slash command `/admin rm`')
         if interaction.user.id == interaction.guild.owner_id or interaction.user.id in admins:
-            db = Database(interaction.guild, reason='Slash command: `admin rm`')
             admins = db.fetch(interaction.user.id, admin=True, return_list=True)
             if mention_user:
                 show_user = user.mention
