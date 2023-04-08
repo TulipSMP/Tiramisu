@@ -30,6 +30,10 @@ class Tasks(commands.Cog):
         logger.info(f'Creating database tables for newly joined guild {guild.id}')
         db = Database(guild, reason = f'Creating database for new guild {guild.id}')
         db.create()
+        # Set admin and DM them
+        db.set('admin', guild.owner_id)
+        await guild.owner.send(f'''Thanks for adding me to your server! Use the `/admin` commands to add other administrators, \
+and use the `/setting` commands to change settings for the bot.''')
         db.close()
 
     @commands.Cog.listener('on_guild_leave')
