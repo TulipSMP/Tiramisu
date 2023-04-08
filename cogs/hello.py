@@ -16,12 +16,10 @@ class Hello(commands.Cog):
     async def on_ready(self):
         logger.info('Loaded cog hello.py')
 
-    bot = commands.Bot()
-
     # Commands
     @nextcord.slash_command(description="Hello!", guild_ids=[TESTING_GUILD_ID])
     async def hello(self, interaction: nextcord.Interaction):
-        await interaction.response.send_message(f"Hello {interaction.user.display_name}! I'm {bot.display_name}!")
+        await interaction.response.send_message(f"Hello {interaction.user.display_name}! I'm {self.bot.display_name}!")
         logger.debug(f"Said hello to {interaction.user.name}.")
 
 def setup(bot):
