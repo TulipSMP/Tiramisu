@@ -19,7 +19,7 @@ class Moderation(commands.Cog):
 
     # No Permission Function
     def noperm(self, cmd, interaction):
-        logger.debug(cfg['messages']['noperm_log'].replace('[[user]]', interaction.user.name).replace('[[user_id]]', interaction.user.id).replace('[[command]]', cmd))
+        #logger.debug(self.cfg['messages']['noperm_log'].replace('[[user]]', interaction.user.name).replace('[[user_id]]', interaction.user.id).replace('[[command]]', cmd))
         return self.cfg['messages']['noperm']
 
     # Events
