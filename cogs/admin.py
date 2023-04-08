@@ -83,7 +83,7 @@ class Admin(commands.Cog):
     @admin.subcommand(description='Remove an administrator')
     async def rm(self, interaction: nextcord.Interaction, user: nextcord.Member, mention_user=True):
         db = Database(interaction.guils, reason='Slash command `/admin rm`')
-        if interaction.user.id == interaction.guild.owner_id or interaction.user.id in admins:
+        if interaction.user.id == interaction.guild.owner_id or interaction.user.id in db.fetch('admins'):
             admins = db.fetch(interaction.user.id, admin=True, return_list=True)
             if mention_user:
                 show_user = user.mention
