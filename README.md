@@ -22,7 +22,7 @@ There's a lot of things we'd like to do with this bot, but here's a general idea
 
 #### For Users
 - [ ] `/help`: sends DM to user about available commands
-- [ ] `/ip`: sends server IP address and join info (for game servers)
+- [x] `/ip`: sends server IP address and join info (for game servers)
 - [x]  `/report `
   * [x] Report Players and Users
   * [x] Report vulnerabilities/bugs
