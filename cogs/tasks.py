@@ -36,8 +36,8 @@ class Tasks(commands.Cog):
 and use the `/setting` commands to change settings for the bot.''')
         db.close()
 
-    @commands.Cog.listener('on_guild_leave')
-    async def on_guild_leave(self, guild):
+    @commands.Cog.listener('on_guild_remove')
+    async def on_guild_remove(self, guild):
         logger.info(f'Removing tables for guild {guild.id} on leave!')
         db = Database(guild, reason = f'Deletion upon guild leave')
         db.delete()
