@@ -250,14 +250,14 @@ class Database:
             self.connect('delete')
         if settings:
             self.cursor.execute(f'drop table "settings_{self.guild.id}";')
-            logger.success(f'Deleted table settings_{self.guild.id}.')
+            logger.debug(f'Deleted table settings_{self.guild.id}.')
         if admins:
             self.cursor.execute(f'drop table "admins_{self.guild.id}";')
-            logger.success(f'Deleted table admins_{self.guild.id}')
+            logger.debug(f'Deleted table admins_{self.guild.id}')
         if custom != None:
             for table in custom:
                 self.cursor.execute(f'drop table "{table}_{self.guild.id}";')
-                logger.success(f'Deleted custom table {table}_{self.guild.id}.')
+                logger.debug(f'Deleted custom table {table}_{self.guild.id}.')
         return True
 
 
