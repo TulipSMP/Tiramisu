@@ -7,3 +7,5 @@ __pycache__
 config/config.yml
 # Custom Cogs
 cogs/custom_*.py
+# Files marked to not sync
+*nosync*
