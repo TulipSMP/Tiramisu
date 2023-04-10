@@ -1,5 +1,5 @@
 # Tiramisu
-##### Code Status: Active Development! Breaking changes and unstability are may be present this branch.
+##### Code Status: Active Development! Breaking changes and unstability may be present this branch.
 
 An open source discord bot for all audiences, developed by the folks at RoseSMP.
 
@@ -18,7 +18,7 @@ There's a lot of things we'd like to do with this bot, but here's a general idea
 #### For Moderation
 - [x] `/warn` (with dm) [user, reason]
 - [x] `/announce` [pings bool, message]
-- [ ] `/addrole` give all users a specific role
+- [x] `/addrole` give all users a specific role (and `/delrole`)
 
 #### For Users
 - [ ] `/help`: sends DM to user about available commands
