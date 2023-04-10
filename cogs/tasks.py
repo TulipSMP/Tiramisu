@@ -42,6 +42,7 @@ and use the `/setting` commands to change settings for the bot.''')
         db = Database(guild, reason = f'Deletion upon guild leave')
         db.delete()
         db.close()
+        logger.success(f'Removed tables for removed guild {guild.id}!')
 
 def setup(bot):
     bot.add_cog(Tasks(bot))
