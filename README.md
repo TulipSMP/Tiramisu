@@ -18,11 +18,11 @@ There's a lot of things we'd like to do with this bot, but here's a general idea
 #### For Moderation
 - [x] `/warn` (with dm) [user, reason]
 - [x] `/announce` [pings bool, message]
-- [x] `/addrole` give all users a specific role (and `/delrole`)
+- [ ] `/addrole` give all users a specific role
 
 #### For Users
 - [ ] `/help`: sends DM to user about available commands
-- [x] `/ip`: sends server IP address and join info (for game servers)
+- [ ] `/ip`: sends server IP address and join info (for game servers)
 - [x]  `/report `
   * [x] Report Players and Users
   * [x] Report vulnerabilities/bugs
