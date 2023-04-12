@@ -40,6 +40,7 @@ class FunCommands(commands.Cog):
             "Very doubtful."
         ]
         if question == 'Is fizzdev a catboy?':
+            # Use the positive responses for this specific question
             response = responses[random.randint(0, 10)]
         else:
             response = random.choice(responses)
