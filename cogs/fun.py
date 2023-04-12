@@ -39,7 +39,10 @@ class FunCommands(commands.Cog):
             "Outlook not so good.",
             "Very doubtful."
         ]
-        response = random.choice(responses)
+        if question == 'Is fizzdev a catboy?':
+            response = responses[random.randint(0, 10)]
+        else:
+            response = random.choice(responses)
         if random.randint(1, 250) == 69:
             response = "Certainly. Fizzdev is a catboy."
         await interaction.response.send_message(response + " 🎱")
