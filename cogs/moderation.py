@@ -74,7 +74,7 @@ class Moderation(commands.Cog):
         reason: Optional[str] = nextcord.SlashOption(description='Why this user is being kicked.', default='No reason given.', required=False)):
         """ Kick a User from the server """
         db = Database(interaction.guild, reason=f'Check for permission, `/kick`')
-        if interaction.user.id in db.fetch('admins') or self.is_mod(interaction.user, db)
+        if interaction.user.id in db.fetch('admins') or self.is_mod(interaction.user, db):
             try:
                 if user.id == self.bot.user.id:
                     await interaction.send('I cannot kick myself! If you want me to leave, have an admin kick me.')
