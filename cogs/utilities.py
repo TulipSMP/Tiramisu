@@ -86,7 +86,7 @@ class Utilities(commands.Cog):
                 prep = ''
                 roles += 1
             msg += f"{prep} {role.name} (ID: `{role.id}`)"
-        msg += f'\n**Joined this server:** {user.joined_at}'
+        msg += f'\n**Joined this server:** {user.joined_at} (UTC)'
         await interaction.send(msg, ephemeral=True)
         
 
