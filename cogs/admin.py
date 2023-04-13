@@ -30,7 +30,7 @@ class Admin(commands.Cog):
     async def add(self, interaction: nextcord.Interaction, user: nextcord.Member):
         db = Database(interaction.guild, reason='Slash command `/admin add`')
         if interaction.user.id == interaction.guild.owner_id or interaction.user.id in db.fetch('admins'):
-            admins = db.fetch(interaction.user.id, admin=True, return_list=True)
+            admins = db.fetch('admins')
             try:
                 if user.id in admins:
                     await interaction.send(f'`{user.name}#{user.discriminator}` is already an admin! ||(Their ID is `{user.id}`)||')
