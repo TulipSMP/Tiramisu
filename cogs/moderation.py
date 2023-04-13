@@ -34,7 +34,7 @@ class Moderation(commands.Cog):
         show_message: Optional[bool] = nextcord.SlashOption(description='If a warn message should be sent in your current channel, in addition to the warn.', default=True)):
         """ Warn a User """
         db = Database(interaction.guild, reason=f'Check for permission, `/warn`')
-        if interaction.user.id in db.fetch('admins'):
+        if interaction.user.id in db.fetch('admins') or interaction.user.id in db.fetch('staff_role'):
             try:
                 if user.id == self.bot.user.id:
                     await interaction.send('I cannot warn myself!')
@@ -46,7 +46,7 @@ class Moderation(commands.Cog):
                 try:
                     modlog_channel = self.client.get_channel( int(db.fetch('modlog_channel')) )
                     if modlog_channel != None:
-                        await modlog_channel.send(f'{user.mention} was warned by {interaction.user.name}#{interaction.user.discriminator} ID: `{interaction.user.id}`')
+                        await modlog_channel.send(f'{user.mention} was warned by {interaction.user.name}#{interaction.user.discriminator} ID: `{interaction.user.id}`\nFor: {reason}')
                         logging_info = f'This action was logged successfully in {modlog_channel.mention}.'
                     else:
                         logging_info = f'This action was not logged. Make sure the `modlog_channel` setting is correct.'
@@ -57,6 +57,33 @@ class Moderation(commands.Cog):
                 await interaction.send(self.error(e), ephemeral=True)
         else:
             await interaction.send(self.noperm('warn', interaction), ephemeral=True)
+    
+    @nextcord.slash_command(description="Kick a user from the server")
+    async def kick(self, interaction: nextcord.Interaction, user: nextcord.Member, 
+        reason: Optional[str] = nextcord.SlashOption(description='Why this user is being kicked.', default='No reason given.', required=False)):
+        """ Kick a User from the server """
+        db = Database(interaction.guild, reason=f'Check for permission, `/kick`')
+        if interaction.user.id in db.fetch('admins') or interaction.user.id in db.fetch('staff_role'):
+            try:
+                if user.id == self.bot.user.id:
+                    await interaction.send('I cannot kick myself! If you want me to leave, have an admin kick me.')
+                    return
+                logger.debug(f'{interaction.user.id} kicked {user.id} for {reason}')
+                await user.send(f"*You have been kicked from __{interaction.guild.name}__! For:*\n>>> **{reason}**")
+                try:
+                    modlog_channel = self.client.get_channel( int(db.fetch('modlog_channel')) )
+                    if modlog_channel != None:
+                        await modlog_channel.send(f'{user.mention} ||{user.name}#{user.discriminator} ID: `{user.id}`|| was kicked by {interaction.user.name}#{interaction.user.discriminator} ID: `{interaction.user.id}`\nFor: {reason}')
+                        logging_info = f'This action was logged successfully in {modlog_channel.mention}.'
+                    else:
+                        logging_info = f'This action was not logged. Make sure the `modlog_channel` setting is correct.'
+                except:
+                    logging_info = f'This action was not logged. Make sure the `modlog_channel` setting is correct.'
+                await interaction.send(f'{user.mention} was successfully kicked from the server!\n*{logging_info}*', ephemeral=True)
+            except BaseException as e:
+                await interaction.send(self.error(e), ephemeral=True)
+        else:
+            await interaction.send(self.noperm('kick', interaction), ephemeral=True)
 
 def setup(bot):
     bot.add_cog(Moderation(bot))
