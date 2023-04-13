@@ -22,6 +22,17 @@ class Moderation(commands.Cog):
         #logger.debug(self.cfg['messages']['noperm_log'].replace('[[user]]', interaction.user.name).replace('[[user_id]]', interaction.user.id).replace('[[command]]', cmd))
         return self.cfg['messages']['noperm']
 
+    # Check if they're a mod
+    def is_mod(self, user, db):
+        try:
+            role = self.bot.get_role(int(db.fetch('staff_role')))
+        except:
+            role = None
+        if role != None and role in user.roles:
+            return True
+        else:
+            return False
+
     # Events
     @commands.Cog.listener()
     async def on_ready(self):
@@ -34,7 +45,7 @@ class Moderation(commands.Cog):
         show_message: Optional[bool] = nextcord.SlashOption(description='If a warn message should be sent in your current channel, in addition to the warn.', default=True)):
         """ Warn a User """
         db = Database(interaction.guild, reason=f'Check for permission, `/warn`')
-        if interaction.user.id in db.fetch('admins') or interaction.user.id in db.fetch('staff_role'):
+        if interaction.user.id in db.fetch('admins') or self.is_mod(interaction.user, db):
             try:
                 if user.id == self.bot.user.id:
                     await interaction.send('I cannot warn myself!')
@@ -63,7 +74,7 @@ class Moderation(commands.Cog):
         reason: Optional[str] = nextcord.SlashOption(description='Why this user is being kicked.', default='No reason given.', required=False)):
         """ Kick a User from the server """
         db = Database(interaction.guild, reason=f'Check for permission, `/kick`')
-        if interaction.user.id in db.fetch('admins') or interaction.user.id in db.fetch('staff_role'):
+        if interaction.user.id in db.fetch('admins') or self.is_mod(interaction.user, db)
             try:
                 if user.id == self.bot.user.id:
                     await interaction.send('I cannot kick myself! If you want me to leave, have an admin kick me.')
