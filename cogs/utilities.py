@@ -76,7 +76,7 @@ class Utilities(commands.Cog):
             await interaction.send(self.cfg['messages']['noperm'], ephemeral=True)
 
     @nextcord.slash_command(description='Get information about a user')
-    async def info(self, interaction: nextcord.Interaction, user: Optioal[nextcord.Member] = nextcord.SlashOption(description='User to get info about', required=True)):
+    async def info(self, interaction: nextcord.Interaction, user: Optional[nextcord.Member] = nextcord.SlashOption(description='User to get info about', required=True)):
         msg = f"**User:** {user.mention} ||{user.name}#{user.discriminator}, ID: `{user.id}`||\n**Roles:**"
         roles = 0
         for role in user.roles:
