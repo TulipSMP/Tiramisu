@@ -29,7 +29,7 @@ class Moderation(commands.Cog):
 
     # Commands
     @nextcord.slash_command(description="Warn a User")
-    async def warn(self, interaction: nextcord.Interaction, user: nextcord.Member, 
+    async def warn(self, interaction: nextcord.Interaction, user: Optional[nextcord.Member] = nextcord.SlashOption(description='Who to kick', required=True), 
         reason: Optional[str] = nextcord.SlashOption(description='Why this user is being warned.', default='No reason given.', required=False),
         show_message: Optional[bool] = nextcord.SlashOption(description='If a warn message should be sent in your current channel, in addition to the warn.', default=True)):
         """ Warn a User """
@@ -59,7 +59,7 @@ class Moderation(commands.Cog):
             await interaction.send(self.noperm('warn', interaction), ephemeral=True)
     
     @nextcord.slash_command(description="Kick a user from the server")
-    async def kick(self, interaction: nextcord.Interaction, user: nextcord.Member, 
+    async def kick(self, interaction: nextcord.Interaction, user: Optional[nextcord.Member] = nextcord.SlashOption(description='Who to kick', required=True), 
         reason: Optional[str] = nextcord.SlashOption(description='Why this user is being kicked.', default='No reason given.', required=False)):
         """ Kick a User from the server """
         db = Database(interaction.guild, reason=f'Check for permission, `/kick`')
