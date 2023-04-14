@@ -89,7 +89,7 @@ class Moderation(commands.Cog):
                     await interaction.send(f'I cannot DM this user! Use the `dm` option if you do not want me to tell them why they were kicked.', ephemeral=True)
                     return
                 try:
-                    modlog_channel = self.client.get_channel( int(db.fetch('modlog_channel')) )
+                    modlog_channel = interaction.guild.get_channel( int(db.fetch('modlog_channel')) )
                     if modlog_channel != None:
                         await modlog_channel.send(f'{user.mention} ||{user.name}#{user.discriminator} ID: `{user.id}`|| was kicked by {interaction.user.name}#{interaction.user.discriminator} ID: `{interaction.user.id}`\nFor: {reason}')
                         logging_info = f'This action was logged successfully in {modlog_channel.mention}.'
