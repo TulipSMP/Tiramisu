@@ -52,14 +52,14 @@ class Moderation(commands.Cog):
                 if show_message:
                     await interaction.channel.send(f"{user.mention} has been warned for:\n{reason}")
                 try:
-                    modlog_channel = self.client.get_channel( int(db.fetch('modlog_channel')) )
+                    modlog_channel = interaction.guild.get_channel( int(db.fetch('modlog_channel')) )
                     if modlog_channel != None:
                         await modlog_channel.send(f'{user.mention} was warned by {interaction.user.name}#{interaction.user.discriminator} ID: `{interaction.user.id}`\nFor: {reason}')
                         logging_info = f'This action was logged successfully in {modlog_channel.mention}.'
                     else:
                         logging_info = f'This action was not logged. Make sure the `modlog_channel` setting is correct.'
                 except:
-                    logging_info = f'This action was not logged. Make sure the `modlog_channel` setting is correct.'
+                    logging_info = f'This action was not logged. Make sure the `modlog_channel` setting is correct. And {self.bot.name} has access to it.'
                 await interaction.send(f'{user.mention} was successfully warned!\n*{logging_info}*', ephemeral=True)
             except BaseException as e:
                 await interaction.send(self.error(e), ephemeral=True)
