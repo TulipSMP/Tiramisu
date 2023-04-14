@@ -24,14 +24,11 @@ class Moderation(commands.Cog):
 
     # Check if they're a mod
     def is_mod(self, user, db):
-        try:
-            role = self.bot.get_role(int(db.fetch('staff_role')))
-        except:
-            role = None
-        if role != None and role in user.roles:
-            return True
-        else:
+        role = user.get_role(int(db.fetch('staff_role')))
+        if role == None:
             return False
+        else:
+            return True
 
     # Events
     @commands.Cog.listener()
