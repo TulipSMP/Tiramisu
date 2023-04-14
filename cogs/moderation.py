@@ -61,7 +61,7 @@ class Moderation(commands.Cog):
                 except:
                     logging_info = f'This action was not logged. Make sure the `modlog_channel` setting is correct. And {self.bot.name} has access to it.'
                 await interaction.send(f'{user.mention} was successfully warned!\n*{logging_info}*', ephemeral=True)
-            except BaseException as e:
+            except Exception as e:
                 await interaction.send(self.error(e), ephemeral=True)
         else:
             await interaction.send(self.noperm('warn', interaction), ephemeral=True)
@@ -88,7 +88,7 @@ class Moderation(commands.Cog):
                 except:
                     logging_info = f'This action was not logged. Make sure the `modlog_channel` setting is correct.'
                 await interaction.send(f'{user.mention} was successfully kicked from the server!\n*{logging_info}*', ephemeral=True)
-            except BaseException as e:
+            except Exception as e:
                 await interaction.send(self.error(e), ephemeral=True)
         else:
             await interaction.send(self.noperm('kick', interaction), ephemeral=True)
