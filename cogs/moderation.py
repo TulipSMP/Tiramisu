@@ -48,7 +48,10 @@ class Moderation(commands.Cog):
                     await interaction.send('I cannot warn myself!')
                     return
                 logger.debug(f'{interaction.user.id} warned {user.id} for {reason}')
-                await user.send(f"*You have been warned in __{interaction.guild.name}__! For:*\n>>> **{reason}**")
+                try:
+                    await user.send(f"*You have been warned in __{interaction.guild.name}__! For:*\n>>> **{reason}**")
+                except nextcord.errors.HTTPException:
+                    await interaction.send(f'I cannot DM this user!', ephemeral=True)
                 if show_message:
                     await interaction.channel.send(f"{user.mention} has been warned for:\n{reason}")
                 try:
@@ -68,7 +71,8 @@ class Moderation(commands.Cog):
     
     @nextcord.slash_command(description="Kick a user from the server")
     async def kick(self, interaction: nextcord.Interaction, user: Optional[nextcord.Member] = nextcord.SlashOption(description='Who to kick', required=True), 
-        reason: Optional[str] = nextcord.SlashOption(description='Why this user is being kicked.', default='No reason given.', required=False)):
+        reason: Optional[str] = nextcord.SlashOption(description='Why this user is being kicked.', default='No reason given.', required=False),
+        dm: Optional[bool] = nextcord.SlashOption(description='Should the user be DMed about why they were kicked?', choices={'Yes':True, 'No':False}, required=False, default=True)):
         """ Kick a User from the server """
         db = Database(interaction.guild, reason=f'Check for permission, `/kick`')
         if interaction.user.id in db.fetch('admins') or self.is_mod(interaction.user, db):
@@ -77,7 +81,10 @@ class Moderation(commands.Cog):
                     await interaction.send('I cannot kick myself! If you want me to leave, have an admin kick me.')
                     return
                 logger.debug(f'{interaction.user.id} kicked {user.id} for {reason}')
-                await user.send(f"*You have been kicked from __{interaction.guild.name}__! For:*\n>>> **{reason}**")
+                try:
+                    await user.send(f"*You have been kicked from __{interaction.guild.name}__! For:*\n>>> **{reason}**")
+                except nextcord.errors.HTTPException:
+                    await interaction.send(f'I cannot DM this user! Use the `dm` option if you do not want me to tell them why they were kicked.')
                 try:
                     modlog_channel = self.client.get_channel( int(db.fetch('modlog_channel')) )
                     if modlog_channel != None:
