@@ -67,7 +67,7 @@ class Admin(commands.Cog):
                             user_display = ''
                         msg_admins += f'• {user_display} `{admin}`\n'
                 logger.debug(f"Listed administrators for {interaction.user.name} ({interaction.user.id})")
-                if msg == f'**Registered Administrators:**\n':
+                if msg_admins = '':
                     msg = '**No Registered Administrators.**\nThe server owner can add admins with the `/admin add` command.'
                 await interaction.send(msg + msg_admins)
             except BaseException as ex:
