@@ -52,6 +52,7 @@ class Moderation(commands.Cog):
                     await user.send(f"*You have been warned in __{interaction.guild.name}__! For:*\n>>> **{reason}**")
                 except nextcord.errors.HTTPException:
                     await interaction.send(f'I cannot DM this user!', ephemeral=True)
+                    return
                 if show_message:
                     await interaction.channel.send(f"{user.mention} has been warned for:\n{reason}")
                 try:
@@ -82,9 +83,11 @@ class Moderation(commands.Cog):
                     return
                 logger.debug(f'{interaction.user.id} kicked {user.id} for {reason}')
                 try:
-                    await user.send(f"*You have been kicked from __{interaction.guild.name}__! For:*\n>>> **{reason}**")
+                    if dm:
+                        await user.send(f"*You have been kicked from __{interaction.guild.name}__! For:*\n>>> **{reason}**")
                 except nextcord.errors.HTTPException:
-                    await interaction.send(f'I cannot DM this user! Use the `dm` option if you do not want me to tell them why they were kicked.')
+                    await interaction.send(f'I cannot DM this user! Use the `dm` option if you do not want me to tell them why they were kicked.', ephemeral=True)
+                    return
                 try:
                     modlog_channel = self.client.get_channel( int(db.fetch('modlog_channel')) )
                     if modlog_channel != None:
