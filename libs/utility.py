@@ -5,11 +5,20 @@
 # 
 from logging42 import logger
 import nextcord
+import yaml
 
-async def error_unexpected(interaction, error, name='unknown file'):
-    """ Respond with an error message because of an Uncaught or Unexpected Error """
+with open('config/config.yml') as ymlfile:
+    utility_cfg = yaml.load(ymlfile, Loader=yaml.FullLoader)
+
+async def error_unexpected(error, name='unknown file'):
+    """ Returns Appropriate Error Message for sending to user.
+    Parameters:
+    - `error`: Exception raised
+    - `name`=`'unknown file'`: Where the error occured (for log message)
+    Returns:
+    - `str`: Error message to respond to interaction with """
     logger.error(f"Error in {name}: {error}")
-    await interaction.send(self.cfg['messages']['error'].replace('[[error]]', str(error)), ephemeral=True)
+    return utility_cfg['messages']['error'].replace('[[error]]', str(error))
 
 def is_mod(user, db_con):
     """ Check if `user` has the `staff_role` as defined in the database. 
