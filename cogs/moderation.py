@@ -14,20 +14,7 @@ class Moderation(commands.Cog):
         
         with open("config/config.yml", "r") as ymlfile:
             self.cfg = yaml.load(ymlfile, Loader=yaml.FullLoader)
-    
 
-    # No Permission Function
-    def noperm(self, cmd, interaction):
-        #logger.debug(self.cfg['messages']['noperm_log'].replace('[[user]]', interaction.user.name).replace('[[user_id]]', interaction.user.id).replace('[[command]]', cmd))
-        return self.cfg['messages']['noperm']
-
-    # Check if they're a mod
-    def is_mod(self, user, db):
-        role = user.get_role(int(db.fetch('staff_role')))
-        if role == None:
-            return False
-        else:
-            return True
 
     # Events
     @commands.Cog.listener()
@@ -74,7 +61,7 @@ class Moderation(commands.Cog):
         reason: Optional[str] = nextcord.SlashOption(description='Why this user is being kicked.', default='No reason given.', required=False),
         dm: Optional[bool] = nextcord.SlashOption(description='Should the user be DMed about why they were kicked?', choices={'Yes':True, 'No':False}, required=False, default=True)):
         """ Kick a User from the guild """
-        
+
         db = Database(interaction.guild, reason=f'Check for permission, `/kick`')
         if interaction.user.id in db.fetch('admins') or self.is_mod(interaction.user, db):
             moderation.kick(interaction, user, reason, dm=dm)
