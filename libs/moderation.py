@@ -9,6 +9,41 @@ import nextcord
 from libs.database import Database
 from libs import utility
 
+async def modlog(guild: nextcord.Guild, subject: str, author: nextcord.User, recipient: nextcord.User, additional=None, reason='No reason specified.'):
+    """ Send a Message in the `modlog_channel` channel
+    Parameters:
+     - `guild`: nextcord.Guild, which guild this message is for
+     - `subject`: bold heading in messages
+     - `author`: nextcord.User, who performed the action
+     - `recipient`: nextcord.User, who the action was performed on
+     - `additional`: optional dict, added fields for the message
+     - `reason`: optional str, why this action was performed
+    Returns:
+     - `str`: A message about whether this action was successful, to be put in the interaction response message """
+    
+    db = Database(guild, reason='Fetching `modlog_channel` in libs.moderation.modlog')
+    
+    try:
+        channel = nextcord.get_channel(int( db.fetch('modlog_channel')))
+        if channel == None:
+            raise ValueError
+    except ValueError:
+        return "*Failed to log action. Make sure the `modlog_channel` setting is set to an actual channel.*"
+
+    message = f'**{subject}:**\nModerator: {author.display_name} ||{author.name}, `{author.id}`||\nUser: {user.display_name} ||{user.name}, `{user.id}`'
+    
+    if additional != None and type(additional) == type(dict()):
+        for key in additional:
+            message += f'{key}: {additional[key]}'
+    
+    try:
+        await channel.send(message)
+        return f"*Successfully logged action in {channel.mention}.*"
+    except nextcord.HTTPException:
+        return f"*Failed to log action. I do not have permission to send messages in {channel.mention}*"
+    except:
+        return f'*Failed to log action. Could not send message to {channel.mention}.*'
+
 
 async def kick(interaction: nextcord.Interaction, bot, user, reason, dm=True):
     """ Kick `user` and respond to `interaction`.
