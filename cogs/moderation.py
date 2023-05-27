@@ -64,7 +64,7 @@ class Moderation(commands.Cog):
 
         db = Database(interaction.guild, reason=f'Check for permission, `/kick`')
         if interaction.user.id in db.fetch('admins') or utility.is_mod(interaction.user, db):
-            await moderation.kick(interaction, user, reason, dm=dm)
+            await moderation.kick(interaction, self.bot.user, user, reason, dm=dm)
         else:
             await interaction.send(self.cfg['messages']['noperm'], ephemeral=True)
 

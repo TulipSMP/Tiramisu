@@ -10,10 +10,11 @@ from libs.database import Database
 from libs import utility
 
 
-async def kick(interaction: nextcord.Interaction, user, reason, dm=True):
+async def kick(interaction: nextcord.Interaction, bot, user, reason, dm=True):
     """ Kick `user` and respond to `interaction`.
         Parameters:
          - `interaction`: nextcord.Interaction for event
+         - `bot`: the nextcord.User object for this bot
          - `user`: nextcord.User to kick
          - `reason`: str for why kicked """
     db = Database(interaction.guild)
