@@ -2,6 +2,7 @@ from logging42 import logger
 import nextcord
 from nextcord.ext import commands
 import yaml
+import datetime
 
 from libs.database import Database
 from libs import utility, moderation
@@ -65,6 +66,24 @@ class Moderation(commands.Cog):
         db = Database(interaction.guild, reason=f'Check for permission, `/kick`')
         if interaction.user.id in db.fetch('admins') or utility.is_mod(interaction.user, db):
             await moderation.kick(interaction, self.bot.user, user, reason, dm=dm)
+        else:
+            await interaction.send(self.cfg['messages']['noperm'], ephemeral=True)
+
+    @nextcord.slash_command(description="Time out a user")
+    async def timeout(self, interaction: nextcord.Interaction, user: Optional[nextcord.Member] = nextcord.SlashOption(description='Who to time out', required=True), 
+        duration: Optional[datetime.timedelta] = nextcord.SlashOption(description='How long to time out the user',
+            choices={'Remove Timeout':None, '30 seconds':datetime.timedelta(seconds=30.0), '2 minutes':datetime.timedelta(minutes=2.0), '5 minutes':datetime.timedelta(minutes=5.0),
+                '10 minutes':datetime.timedelta(minutes=10.0), '30 minutes':datetime.timedelta(minutes=30.0), '1 hour':datetime.timedelta(hours=1.0),
+                '6 hours':datetime.timedelta(hours=6.0), '1 day':datetime.timedelta(days=1.0), '3 days':datetime.timedelta(days=3.0), 
+                '5 days':datetime.timedelta(days=5.0), '1 week':datetime.timedelta(weeks=1.0), '1 month':datetime.timedelta(days=30.0), '3 months':datetime.timedelta(days=90.0)},
+                required=True),
+        reason: Optional[str] = nextcord.SlashOption(description='Why this user is being timed out.', default='No reason given.', required=False),
+        dm: Optional[bool] = nextcord.SlashOption(description='Should the user be DMed about why they were kicked?', choices={'Yes':True, 'No':False}, required=False, default=True)):
+        """ Kick a User from the guild """
+
+        db = Database(interaction.guild, reason=f'Check for permission, `/kick`')
+        if interaction.user.id in db.fetch('admins') or utility.is_mod(interaction.user, db):
+            await moderation.timeout(interaction, self.bot.user, user, duration, reason)
         else:
             await interaction.send(self.cfg['messages']['noperm'], ephemeral=True)
 
