@@ -28,7 +28,7 @@ class Moderation(commands.Cog):
         show_message: Optional[bool] = nextcord.SlashOption(description='If a warn message should be sent in your current channel, in addition to the warn.', default=True)):
         """ Warn a User """
         db = Database(interaction.guild, reason=f'Check for permission, `/warn`')
-        if interaction.user.id in db.fetch('admins') or self.is_mod(interaction.user, db):
+        if interaction.user.id in db.fetch('admins') or utility.is_mod(interaction.user, db):
             try:
                 if user.id == self.bot.user.id:
                     await interaction.send('I cannot warn myself!')
@@ -63,7 +63,7 @@ class Moderation(commands.Cog):
         """ Kick a User from the guild """
 
         db = Database(interaction.guild, reason=f'Check for permission, `/kick`')
-        if interaction.user.id in db.fetch('admins') or self.is_mod(interaction.user, db):
+        if interaction.user.id in db.fetch('admins') or utility.is_mod(interaction.user, db):
             moderation.kick(interaction, user, reason, dm=dm)
         else:
             await interaction.send(self.cfg['messages']['noperm'], ephemeral=True)
