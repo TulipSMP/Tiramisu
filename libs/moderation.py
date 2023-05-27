@@ -30,7 +30,7 @@ async def kick(interaction: nextcord.Interaction, bot, user, reason, dm=True):
             await interaction.send(f'I cannot DM this user! Use the `dm` option if you do not want me to tell them why they were kicked.', ephemeral=True)
             return
         try:
-            interaction.guild.kick(user)
+            await interaction.guild.kick(user)
         except:
             await interaction.send(f'Could not kick {user.name}!', ephemeral=True)
             return
