@@ -87,4 +87,7 @@ Running the bot is as simple as running one command:
 ```sh
 python3 bot.py
 ```
+**It is crucial for Tiramisu's functions that this command be run in the same directory that the other files, like `libs/`, `config/`, and `cogs/` are in.**
+
+
 See [Running Automatically](running-automatically.md) for how to autostart the bot on systemd systems.
