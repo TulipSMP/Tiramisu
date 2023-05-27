@@ -10,7 +10,7 @@ import yaml
 with open('config/config.yml') as ymlfile:
     utility_cfg = yaml.load(ymlfile, Loader=yaml.FullLoader)
 
-async def error_unexpected(error, name='unknown file'):
+def error_unexpected(error, name='unknown file'):
     """ Returns Appropriate Error Message for sending to user.
     Parameters:
     - `error`: Exception raised
