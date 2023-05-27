@@ -17,7 +17,7 @@ def error_unexpected(error, name='unknown file'):
     - `name`=`'unknown file'`: Where the error occured (for log message)
     Returns:
     - `str`: Error message to respond to interaction with """
-    logger.error(f"Error in {name}: {error}")
+    logger.error(f"Error in {name}: `{error}`")
     return utility_cfg['messages']['error'].replace('[[error]]', str(error))
 
 def is_mod(user, db_con):
