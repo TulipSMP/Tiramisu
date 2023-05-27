@@ -72,18 +72,36 @@ class Moderation(commands.Cog):
     @nextcord.slash_command(description="Time out a user")
     async def timeout(self, interaction: nextcord.Interaction, user: Optional[nextcord.Member] = nextcord.SlashOption(description='Who to time out', required=True), 
         duration: Optional[datetime.timedelta] = nextcord.SlashOption(description='How long to time out the user',
-            choices={'Remove Timeout':None, '30 seconds':datetime.timedelta(seconds=30.0), '2 minutes':datetime.timedelta(minutes=2.0), '5 minutes':datetime.timedelta(minutes=5.0),
-                '10 minutes':datetime.timedelta(minutes=10.0), '30 minutes':datetime.timedelta(minutes=30.0), '1 hour':datetime.timedelta(hours=1.0),
-                '6 hours':datetime.timedelta(hours=6.0), '1 day':datetime.timedelta(days=1.0), '3 days':datetime.timedelta(days=3.0), 
-                '5 days':datetime.timedelta(days=5.0), '1 week':datetime.timedelta(weeks=1.0), '1 month':datetime.timedelta(days=30.0), '3 months':datetime.timedelta(days=90.0)},
-                required=True),
+            choices={'Remove Timeout': 'rm', '30 seconds':'30s', '2 minutes':'2min', '5 minutes':'5min', '10 minutes':'20min', '30 minutes':'30min', '1 hour':'1hr',
+                '6 hours':'6h', '1 day':'1d', '3 days':'3d', '5 days':'5d', '1 week':'1w', '1 month':'1mo', '3 months':'3mo'},
+                    required=True),
         reason: Optional[str] = nextcord.SlashOption(description='Why this user is being timed out.', default='No reason given.', required=False),
         dm: Optional[bool] = nextcord.SlashOption(description='Should the user be DMed about why they were kicked?', choices={'Yes':True, 'No':False}, required=False, default=True)):
-        """ Kick a User from the guild """
+        """ Timeout a Member in the guild """
+        
+        # Nextcord Typehints do not allow timedeltas
+        # Instead, we must use string keys and translate.
+        delta_translation = {
+            'rm' : None,
+            '30s' : datetime.timedelta(seconds=30.0),
+            '2min' : datetime.timedelta(minutes=2.0),
+            '5min' : datetime.timedelta(minutes=5.0),
+            '10min' : datetime.timedelta(minutes=10.0),
+            '30min' : datetime.timedelta(minutes=30.0),
+            '1hr' : datetime.timedelta(hours=1.0),
+            '6hr' : datetime.timedelta(hours=6.0),
+            '1d' : datetime.timedelta(days=1.0),
+            '3d' : datetime.timedelta(days=3.0),
+            '5d' : datetime.timedelta(days=5.0),
+            '1w' : datetime.timedelta(weeks=1.0),
+            '1mo' : datetime.timedelta(days=30.0),
+            '3mo' : datetime.timedelta(days=90.0)
+        }
+        duration_delta = delta_translation[duration]
 
         db = Database(interaction.guild, reason=f'Check for permission, `/kick`')
         if interaction.user.id in db.fetch('admins') or utility.is_mod(interaction.user, db):
-            await moderation.timeout(interaction, self.bot.user, user, duration, reason)
+            await moderation.timeout(interaction, self.bot.user, user, duration_delta, reason)
         else:
             await interaction.send(self.cfg['messages']['noperm'], ephemeral=True)
 
