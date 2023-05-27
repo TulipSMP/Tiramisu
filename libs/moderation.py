@@ -19,7 +19,7 @@ async def kick(interaction: nextcord.Interaction, bot, user, reason, dm=True):
          - `reason`: str for why kicked """
     db = Database(interaction.guild)
     try:
-        if user.id == nextcord.ext.commands.Bot().user.id:
+        if user.id == bot.id:
             await interaction.send('I cannot kick myself! If you want me to leave, have an admin kick me.')
             return
         logger.debug(f'{interaction.user.id} kicked {user.id} for {reason}')
