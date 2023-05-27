@@ -4,8 +4,9 @@
 # Utility Functions
 # 
 from logging42 import logger
+import nextcord
 
-def error_unexpected(interaction, error):
+async def error_unexpected(interaction, error):
     """ Respond with an error message because of an Uncaught or Unexpected Error """
     logger.error(f"Error in moderation.py: {error}")
     await interaction.send(self.cfg['messages']['error'].replace('[[error]]', str(error)), ephemeral=True)
@@ -18,7 +19,7 @@ def is_mod(user, db_con):
     Returns:
     - `False`: if the user does not have permissions
     - `True`: if the user does have permissions """
-    
+
     try:
         role = user.get_role(int(db_con.fetch('staff_role')))
     except ValueError:
