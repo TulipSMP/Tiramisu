@@ -2,7 +2,7 @@
 How to have the bot autostart on systemd systems.
 
 ## 1. Make a bot user
-The bot should not be run as root! This causes many security risks. To create the user, run the following command:
+The bot should not be run as root! This could potentially cause security risks. To create the user, run the following command:
 ```bash
 sudo useradd -d /home/tiramisu -m -s /bin/bash -c "Tiramisu Discord Bot" tiramisu
 ```
