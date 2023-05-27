@@ -75,8 +75,7 @@ class Moderation(commands.Cog):
             choices={'Remove Timeout': 'rm', '30 seconds':'30s', '2 minutes':'2min', '5 minutes':'5min', '10 minutes':'20min', '30 minutes':'30min', '1 hour':'1hr',
                 '6 hours':'6h', '1 day':'1d', '3 days':'3d', '5 days':'5d', '1 week':'1w', '1 month':'1mo', '3 months':'3mo'},
                     required=True),
-        reason: Optional[str] = nextcord.SlashOption(description='Why this user is being timed out.', default='No reason given.', required=False),
-        dm: Optional[bool] = nextcord.SlashOption(description='Should the user be DMed about why they were kicked?', choices={'Yes':True, 'No':False}, required=False, default=True)):
+        reason: Optional[str] = nextcord.SlashOption(description='Why this user is being timed out.', default='No reason given.', required=False)):
         """ Timeout a Member in the guild """
         
         # Nextcord Typehints do not allow timedeltas
