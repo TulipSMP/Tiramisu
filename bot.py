@@ -165,5 +165,12 @@ for filename in os.listdir('./cogs'):
     loaded_cogs.append(f'{filename[:-3]}')
 logger.info(f'Loaded Cogs: {loaded_cogs}')
 
+# Show the cool welcome messages
+with open('config/welcomescreen.yml', 'r') as ymlfile:
+    welcomescreen = yaml.load(ymlfile, Loader=yaml.FullLoader)
+
+for line in welcomescreen['message']:
+    logger.info(line)
+
 # Run the Bot
 bot.run(bot_token)

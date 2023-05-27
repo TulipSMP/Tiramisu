@@ -1,0 +1,13 @@
+#
+# Tiramisu Discord Bot
+# --------------------
+# Welcome Log Message
+#
+
+message:
+  - ' '
+  - ' Tiramisu Discord Bot'
+  - ' --------------------'
+  - ' By RoseSMP and contributors'
+  - ' TheKrafter, fizzrepo, et al.'
+  - ' '
