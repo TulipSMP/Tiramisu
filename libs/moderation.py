@@ -44,4 +44,4 @@ async def kick(interaction: nextcord.Interaction, user, reason, dm=True):
             logging_info = f'This action was not logged. Make sure the `modlog_channel` setting is correct.'
         await interaction.send(f'{user.mention} was successfully kicked from the server!\n*{logging_info}*', ephemeral=True)
     except Exception as e:
-        utility.error_unexpected(interaction, e)
+        await interaction.send(utility.error_unexpected(e, name='libs.moderation.kick'), ephemeral=True)
