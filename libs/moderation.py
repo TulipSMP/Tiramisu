@@ -98,13 +98,16 @@ async def timeout(interaction: nextcord.Interaction, bot: nextcord.User, user: n
     except Exception as e:
         await interaction.send(utility.error_unexpected(e, name='libs.moderation.timeout'), ephemeral=True)
 
-async def ban(interaction: nextcord.Interaction, bot: nextcord.User, user: nextcord.Member, reason, dm=True):
+async def ban(interaction: nextcord.Interaction, bot: nextcord.User, user: nextcord.Member, reason, dm=True, delete_msgs=0):
     """ Ban `user` from `interaction.guild`, and respond to `interaction`:
     Parameters:
      - `interaction`: nextcord.Interaction for this event
      - `bot`: the nextcord.User for this bot
      - `user`: the nextcord.Member to ban
-     - `reason`: why this member was banned """
+     - `reason`: why this member was banned 
+     Optional:
+      - `dm`: bool, whether to DM the user why they were banned (default True)
+      - `delete_msgs`: int, 0 - 7, how many days of messages to delete (default 0)"""
     
     try:
         if user.id == bot.id:
@@ -119,7 +122,7 @@ async def ban(interaction: nextcord.Interaction, bot: nextcord.User, user: nextc
                 await interaction.send(f'I cannot DM this user! Use the `dm` option if you do not want me to tell them why they were kicked.', ephemeral=True)
                 return
         try:
-            await user.ban(reason=f'Banned by {interaction.user.name} for {reason}')
+            await user.ban(reason=f'Banned by {interaction.user.name} for {reason}', delete_message_days=delete_msgs)
         except nextcord.HTTPException:
             await interaction.send('Could not ban {user.name}!', ephemeral=True)
 
