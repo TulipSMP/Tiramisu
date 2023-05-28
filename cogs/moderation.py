@@ -25,7 +25,7 @@ class Moderation(commands.Cog):
     # Commands
     @nextcord.slash_command(description="Warn a User")
     async def warn(self, interaction: nextcord.Interaction, user: Optional[nextcord.Member] = nextcord.SlashOption(description='Who to warn', required=True), 
-        reason: Optional[str] = nextcord.SlashOption(description='Why this user is being warned.', equired=True),
+        reason: Optional[str] = nextcord.SlashOption(description='Why this user is being warned.', required=True),
         broadcast: Optional[bool] = nextcord.SlashOption(description='If a warn message should be sent in your current channel.', default=True),
         dm: Optional[bool] = nextcord.SlashOption(description='Whether to DM a warn message to the user.', default=True)):
         """ Warn a User """
