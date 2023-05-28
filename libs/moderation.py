@@ -164,4 +164,4 @@ async def warn(interaction: nextcord.Interaction, user: nextcord.Member, reason:
         await interaction.send(f'{user.mention} was successfully warned!\n{logging_info}', ephemeral=True)
 
     except Exception as e:
-        await interaction.send(self.error(e), ephemeral=True)
+        await interaction.send(utility.error_unexpected(e), ephemeral=True)
