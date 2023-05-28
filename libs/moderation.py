@@ -131,3 +131,37 @@ async def ban(interaction: nextcord.Interaction, bot: nextcord.User, user: nextc
 
     except Exception as e:
         await interaction.send(utility.error_unexpected(e, name='libs.moderation.ban'), ephemeral=True)
+
+async def warn(interaction: nextcord.Interaction, user: nextcord.Member, reason: str, dm: bool = True, broadcast: bool = True):
+    """ Warn `user` via DM and/or public message
+    Parameters:
+     - `interaction`: nextcord.Interaction for this event
+     - `user`: the nextcord.Member to warn
+     - `reason`: warn message
+     Optional:
+      - `dm`: bool, whether to DM the warn to the user (default True)
+      - `broadcast`: bool, whether to publicly send the warn in the current channel (default True) """
+    try:
+        if user.id == interaction.bot.user.id:
+            await interaction.send('I cannot warn myself!')
+            return
+        logger.debug(f'{interaction.user.id} warned {user.id} for {reason}')
+
+        if not dm and not broadcast:
+            await interaction.send('How am I supposed to warn them? Enable `dm` or `broadcast`.')
+            return
+
+        if dm:
+            try:
+                await user.send(f"*You have been warned in __{interaction.guild.name}__! For:*\n>>> **{reason}**")
+            except nextcord.HTTPException:
+                await interaction.send(f'I cannot DM this user! Use the `dm` option to disable', ephemeral=True)
+                return
+        if broadcast:
+            await interaction.channel.send(f"{user.mention} has been warned for:\n**{reason}**")
+        
+        logging_info = await modlog(interaction.guild, 'User Warned', interaction.user, )
+        await interaction.send(f'{user.mention} was successfully warned!\n{logging_info}', ephemeral=True)
+
+    except Exception as e:
+        await interaction.send(self.error(e), ephemeral=True)
