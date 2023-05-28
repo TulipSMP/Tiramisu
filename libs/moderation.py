@@ -30,11 +30,11 @@ async def modlog(guild: nextcord.Guild, subject: str, author: nextcord.User, rec
     except ValueError:
         return "*Failed to log action. Make sure the `modlog_channel` setting is set to an actual channel.*"
 
-    message = f'**{subject}:**\nModerator: {author.display_name} ||{author.name}, `{author.id}`||\nUser: {recipient.display_name} ||{recipient.name}, `{recipient.id}`'
-    
+    message = f'**{subject}:**\nModerator: {author.display_name} ||{author.name}, `{author.id}`||\nUser: {recipient.display_name} ||{recipient.name}, `{recipient.id}`||\nReason: {reason}'
+
     if additional != None and type(additional) == type(dict()):
         for key in additional:
-            message += f'{key}: {additional[key]}'
+            message += f'\n{key}: {additional[key]}'
     
     try:
         await channel.send(message)
