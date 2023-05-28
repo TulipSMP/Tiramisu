@@ -103,6 +103,21 @@ class Moderation(commands.Cog):
         else:
             await interaction.send(self.cfg['messages']['noperm'], ephemeral=True)
 
+    @nextcord.slash_command(description="Ban a user from your server")
+    async def ban(self, interaction: nextcord.Interaction, user: Optional[nextcord.Member] = nextcord.SlashOption(description='Who to ban', required=True),
+        reason: Optional[str] = nextcord.SlashOption(description='Why this user is being banned.', required=True),
+        delete_message_days: Optional[str] = nextcord.SlashOption(description='How many days of their message history to delete', required=False, default=0,
+            choices={'0 days':0, '1 day':1, '2 days':2, '3 days':3, '4 days':4, '5 days':5, '6 days':6, '7 days':7}),
+        dm: Optional[bool] = nextcord.SlashOption(description='Whether to DM the user about why they were banned', required=False, default=True)):
+        """ Ban a User from the Guild """
+        db = Database(interaction.guild, reason='Check for permission, `/ban`')
+        if interaction.user.id in db.fetch('admins') or utility.is_mod(interaction.user, db):
+            
+            await  moderation.ban(interaction, self.bot.user, user, reason, dm=dm, delete_msgs=delete_message_days)
+
+        else:
+            await interaction.send(self.cfg['messages']['noperm'])
+
 def setup(bot):
     bot.add_cog(Moderation(bot))
     logger.debug('Setup cog "moderation"')
