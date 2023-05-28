@@ -73,7 +73,7 @@ class Moderation(commands.Cog):
     async def timeout(self, interaction: nextcord.Interaction, user: Optional[nextcord.Member] = nextcord.SlashOption(description='Who to time out', required=True), 
         duration: Optional[str] = nextcord.SlashOption(description='How long to time out the user',
             choices={'Remove Timeout': 'rm', '30 seconds':'30s', '2 minutes':'2min', '5 minutes':'5min', '10 minutes':'20min', '30 minutes':'30min', '1 hour':'1hr',
-                '6 hours':'6hr', '1 day':'1d', '3 days':'3d', '5 days':'5d', '1 week':'1w', '1 month':'1mo', '3 months':'3mo'},
+                '6 hours':'6hr', '1 day':'1d', '3 days':'3d', '5 days':'5d', '1 week':'1w', '1 month':'1mo'},
                     required=True),
         reason: Optional[str] = nextcord.SlashOption(description='Why this user is being timed out.', default='No reason given.', required=False)):
         """ Timeout a Member in the guild """
@@ -94,7 +94,6 @@ class Moderation(commands.Cog):
             '5d' : datetime.timedelta(days=5.0),
             '1w' : datetime.timedelta(weeks=1.0),
             '1mo' : datetime.timedelta(days=30.0),
-            '3mo' : datetime.timedelta(days=90.0)
         }
         duration_delta = delta_translation[duration]
 
