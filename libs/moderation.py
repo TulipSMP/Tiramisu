@@ -127,7 +127,7 @@ async def ban(interaction: nextcord.Interaction, bot: nextcord.User, user: nextc
             await interaction.send('Could not ban {user.name}!', ephemeral=True)
 
         logging_info = await modlog(interaction.guild, '🚷 User Banned', interaction.user, user, reason=reason, additional={'DMed Reason':dm})
-        await interaction.send(f'Banned {user.name} from this server!\n{logging_info}')
+        await interaction.send(f'Banned {user.name} from this server!\n{logging_info}', ephemeral=True)
 
     except Exception as e:
         await interaction.send(utility.error_unexpected(e, name='libs.moderation.ban'), ephemeral=True)
