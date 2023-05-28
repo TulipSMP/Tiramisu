@@ -30,7 +30,7 @@ async def modlog(guild: nextcord.Guild, subject: str, author: nextcord.User, rec
     except ValueError:
         return "*Failed to log action. Make sure the `modlog_channel` setting is set to an actual channel.*"
 
-    message = f'**{subject}:**\nModerator: {author.display_name} ||{author.name}, `{author.id}`||\nUser: {user.display_name} ||{user.name}, `{user.id}`'
+    message = f'**{subject}:**\nModerator: {author.display_name} ||{author.name}, `{author.id}`||\nUser: {recipient.display_name} ||{recipient.name}, `{recipient.id}`'
     
     if additional != None and type(additional) == type(dict()):
         for key in additional:
