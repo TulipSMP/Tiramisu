@@ -69,7 +69,7 @@ async def kick(interaction: nextcord.Interaction, bot, user, reason, dm=True):
         except:
             await interaction.send(f'Could not kick {user.name}!', ephemeral=True)
             return
-        logging_info = await modlog(interaction.guild, 'User Kicked', interaction.user, user, reason=reason)
+        logging_info = await modlog(interaction.guild, '👟 User Kicked', interaction.user, user, reason=reason)
         await interaction.send(f'{user.mention} was successfully kicked from the server!\n{logging_info}', ephemeral=True)
     except Exception as e:
         await interaction.send(utility.error_unexpected(e, name='libs.moderation.kick'), ephemeral=True)
@@ -93,7 +93,7 @@ async def timeout(interaction: nextcord.Interaction, bot: nextcord.User, user: n
         except nextcord.HTTPException:
             await interaction.send(f'Could not timeout {user.name}!', ephemeral=True)
             return
-        logging_info = await modlog(interaction.guild, 'User Timeouted', interaction.user, user, reason=reason, additional={'Duration':f'{duration}'})
+        logging_info = await modlog(interaction.guild, '🛑 User Timeouted', interaction.user, user, reason=reason, additional={'Duration':f'{duration}'})
         await interaction.send(f'{user.mention} was successfully timed out!\n{logging_info}', ephemeral=True)
     except Exception as e:
         await interaction.send(utility.error_unexpected(e, name='libs.moderation.timeout'), ephemeral=True)
@@ -123,7 +123,7 @@ async def ban(interaction: nextcord.Interaction, bot: nextcord.User, user: nextc
         except nextcord.HTTPException:
             await interaction.send('Could not ban {user.name}!', ephemeral=True)
 
-        logging_info = modlog(interaction.guild, '👟 User Banned', interaction.user, user, reason=reason, additional={'DMed Reason':dm})
+        logging_info = modlog(interaction.guild, '🚷 User Banned', interaction.user, user, reason=reason, additional={'DMed Reason':dm})
         await interaction.send(f'Banned {user.name} from this server!\n{logging_info}')
 
     except Exception as e:
