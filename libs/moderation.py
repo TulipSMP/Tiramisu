@@ -69,16 +69,8 @@ async def kick(interaction: nextcord.Interaction, bot, user, reason, dm=True):
         except:
             await interaction.send(f'Could not kick {user.name}!', ephemeral=True)
             return
-        try:
-            modlog_channel = interaction.guild.get_channel( int(db.fetch('modlog_channel')) )
-            if modlog_channel != None:
-                await modlog_channel.send(f'{user.mention} ||{user.name}#{user.discriminator} ID: `{user.id}`|| was kicked by {interaction.user.name}#{interaction.user.discriminator} ID: `{interaction.user.id}`\nFor: {reason}')
-                logging_info = f'This action was logged successfully in {modlog_channel.mention}.'
-            else:
-                logging_info = f'This action was not logged. Make sure the `modlog_channel` setting is correct.'
-        except:
-            logging_info = f'This action was not logged. Make sure the `modlog_channel` setting is correct.'
-        await interaction.send(f'{user.mention} was successfully kicked from the server!\n*{logging_info}*', ephemeral=True)
+        logging_info = await modlog(interaction.guild, 'User Kicked', interaction.user, user, reason=reason)
+        await interaction.send(f'{user.mention} was successfully kicked from the server!\n{logging_info}', ephemeral=True)
     except Exception as e:
         await interaction.send(utility.error_unexpected(e, name='libs.moderation.kick'), ephemeral=True)
 
