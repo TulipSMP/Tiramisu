@@ -97,3 +97,36 @@ async def timeout(interaction: nextcord.Interaction, bot: nextcord.User, user: n
         await interaction.send(f'{user.mention} was successfully timed out!\n{logging_info}', ephemeral=True)
     except Exception as e:
         await interaction.send(utility.error_unexpected(e, name='libs.moderation.timeout'), ephemeral=True)
+
+async def ban(interaction: nextcord.Interaction, bot: nextcord.User, user: nextcord.Member, reason, dm=True):
+    """ Ban `user` from `interaction.guild`, and respond to `interaction`:
+    Parameters:
+     - `interaction`: nextcord.Interaction for this event
+     - `bot`: the nextcord.User for this bot
+     - `user`: the nextcord.Member to ban
+     - `reason`: why this member was banned """
+    
+    try:
+        if user.id == bot.id:
+            await interaction.send('I cannot ban myself!')
+            return
+        logger.debug(f'{interaction.user.id} banning {user.id} in {interaction.guild.id}')
+
+        if dm:
+            try:
+                await user.send(f'*You have been banned from __{interaction.guild.name}__ For:*\n>>>{reason}')
+            except nextcord.HTTPException:
+                await interaction.send(f'I cannot DM this user! Use the `dm` option if you do not want me to tell them why they were kicked.', ephemeral=True)
+                return
+        try:
+            await user.ban(reason=f'Banned by {interaction.user.name} for {reason}')
+        except nextcord.HTTPException:
+            await interaction.send('Could not ban {user.name}!', ephemeral=True)
+
+        logging_info = modlog(interaction.guild, 'User Banned', interaction.user, user, reason=reason, additional={'DMed Reason':dm})
+        await interaction.send()
+
+    except Exception as e:
+        await interaction.send(utility.error_unexpected(e, name='libs.moderation.ban'), ephemeral=True)
+
+    pass
