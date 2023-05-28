@@ -97,20 +97,11 @@ async def timeout(interaction: nextcord.Interaction, bot: nextcord.User, user: n
             return
         logger.debug(f'{interaction.user.id} timed-out {user.id} for {reason}')
         try:
-            await user.timeout(duration, reason=f'Kicked by {interaction.user.name} for: {reason}')
+            await user.timeout(duration, reason=f'Timed out by {interaction.user.name} for: {reason}')
         except nextcord.HTTPException:
             await interaction.send(f'Could not timeout {user.name}!', ephemeral=True)
             return
-        try:
-            modlog_channel = interaction.guild.get_channel( int(db.fetch('modlog_channel')) )
-            if modlog_channel != None:
-                await modlog_channel.send(f'{user.mention} ||{user.name} ID: `{user.id}`|| was timed-out by {interaction.user.name} ID: `{interaction.user.id}`\n\
-                    For: {reason}')
-                logging_info = f'This action was logged successfully in {modlog_channel.mention}.'
-            else:
-                logging_info = f'This action was not logged. Make sure the `modlog_channel` setting is correct.'
-        except:
-            logging_info = f'This action was not logged. Make sure the `modlog_channel` setting is correct.'
-        await interaction.send(f'{user.mention} was successfully timed out!\n*{logging_info}*', ephemeral=True)
+        logging_info = await modlog(interaction.guild, 'User Timeouted', interaction.user, user, reason=reason, additional={'Duration':f'{duration}'})
+        await interaction.send(f'{user.mention} was successfully timed out!\n{logging_info}', ephemeral=True)
     except Exception as e:
         await interaction.send(utility.error_unexpected(e, name='libs.moderation.timeout'), ephemeral=True)
