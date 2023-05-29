@@ -32,7 +32,7 @@ class Help(commands.Cog):
     HELP_TOPICS = help_topics
 
     # Commands
-    @nextcord.slash_command(description="Try me!")
+    @nextcord.slash_command(description="Learn how to use me!")
     async def help(self, interaction: nextcord.Interaction, topic: Optional[str] = nextcord.SlashOption(description='What do you need help with?',
             choices=HELP_TOPICS, required=False, default='main')):
         try:
