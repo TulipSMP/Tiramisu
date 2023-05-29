@@ -30,7 +30,7 @@ class Admin(commands.Cog):
     async def add(self, interaction: nextcord.Interaction, user: nextcord.Member):
         db = Database(interaction.guild, reason='Slash command `/admin add`')
         if interaction.user.id == interaction.guild.owner_id or interaction.user.id in db.fetch('admins'):
-            admins = db.fetch(interaction.user.id, admin=True, return_list=True)
+            admins = db.fetch('admins')
             try:
                 if user.id in admins:
                     await interaction.send(f'`{user.name}#{user.discriminator}` is already an admin! ||(Their ID is `{user.id}`)||')
@@ -67,6 +67,8 @@ class Admin(commands.Cog):
                             user_display = ''
                         msg_admins += f'• {user_display} `{admin}`\n'
                 logger.debug(f"Listed administrators for {interaction.user.name} ({interaction.user.id})")
+                if msg_admins == '':
+                    msg = '**No Registered Administrators.**\nThe server owner can add admins with the `/admin add` command.'
                 await interaction.send(msg + msg_admins)
             except BaseException as ex:
                 await interaction.send(self.cfg['messages']['error'].replace('[[error]]', str(ex)))
@@ -82,9 +84,9 @@ class Admin(commands.Cog):
     # Remove administrators
     @admin.subcommand(description='Remove an administrator')
     async def rm(self, interaction: nextcord.Interaction, user: nextcord.Member, mention_user=True):
-        db = Database(interaction.guils, reason='Slash command `/admin rm`')
+        db = Database(interaction.guild, reason='Slash command `/admin rm`')
         if interaction.user.id == interaction.guild.owner_id or interaction.user.id in db.fetch('admins'):
-            admins = db.fetch(interaction.user.id, admin=True, return_list=True)
+            admins = db.fetch('admins')
             if mention_user:
                 show_user = user.mention
             else:

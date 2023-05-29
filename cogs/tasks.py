@@ -23,6 +23,14 @@ class Tasks(commands.Cog):
             db = Database(guild, reason = f'Verifying database for guild {guild.id} (on start).')
             db.verify()
             db.close()
+
+        # Show the cool welcome messages
+        with open('config/welcomescreen.yml', 'r') as ymlfile:
+            welcomescreen = yaml.load(ymlfile, Loader=yaml.FullLoader)
+
+        for line in welcomescreen['message']:
+            logger.info(line)
+
     
     @commands.Cog.listener('on_guild_join')
     async def on_guild_join(self, guild):

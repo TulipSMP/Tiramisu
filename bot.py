@@ -165,5 +165,6 @@ for filename in os.listdir('./cogs'):
     loaded_cogs.append(f'{filename[:-3]}')
 logger.info(f'Loaded Cogs: {loaded_cogs}')
 
+
 # Run the Bot
 bot.run(bot_token)

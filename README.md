@@ -19,6 +19,7 @@ There's a lot of things we'd like to do with this bot, but here's a general idea
 - [x] `/warn` (with dm) [user, reason]
 - [x] `/announce` [pings bool, message]
 - [x] `/addrole` give all users a specific role (and `/delrole`)
+- [x] `/kick` kick a user from the server
 
 #### For Users
 - [ ] `/help`: sends DM to user about available commands

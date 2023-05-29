@@ -75,6 +75,20 @@ class Utilities(commands.Cog):
         else:   
             await interaction.send(self.cfg['messages']['noperm'], ephemeral=True)
 
+    @nextcord.slash_command(description='Get information about a user')
+    async def info(self, interaction: nextcord.Interaction, user: Optional[nextcord.Member] = nextcord.SlashOption(description='User to get info about', required=True)):
+        msg = f"**User:** {user.mention} ||{user.name}#{user.discriminator}, ID: `{user.id}`||\n**Roles:**"
+        roles = 0
+        for role in user.roles:
+            if roles > 0:
+                prep = ','
+            else:
+                prep = ''
+                roles += 1
+            msg += f"{prep} {role.name} (ID: `{role.id}`)"
+        msg += f'\n**Joined this server:** {user.joined_at} (UTC)'
+        await interaction.send(msg, ephemeral=True)
+        
 
 def setup(bot):
     bot.add_cog(Utilities(bot))

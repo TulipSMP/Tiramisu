@@ -1,3 +1,8 @@
+# 
+# Tiramisu Discord Bot
+# --------------------
+# Database Functions
+# 
 from logging42 import logger
 import yaml
 import itertools
