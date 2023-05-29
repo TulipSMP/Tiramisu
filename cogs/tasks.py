@@ -22,7 +22,7 @@ class Tasks(commands.Cog):
         for guild in guilds:
             db = Database(guild, reason = f'Verifying database for guild {guild.id} (on start).')
             db.verify()
-        db.close()
+            db.close()
     
     @commands.Cog.listener('on_guild_join')
     async def on_guild_join(self, guild):
@@ -30,6 +30,7 @@ class Tasks(commands.Cog):
         logger.info(f'Creating database tables for newly joined guild {guild.id}')
         db = Database(guild, reason = f'Creating database for new guild {guild.id}')
         db.create()
+        db.verify()
         # Set admin and DM them
         db.set('admin', guild.owner_id)
         await guild.owner.send(f'''Thanks for adding me to your server! Use the `/admin` commands to add other administrators, \
