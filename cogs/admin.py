@@ -34,7 +34,7 @@ class Admin(commands.Cog):
             admins = db.fetch('admins')
             try:
                 if user.id in admins:
-                    await interaction.send(f'`{user.name}#{user.discriminator}` is already an admin! ||(Their ID is `{user.id}`)||')
+                    await interaction.send(f'`{user.name}` is already an admin!')
                 else:
                     if db.set('admin', user.id):
                         logger.debug(f'{interaction.user.name} added {user.name} as bot administrator')
@@ -48,7 +48,7 @@ class Admin(commands.Cog):
     # List administrators
     @admin.subcommand(description='List administrators')
     async def list(self, interaction: nextcord.Interaction, 
-        mention_admins: Optional[bool] = nextcord.SlashOption(description='Whether or not to ping admins in the returned message', required=False, default=False,
+        mention_admins: Optional[str] = nextcord.SlashOption(description='Whether or not to ping admins in the returned message', required=False, default=False,
             choices={'Yes':True, 'No':False})):
         db = Database(interaction.guild, reason='Slash command `/admin list`')
         if interaction.user.id == interaction.guild.owner_id or interaction.user.id in db.fetch('admins'):
@@ -106,7 +106,7 @@ class Admin(commands.Cog):
                     db.set('admin', user.id, clear=True)
                     await interaction.send(f'Removed {show_user} from admins.')
                 else:
-                    await interaction.send(f'User {user.name} (ID: {user.id}) is not an admin.')
+                    await interaction.send(f'User {user.name} is not an admin.')
             except Exception as ex:
                 await interaction.send(self.cfg['messages']['error'].replace('[[error]]', str(ex)))
                 logger.exception(f'{ex}')
