@@ -1,9 +1,14 @@
 from logging42 import logger
+
 import nextcord
-from nextcord.ext import commands
 import yaml
-from libs.database import Database
+
+from nextcord.ext import commands
 from typing import Optional
+
+from libs.database import Database
+from libs import utility
+
 
 class Settings(commands.Cog):
     def __init__(self, bot):
@@ -23,14 +28,6 @@ class Settings(commands.Cog):
     @commands.Cog.listener()
     async def on_ready(self):
         logger.info('Loaded cog settings.py')
-
-    # Functions
-    def occurs(self, string: str, char: str):
-        count = 0
-        for i in string:
-            if i == char:
-                count += 1
-        return count
 
     # Commands
     @nextcord.slash_command(description='Change and view settings')
@@ -75,80 +72,16 @@ class Settings(commands.Cog):
         value: Optional[str] = nextcord.SlashOption(description='What to change it to', default='none')):
         db = Database(interaction.guild, reason='Slash command `/setting set`')
         if interaction.user.id in db.fetch('admins'):
-            if setting in self.settings['settings']:
-                if value == 'none':
-                    should_clear = True
-                else:
-                    should_clear = False
-                
-                if setting.endswith('_channel'):
-                    value = value.strip(' <#>')
-                    kind = 'channel'
-                elif setting.endswith('_role'):
-                    value = value.strip(' <@&>')
-                    kind = 'role'
-                elif setting.endswith('_user'):
-                    value = value.strip(' <@>')
-                    kind = 'user'
-                elif setting.endswith('_address'):
-                    kind = 'address'
-                else:
-                    kind = 'text'
+            valid, new_value, response = utility.valid_setting(self.bot, setting, value)
 
-                if db.set(setting, value, clear=should_clear):
-                    try:
-                        value = int(value)
-                    except TypeError:
-                        pass
-                    except ValueError:
-                        pass
-
-                    channel = False
-                    role = False
-                    user = False
-                    address = False
-
-                    try:
-                        if self.bot.get_channel(value) != None:
-                            value_channel = self.bot.get_channel(int(value))
-                            value = value_channel.mention
-                            channel = True
-                        elif interaction.guild.get_role(value) != None:
-                            value_role = interaction.guild.get_role(int(value))
-                            value = value_role.mention
-                            role = True
-                        elif self.bot.get_user(value) != None:
-                            value_user = self.bot.get_user(int(value))
-                            value = value_user.mention
-                            user = True
-                        elif self.occurs(value, '.') >= 2 and setting.endswith('_address'):
-                            address = True
-                    except TypeError:
-                        pass
-                    except ValueError:
-                        pass
-                    if should_clear:
-                        message = f'Successfully set **{setting}** back to default.\nTo set it to a custom value, remember to use the `value:` option.'
-                    else:
-                        suffix = ''
-                        if should_clear:
-                            pass
-                        elif kind == 'channel' and not channel:
-                            suffix = '\n**Warning:** This should be set to a valid channel!'
-                        elif kind == 'role' and not role:
-                            suffix = '\n**Warning:** This should be set to a valid role!'
-                        elif kind == 'user' and not user:
-                            suffix = '\n**Warning:** This should be set to a valid user!'
-                        elif kind == 'address' and not address:
-                            suffix = '\n**Warning:** This should be set to a valid address!'
-                        message = f'Successfully set **{setting}** to __{value}__{suffix}'
-                    logger.success(f'Changed setting "{setting}" for guild {db.guild.id}!')
-                else:
-                    message = f'Failed to set **{setting}**!'
-                await interaction.send(message)
+            if valid:
+                db.set(setting, new_value, clear=(True if new_value == 'none' else False))
+                db.close()
+                message = f'**Setting Changed**\n`{setting}` is now set to __{value}__!'
             else:
-                message = f'No such setting. Use `/setting get setting:all` to see available settings.'
-            db.close()
+                message = f'Could not change setting!\n*{response}*'
+            
+            await interaction.send(message)
         else:
             await interaction.send(self.cfg['messages']['noperm'], ephemeral=True)
     
