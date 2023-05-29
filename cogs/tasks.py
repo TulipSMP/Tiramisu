@@ -22,7 +22,7 @@ class Tasks(commands.Cog):
         for guild in guilds:
             db = Database(guild, reason = f'Verifying database for guild {guild.id} (on start).')
             db.verify()
-        db.close()
+            db.close()
     
     @commands.Cog.listener('on_guild_join')
     async def on_guild_join(self, guild):
