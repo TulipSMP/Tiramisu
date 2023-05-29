@@ -48,7 +48,7 @@ class Admin(commands.Cog):
     # List administrators
     @admin.subcommand(description='List administrators')
     async def list(self, interaction: nextcord.Interaction, 
-        mention_admins: Optional[str] = nextcord.SlashOption(description='Whether or not to ping admins in the returned message', required=False, default=False,
+        mention_admins: Optional[bool] = nextcord.SlashOption(description='Whether or not to ping admins in the returned message', required=False, default=False,
             choices={'Yes':True, 'No':False})):
         db = Database(interaction.guild, reason='Slash command `/admin list`')
         if interaction.user.id == interaction.guild.owner_id or interaction.user.id in db.fetch('admins'):
@@ -92,7 +92,7 @@ class Admin(commands.Cog):
     # Remove administrators
     @admin.subcommand(description='Remove an administrator')
     async def rm(self, interaction: nextcord.Interaction, user: Optional[nextcord.Member] = nextcord.SlashOption(description='Who to revoke administrative privileges from',
-            required=True), mention_user: Optional[str] = nextcord.SlashOption(
+            required=True), mention_user: Optional[bool] = nextcord.SlashOption(
             description='Whether or not to ping the former admin in the resulting message', required=False, default=False, choices={'Yes':True, 'No':False})):
         db = Database(interaction.guild, reason='Slash command `/admin rm`')
         if interaction.user.id == interaction.guild.owner_id or interaction.user.id in db.fetch('admins'):
