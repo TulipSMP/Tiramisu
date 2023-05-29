@@ -128,10 +128,13 @@ class Database:
                     pass
                 else:
                     settings_missing.append(setting)
-            # if setting is missing, create it
-            for setting in settings_missing:
-                self.cursor.execute(f'insert into "settings_{self.guild.id}" ( setting, value ) values ( "{setting}", "none" );')
-            logger.success(f'Added settings {settings_missing} to table settings_{self.guild.id} because they did not exist!')
+            if settings_missing != []:
+                # if setting is missing, create it
+                for setting in settings_missing:
+                    self.cursor.execute(f'insert into "settings_{self.guild.id}" ( setting, value ) values ( "{setting}", "none" );')
+                logger.success(f'Added settings {settings_missing} to table settings_{self.guild.id} because they did not exist.')
+            else:
+                logger.success(f'Table settings_{self.guild.id} did not need repairs!')
 
     # Fetch information from DB
     # Default to settings if no table is specified
