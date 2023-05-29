@@ -5,6 +5,7 @@ import yaml
 from typing import Optional
 
 from libs.database import Database
+from libs import utility
 
 class Admin(commands.Cog):
     def __init__(self, bot):
@@ -39,8 +40,7 @@ class Admin(commands.Cog):
                         logger.debug(f'{interaction.user.name} added {user.name} as bot administrator')
                     await interaction.send(f"Added {user.mention} as an admin.")
             except Exception as ex:
-                await interaction.send(self.cfg['messages']['error'].replace('[[error]]', str(ex)))
-                logger.exception(f'{ex}')
+                await interaction.send(utility.error_unexpected(ex), ephemeral=True)
             db.close()
         else:
             await interaction.send(self.cfg["messages"]["noperm"], ephemeral=True)
@@ -78,12 +78,12 @@ class Admin(commands.Cog):
                 if msg_admins == '':
                     msg = '**No Registered Administrators.**\nThe server owner can add admins with the `/admin add` command.'
                 await interaction.send(msg + msg_admins)
-            except BaseException as ex:
-                await interaction.send(self.cfg['messages']['error'].replace('[[error]]', str(ex)))
-                logger.error(f'Failed to fetch list of admins for guild {db.guild.id}! Error: {ex}', exc_info=True)
             except db.current_database.OperationalError:
                 logger.critical(f'OperationalError in `/admin list` for guild {db.guild.id}')
-                await interaction.send(self.cfg['messages']['error'].replace('[[error]]', 'OperationalError: either table does not exist, or database could not be accessed!'))
+                await interaction.send(utility.error_unexpected('OperationalError: either table does not exist, or database could not be accessed!'), ephemeral=True)
+            except Exception as ex:
+                await interaction.send(utility.error_unexpected(ex), ephemeral=True)
+                logger.error(f'Failed to fetch list of admins for guild {db.guild.id}! Error: {ex}', exc_info=True)
             db.close()
         else:
             await interaction.send(self.cfg["messages"]["noperm"], ephemeral=True)
