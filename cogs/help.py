@@ -35,11 +35,11 @@ class Help(commands.Cog):
     @nextcord.slash_command(description="Try me!")
     async def help(self, interaction: nextcord.Interaction, topic: Optional[str] = nextcord.SlashOption(description='What do you need help with?',
             choices=HELP_TOPICS, required=False, default='main')):
-        try:
-            message = self.help[topic]['content'].replace('[[BOT]]', self.bot.user.name)
-        except KeyError:
-            await interaction.send('*The specified help topic was not found.*')
-            return
+        #try:
+        message = self.help[topic]['content'].replace('[[BOT]]', self.bot.user.name)
+        #except KeyError:
+        #    await interaction.send('*The specified help topic was not found.*')
+        #    return
         
         await interaction.send(message)
 
