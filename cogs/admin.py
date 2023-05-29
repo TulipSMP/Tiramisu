@@ -2,7 +2,7 @@ from logging42 import logger
 import nextcord
 from nextcord.ext import commands
 import yaml
-from typing import optional
+from typing import Optional
 
 from libs.database import Database
 
