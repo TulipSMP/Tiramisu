@@ -2,8 +2,8 @@ from logging42 import logger
 import nextcord
 from nextcord.ext import commands
 import yaml
-import mysql.connector
-import sqlite3
+from typing import optional
+
 from libs.database import Database
 
 class Admin(commands.Cog):
@@ -27,7 +27,7 @@ class Admin(commands.Cog):
     
     # Add a guild administrator
     @admin.subcommand(description="Add an administrator")
-    async def add(self, interaction: nextcord.Interaction, user: nextcord.Member):
+    async def add(self, interaction: nextcord.Interaction, user: Optional[nextcord.Member] = nextcord.SlashOption(description='Who to grant administrative privileges to', required=True)):
         db = Database(interaction.guild, reason='Slash command `/admin add`')
         if interaction.user.id == interaction.guild.owner_id or interaction.user.id in db.fetch('admins'):
             admins = db.fetch('admins')
@@ -47,22 +47,30 @@ class Admin(commands.Cog):
     
     # List administrators
     @admin.subcommand(description='List administrators')
-    async def list(self, interaction: nextcord.Interaction, mention_admins=None):
+    async def list(self, interaction: nextcord.Interaction, 
+        mention_admins: Optional[bool] = nextcord.SlashOption(description='Whether or not to ping admins in the returned message', required=False, default=False,
+            choices={'Yes':True, 'No':False})):
         db = Database(interaction.guild, reason='Slash command `/admin list`')
         if interaction.user.id == interaction.guild.owner_id or interaction.user.id in db.fetch('admins'):
             msg = f'**Registered Administrators:**\n'
             try:
                 msg_admins = ''
                 for admin in db.fetch('admins'):
-                    if mention_admins != None:
+                    if mention_admins:
                         msg_admins += f'• <@{admin}> `{admin}`\n'
                     else:
                         user = self.bot.get_user(int(admin))
                         if user != None:
-                            if user.name == user.display_name:
-                                user_display = f' {user.name}#{user.discriminator}'
-                            else:
-                                user_display = f' {user.name}#{user.discriminator} *({user.display_name})*'
+                            try:
+                                if user.name == user.display_name:
+                                    user_display = f'{user.name}#{user.discriminator}'
+                                else:
+                                    user_display = f'{user.name}#{user.discriminator} *({user.display_name})*'
+                            except:
+                                if user.name == user.display_name:
+                                    user_display = f'{user.name}'
+                                else:
+                                    user_display = f'{user.name} *({user.display_name})*'
                         else:
                             user_display = ''
                         msg_admins += f'• {user_display} `{admin}`\n'
@@ -83,7 +91,9 @@ class Admin(commands.Cog):
     
     # Remove administrators
     @admin.subcommand(description='Remove an administrator')
-    async def rm(self, interaction: nextcord.Interaction, user: nextcord.Member, mention_user=True):
+    async def rm(self, interaction: nextcord.Interaction, user: Optional[nextcord.Member] = nextcord.SlashOption(description='Who to revoke administrative privileges from',
+            required=True), mention_user: Optional[bool] = nextcord.SlashOption(
+            description='Whether or not to ping the former admin in the resulting message', required=False, default=False, choices={'Yes':True, 'No':False})):
         db = Database(interaction.guild, reason='Slash command `/admin rm`')
         if interaction.user.id == interaction.guild.owner_id or interaction.user.id in db.fetch('admins'):
             admins = db.fetch('admins')
