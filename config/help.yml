@@ -14,13 +14,10 @@ main:
     # Help 
     [[BOT]] is a discord bot focused on elegance and simplicity, while still executing all the functions you might need in your discord server.
     This page lists most of the basic functions you need to get started with using [[BOT]]
-
     ## Admins
     Adminstrators are users you have selected that can change settings for your bot, and perform all moderation actions. Admins can also add and remove other admins.
     If nobody in your discord server is an admin yet, the server owner can add themselves as an admins.
-
     For information on how to use the `/admin` commands, go to the *Admins* section of the help menu.
-
     ## Settings
     You can set channels, roles, and change other functionality of the bot with the `/setting` command. Use `/setting get` to check what a setting is currently set to, and use `/setting set` to change that value.
     The first setting you are likely to want to change is the `staff_role` setting. To do so, use the following command:
@@ -36,14 +33,11 @@ admin:
     # Admins Help
     Adminstrators are users you have selected that can change settings for your bot, and perform all moderation actions. Admins can also add and remove other admins.
     If nobody in your discord server is an admin yet, the server owner can add themselves as an admins.
-
     ## Adding Admins
     To add an admin, use the `/admin add` command. Only other admins and the server owner can add admins.
-
     ```
     /admin add user:USER
     ```where `USER` is the person you would like to make an admin. 
-
     ## Removing Admins
     Removing administrators is the same as adding them, except you use the `/admin rm` command instead.
     Optionally, you can specify whether the former administrator should be mentioned in [[BOT]]'s response, with the `mention_user` option.
@@ -56,7 +50,6 @@ setting:
   contents: |
     # Settings Help
     You can set channels, roles, and change other functionality of the bot with the `/setting` command. Use `/setting get` to check what a setting is currently set to, and use `/setting set` to change that value.
-    
     ## Changing Settings
     To change a setting, for example the `staff_role` setting, use the `/setting set` command, like so:
     ```
@@ -64,13 +57,10 @@ setting:
     ```mentioning your staff role with `@Staff`
     When setting an channel or role, always @mention or #mention the role or channel. You can also use the ID if preferred.
     The second part of the setting after the underscore tells you what kind of input it needs.
-
     ## Checking Settings
     You can check what different settings are currently set to with the `/setting get` command. You can also use `/setting get setting:all` to get a list of all available settings.
-
     ## Available Settings
     Below is a list of some of the available settings and what they do:
-
     - `staff_role`: The role for moderators and other staff members. Users with this role can use most moderation commands.
     - `system_channel`: The channel to show join and leave messages in. 
     - `announcement_channel`: The channel to send announcements in
@@ -88,26 +78,20 @@ utility:
   contents: |
     # Utilities
     [[BOT]] comes with various utility commands to help administer to your server.
-
     ## `/announce`
     Members with the `staff_role` and admins can use this command. Sends an announcement in the `announcement_channel`, optionally pinging `announcement_role`
-
     ## `/addrole`
     Only admins can use this command. Gives the specified role to all users.
-
     ## `/delrole`
     Only admins can use this command. Revokes the specified role from all users.
-
     ## `/ip`
     Anyone can use this command. Sends information on how to join a game server.
     Uses the following settings:
      - `ip_address`: the IP address or domain name of the game server
      - `ip_game`: the name of what game is accessible via that IP address.
      - `ip_text`: additional joining instructions or other information.
-
     ## `/fizz`
     Anyone can use this command. Checks if fizz#4096 is still a catboy.
-
     ## `/hello`
     Anyone can use this command. Says hello!
     
