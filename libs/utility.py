@@ -99,3 +99,5 @@ def valid_setting(bot, setting, value):
                 return False, None, 'Unknown setting type.'
         except ValueError:
             return False, None, f'Not a valid {type_name}'
+    else:
+        return False, None, 'Not a valid setting.'
