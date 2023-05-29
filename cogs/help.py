@@ -36,7 +36,7 @@ class Help(commands.Cog):
     async def help(self, interaction: nextcord.Interaction, topic: Optional[str] = nextcord.SlashOption(description='What do you need help with?',
             choices=HELP_TOPICS, required=False, default='main')):
         #try:
-        message = self.help[topic]['content'].replace('[[BOT]]', self.bot.user.name)
+        message = self.help[topic]['contents'].replace('[[BOT]]', self.bot.user.name)
         #except KeyError:
         #    await interaction.send('*The specified help topic was not found.*')
         #    return
