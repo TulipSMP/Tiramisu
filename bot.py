@@ -16,6 +16,7 @@ import sqlite3
 import yaml
 import shutil
 
+from libs.database import Database
 from libs import utility
 
 # Ensure Config exists:
@@ -66,7 +67,7 @@ async def list(interaction: nextcord.Interaction):
         cogs_list = ''
         for filename in os.listdir('./cogs'):
             if filename.endswith('.py'):
-                cogs_list += ( ' • ' + filename.strip('.py') + '\n')
+                cogs_list += ( ' • ' + filename[:-3] + '\n')
         await interaction.send(f'Available Cogs:\n{cogs_list}')
         logger.debug(f"Listed cogs for {interaction.user}")
     else:
@@ -124,17 +125,13 @@ async def reload(interaction: nextcord.Interaction, extension=None):
 @bot.slash_command(description='Stop the bot', guild_ids=[TESTING_GUILD_ID])
 async def stop(interaction: nextcord.Interaction, emergency=False):
     if interaction.user.id in cfg['discord']['co_owners'] or interaction.user.id == cfg['discord']['owner']:
-        if cfg["storage"] == "sqlite":
-            sql.commit()
-            sql.close()
         if emergency:
             os.system(f"sed -i 's/Restart=on-success/Restart=no/g' /home/{os.getenv('USER')}/.config/systemd/user/tiramisu.service")
         await interaction.send('**🛑 Stopping the bot!**')
-        logger.info(f'{interaction.user} stopped the bot.')
-        sys.exit("Stopping...")
+        logger.info(f'{interaction.user.name} [{interaction.user.id}] stopped the bot.')
+        sys.exit(0)
     else:
         await interaction.send(noperm, ephemeral=True)
-        logger.debug(noperm_log)
 
 # Load Cogs
 loaded_cogs = []
