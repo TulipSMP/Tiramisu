@@ -1,7 +1,9 @@
 #!/usr/bin/env python3
 from logging42 import logger
+
 import nextcord
 from nextcord.ext import commands
+
 import os
 import sys
 import sqlite3
