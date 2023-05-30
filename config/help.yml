@@ -94,4 +94,28 @@ utility:
     Anyone can use this command. Checks if fizz#4096 is still a catboy.
     ## `/hello`
     Anyone can use this command. Says hello!
-    
+
+fun:
+  name: Fun Commands
+  contents: |
+    # Fun Commands
+    [[BOT]] has several commands to keep your server fun and interesting. This is what they do, and how to use them.
+    ## `/eight_ball`
+    Ask the magic eight ball a question.
+    ## `/dice`
+    Roll a dice, getting a random number. Use the `type` option to change what kind of dice to roll.
+    ## `/coinflip`
+    Flips a coin, resulting in either heads or tails.
+
+perms:
+  name: Permissions
+  contents: |
+    # Permissions
+    [[BOT]] has three permission levels for commands: Admins, Staff, and Everyone
+    ## Admins
+    Admins can use every command, change settings, add and remove admins, and use certain commands that others cannot.
+    See the *Admins* section of the help menu for more information.
+    ## Staff
+    Staff are people with the role in the `staff_role` setting. They can do all moderation actions, but do not have permission to change settings, admins or to do other potentially disruptive things.
+    See the *Settings* section of the help menu for how to change the `staff_role` setting.
+
