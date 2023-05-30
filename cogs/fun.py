@@ -16,7 +16,7 @@ class FunCommands(commands.Cog):
     # Events
     @commands.Cog.listener()
     async def on_ready(self):
-        logger.info('Loaded cog fun_commands.py')
+        logger.info('Loaded cog fun.py')
     
     # 8ball Command
     @nextcord.slash_command(description="Ask the magic 8ball a question!")
@@ -69,4 +69,4 @@ class FunCommands(commands.Cog):
     
 def setup(bot):
     bot.add_cog(FunCommands(bot))
-    logger.debug('Setup cog "fun_commands"')
+    logger.debug('Setup cog "fun"')
