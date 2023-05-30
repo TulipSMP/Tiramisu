@@ -1,5 +1,5 @@
 # Tiramisu
-##### Code Status: Active Development! Breaking changes and unstability may be present this branch.
+##### Code Status: Code Freeze! This branch is being prepared for production.
 
 An open source discord bot for all audiences, developed by the folks at RoseSMP.
 
