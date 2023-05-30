@@ -1,4 +1,5 @@
 # Tiramisu
+[![Visit Couter](https://visitcount.itsvg.in/api?id=Tiramisu&label=README%20Views&color=12&icon=2&pretty=true)](https://visitcount.itsvg.in)
 ##### Code Status: Code Freeze! This branch is being prepared for production.
 
 An open source discord bot for all audiences, developed by the folks at RoseSMP.
