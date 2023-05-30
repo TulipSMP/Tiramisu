@@ -1,5 +1,5 @@
 # Tiramisu
-##### Code Status: Active Development! Breaking changes and unstability may be present this branch.
+##### Code Status: Code Freeze! This branch is being prepared for production.
 
 An open source discord bot for all audiences, developed by the folks at RoseSMP.
 
@@ -22,7 +22,7 @@ There's a lot of things we'd like to do with this bot, but here's a general idea
 - [x] `/kick` kick a user from the server
 
 #### For Users
-- [ ] `/help`: sends DM to user about available commands
+- [x] `/help`: informs user on how to use the bot.
 - [x] `/ip`: sends server IP address and join info (for game servers)
 - [x]  `/report `
   * [x] Report Players and Users
