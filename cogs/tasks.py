@@ -47,7 +47,7 @@ class Tasks(commands.Cog):
         # Set admin and DM them
         db.set('admin', guild.owner_id)
         await guild.owner.send(f'''Thanks for adding me to your server! Use the `/admin` commands to add other administrators, \
-and use the `/setting` commands to change settings for the bot.\nTo learn more about how to user {self.bot.user.name}, try the `/help` command.''')
+and use the `/setting` commands to change settings for the bot.\nTo learn more about how to use {self.bot.user.name}, try the `/help` command.''')
         db.close()
 
     @commands.Cog.listener('on_guild_remove')
