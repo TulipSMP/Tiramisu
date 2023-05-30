@@ -46,7 +46,7 @@ class Help(commands.Cog):
             await interaction.send('*The specified help topic was not found.*')
             return
         
-        await interaction.send(message)
+        await interaction.send(message, ephemeral=True)
 
 def setup(bot):
     bot.add_cog(Help(bot))
