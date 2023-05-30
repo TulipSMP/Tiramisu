@@ -72,7 +72,7 @@ class Settings(commands.Cog):
         value: Optional[str] = nextcord.SlashOption(description='What to change it to', default='none')):
         db = Database(interaction.guild, reason='Slash command `/setting set`')
         if interaction.user.id in db.fetch('admins'):
-            valid, new_value, response = utility.valid_setting(self.bot, setting, value)
+            valid, new_value, response = utility.valid_setting(interaction.guild, setting, value)
 
             if valid:
                 db.set(setting, new_value, clear=(True if new_value == 'none' else False))
