@@ -1,3 +1,8 @@
+# 
+# Tiramisu Discord Bot
+# --------------------
+# Mod Applications System
+# 
 from logging42 import logger
 import nextcord
 from nextcord.ext import commands

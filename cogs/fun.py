@@ -1,3 +1,8 @@
+# 
+# Tiramisu Discord Bot
+# --------------------
+# Entertainment Commands
+# 
 from logging42 import logger
 import random
 import nextcord

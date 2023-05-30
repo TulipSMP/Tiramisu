@@ -1,3 +1,8 @@
+# 
+# Tiramisu Discord Bot
+# --------------------
+# Adminstrator Management
+# 
 from logging42 import logger
 import nextcord
 from nextcord.ext import commands

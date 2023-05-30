@@ -1,3 +1,9 @@
+# 
+# Tiramisu Discord Bot
+# --------------------
+# Configuration File
+#
+
 storage: sqlite     # Type of storage to use. sqlite or mysql
 mysql:              # Login info when using MySQL
   host: 'localhost'

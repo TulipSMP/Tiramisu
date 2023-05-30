@@ -1,4 +1,10 @@
 #!/usr/bin/env python3
+#
+# Tiramisu Discord Bot
+# --------------------
+# Main Python File
+#
+
 from logging42 import logger
 
 import nextcord

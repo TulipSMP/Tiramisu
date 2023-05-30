@@ -1,3 +1,8 @@
+# 
+# Tiramisu Discord Bot
+# --------------------
+# Guild Settings Commands
+# 
 from logging42 import logger
 
 import nextcord
