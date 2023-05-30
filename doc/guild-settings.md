@@ -48,10 +48,13 @@ Inferred from the last part of a setting's name are types of settings (referred 
 
 | Type  | Suffix | Characters Removed | Checks |
 |-------|--------|-------|--------|
-| Channel | `_channel` | ` <#>` | `self.bot.get_channel(value) != None` |
-| Role  | `_role` | ` <@&>` | `interaction.guild.get_role(value) != None` |
-| User | `_user` | ` <@>` | `self.bot.get_user(value) != None` |
-| Address | `_address` | None | `self.occurs(value, '.') >= 2` |
+| Channel | `_channel` | ` <#>` | `guild.get_channel(value) != None` |
+| Role  | `_role` | ` <@&>` | `guild.get_role(value) != None` |
+| User | `_user` | ` <@>` | `guild.get_user(value) != None` |
+| Address | `_address` | None | `utility.occurs(value, '.') >= 2` |
+| Plaintext | `_text` | None | None |
+
+Note: The *Plaintext* option also supports the following suffixes `_game` and `_name`.
 
 ## Database
 On the low-level, each guild the bot is in has a table called `settings_{guild.id}` (where `{guild.id}` is the guild's ID). In this database, there are two columns/values: `setting` and `value`. Both are strings. This is checked whenever the bot starts, and tables are created whenever the bot joins a new guild.

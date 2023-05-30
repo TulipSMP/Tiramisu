@@ -1,12 +1,23 @@
 #!/usr/bin/env python3
+#
+# Tiramisu Discord Bot
+# --------------------
+# Main Python File
+#
+
 from logging42 import logger
+
 import nextcord
 from nextcord.ext import commands
+
 import os
 import sys
 import sqlite3
 import yaml
 import shutil
+
+from libs.database import Database
+from libs import utility
 
 # Ensure Config exists:
 if os.path.exists('config/config.yml'):
@@ -25,37 +36,6 @@ with open("config/config.yml", "r") as ymlfile:
     logger.info(f'Successfully loaded config/config.yml: {cfg}')
 
 TESTING_GUILD_ID=cfg["discord"]["testing_guild"]
-
-# Database
-if cfg["storage"] == "sqlite":
-    sql = sqlite3.connect('storage.db')
-    cursor = sql.cursor()
-    logger.info(f'Using sqlite storage: storage.db')
-else:
-    import mysql.connector
-    sql = mysql.connector.connect(
-        host=cfg["mysql"]["host"],
-        user=cfg["mysql"]["user"],
-        password=cfg["mysql"]["pass"],
-        database=cfg["mysql"]["db"]
-    )
-    cursor = sql.cursor()
-    logger.info(f'Using mySQL storage: {cfg["mysql"]["user"]}@{cfg["mysql"]["host"]}, database: {cfg["mysql"]["db"]}')
-
-# Load Adminsitrators from DB
-cursor = sql.cursor()
-cursor.execute(f"CREATE TABLE IF NOT EXISTS admins (id BIGINT, permission INT);")
-cursor.execute("SELECT id FROM admins;")
-admins_raw = cursor.fetchall()
-### And parse the convoluted output
-admins = []
-for admin_id in admins_raw:
-    admin_str = f'{admin_id}'
-    admin_new = admin_str.replace(',', '')
-    admin_new = admin_new.replace('(', '')
-    admin_new = admin_new.replace(')', '')
-    admins.append(admin_new)
-
 
 # Load things from cfg
 bot_token = cfg["discord"]["token"]
@@ -77,21 +57,24 @@ async def on_ready():
 # Load Commands
 
 # List Cogs
-@bot.slash_command(description='List cogs', guild_ids=[TESTING_GUILD_ID])
+@bot.slash_command(description='Cog actions', guild_ids=[TESTING_GUILD_ID])
 async def cogs(interaction: nextcord.Interaction):
+    pass # Setup for following subcommands
+
+@cogs.subcommand(description='List cogs')
+async def list(interaction: nextcord.Interaction):
     if interaction.user.id in cfg['discord']['co_owners'] or interaction.user.id == cfg['discord']['owner']:
         cogs_list = ''
         for filename in os.listdir('./cogs'):
             if filename.endswith('.py'):
-                cogs_list += ( ' • ' + filename.strip('.py') + '\n')
+                cogs_list += ( ' • ' + filename[:-3] + '\n')
         await interaction.send(f'Available Cogs:\n{cogs_list}')
         logger.debug(f"Listed cogs for {interaction.user}")
     else:
         await interaction.send(noperm, ephemeral=True)
-        logger.debug(noperm_log)
 
 # Load Cogs
-@bot.slash_command(description="Load cogs", guild_ids=[TESTING_GUILD_ID])
+@cogs.subcommand(description="Load cogs")
 async def load(interaction: nextcord.Interaction, extension=None):
     if interaction.user.id in cfg['discord']['co_owners'] or interaction.user.id == cfg['discord']['owner']:
         try:
@@ -106,10 +89,9 @@ async def load(interaction: nextcord.Interaction, extension=None):
             await interaction.send(f'The cog `{extension}` was not found.')
     else:
         await interaction.send(noperm, ephemeral=True)
-        logger.debug(noperm_log)
 
 # Unload Cogs
-@bot.slash_command(description="Unload cogs", guild_ids=[TESTING_GUILD_ID])
+@cogs.subcommand(description="Unload cogs")
 async def unload(interaction: nextcord.Interaction, extension):
     if interaction.user.id in cfg['discord']['co_owners'] or interaction.user.id == cfg['discord']['owner']:
         try:
@@ -121,7 +103,6 @@ async def unload(interaction: nextcord.Interaction, extension):
             await interaction.send(f'The cog `{extension}` was not found.')
     else:
         await interaction.send(noperm, ephemeral=True)
-        logger.debug(noperm_log)
 
 # Reload Cogs
 @bot.slash_command(description="Reload cogs", guild_ids=[TESTING_GUILD_ID])
@@ -139,23 +120,18 @@ async def reload(interaction: nextcord.Interaction, extension=None):
             await interaction.send(f'The cog `{extension}` was not found!')
     else:
         await interaction.send(noperm, ephemeral=True)
-        logger.debug(noperm_log)
 
 # Stop the Bot
 @bot.slash_command(description='Stop the bot', guild_ids=[TESTING_GUILD_ID])
 async def stop(interaction: nextcord.Interaction, emergency=False):
     if interaction.user.id in cfg['discord']['co_owners'] or interaction.user.id == cfg['discord']['owner']:
-        if cfg["storage"] == "sqlite":
-            sql.commit()
-            sql.close()
         if emergency:
             os.system(f"sed -i 's/Restart=on-success/Restart=no/g' /home/{os.getenv('USER')}/.config/systemd/user/tiramisu.service")
         await interaction.send('**🛑 Stopping the bot!**')
-        logger.info(f'{interaction.user} stopped the bot.')
-        sys.exit("Stopping...")
+        logger.info(f'{interaction.user.name} [{interaction.user.id}] stopped the bot.')
+        sys.exit(0)
     else:
         await interaction.send(noperm, ephemeral=True)
-        logger.debug(noperm_log)
 
 # Load Cogs
 loaded_cogs = []

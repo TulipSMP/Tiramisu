@@ -1,3 +1,8 @@
+# 
+# Tiramisu Discord Bot
+# --------------------
+# Mod Applications System
+# 
 from logging42 import logger
 import nextcord
 from nextcord.ext import commands
@@ -43,9 +48,9 @@ class Applications(commands.Cog):
             message += '\n*This user has moderation experience*'
         else:
             message += '\n*This user does not have moderation experience*'
-        message += f'\nWhy should this user be chosen as a moderator?\n > {reason}'
+        message += f'\nWhy should this user be chosen as a moderator?\n> {reason}'
         await channel.send(message)
-        await interaction.send(f'Your application has been submitted!')
+        await interaction.send(f'Your application has been submitted!', ephemeral=True)
         logger.info('Successfully completed an application.')
 
 def setup(bot):

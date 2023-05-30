@@ -1,4 +1,9 @@
-# Names of settings each guild can set for themselves
+# 
+# Tiramisu Discord Bot
+# --------------------
+# Guild-Specific Settings List
+#
+
 settings:
   - 'system_channel'
   - 'announcement_channel'
