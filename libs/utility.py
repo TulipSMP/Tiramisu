@@ -94,7 +94,10 @@ def valid_setting(guild: nextcord.Guild, setting: str, value):
                     return True, value, ''
                 else:
                     return False, None, 'Not a valid address.'
-
+            
+            # Plain-text settings values
+            elif setting.endswith('_text') or setting.endswith('_game') or setting.endswith('_name'):
+                return True, value.strip()
             else:
                 return False, None, 'Unknown setting type.'
         except ValueError:
