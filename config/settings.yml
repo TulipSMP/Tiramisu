@@ -1,0 +1,19 @@
+# 
+# Tiramisu Discord Bot
+# --------------------
+# Guild-Specific Settings List
+#
+
+settings:
+  - 'system_channel'
+  - 'announcement_channel'
+  - 'announcement_role'
+  - 'staff_role'
+  - 'server_admin'
+  - 'commands_channel'
+  - 'modlog_channel'
+  - 'bugreports_channel'
+  - 'ip_address'
+  - 'ip_text'
+  - 'ip_game'
+  - 'application_channel'

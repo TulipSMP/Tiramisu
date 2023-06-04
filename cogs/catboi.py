@@ -1,15 +1,21 @@
+# 
+# Tiramisu Discord Bot
+# --------------------
+# Fizzdev = Catboy
+# 
 from logging42 import logger
 import nextcord
 from nextcord.ext import commands
 import yaml
+from libs.database import Database
 
 class Catboy(commands.Cog):
     def __init__(self, bot):
-        self.client = bot
-    
-    with open("config/config.yml", "r") as ymlfile:
-        cfg = yaml.load(ymlfile, Loader=yaml.FullLoader)
-    TESTING_GUILD_ID=cfg["discord"]["testing_guild"]
+        """ Boilerplate Cog. Also funny fizzdev catboy hahaha """
+        self.bot = bot    
+        with open("config/config.yml", "r") as ymlfile:
+            self.cfg = yaml.load(ymlfile, Loader=yaml.FullLoader)
+
 
     # Events
     @commands.Cog.listener()
@@ -17,7 +23,7 @@ class Catboy(commands.Cog):
         logger.info('Loaded cog catboy.py')
 
     # Commands
-    @nextcord.slash_command(description="Try me!", guild_ids=[TESTING_GUILD_ID])
+    @nextcord.slash_command(description="Try me!")
     async def fizz(self, interaction: nextcord.Interaction):
         await interaction.send(f"Yes, fizz is indeed a catboy. I am a discord bot so I am always right.")
         logger.debug(f'Reminded {interaction.user} that fizz is a catboy.')

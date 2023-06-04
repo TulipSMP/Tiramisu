@@ -18,13 +18,12 @@
 | Tickets   | Yes             | No            | Todo         | [Yes](https://github.com/NeuroAssassin/Toxic-Cogs/tree/master/reacticket) |
 | Applications[¹](#1)| Yes    | No            | Todo         | No      |
 | Polls     | No              | No            | Todo         | [Yes](https://github.com/flapjax/FlapJack-Cogs/tree/red-v3-rewrites/msgvote) |
-| Announce[²](#2)| Yes        | Yes           | Todo         | [Yes](https://github.com/Obi-Wan3/OB13-Cogs/tree/main/announcements) |
+| Announce[²](#2)| Yes        | Yes           | Yes          | [Yes](https://github.com/Obi-Wan3/OB13-Cogs/tree/main/announcements) |
 | Giveaway  | Yes             | No            | Todo         | [Yes](https://github.com/flaree/flare-cogs/tree/master/giveaways) / [Yes](https://github.com/Redjumpman/Jumper-Plugins/tree/V3/raffle) |
 | Suggestions/Bug Reports | Yes | No          | Todo         | [Yes](https://github.com/flapjax/FlapJack-Cogs/tree/red-v3-rewrites/msgvote) |
 | **Moderation** |            |               |              |         |
-| Rules Reference[³](#3) | No | No            | Todo         | Yes     |
-| Warns     | Yes             | Yes (no DM)   | Todo         | Yes     |
-| Bans      | Yes             | Yes           | Todo         | Yes     |
+| Warns     | Yes             | Yes (no DM)   | Yes          | Yes     |
+| Bans      | Yes             | Yes           | Yes          | Yes     |
 
 <!--
 TODO.md todo:
