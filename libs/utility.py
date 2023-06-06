@@ -40,6 +40,10 @@ def is_mod(user, db_con):
         return True
 
 def occurences(string: str, char: str):
+    """ Really bad way to do it, but checks how often `char` appears in `string`.
+    Parameters:
+     - `string`: str, string to check
+        - `char`: str, character to check for """
     count = 0
     for i in string:
         if i == char:
