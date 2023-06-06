@@ -36,7 +36,7 @@ class ModRightclick(commands.Cog):
             else:
                 msg_summary = f'{message.content[0:35]}...'
 
-            await moderation.warn(interaction, self.bot.user, message.author, f'Message: {message.jump_url}', dm=True, broadcast=True)
+            await moderation.warn(interaction, self.bot.user, message.author, f'Message: {message.jump_url}\n*{msg_summary}*', dm=True, broadcast=True)
         else:
             await interaction.send(self.cfg['messages']['noperm'], ephemeral=True)
 
