@@ -1,6 +1,8 @@
-# Tiramisu
-[![Lint](https://github.com/RoseSMP/Tiramisu/actions/workflows/pylint.yml/badge.svg?branch=main&event=push)](https://github.com/RoseSMP/Tiramisu/actions/workflows/pylint.yml)
-##### Code Status: Code Freeze! This branch is being prepared for production.
+<center><img src='src/tiramisu.png' alt='Tiramisu, an italian cake with coffee, chocolate, and creamy white icing. Drawn in a simplistic square ' width=200></center>
+<center><h1> Tiramisu </h1></center>
+<center><a href="https://github.com/RoseSMP/Tiramisu/actions/workflows/pylint.yml"><img src="https://github.com/RoseSMP/Tiramisu/actions/workflows/pylint.yml/badge.svg?branch=main&event=push" alt="Lint"></a></center>
+
+##### Code Status: Active Development! New features and breaking changes may be present in this branch.
 
 An open source discord bot for all audiences, developed by the folks at RoseSMP.
 
