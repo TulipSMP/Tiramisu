@@ -67,3 +67,9 @@ Optional:
 - `dm`: bool, whether to DM the warn to the user (default True)
 - `broadcast`: bool, whether to publicly send the warn in the current channel (default True)
 
+## Usage
+
+To import the library from a cog:
+```py
+from libs import moderation
+```
