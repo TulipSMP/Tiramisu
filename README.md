@@ -23,6 +23,13 @@ There's a lot of things we'd like to do with this bot, but here's a general idea
 - [x] `/announce` [pings bool, message]
 - [x] `/addrole` give all users a specific role (and `/delrole`)
 - [x] `/kick` kick a user from the server
+- [ ] Right-click user or message to perform mod action
+- [ ] Logging of the following actions:
+  * [ ] Message Deletion
+  * [ ] Message Edit
+  * [ ] VC Join/Leave
+  * [ ] VC Start/Stop streaming/camera
+
 
 #### For Users
 - [x] `/help`: informs user on how to use the bot.
@@ -40,6 +47,12 @@ There's a lot of things we'd like to do with this bot, but here's a general idea
     - free answer
   * Configurable per guild
   * Different position applications (guild configurable)
+- [ ] Reaction Roles
+- [ ] User Levelling system
+  * [ ] Points system based on messages sent in qualifying channels
+  * [ ] Levels system based on points
+  * [ ] `/level`: check own level and points
+  
 
 ### Other Features
 #### Bot Management
@@ -48,6 +61,8 @@ There's a lot of things we'd like to do with this bot, but here's a general idea
   - [x] Unload Cogs
   - [x] Reload Cogs
 - [x] Shutdown bot correctly (instead of just an exit)
+- [ ] Check `config/config.yml` against `config/exampleconfig.yml` and add missing options to `config.yml`
+
 
 #### Messages & Variables
 - [x] Load most reused messages from yaml
