@@ -132,11 +132,10 @@ async def ban(interaction: nextcord.Interaction, bot: nextcord.User, user: nextc
     except Exception as e:
         await interaction.send(utility.error_unexpected(e, name='libs.moderation.ban'), ephemeral=True)
 
-async def warn(interaction: nextcord.Interaction, bot: nextcord.User, user: nextcord.Member, reason: str, dm: bool = True, broadcast: bool = True):
+async def warn(interaction: nextcord.Interaction, user: nextcord.Member, reason: str, dm: bool = True, broadcast: bool = True):
     """ Warn `user` via DM and/or public message
     Parameters:
      - `interaction`: nextcord.Interaction for this event
-     - `bot`: nextcord.User for the bot
      - `user`: the nextcord.Member to warn
      - `reason`: warn message
      Optional:

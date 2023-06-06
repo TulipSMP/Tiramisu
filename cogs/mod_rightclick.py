@@ -27,8 +27,8 @@ class ModRightclick(commands.Cog):
 
     # Commands
     @nextcord.message_command(name='Warn for Message')
-    async def warn(self, interaction: nextcord.Interaction, message: nextcord.Message):
-        """ Warn a User """
+    async def warn_message(self, interaction: nextcord.Interaction, message: nextcord.Message):
+        """ Warn a User because of a Message """
         db = Database(interaction.guild, reason=f'Check for permission, `/warn`')
         if interaction.user.id in db.fetch('admins') or utility.is_mod(interaction.user, db):
             if len(message.content) <= 40:
@@ -36,7 +36,7 @@ class ModRightclick(commands.Cog):
             else:
                 msg_summary = f'{message.content[0:35]}...'
 
-            await moderation.warn(interaction, self.bot.user, message.author, f'Message: {message.jump_url}\n{msg_summary}', dm=True, broadcast=True)
+            await moderation.warn(interaction, message.author, f'Message: {message.jump_url}\n{msg_summary}', dm=True, broadcast=True)
         else:
             await interaction.send(self.cfg['messages']['noperm'], ephemeral=True)
 

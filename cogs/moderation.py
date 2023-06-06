@@ -36,7 +36,7 @@ class Moderation(commands.Cog):
         """ Warn a User """
         db = Database(interaction.guild, reason=f'Check for permission, `/warn`')
         if interaction.user.id in db.fetch('admins') or utility.is_mod(interaction.user, db):
-            await moderation.warn(interaction, self.bot.user, user, reason, dm=dm, broadcast=broadcast)
+            await moderation.warn(interaction, user, reason, dm=dm, broadcast=broadcast)
         else:
             await interaction.send(self.cfg['messages']['noperm'], ephemeral=True)
     
