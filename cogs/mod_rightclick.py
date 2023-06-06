@@ -10,7 +10,7 @@ import nextcord
 from nextcord.ext import commands
 
 from libs.database import Database
-from libs import moderation, utility
+from libs import moderation, utility, ui
 
 class ModRightclick(commands.Cog):
     def __init__(self, bot):
@@ -36,7 +36,7 @@ class ModRightclick(commands.Cog):
             else:
                 msg_summary = f'{message.content[0:35]}...'
 
-            await moderation.warn(interaction, message.author, f'Message: {message.jump_url}\n{msg_summary}', dm=True, broadcast=True)
+            await moderation.warn(interaction, message.author, f'Message: {message.jump_url}\n{msg_summary}')
         else:
             await interaction.send(self.cfg['messages']['noperm'], ephemeral=True)
 
