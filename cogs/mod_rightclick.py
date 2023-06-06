@@ -26,9 +26,19 @@ class ModRightclick(commands.Cog):
         logger.info('Loaded cog mod_rightclick.py')
 
     # Commands
-    @nextcord.user_command(name='Test Action')
-    async def test(self, interaction: nextcord.Interaction, member: nextcord.Member):
-        await interaction.send(f'Hiya {member.mention}')
+    @nextcord.message_command(name='Warn User for Message')
+    async def warn(self, interaction: nextcord.Interaction, message: nextcord.Message):
+        """ Warn a User """
+        db = Database(interaction.guild, reason=f'Check for permission, `/warn`')
+        if interaction.user.id in db.fetch('admins') or utility.is_mod(interaction.user, db):
+            if len(message.content) <= 40:
+                msg_summary = message.content
+            else:
+                msg_summary = f'{message.content[0:35]}...'
+            await moderation.warn(interaction, self.bot.user, message.author, f'Message: {message.jump_url}', dm=True, broadcast=True)
+
+        else:
+            await interaction.send(self.cfg['messages']['noperm'], ephemeral=True)
 
 def setup(bot):
     bot.add_cog(ModRightclick(bot))
