@@ -27,8 +27,8 @@ class ModRightclick(commands.Cog):
 
     # Commands
     @nextcord.user_command()
-    async def test(interaction: nextcord.Interaction, member: nextcord.Member, x):
-        await interaction.response.send_message(f'Hiya {member.mention}\n```\n{x}\n```')
+    async def test(self, interaction: nextcord.Interaction, member: nextcord.Member):
+        await interaction.send(f'Hiya {member.mention}')
 
 def setup(bot):
     bot.add_cog(ModRightclick(bot))
