@@ -40,6 +40,11 @@ class ModRightclick(commands.Cog):
         else:
             await interaction.send(self.cfg['messages']['noperm'], ephemeral=True)
 
+    @nextcord.user_command(name='Warn')
+    async def warn_user(self, interaction: nextcord.Interaction, user: nextcord.Member):
+        """ Warn a User via Modal"""
+        await interaction.response.send_modal(ui.modals.WarnModal(user))
+
 def setup(bot):
     bot.add_cog(ModRightclick(bot))
     logger.debug('Setup cog "mod_rightclick"')
