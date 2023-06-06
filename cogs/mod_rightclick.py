@@ -26,7 +26,7 @@ class ModRightclick(commands.Cog):
         logger.info('Loaded cog mod_rightclick.py')
 
     # Commands
-    @nextcord.user_command()
+    @nextcord.user_command(name='Test Action')
     async def test(self, interaction: nextcord.Interaction, member: nextcord.Member):
         await interaction.send(f'Hiya {member.mention}')
 
