@@ -54,8 +54,8 @@ async def kick(interaction: nextcord.Interaction, bot, user, reason, dm=True):
          - `reason`: str for why kicked """
     db = Database(interaction.guild)
     try:
-        if user.id == bot.id:
-            await interaction.send('I cannot kick myself! If you want me to leave, have an admin kick me.')
+        if user.bot:
+            await interaction.send('I cannot kick bots!', ephemeral=True)
             return
         logger.debug(f'{interaction.user.id} kicked {user.id} for {reason}')
         try:
@@ -84,8 +84,8 @@ async def timeout(interaction: nextcord.Interaction, bot: nextcord.User, user: n
      - `reason`: str; why they were timed out """
     try:
         db = Database(interaction.guild)
-        if user.id == bot.id:
-            await interaction.send('I cannot timeout myself!')
+        if user.bot:
+            await interaction.send('I cannot timeout bots!', ephemeral=True)
             return
         logger.debug(f'{interaction.user.id} timed-out {user.id} for {reason}')
         try:
@@ -110,8 +110,8 @@ async def ban(interaction: nextcord.Interaction, bot: nextcord.User, user: nextc
       - `delete_msgs`: int, 0 - 7, how many days of messages to delete (default 0)"""
     
     try:
-        if user.id == bot.id:
-            await interaction.send('I cannot ban myself!')
+        if user.bot:
+            await interaction.send('I cannot ban bots!', ephemeral=True)
             return
         logger.debug(f'{interaction.user.id} banning {user.id} in {interaction.guild.id}')
 
@@ -143,8 +143,8 @@ async def warn(interaction: nextcord.Interaction, bot: nextcord.User, user: next
       - `dm`: bool, whether to DM the warn to the user (default True)
       - `broadcast`: bool, whether to publicly send the warn in the current channel (default True) """
     try:
-        if user.id == bot.id:
-            await interaction.send('I cannot warn myself!')
+        if user.bot:
+            await interaction.send('I cannot warn bots!', ephemeral=True)
             return
         logger.debug(f'{interaction.user.id} warned {user.id} for {reason}')
 
