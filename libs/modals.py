@@ -25,7 +25,7 @@ class WarnModal(nextcord.ui.Modal):
         self.add_item(self.reason)
 
         self.broadcast = nextcord.ui.Select(min_values=1, max_values=1)
-        self.broadcast.add_option('True', default=True)
+        self.broadcast.add_option('True')
         self.broadcast.add_option('False')
         self.add_item(self.broadcast)
 
