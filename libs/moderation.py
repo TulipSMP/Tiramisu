@@ -45,11 +45,10 @@ async def modlog(guild: nextcord.Guild, subject: str, author: nextcord.User, rec
         return f'*Failed to log action. Could not send message to {channel.mention}.*'
 
 
-async def kick(interaction: nextcord.Interaction, bot, user, reason, dm=True):
+async def kick(interaction: nextcord.Interaction, user, reason, dm=True):
     """ Kick `user` and respond to `interaction`.
         Parameters:
          - `interaction`: nextcord.Interaction for event
-         - `bot`: the nextcord.User object for this bot
          - `user`: nextcord.User to kick
          - `reason`: str for why kicked """
     db = Database(interaction.guild)
@@ -74,11 +73,10 @@ async def kick(interaction: nextcord.Interaction, bot, user, reason, dm=True):
     except Exception as e:
         await interaction.send(utility.error_unexpected(e, name='libs.moderation.kick'), ephemeral=True)
 
-async def timeout(interaction: nextcord.Interaction, bot: nextcord.User, user: nextcord.Member, duration, reason):
+async def timeout(interaction: nextcord.Interaction, user: nextcord.Member, duration, reason):
     """ Timeout `user` and respond to `interaction`.
     Parameters:
      - `interaction`: nextcord.Interaction for event
-     - `bot`: the nextcord.User object for this bot
      - `user`: nextcord.Member to timeout
      - `duration`: datetime.datetime or timedelta; how long to time out user
      - `reason`: str; why they were timed out """
@@ -98,11 +96,10 @@ async def timeout(interaction: nextcord.Interaction, bot: nextcord.User, user: n
     except Exception as e:
         await interaction.send(utility.error_unexpected(e, name='libs.moderation.timeout'), ephemeral=True)
 
-async def ban(interaction: nextcord.Interaction, bot: nextcord.User, user: nextcord.Member, reason, dm=True, delete_msgs=0):
+async def ban(interaction: nextcord.Interaction, user: nextcord.Member, reason, dm=True, delete_msgs=0):
     """ Ban `user` from `interaction.guild`, and respond to `interaction`:
     Parameters:
      - `interaction`: nextcord.Interaction for this event
-     - `bot`: the nextcord.User for this bot
      - `user`: the nextcord.Member to ban
      - `reason`: why this member was banned 
      Optional:

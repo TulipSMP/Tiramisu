@@ -27,7 +27,6 @@ Returns:
 Parameters:
 
 - `interaction`: nextcord.Interaction for event
-- `bot`: the nextcord.User object for this bot
 - `user`: nextcord.User to kick
 - `reason`: str for why kicked
 
@@ -36,7 +35,6 @@ Parameters:
 
 Parameters:
 - `interaction`: nextcord.Interaction for event
-- `bot`: the nextcord.User object for this bot
 - `user`: nextcord.Member to timeout
 - `duration`: datetime.datetime or timedelta; how long to time out user
 - `reason`: str; why they were timed out
@@ -46,7 +44,6 @@ Parameters:
 
 Parameters:
 - `interaction`: nextcord.Interaction for this event
-- `bot`: the nextcord.User for this bot
 - `user`: the nextcord.Member to ban
 - `reason`: why this member was banned 
 
@@ -59,7 +56,6 @@ Optional:
 
 Parameters:
 - `interaction`: nextcord.Interaction for this event
-- `bot`: nextcord.User for the bot
 - `user`: the nextcord.Member to warn
 - `reason`: warn message
 
