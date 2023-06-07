@@ -4,6 +4,7 @@
 # Modals
 #
 import nextcord
+from logging42 import logger
 
 from libs.database import Database
 from libs import moderation, utility
@@ -23,9 +24,15 @@ class WarnModal(nextcord.ui.Modal):
         )
         self.add_item(self.reason)
 
+        self.broadcast = nextcord.ui.Select(min_values=1, max_values=1)
+        self.broadcast.add_option('Show public warn message', value='True', default=True)
+        self.broadcast.add_option('Only DM warn message', value='False')
+        self.add_item(self.broadcast)
+
     async def callback(self, interaction: nextcord.Interaction):
         db = Database(interaction.guild, reason=f'Check for permission, libs.ui.modals.WarnModal')
         if interaction.user.id in db.fetch('admins') or utility.is_mod(interaction.user, db):
+            logger.info(f'WarnModal.broadcast.values: {self.broadcast.values}')
             await moderation.warn(interaction, self.user, self.reason.value)
         else:
             await interaction.send(self.cfg['messages']['noperm'], ephemeral=True)
