@@ -114,7 +114,7 @@ async def ban(interaction: nextcord.Interaction, user: nextcord.Member, reason, 
 
         if dm:
             try:
-                await user.send(f'*You have been banned from __{interaction.guild.name}__ For:*\n>>>{reason}')
+                await user.send(f'*You have been banned from __{interaction.guild.name}__ For:*\n>>> **{reason}**')
             except nextcord.HTTPException:
                 await interaction.send(f'I cannot DM this user! Use the `dm` option if you do not want me to tell them why they were kicked.', ephemeral=True)
                 return
@@ -155,7 +155,7 @@ async def warn(interaction: nextcord.Interaction, user: nextcord.Member, reason:
                 await interaction.send(f'I cannot DM this user! Use the `dm` option to disable', ephemeral=True)
                 return
         if broadcast:
-            await interaction.channel.send(f"{user.mention} has been warned for:\n**{reason}**")
+            await interaction.channel.send(f"{user.mention} has been warned for:\n>>> **{reason}**")
         
         logging_info = await modlog(interaction.guild, 'User Warned', interaction.user, user, reason=reason, additional={'DMed':dm, 'Publicly Broadcast':broadcast})
         await interaction.send(f'{user.mention} was successfully warned!\n{logging_info}', ephemeral=True)
