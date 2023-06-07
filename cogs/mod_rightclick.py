@@ -50,6 +50,11 @@ class ModRightclick(commands.Cog):
         """ Ban a User via Modal """
         await interaction.response.send_modal(modals.BanModal(user))
 
+    @nextcord.user_command(name='Kick')
+    async def kick_user(self, interaction: nextcord.Interaction, user: nextcord.Member):
+        """ Kick a User via Modal """
+        await interaction.response.send_modal(modals.KickModal(user))
+
 def setup(bot):
     bot.add_cog(ModRightclick(bot))
     logger.debug('Setup cog "mod_rightclick"')
