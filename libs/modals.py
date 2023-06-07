@@ -25,8 +25,8 @@ class WarnModal(nextcord.ui.Modal):
         self.add_item(self.reason)
 
         self.broadcast = nextcord.ui.Select(min_values=1, max_values=1)
-        self.broadcast.add_option('Show public warn message', value='True', default=True)
-        self.broadcast.add_option('Only DM warn message', value='False')
+        self.broadcast.add_option('True', default=True)
+        self.broadcast.add_option('False')
         self.add_item(self.broadcast)
 
     async def callback(self, interaction: nextcord.Interaction):
