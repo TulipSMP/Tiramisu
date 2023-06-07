@@ -24,18 +24,10 @@ class WarnModal(nextcord.ui.Modal):
         )
         self.add_item(self.reason)
 
-        self.broadcast = nextcord.ui.Select(min_values=1, max_values=1)
-        self.broadcast.add_option(label='Publicly Send Warn', value='True', description='Show the warning in the current channel for everyone to see.', default=True)
-        self.broadcast.add_option(label='Only DM Warning', value='False', description='Only send the usual DM warning message, and do not publicly show the warning.')
-        self.add_item(self.broadcast)
 
     async def callback(self, interaction: nextcord.Interaction):
         db = Database(interaction.guild, reason=f'Check for permission, libs.ui.modals.WarnModal')
         if interaction.user.id in db.fetch('admins') or utility.is_mod(interaction.user, db):
-            if 'True' in self.broadcast.values:
-                broadcast = True
-            else:
-                broadcast = False
-            await moderation.warn(interaction, self.user, self.reason.value, broadcast=broadcast)
+            await moderation.warn(interaction, self.user, self.reason.value)
         else:
             await interaction.send(self.cfg['messages']['noperm'], ephemeral=True)
