@@ -45,17 +45,16 @@ async def modlog(guild: nextcord.Guild, subject: str, author: nextcord.User, rec
         return f'*Failed to log action. Could not send message to {channel.mention}.*'
 
 
-async def kick(interaction: nextcord.Interaction, bot, user, reason, dm=True):
+async def kick(interaction: nextcord.Interaction, user, reason, dm=True):
     """ Kick `user` and respond to `interaction`.
         Parameters:
          - `interaction`: nextcord.Interaction for event
-         - `bot`: the nextcord.User object for this bot
          - `user`: nextcord.User to kick
          - `reason`: str for why kicked """
     db = Database(interaction.guild)
     try:
-        if user.id == bot.id:
-            await interaction.send('I cannot kick myself! If you want me to leave, have an admin kick me.')
+        if user.bot:
+            await interaction.send('I cannot kick bots!', ephemeral=True)
             return
         logger.debug(f'{interaction.user.id} kicked {user.id} for {reason}')
         try:
@@ -74,18 +73,17 @@ async def kick(interaction: nextcord.Interaction, bot, user, reason, dm=True):
     except Exception as e:
         await interaction.send(utility.error_unexpected(e, name='libs.moderation.kick'), ephemeral=True)
 
-async def timeout(interaction: nextcord.Interaction, bot: nextcord.User, user: nextcord.Member, duration, reason):
+async def timeout(interaction: nextcord.Interaction, user: nextcord.Member, duration, reason):
     """ Timeout `user` and respond to `interaction`.
     Parameters:
      - `interaction`: nextcord.Interaction for event
-     - `bot`: the nextcord.User object for this bot
      - `user`: nextcord.Member to timeout
      - `duration`: datetime.datetime or timedelta; how long to time out user
      - `reason`: str; why they were timed out """
     try:
         db = Database(interaction.guild)
-        if user.id == bot.id:
-            await interaction.send('I cannot timeout myself!')
+        if user.bot:
+            await interaction.send('I cannot timeout bots!', ephemeral=True)
             return
         logger.debug(f'{interaction.user.id} timed-out {user.id} for {reason}')
         try:
@@ -98,11 +96,10 @@ async def timeout(interaction: nextcord.Interaction, bot: nextcord.User, user: n
     except Exception as e:
         await interaction.send(utility.error_unexpected(e, name='libs.moderation.timeout'), ephemeral=True)
 
-async def ban(interaction: nextcord.Interaction, bot: nextcord.User, user: nextcord.Member, reason, dm=True, delete_msgs=0):
+async def ban(interaction: nextcord.Interaction, user: nextcord.Member, reason, dm=True, delete_msgs=0):
     """ Ban `user` from `interaction.guild`, and respond to `interaction`:
     Parameters:
      - `interaction`: nextcord.Interaction for this event
-     - `bot`: the nextcord.User for this bot
      - `user`: the nextcord.Member to ban
      - `reason`: why this member was banned 
      Optional:
@@ -110,14 +107,14 @@ async def ban(interaction: nextcord.Interaction, bot: nextcord.User, user: nextc
       - `delete_msgs`: int, 0 - 7, how many days of messages to delete (default 0)"""
     
     try:
-        if user.id == bot.id:
-            await interaction.send('I cannot ban myself!')
+        if user.bot:
+            await interaction.send('I cannot ban bots!', ephemeral=True)
             return
         logger.debug(f'{interaction.user.id} banning {user.id} in {interaction.guild.id}')
 
         if dm:
             try:
-                await user.send(f'*You have been banned from __{interaction.guild.name}__ For:*\n>>>{reason}')
+                await user.send(f'*You have been banned from __{interaction.guild.name}__ For:*\n>>> **{reason}**')
             except nextcord.HTTPException:
                 await interaction.send(f'I cannot DM this user! Use the `dm` option if you do not want me to tell them why they were kicked.', ephemeral=True)
                 return
@@ -132,19 +129,18 @@ async def ban(interaction: nextcord.Interaction, bot: nextcord.User, user: nextc
     except Exception as e:
         await interaction.send(utility.error_unexpected(e, name='libs.moderation.ban'), ephemeral=True)
 
-async def warn(interaction: nextcord.Interaction, bot: nextcord.User, user: nextcord.Member, reason: str, dm: bool = True, broadcast: bool = True):
+async def warn(interaction: nextcord.Interaction, user: nextcord.Member, reason: str, dm: bool = True, broadcast: bool = True):
     """ Warn `user` via DM and/or public message
     Parameters:
      - `interaction`: nextcord.Interaction for this event
-     - `bot`: nextcord.User for the bot
      - `user`: the nextcord.Member to warn
      - `reason`: warn message
      Optional:
       - `dm`: bool, whether to DM the warn to the user (default True)
       - `broadcast`: bool, whether to publicly send the warn in the current channel (default True) """
     try:
-        if user.id == bot.id:
-            await interaction.send('I cannot warn myself!')
+        if user.bot:
+            await interaction.send('I cannot warn bots!', ephemeral=True)
             return
         logger.debug(f'{interaction.user.id} warned {user.id} for {reason}')
 
@@ -159,7 +155,7 @@ async def warn(interaction: nextcord.Interaction, bot: nextcord.User, user: next
                 await interaction.send(f'I cannot DM this user! Use the `dm` option to disable', ephemeral=True)
                 return
         if broadcast:
-            await interaction.channel.send(f"{user.mention} has been warned for:\n**{reason}**")
+            await interaction.channel.send(f"{user.mention} has been warned for:\n>>> **{reason}**")
         
         logging_info = await modlog(interaction.guild, 'User Warned', interaction.user, user, reason=reason, additional={'DMed':dm, 'Publicly Broadcast':broadcast})
         await interaction.send(f'{user.mention} was successfully warned!\n{logging_info}', ephemeral=True)
