@@ -10,7 +10,7 @@ import nextcord
 from nextcord.ext import commands
 
 from libs.database import Database
-from libs import moderation, utility, ui
+from libs import moderation, utility, modals
 
 class ModRightclick(commands.Cog):
     def __init__(self, bot):
@@ -43,7 +43,7 @@ class ModRightclick(commands.Cog):
     @nextcord.user_command(name='Warn')
     async def warn_user(self, interaction: nextcord.Interaction, user: nextcord.Member):
         """ Warn a User via Modal"""
-        await interaction.response.send_modal(ui.modals.WarnModal(user))
+        await interaction.response.send_modal(modals.WarnModal(user))
 
 def setup(bot):
     bot.add_cog(ModRightclick(bot))
