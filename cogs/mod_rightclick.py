@@ -44,6 +44,11 @@ class ModRightclick(commands.Cog):
     async def warn_user(self, interaction: nextcord.Interaction, user: nextcord.Member):
         """ Warn a User via Modal"""
         await interaction.response.send_modal(modals.WarnModal(user))
+    
+    @nextcord.user_command(name='Ban')
+    async def ban_user(self, interaction: nextcord.Interaction, user: nextcord.Member):
+        """ Ban a User via Modal """
+        await interaction.response.send_modal(modals.BanModal(user))
 
 def setup(bot):
     bot.add_cog(ModRightclick(bot))
