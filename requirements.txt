@@ -1,5 +1,6 @@
 # Dependencies
 nextcord
+nextcord-ext-menus
 logging42
 pyyaml
 mysql-connector-python
