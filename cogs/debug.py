@@ -62,7 +62,6 @@ class Debug(commands.Cog):
 
     @nextcord.slash_command(description='Test buttons')
     async def button(self, interaction: nextcord.Interaction):
-        await interaction.send('Creating button...')
         await buttons.HelloButton().start(interaction=interaction)
 
 def setup(bot):
