@@ -71,3 +71,26 @@ class KickModal(nextcord.ui.Modal):
             await moderation.kick(interaction, self.user, self.reason.value)
         else:
             await interaction.send(self.cfg['messages']['noperm'], ephemeral=True)
+
+class InputModal(nextcord.ui.Modal):
+    def __init__(self, title, label, callback, timeout=300, min_length = 2, max_length = 15, *args, **kwargs):
+        """ Modal for Entering a reason and creating a ticket 
+        * `title`: Title for the modal
+        * `label`: Label for the input box
+        * `callback`: function to call for returning input. Is sent two parameters:
+          - `nextcord.Interaction`: the interaction
+          - `str`: The input from the user"""
+        super().__init__(f'{title}', timeout=timeout)
+        self.ext_callback = callback
+
+        # Components
+        self.input = nextcord.ui.TextInput(
+            label = label,
+            min_length = min_length,
+            max_length = max_length,
+            *args, **kwargs
+        )
+        self.add_item(self.input)
+
+    async def callback(self, interaction: nextcord.Interaction):
+        self.ext_callback(interaction, self.input.value)
