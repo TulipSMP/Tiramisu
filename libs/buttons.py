@@ -15,7 +15,8 @@ class HelloButton(menus.ButtonMenu):
 
 
     async def send_initial_message(self, interaction, channel):
-        return await interaction.send(f'Press the button below!')
+        await interaction.send('Working...')
+        return await channel.send(f'Press the button below!')
 
     @nextcord.ui.button(label='Try Me!', emoji="❓", custom_id='tiramisu:hello', style=nextcord.ButtonStyle.blurple)
     async def on_hello(self, button, interaction: nextcord.Interaction):
