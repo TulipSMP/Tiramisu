@@ -16,7 +16,7 @@ class HelloButton(menus.ButtonMenu):
 
 
     async def send_initial_message(self, interaction, channel):
-        logger.warning(type(interaction) + interaction)
+        logger.warning(f'{type(interaction)} / {interaction}')
         #await interaction.send('Working...')
         return await channel.send(f'Press the button below!')
 
