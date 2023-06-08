@@ -12,9 +12,7 @@ class HelloButton(menus.ButtonMenu):
     def __init__(self):
         """ Says Hello! """
         super().__init__(disable_buttons_after=True)
-        intents = nextcord.Intents.default()
-        intents.members = True
-        super().bot = commands.Bot(intents=intents)
+
 
     async def send_initial_message(self, interaction, channel):
         return await channel.send(f'Press the button below!')
