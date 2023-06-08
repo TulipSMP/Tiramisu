@@ -36,6 +36,6 @@ class TicketCloseButton(menus.ButtonMenu):
     async def send_initial_message(self, interaction, channel):
         return await channel.send(self.message)
 
-    @nextcord.ui.button(label='Close', emoji="❌", custom_id=f'tiramisu:close_ticket_{user.id}', style=nextcord.ui.ButtonStyle.red)
+    @nextcord.ui.button(label='Close', emoji="❌", custom_id=f'tiramisu:close_ticket', style=nextcord.ui.ButtonStyle.red)
     async def on_close(self, button, interaction: nextcord.Interaction):
         await ticketing.close(interaction, self.thread, self.user)
