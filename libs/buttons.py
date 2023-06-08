@@ -4,7 +4,7 @@
 # Buttons
 # 
 import nextcord
-import nextcord-ext-menus as menus
+from nextcord.ext import menus
 
 from libs import ticketing
 
