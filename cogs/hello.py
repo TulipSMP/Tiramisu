@@ -4,9 +4,14 @@
 # Hello Command
 # 
 from logging42 import logger
+
 import nextcord
 from nextcord.ext import commands
+
 import yaml
+
+from libs.database import Database
+from libs import utility, moderation
 
 class Hello(commands.Cog):
     def __init__(self, bot):
