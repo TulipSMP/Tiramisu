@@ -5,6 +5,7 @@
 # 
 import nextcord
 from nextcord.ext import menus, commands
+from logging42 import logger
 
 from libs import ticketing
 
