@@ -17,3 +17,5 @@ settings:
   - 'ip_text'
   - 'ip_game'
   - 'application_channel'
+hidden:
+  - 'ticket_int'
