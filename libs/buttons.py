@@ -8,6 +8,18 @@ from nextcord.ext import menus
 
 from libs import ticketing
 
+class HelloButton(menus.ButtonMenu):
+    def __init__(self):
+        """ Says Hello! """
+        super().__init__(disable_buttons_after=True)
+
+    async def send_initial_message(self, interaction, channel):
+        return await channel.send(f'Press the button below!')
+
+    @nextcord.ui.button(label='Try Me!', emoji="❓", custom_id='tiramisu:hello', style=nextcord.ui.ButtonStyle.blurple)
+    async def on_hello(self, button, interaction: nextcord.Interaction):
+        await interaction.send(f'Hello {interaction.user.display_name}!')
+
 class TicketsButton(menus.ButtonMenu):
     def __init__(self):
         """ Button for Tickets System """

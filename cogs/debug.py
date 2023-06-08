@@ -7,7 +7,9 @@ from logging42 import logger
 import nextcord
 from nextcord.ext import commands
 import yaml
+
 from libs.database import Database
+from libs import buttons
 
 class Debug(commands.Cog):
     def __init__(self, bot):
@@ -57,6 +59,10 @@ class Debug(commands.Cog):
         for user in interaction.guild.humans:
             message += f'\n • {user.name}#{user.discriminator} ({user.display_name}) ID: `{user.id}`'
         await interaction.send(message)
+
+    @nextcord.slash_command(description='Test buttons')
+    async def button(self, interaction: nextcord.Interaction):
+        await buttons.HelloButton().start(interaction)
 
 def setup(bot):
     bot.add_cog(Debug(bot))
