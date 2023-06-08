@@ -157,7 +157,7 @@ async def warn(interaction: nextcord.Interaction, user: nextcord.Member, reason:
         if broadcast:
             await interaction.channel.send(f"{user.mention} has been warned for:\n>>> **{reason}**")
         
-        logging_info = await modlog(interaction.guild, 'User Warned', interaction.user, user, reason=reason, additional={'DMed':dm, 'Publicly Broadcast':broadcast})
+        logging_info = await modlog(interaction.guild, '⚠️ User Warned', interaction.user, user, reason=reason, additional={'DMed':dm, 'Publicly Broadcast':broadcast})
         await interaction.send(f'{user.mention} was successfully warned!\n{logging_info}', ephemeral=True)
 
     except Exception as e:
