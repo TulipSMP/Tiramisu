@@ -66,8 +66,8 @@ def valid_setting(guild: nextcord.Guild, setting: str, value):
         try:
             type_name = 'Channel, Role, or User'
 
-            if value == 'none':
-                return True, value, ''
+            if value == 'none'or value == None:
+                return True, 'none', ''
             
             elif setting.endswith('_channel'):
                 value = value.strip(' <#>')
