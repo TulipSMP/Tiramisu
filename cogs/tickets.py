@@ -32,7 +32,7 @@ class Ticketing(commands.Cog):
     @ticket.subcommand(description="Create a Ticket")
     async def create(self, interaction: nextcord.Interaction,
         reason: Optional[str] = nextcord.SlashOption(description="Why are you creating this ticket?", required=False, default='None given.')):
-        await ticketing.create(interaction, buttons=False)
+        await ticketing.create(interaction, buttons=False, require_reason=False)
 
 
 def setup(bot):

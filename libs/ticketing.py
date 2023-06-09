@@ -19,9 +19,9 @@ TODO
 
 
 """
-async def create(interaction: nextcord.Interaction, reason: str = None, buttons: bool = False):
+async def create(interaction: nextcord.Interaction, reason: str = None, buttons: bool = False, require_reason: bool = True):
     """ Create a Ticket """
-    if reason == None:
+    if reason == None and require_reason:
         await interaction.response.send_modal(modals.InputModal('Create a Ticket', 'Topic of ticket', create)) # Call create again with reason
         return
     elif interaction.channel.type != nextcord.ChannelType.text:
