@@ -25,7 +25,7 @@ class Ticketing(commands.Cog):
         logger.info('Loaded cog tickets.py')
 
     # Commands
-    @nexcord.slash_command(description="Manage Tickets")
+    @nextcord.slash_command(description="Manage Tickets")
     async def ticket(self, interaction: nextcord.Interaction):
         pass # To setup subcommands
 
