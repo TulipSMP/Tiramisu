@@ -78,7 +78,7 @@ async def close(interaction: nextcord.Interaction):
 
     await thread.edit(name=f'{thread.name} [Closed]', archived=True, locked=True)
 
-    await creator.send_message(f'{thread.name} has been closed. You can view it here: {thread.mention}.')
+    #await creator.send_message(f'{thread.name} has been closed. You can view it here: {thread.mention}.')
 
-    await moderation.modlog(interaction.guild, '🎟️ Ticket Closed', user, creator, additional = {'Thread':thread.mention})
+    #await moderation.modlog(interaction.guild, '🎟️ Ticket Closed', user, user, additional = {'Thread':thread.mention})
 
