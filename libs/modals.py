@@ -6,6 +6,8 @@
 import nextcord
 from logging42 import logger
 
+import inspect
+
 from libs.database import Database
 from libs import moderation, utility
 
@@ -93,4 +95,7 @@ class InputModal(nextcord.ui.Modal):
         self.add_item(self.input)
 
     async def callback(self, interaction: nextcord.Interaction):
-        self.ext_callback(interaction, self.input.value)
+        if inspect.isawaitable(self.ext_callback):
+            await self.ext_callback(interaction, self.input.value)
+        else:
+            self.ext_callback(interaction, self.input.value)
