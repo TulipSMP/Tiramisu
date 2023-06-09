@@ -68,17 +68,17 @@ async def create(interaction: nextcord.Interaction, reason: str = None, buttons:
         await init.pin(reason = 'Initial ticket message')
         
 
-async def close(interaction: nextcord.Interaction):
-    """ Close a Ticket """
-    db = Database(interaction.guild, reason='Ticketing, close ticket')
-    user = interaction.user
-    if interaction.channel.type != nextcord.ChannelType.private_thread or interaction.channel:
-        await interaction.send(f'Run this command in the ticket you wish to close.', ephemeral=True)
-        return
-
-    await thread.edit(name=f'{thread.name} [Closed]', archived=True, locked=True)
-
-    #await creator.send_message(f'{thread.name} has been closed. You can view it here: {thread.mention}.')
-
-    #await moderation.modlog(interaction.guild, '🎟️ Ticket Closed', user, user, additional = {'Thread':thread.mention})
+#async def close(interaction: nextcord.Interaction):
+#    """ Close a Ticket """
+#    db = Database(interaction.guild, reason='Ticketing, close ticket')
+#    user = interaction.user
+#    if interaction.channel.type != nextcord.ChannelType.private_thread or interaction.channel:
+#        await interaction.send(f'Run this command in the ticket you wish to close.', ephemeral=True)
+#        return
+#
+#    await thread.edit(name=f'{thread.name} [Closed]', archived=True, locked=True)
+#
+#    await creator.send_message(f'{thread.name} has been closed. You can view it here: {thread.mention}.')
+#
+#    await moderation.modlog(interaction.guild, '🎟️ Ticket Closed', user, user, additional = {'Thread':thread.mention})
 
