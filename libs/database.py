@@ -224,8 +224,8 @@ class Database:
                 self.cursor.execute(f'UPDATE "settings_{self.guild.id}" SET value={value} WHERE setting="{setting}"')
                 logger.info(f'Set {setting} to {value} for table settings_{self.guild.id}')
                 return True
-            except:
-                logger.warning(f'Failed to set value {setting} to {value} for table settings_{self.guild.id}!')
+            except Exception as exception:
+                logger.warning(f'Failed to set value {setting} to {value} for table settings_{self.guild.id}!: {exception}')
                 return False
     
     # Send raw commands to Database
