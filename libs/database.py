@@ -221,7 +221,7 @@ class Database:
                 logger.info(f'Removed {setting} {value} from custom table {table}_{self.guild.id}')
         else:
             try:
-                self.cursor.execute(f'UPDATE "settings_{self.guild.id}" SET value=%(value)s WHERE setting="{setting}"', {'value':value})
+                self.cursor.execute(f'UPDATE "settings_{self.guild.id}" SET value=? WHERE setting="{setting}"', value)
                 logger.info(f'Set {setting} to {value} for table settings_{self.guild.id}')
                 return True
             except:
