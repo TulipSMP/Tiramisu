@@ -46,6 +46,7 @@ async def create(interaction: nextcord.Interaction, reason: str = None, buttons:
         ticket_number = 0
     ticket_number += 1
     db.set('ticket_int', str(ticket_number))
+    db.close()
 
     try:
         mention_staff = interaction.guild.get_role(int(db.fetch('staff_role')))
