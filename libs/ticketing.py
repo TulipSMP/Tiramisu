@@ -64,7 +64,8 @@ async def create(interaction: nextcord.Interaction, reason: str = None, buttons:
             reasoning = f"\nReason: *{reason}*"
         else:
             reasoning = ""
-        init = await thread.send(f'**{thread.name}** opened by {interaction.user.mention}\n{mention_staff}{reasoning}\nTo close this ticket, use the `/ticket close` slash command.')
+        init = await thread.send(f'**{thread.name}** opened by {interaction.user.mention}\n{mention_staff}{reasoning}\nTo close this ticket, use the `/ticket close` slash command.\n\
+To add people to the ticket, simply **@mention** them.')
         await init.pin(reason = 'Initial ticket message')
         
 
