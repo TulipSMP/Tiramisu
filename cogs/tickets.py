@@ -33,6 +33,10 @@ class Ticketing(commands.Cog):
     async def create(self, interaction: nextcord.Interaction,
         reason: Optional[str] = nextcord.SlashOption(description="Why are you creating this ticket?", required=False, default='None given.')):
         await ticketing.create(interaction, buttons=False, require_reason=False)
+    
+    @ticket.subcommand(description='Close this Ticket')
+    async def close(self, interaction: nextcord.Interaction):
+        await ticketing.close(interaction)
 
 
 def setup(bot):
