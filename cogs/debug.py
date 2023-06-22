@@ -67,7 +67,14 @@ class Debug(commands.Cog):
             await interaction.send('🗹 This is a ticket!')
         else:
             await interaction.send(f'🗷 This is not a ticket: {reason}')
-        
+    
+    @debug.subcommand(description='Get creator of ticket')
+    async def ticket_creator(self, interaction: nextcord.Interaction):
+        if await ticketing.is_ticket(interaction.channel):
+            creator = await ticketing.get_ticket_creator(interaction.channel)
+            await interaction.send(f'Ticket created by {creator.mention}')
+        else:
+            await interaction.send(f'This isn\'t a ticket.')
 
     @nextcord.slash_command(description='Test buttons')
     async def button(self, interaction: nextcord.Interaction):
