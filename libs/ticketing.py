@@ -87,28 +87,39 @@ async def close(interaction: nextcord.Interaction):
 
     await moderation.modlog(interaction.guild, '🎟️ Ticket Closed', user, user, additional = {'Thread':thread.mention})
 
-async def is_ticket(thread: nextcord.Thread or nextcord.Channel):
+async def is_ticket(thread: nextcord.Thread or nextcord.Channel, debug: bool = False):
     """ Check if a Thread is a ticket
     Returns: bool """
+    if debug:
+        def negative(reason):
+            return False, reason
+        def affirmative():
+            return True, None
+    else:
+        def negative(reason):
+            return False
+        def affirmative():
+            return True
+    
     if thread.type != nextcord.ChannelType.private_thread:
-        return False # All tickets are private threads
+        return affirmative('Not a private thread')
     
     db = Database(thread.guild, reason='Ticketing, checking if thread is ticket')
 
     if not db.fetch('ticket_channel').isdigit():
-        return False # We won't have threads if they're not enabled
+        return negative('`ticket_channel` is not set')
     elif int(db.fetch('ticket_channel')) != thread.parent_id:
-        return False # All threads are children of ticket_channel
+        return negative('Not a child of `ticket_channel`.')
 
     number = thread.name.strip("Thread #")
     if number.isdigit(): # Check if name is 'Thread #0' etc.
         if not db.fetch('ticket_int').isdigit():
-            return False
+            return negative('`ticket_int` is not set! (no tickets have been made)')
         if not int(number) >= int(db.fetch('ticket_int')):
-            return False
+            return negative('Thread number in name is higher than expected')
     else:
-        return False
+        return negative('Not named as a thread should be')
     
-    return True
+    return affirmative()
 
     
