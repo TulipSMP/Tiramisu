@@ -126,14 +126,12 @@ async def close(interaction: nextcord.Interaction):
     if await is_ticket(interaction.channel):
         await interaction.send(f'Run this command in the ticket you wish to close.', ephemeral=True)
         return
-    thread = interaction.channel
-    
-    await interaction.response.defer()
-    
-    creator = await get_ticket_creator(interaction.channel)
+    thread = interaction.channel # interaction is discarded upon response
+    user = interaction.user
+    await interaction.response.defer()  
 
+    creator = await get_ticket_creator(thread)
+    await interaction.send(f'**🎟️ Ticket Closed.**')
     await thread.edit(name=f'{thread.name} [Closed]', archived=True, locked=True)
-
     await creator.send_message(f'{thread.name} has been closed. You can view it here: {thread.mention}.')
-
     await moderation.modlog(interaction.guild, '🎟️ Ticket Closed', interaction.user, creator, additional = {'Thread':thread.mention})
