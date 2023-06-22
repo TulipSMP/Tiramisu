@@ -31,6 +31,9 @@ class Logging(commands.Cog):
     async def on_message_edit(self, old, new):
         await logging.log(logging.EditedMessage(old, new))
 
+    @commands.Cog.listener()
+    async def on_voice_state_update(self, member, before, after):
+        await logging.log(logging.ChangeVoice(member, before, after))
         
 
 def setup(bot):
