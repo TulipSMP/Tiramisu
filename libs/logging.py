@@ -85,8 +85,17 @@ class ChangeVoice(LoggingEvent):
             action = 'Joined'
         elif before.channel != None and after.channel == None: # User left VC
             action = 'Left'
+        elif before.channel != None and after.channel != None: # User changed VCs
+            super().__init__(
+                member.guild, f"**🎤 Chaned VC**",
+                member, extra = {
+                    "Previous VC":before.channel.mention,
+                    "Current VC":after.channel.mention
+                }
+            )
+            return
         else:
-            self.void = True
+            self.void = True # Its some other change we don't want to report
         
         super().__init__(
                 member.guild, f"**🎤 {action} VC**",
