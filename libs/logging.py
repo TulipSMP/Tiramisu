@@ -50,7 +50,7 @@ class DeletedMessage(LoggingEvent):
 
 
 async def log(event: LoggingEvent):
-    db = Database('Logging, fetch `log_channel`')
+    db = Database(event.guild, reason='Logging, fetch `log_channel`')
     try:
         channel = event.guild.get_channel(int(db.fetch('log_channel')))
         if channel == None:
