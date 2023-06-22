@@ -26,6 +26,10 @@ class Logging(commands.Cog):
     @commands.Cog.listener()
     async def on_message_delete(self, message):
         await logging.log(logging.DeletedMessage(message))
+    
+    @commands.Cog.listener()
+    async def on_message_edit(self, old, new):
+        await logging.log(logging.EditedMessage(old, new))
 
         
 
