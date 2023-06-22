@@ -23,7 +23,7 @@ class LoggingEvent:
     def message(self):
         msg = f"{self.title}\nBy: {self.user.name} `{self.user.id}`"
         for key in self.extra:
-            msg += f"\n{key}: __{self.extra[key]}__"
+            msg += f"\n{key}: {self.extra[key]}"
         return msg
 
 class DeletedMessage(LoggingEvent):
