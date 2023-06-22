@@ -24,7 +24,7 @@ class Logging(commands.Cog):
         logger.info('Loaded cog logging.py')
 
     @commands.Cog.listener()
-    async def on_message_message_delete(self, message):
+    async def on_message_delete(self, message):
         await logging.log(logging.DeletedMessage(message))
 
         
