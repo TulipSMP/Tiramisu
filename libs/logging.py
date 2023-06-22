@@ -40,14 +40,42 @@ class DeletedMessage(LoggingEvent):
 
         super().__init__(
             message.guild, 
-            "**✏️ Deleted Message **", 
+            "**🗑️ Deleted Message **", 
             message.author,
             extra = {
                 "Channel":message.channel.mention,
                 "Content":message.content,
-                "Attatchments":attachments
+                "Attachments":attachments
             }
             )
+
+class EditedMessage(LoggingEvent):
+    def __init__(self, old: nextcord.Message, new:nextcord.Message):
+        super().__init__(
+            old.guild,
+            "**✏️ Edited Message **",
+            old.author,
+            extra = {
+                "Channel":old.channel.mention,
+                "Old Content":old.content,
+                "Old Attachments":self._get_attachments(old),
+                "-----":"------",
+                "New Content":new.content,
+                "New Attachments":self._get_attachments(new)
+            }
+        )
+    
+    def _get_attachments(self, message: nextcord.Message):
+        attachments = ''
+        for attachment in message.attachments:
+            if attachments == '':
+                attachments += attachment.filename
+            else:
+                attachments += f', {attachment.filename}'
+        if attachments == '':
+            attachments = 'None'
+        
+        return attachments
 
 
 async def log(event: LoggingEvent):
