@@ -80,7 +80,7 @@ class Settings(commands.Cog):
             valid, new_value, response = utility.valid_setting(interaction.guild, setting, value)
 
             if valid:
-                db.set(setting, new_value, clear=(True if new_value == 'none' else False))
+                db.set(setting, new_value)
                 db.close()
                 message = f'**Setting Changed**\n`{setting}` is now set to __{value}__!'
             else:

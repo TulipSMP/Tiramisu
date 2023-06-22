@@ -65,7 +65,7 @@ class Database:
             logger.info(f'Created table "admins_{self.guild.id}", if it doesnt already exist!')
         if table == 'settings' or table == None:
             self.cursor.execute(f'CREATE TABLE IF NOT EXISTS settings_{self.guild.id} ( setting string, value string );')
-            for setting in self.settings['settings']:
+            for setting in self.settings['settings'] + self.settings['hidden']:
                 self.cursor.execute(f'INSERT INTO settings_{self.guild.id} ( setting, value ) VALUES ( "{setting}", "none" );')
             if self.db_type == 'sqlite':
                 self.sql.commit()
@@ -123,7 +123,7 @@ class Database:
             settings_existing = list(itertools.chain(*settings_existing))
             # Check what settings are missing
             settings_missing = []
-            for setting in settings['settings']:
+            for setting in settings['settings'] + settings['hidden']:
                 if setting in settings_existing:
                     pass
                 else:
