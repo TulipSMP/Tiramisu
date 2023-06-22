@@ -137,3 +137,13 @@ perms:
     Staff are people with the role in the `staff_role` setting. They can do all moderation actions, but do not have permission to change settings, admins or to do other potentially disruptive things.
     See the *Settings* section of the help menu for how to change the `staff_role` setting.
 
+tickets:
+  name: Ticket System
+  contents: |
+    # Ticket System
+    [[BOT]]'s simple ticket system allows users to get help from staff and work out problems.
+    ## Creating Tickets
+    To create a ticket, use the `/ticket create` slash command. If tickets have been set up by server admins, a ticket will be created via private threads.
+    ## Closing Tickets
+    Any member of a ticket can close it, which is done by using the `/ticket close` slash command. This will close and lock the thread, alert moderators in the Modlog channel, and DM the ticket creator a link to the thread for future refrence.
+    
