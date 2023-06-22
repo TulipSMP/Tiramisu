@@ -62,7 +62,7 @@ class Debug(commands.Cog):
 
     @debug.subcommand(description='Check if this is a ticket')
     async def is_ticket(self, interaction: nextcord.Interaction):
-        result, reason = await ticketing.is_ticket(interaction.channel)
+        result, reason = await ticketing.is_ticket(interaction.channel, debug=True)
         if result:
             await interaction.send('🗹 This is a ticket!')
         else:

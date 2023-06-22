@@ -102,7 +102,7 @@ async def is_ticket(thread: nextcord.Thread or nextcord.Channel, debug: bool = F
             return True
     
     if thread.type != nextcord.ChannelType.private_thread:
-        return affirmative('Not a private thread')
+        return negative('Not a private thread')
     
     db = Database(thread.guild, reason='Ticketing, checking if thread is ticket')
 
