@@ -113,7 +113,8 @@ async def get_ticket_creator(thread: nextcord.Thread):
      and returning the first user mentioned.
     NOTE: This does NOT check if this thread is a ticket. """
     
-    async for message in thread.history(limit=10, around=thread.created_at).flatten():
+    history = await thread.history(limit=10, around=thread.created_at).flatten()
+    for message in history:
         first = message # After
     
     return message.mentions[0]
