@@ -21,9 +21,9 @@ class LoggingEvent:
         self.extra = extra
     
     def message(self):
-        msg = f"{self.title}\nBy: {self.user.name}"
+        msg = f"{self.title}\nBy: {self.user.name} `{self.user.id}`"
         for key in self.extra:
-            msg += f"{key}: __{self.extra[key]}__"
+            msg += f"\n{key}: __{self.extra[key]}__"
         return msg
 
 class DeletedMessage(LoggingEvent):
@@ -43,6 +43,7 @@ class DeletedMessage(LoggingEvent):
             "**✏️ Deleted Message **", 
             message.author,
             extra = {
+                "Channel":message.channel.mention,
                 "Content":message.content,
                 "Attatchments":attachments
             }
