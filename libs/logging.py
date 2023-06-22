@@ -45,7 +45,7 @@ class DeletedMessage(LoggingEvent):
             message.author,
             extra = {
                 "Channel":message.channel.mention,
-                "Content":message.content,
+                "Content":nextcord.utils.escape_markdown(message.content).replace('\n', '⮒'),
                 "Attachments":attachments
             }
             )
@@ -59,9 +59,9 @@ class EditedMessage(LoggingEvent):
             old.author,
             extra = {
                 "Channel":old.channel.mention,
-                "Old Content":old.content,
+                "Old Content":nextcord.utils.escape_markdown(old.content).replace('\n', '⮒'),
                 "Old Attachments":self._get_attachments(old),
-                "New Content":new.content,
+                "New Content":nextcord.utils.escape_markdown(new.content).replace('\n', '⮒'),
                 "New Attachments":self._get_attachments(new)
             }
         )
