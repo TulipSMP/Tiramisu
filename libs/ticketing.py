@@ -130,7 +130,7 @@ async def close(interaction: nextcord.Interaction):
     
     await interaction.response.defer()
     
-
+    creator = await get_ticket_creator(interaction.channel)
 
     await thread.edit(name=f'{thread.name} [Closed]', archived=True, locked=True)
 
