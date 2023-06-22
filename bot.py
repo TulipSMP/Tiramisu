@@ -44,9 +44,8 @@ noperm = cfg["messages"]["noperm"]
 noperm_log = cfg["messages"]["noperm_log"]
 
 ## INTENTS
-intents = nextcord.Intents.default()
-intents.members = True
-intents.messages = True
+intents = nextcord.Intents.all()
+
 ## LOGIN
 bot = commands.Bot(intents=intents)
 
