@@ -59,7 +59,6 @@ class EditedMessage(LoggingEvent):
                 "Channel":old.channel.mention,
                 "Old Content":old.content,
                 "Old Attachments":self._get_attachments(old),
-                "-----":"------",
                 "New Content":new.content,
                 "New Attachments":self._get_attachments(new)
             }
