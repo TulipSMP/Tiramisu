@@ -83,8 +83,10 @@ class ChangeVoice(LoggingEvent):
         """ Event for Voice state update """
         if before.channel == None and after.channel != None: # User joined a VC
             action = 'Joined'
+            use = after
         elif before.channel != None and after.channel == None: # User left VC
             action = 'Left'
+            use = before
         elif before.channel != None and after.channel != None: # User changed VCs
             super().__init__(
                 member.guild, f"**🎤 Changed VC**",
@@ -100,7 +102,7 @@ class ChangeVoice(LoggingEvent):
         super().__init__(
                 member.guild, f"**🎤 {action} VC**",
                 member, extra = {
-                    "VC":after.channel.mention
+                    "VC":use.channel.mention
                 }
             )
 
