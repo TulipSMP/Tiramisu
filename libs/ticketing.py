@@ -72,20 +72,20 @@ To add people to the ticket, simply **@mention** them.')
     await interaction.send(f'*Ticket Opened in {thread.mention}*')
         
 
-async def close(interaction: nextcord.Interaction):
-    """ Close a Ticket """
-    db = Database(interaction.guild, reason='Ticketing, close ticket')
-    user = interaction.user
-    if interaction.channel.type != nextcord.ChannelType.private_thread or interaction.channel:
-        await interaction.send(f'Run this command in the ticket you wish to close.', ephemeral=True)
-        return
-    thread = interaction.channel
-
-    await thread.edit(name=f'{thread.name} [Closed]', archived=True, locked=True)
-
-    await creator.send_message(f'{thread.name} has been closed. You can view it here: {thread.mention}.')
-
-    await moderation.modlog(interaction.guild, '🎟️ Ticket Closed', user, user, additional = {'Thread':thread.mention})
+#async def close(interaction: nextcord.Interaction):
+#    """ Close a Ticket """
+#    db = Database(interaction.guild, reason='Ticketing, close ticket')
+#    user = interaction.user
+#    if interaction.channel.type != nextcord.ChannelType.private_thread or interaction.channel:
+#        await interaction.send(f'Run this command in the ticket you wish to close.', ephemeral=True)
+#        return
+#    thread = interaction.channel
+#
+#    await thread.edit(name=f'{thread.name} [Closed]', archived=True, locked=True)
+#
+#    await creator.send_message(f'{thread.name} has been closed. You can view it here: {thread.mention}.')
+#
+#    await moderation.modlog(interaction.guild, '🎟️ Ticket Closed', user, user, additional = {'Thread':thread.mention})
 
 async def is_ticket(thread: nextcord.Thread or nextcord.Channel, debug: bool = False):
     """ Check if a Thread is a ticket
