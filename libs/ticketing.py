@@ -79,6 +79,7 @@ async def close(interaction: nextcord.Interaction):
     if interaction.channel.type != nextcord.ChannelType.private_thread or interaction.channel:
         await interaction.send(f'Run this command in the ticket you wish to close.', ephemeral=True)
         return
+    thread = interaction.channel
 
     await thread.edit(name=f'{thread.name} [Closed]', archived=True, locked=True)
 
