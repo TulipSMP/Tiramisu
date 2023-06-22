@@ -86,7 +86,7 @@ async def close(interaction: nextcord.Interaction):
 
     await moderation.modlog(interaction.guild, '🎟️ Ticket Closed', user, user, additional = {'Thread':thread.mention})
 
-async def is_ticket(thread: nextcord.Thread):
+async def is_ticket(thread: nextcord.Thread or nextcord.Channel):
     """ Check if a Thread is a ticket
     Returns: bool """
     if thread.type != nextcord.ChannelType.private_thread:
