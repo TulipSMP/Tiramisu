@@ -72,21 +72,6 @@ To add people to the ticket, simply **@mention** them.')
     await interaction.send(f'*Ticket Opened in {thread.mention}*')
         
 
-#async def close(interaction: nextcord.Interaction):
-#    """ Close a Ticket """
-#    db = Database(interaction.guild, reason='Ticketing, close ticket')
-#    user = interaction.user
-#    if interaction.channel.type != nextcord.ChannelType.private_thread or interaction.channel:
-#        await interaction.send(f'Run this command in the ticket you wish to close.', ephemeral=True)
-#        return
-#    thread = interaction.channel
-#
-#    await thread.edit(name=f'{thread.name} [Closed]', archived=True, locked=True)
-#
-#    await creator.send_message(f'{thread.name} has been closed. You can view it here: {thread.mention}.')
-#
-#    await moderation.modlog(interaction.guild, '🎟️ Ticket Closed', user, user, additional = {'Thread':thread.mention})
-
 async def is_ticket(thread: nextcord.Thread or nextcord.Channel, debug: bool = False):
     """ Check if a Thread is a ticket
     Returns: bool """
@@ -122,4 +107,32 @@ async def is_ticket(thread: nextcord.Thread or nextcord.Channel, debug: bool = F
     
     return affirmative()
 
+async def get_ticket_creator(thread: nextcord.Thread):
+    """ Get the User who created this ticket
+    This is done by iterating though history near thread creation time (to get the bot's initial message),
+     and returning the first user mentioned.
+    NOTE: This does NOT check if this thread is a ticket. """
     
+    async for message in thread.history(limit=10, around=thread.created_at).flatten():
+        first = message # After
+    
+    return message.mentions[0]
+    
+async def close(interaction: nextcord.Interaction):
+    """ Close a Ticket """
+    db = Database(interaction.guild, reason='Ticketing, close ticket')
+
+    if await is_ticket(interaction.channel):
+        await interaction.send(f'Run this command in the ticket you wish to close.', ephemeral=True)
+        return
+    thread = interaction.channel
+    
+    await interaction.response.defer()
+    
+
+
+    await thread.edit(name=f'{thread.name} [Closed]', archived=True, locked=True)
+
+    await creator.send_message(f'{thread.name} has been closed. You can view it here: {thread.mention}.')
+
+    await moderation.modlog(interaction.guild, '🎟️ Ticket Closed', interaction.user, creator, additional = {'Thread':thread.mention})
