@@ -123,7 +123,7 @@ async def close(interaction: nextcord.Interaction):
     """ Close a Ticket """
     db = Database(interaction.guild, reason='Ticketing, close ticket')
 
-    if await is_ticket(interaction.channel):
+    if not await is_ticket(interaction.channel):
         await interaction.send(f'Run this command in the ticket you wish to close.', ephemeral=True)
         return
     thread = interaction.channel # interaction is discarded upon response
