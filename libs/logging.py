@@ -87,7 +87,7 @@ class ChangeVoice(LoggingEvent):
             action = 'Left'
         elif before.channel != None and after.channel != None: # User changed VCs
             super().__init__(
-                member.guild, f"**🎤 Chaned VC**",
+                member.guild, f"**🎤 Changed VC**",
                 member, extra = {
                     "Previous VC":before.channel.mention,
                     "Current VC":after.channel.mention
