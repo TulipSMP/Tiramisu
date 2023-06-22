@@ -118,7 +118,7 @@ async def is_ticket(thread: nextcord.Thread or nextcord.Channel, debug: bool = F
         if not int(number) >= int(db.fetch('ticket_int')):
             return negative('Thread number in name is higher than expected')
     else:
-        return negative('Not named as a thread should be')
+        return negative(f'Not named as a thread should be. `{number}` is not a digit.')
     
     return affirmative()
 
