@@ -26,8 +26,8 @@ There's a lot of things we'd like to do with this bot, but here's a general idea
 - [x] `/kick` kick a user from the server
 - [x] Right-click user or message to perform mod action
 - [ ] Logging of the following actions:
-  * [ ] Message Deletion
-  * [ ] Message Edit
+  * [x] Message Deletion
+  * [x] Message Edit
   * [ ] VC Join/Leave
   * [ ] VC Start/Stop streaming/camera
 
