@@ -87,7 +87,7 @@ class ChangeVoice(LoggingEvent):
         elif before.channel != None and after.channel == None: # User left VC
             action = 'Left'
             use = before
-        elif before.channel != None and after.channel != None: # User changed VCs
+        elif before.channel != None and after.channel != None and before != after: # User changed VCs
             super().__init__(
                 member.guild, f"**🎤 Changed VC**",
                 member, extra = {

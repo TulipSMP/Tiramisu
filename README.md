@@ -25,7 +25,7 @@ There's a lot of things we'd like to do with this bot, but here's a general idea
 - [x] `/addrole` give all users a specific role (and `/delrole`)
 - [x] `/kick` kick a user from the server
 - [x] Right-click user or message to perform mod action
-- [ ] Logging of the following actions:
+- [x] Logging of the following actions:
   * [x] Message Deletion
   * [x] Message Edit
   * [x] VC Join/Leave
