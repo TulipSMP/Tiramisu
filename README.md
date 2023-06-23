@@ -28,8 +28,8 @@ There's a lot of things we'd like to do with this bot, but here's a general idea
 - [ ] Logging of the following actions:
   * [x] Message Deletion
   * [x] Message Edit
-  * [ ] VC Join/Leave
-  * [ ] VC Start/Stop streaming/camera
+  * [x] VC Join/Leave
+  * [x] VC Start/Stop streaming/camera
 
 
 #### For Users
