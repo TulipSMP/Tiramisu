@@ -79,7 +79,7 @@ class EditedMessage(LoggingEvent):
         return attachments
 
 class ChangeVoice(LoggingEvent):
-    def __init__(self, member, before, after):
+    def __init__(self, member: nextcord.Member, before: nextcord.VoiceState, after: nextcord.VoiceState):
         """ Event for Voice state update """
         if before.channel == None and after.channel != None: # User joined a VC
             action = 'Joined'
@@ -96,6 +96,18 @@ class ChangeVoice(LoggingEvent):
                 }
             )
             return
+        elif before.self_stream and not after.self_stream:
+            action = '__Stopped__ Streaming in'
+            use = after
+        elif not before.self_stream and after.self_stream:
+            action = '__Started__ Streaming in'
+            use = after
+        elif before.self_video and not after.self_video:
+            action = 'Turned __OFF__ Camera in'
+            use = after
+        elif not before.self_video and after.self_video:
+            action = 'Turned __ON__ Camera in'
+            use = after
         else:
             self.void = True # Its some other change we don't want to report
         
