@@ -68,6 +68,9 @@ class EditedMessage(LoggingEvent):
 
         if old.content == new.content and old.attachments == new.attachments:
             self.void = True # Only send message if content changed
+        elif old.author.bot:
+            self.void = True # Don't handle bot message edits (otherwise a log message is sent every interaction
+                             #                  because interaction messages are sent empty and then edited)
     
     def _get_attachments(self, message: nextcord.Message):
         attachments = ''
