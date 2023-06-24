@@ -27,6 +27,12 @@ main:
 
     You can see what each setting is for by going to the *Settings* section of the menu.
 
+welcome:
+  name: Welcome Messages
+  contents: |
+    # Welcome Messages
+    To have the bot welcome users when they leave or join the server, set the `system_channel` setting to an appropriate channel.
+
 mods:
   name: For Moderators
   contents: |
