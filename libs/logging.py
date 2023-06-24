@@ -65,6 +65,9 @@ class EditedMessage(LoggingEvent):
                 "New Attachments":self._get_attachments(new)
             }
         )
+
+        if old.content == new.content and old.attachments == new.attachments:
+            self.void = True # Only send message if content changed
     
     def _get_attachments(self, message: nextcord.Message):
         attachments = ''
