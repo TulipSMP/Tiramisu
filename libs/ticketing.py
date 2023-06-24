@@ -9,16 +9,6 @@ import random
 from libs import utility, modals, buttons, moderation
 from libs.database import Database
 
-"""
-TODO
-- [ ] Via slash commands
-- [ ] Via a button
-
-- [ ] Create ticket
-- [ ] Close ticket
-
-
-"""
 async def create(interaction: nextcord.Interaction, reason: str = None, buttons: bool = False, require_reason: bool = True):
     """ Create a Ticket """
     if reason == None and require_reason:
