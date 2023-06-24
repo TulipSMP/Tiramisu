@@ -39,8 +39,7 @@ There's a lot of things we'd like to do with this bot, but here's a general idea
   * [x] Report Players and Users
   * [x] Report vulnerabilities/bugs
 - [x] Ticketing system
-  1. Simple command or button to create ticket
-  1. ticket categories 
+  * Simple command to create ticket
 - [ ] Mod application system
   * Question 'modules'
     - multiple choice
