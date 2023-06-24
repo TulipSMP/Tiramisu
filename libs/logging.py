@@ -127,6 +127,7 @@ class ChangeVoice(LoggingEvent):
 
 
 async def log(event: LoggingEvent):
+    """ Send a log message in `log_channel` returned from event.message() """
     db = Database(event.guild, reason='Logging, fetch `log_channel`')
     try:
         channel = event.guild.get_channel(int(db.fetch('log_channel')))
