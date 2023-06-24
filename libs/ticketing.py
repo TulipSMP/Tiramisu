@@ -23,7 +23,7 @@ async def create(interaction: nextcord.Interaction, reason: str = None, buttons:
         channel = interaction.guild.get_channel(int(db.fetch('ticket_channel')))
         if channel == None:
             raise ValueError
-    except:
+    except ValueError:
         await interaction.send(f'Tickets are not enabled!\n*To enable them, have and admin set the `ticket_channel` setting to an appropriate channel.*')
         return
 
@@ -36,7 +36,7 @@ async def create(interaction: nextcord.Interaction, reason: str = None, buttons:
         ticket_number = 0
     ticket_number += 1
     db.set('ticket_int', str(ticket_number))
-    db.close()
+    
 
     try:
         mention_staff = interaction.guild.get_role(int(db.fetch('staff_role')))
@@ -60,6 +60,8 @@ To add people to the ticket, simply **@mention** them.')
         await init.pin(reason = 'Initial ticket message')
     
     await interaction.send(f'*Ticket Opened in {thread.mention}*')
+
+    db.close()
         
 
 async def is_ticket(thread: nextcord.Thread or nextcord.Channel, debug: bool = False):
