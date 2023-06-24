@@ -18,6 +18,7 @@ settings:
   - 'ip_game'
   - 'application_channel'
   - 'ticket_channel'
+  - 'log_channel'
 
 # Internal data that cannot be changed by the user.
 hidden:
