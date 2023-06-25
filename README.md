@@ -61,7 +61,7 @@ There's a lot of things we'd like to do with this bot, but here's a general idea
   - [x] Unload Cogs
   - [x] Reload Cogs
 - [x] Shutdown bot correctly (instead of just an exit)
-- [ ] Check `config/config.yml` against `config/exampleconfig.yml` and add missing options to `config.yml`
+- [x] Check `config/config.yml` against `config/exampleconfig.yml` and add missing options to `config.yml`
 
 
 #### Messages & Variables
