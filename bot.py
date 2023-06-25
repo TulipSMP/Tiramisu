@@ -41,8 +41,8 @@ TESTING_GUILD_ID=cfg["discord"]["testing_guild"]
 # Configure Logging
 if not cfg['debug']:
     # Only show "INFO" and above if not in debug mode
-    logger.remove(0)
-    logger.add(sys.stdout, level="INFO")
+    logger.remove(1) # Remove default logger
+    logger.add(sys.stdout, level="INFO") # Add "INFO" and above logger
 
 # Load things from cfg
 bot_token = cfg["discord"]["token"]
