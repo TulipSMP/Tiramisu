@@ -127,15 +127,12 @@ def verify_config(repair: Optional[bool] = True):
         missing = {}
         for key in example:
             if key not in config:
-                print(f'MISSING: {path}.{key}')
                 missing_paths.append(f'{path}.{key}')
                 missing[key] = example[key]
             elif type(example[key]) == dict:
                 recursed = _recurse_check(config[key], example[key], f'{path}.{key}')
                 if recursed != {}:
                     missing[key] = recursed
-            else:
-                print(f'SUCCESS: {path}.{key}')
         return missing
     
     def _merge(a, b, path=None, update=True):
