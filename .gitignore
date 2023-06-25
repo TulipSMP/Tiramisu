@@ -5,6 +5,7 @@ __pycache__
 *.db
 # Configuration
 config/config.yml
+config/config.yml.old
 # Custom Cogs
 cogs/custom_*.py
 # Files marked to not sync

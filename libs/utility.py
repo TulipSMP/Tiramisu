@@ -6,6 +6,8 @@
 from logging42 import logger
 import nextcord
 import yaml
+import shutil
+import sys
 
 with open('config/config.yml') as ymlfile:
     utility_cfg = yaml.load(ymlfile, Loader=yaml.FullLoader)
@@ -108,3 +110,72 @@ def valid_setting(guild: nextcord.Guild, setting: str, value):
             return False, None, f'Not a valid {type_name}'
     else:
         return False, None, 'Not a valid setting.'
+
+def verify_config(repair: bool = True):
+    """ Verify contents of `config/config.yml` against `config/exampleconfig.yml`
+    Will repair if `repair` is set to true (default True) """
+    
+    with open('config/config.yml', 'r') as file:
+        config = yaml.load(file, Loader=yaml.FullLoader)
+    with open('config/exampleconfig.yml', 'r') as file:
+        example = yaml.load(file, Loader=yaml.FullLoader)
+    
+    missing_paths = []
+    def _recurse_check(config: dict, example: dict, path) -> dict:
+        missing = {}
+        for key in example:
+            if key not in config:
+                print(f'MISSING: {path}.{key}')
+                missing_paths.append(f'{path}.{key}')
+                missing[key] = example[key]
+            elif type(example[key]) == dict:
+                recursed = _recurse_check(config[key], example[key], f'{path}.{key}')
+                if recursed != {}:
+                    missing[key] = recursed
+            else:
+                print(f'SUCCESS: {path}.{key}')
+        return missing
+    
+    def _merge(a, b, path=None, update=True):
+        """ Merges lists recursively,
+        Credit to Andrew Cooke and Osiloke on StackOverflow: https://stackoverflow.com/a/25270947/16263200 """
+        if path is None: path = []
+        for key in b:
+            if key in a:
+                if isinstance(a[key], dict) and isinstance(b[key], dict):
+                    _merge(a[key], b[key], path + [str(key)])
+                elif a[key] == b[key]:
+                    pass # same leaf value
+                elif isinstance(a[key], list) and isinstance(b[key], list):
+                    for idx, val in enumerate(b[key]):
+                        a[key][idx] = _merge(a[key][idx], b[key][idx], path + [str(key), str(idx)], update=update)
+                elif update:
+                    a[key] = b[key]
+                else:
+                    raise Exception('Conflict at %s' % '.'.join(path + [str(key)]))
+            else:
+                a[key] = b[key]
+        return a
+
+    missing = _recurse_check(config, example, '')
+    if missing == {}:
+        logger.success(f'Config did not need repaired!')
+    elif repair:
+        logger.warning(f'Repairing `config/config.yml`. Comments in this file cannot be retained, the original file will be copied to `config/config.yml.old`')
+        shutil.copyfile('config/config.yml', 'config/config.yml.old')
+        try:
+            new = _merge(config, missing)
+            with open('config/config.yml', 'w') as file:
+                yaml.dump(new, file)
+        except:
+            shutil.copyfile('config/config.yml.old', 'config/config.yml')
+            logger.critical(f'Could not repair `config/config.yml`! You must manually add the following keys: {missing_paths}')
+            logger.critical(f'Refer to `config/exampleconfig.yml` for the default values of these entries.')
+            sys.exit()
+        logger.warning(f'Repaired `config/config.yml`. You should check `config/config.yml` to ensure it was repaired correctly. The old config file was backed up to `config/config.yml`')
+    else:
+        logger.critical(f'Your config file is missing the following options: {missing_paths}')
+        logger.critical(f'You must add these options to `config/config.yml` manually or copy over `config/exampleconfig.yml` in its place and reconfigure your bot!')
+        sys.exit()
+        
+    
