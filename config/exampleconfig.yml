@@ -18,8 +18,6 @@ discord:
   owner: 705150784941064293 # ID of the instance owner. they have complete control over starting/stopping the bot
   co_owners: # List of user IDs that can also start/stop and load/unload cogs
     - 000000000
-  roles:
-    staff: 000000000000000000
 
 # List of .py files in `cogs/` to NOT load.
 # If a file ends in .py and is in `cogs/` it will be loaded by default
