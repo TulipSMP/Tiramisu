@@ -38,6 +38,12 @@ with open("config/config.yml", "r") as ymlfile:
 
 TESTING_GUILD_ID=cfg["discord"]["testing_guild"]
 
+# Configure Logging
+if not cfg['debug']:
+    # Only show "INFO" and above if not in debug mode
+    logger.remove(0)
+    logger.add(sys.stdout, level="INFO")
+
 # Load things from cfg
 bot_token = cfg["discord"]["token"]
 # messages (just for loading cogs commands)
