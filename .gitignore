@@ -1,12 +1,22 @@
+# 
+# Tiramisu Discord Bot
+# --------------------
+#     .gitignore
+#
+
 # Python compiled files
 __pycache__
 *.pyc
+
 # SQLite Databases
 *.db
+
 # Configuration
 config/config.yml
 config/config.yml.old
+
 # Custom Cogs
 cogs/custom_*.py
+
 # Files marked to not sync
 *nosync*
