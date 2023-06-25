@@ -81,5 +81,9 @@ class Debug(commands.Cog):
         await buttons.HelloButton().start(interaction=interaction)
 
 def setup(bot):
-    bot.add_cog(Debug(bot))
-    logger.debug('Setup cog "debug"')
+    with open("config/config.yml", "r") as ymlfile:
+        cfg = yaml.load(ymlfile, Loader=yaml.FullLoader)
+    
+    if cfg['debug']: # Only enable debug cog if in debug mode
+        bot.add_cog(Debug(bot))
+        logger.debug('Setup cog "debug"')
