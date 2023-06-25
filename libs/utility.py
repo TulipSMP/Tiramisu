@@ -4,6 +4,7 @@
 # Utility Functions
 # 
 from logging42 import logger
+from typing import Optional
 import nextcord
 import yaml
 import shutil
@@ -111,9 +112,10 @@ def valid_setting(guild: nextcord.Guild, setting: str, value):
     else:
         return False, None, 'Not a valid setting.'
 
-def verify_config(repair: bool = True):
+def verify_config(repair: Optional[bool] = True):
     """ Verify contents of `config/config.yml` against `config/exampleconfig.yml`
-    Will repair if `repair` is set to true (default True) """
+    Will repair if `repair` is set to true (default True)
+    If `repair` is `None`, it will check the `TIRAMISU_FIX_CONFIG` environment variable first. """
     
     with open('config/config.yml', 'r') as file:
         config = yaml.load(file, Loader=yaml.FullLoader)
@@ -172,7 +174,8 @@ def verify_config(repair: bool = True):
             logger.critical(f'Could not repair `config/config.yml`! You must manually add the following keys: {missing_paths}')
             logger.critical(f'Refer to `config/exampleconfig.yml` for the default values of these entries.')
             sys.exit()
-        logger.warning(f'Repaired `config/config.yml`. You should check `config/config.yml` to ensure it was repaired correctly. The old config file was backed up to `config/config.yml`')
+        logger.warning(f'Repaired `config/config.yml`! You should check `config/config.yml` to ensure it was repaired correctly. The old config file was backed up to `config/config.yml`')
+        logger.warning(f'Your `config/config.yml` file is now in a strange state: it may not be in the same order, and all comments are missing. Make sure to return it to a human-readable state manually.')
     else:
         logger.critical(f'Your config file is missing the following options: {missing_paths}')
         logger.critical(f'You must add these options to `config/config.yml` manually or copy over `config/exampleconfig.yml` in its place and reconfigure your bot!')

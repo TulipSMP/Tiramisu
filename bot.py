@@ -22,6 +22,7 @@ from libs import utility
 # Ensure Config exists:
 if os.path.exists('config/config.yml'):
     logger.info('Successfully found config/config.yml!')
+    utility.verify_config() # and verify it
 else:
     try:
         shutil.copyfile('config/exampleconfig.yml','config/config.yml')
