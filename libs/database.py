@@ -230,7 +230,7 @@ class Database:
     
     # Send raw commands to Database
     @logger.catch
-    def raw(self, command, fetchall=True, fetchone=False):
+    def raw(self, command, fetchall=True, fetchone=False, *args, **kwargs):
         """ Send a raw SQL query to the SQL server 
         remember to use the correct table, admins_{self.guild.id} or settings_{self.guild.id}
         Options: fetchall - use `.fetchall()` method and return result (default True)
@@ -240,9 +240,9 @@ class Database:
             self.connect('raw')
         try:
             if fetchone:
-                return self.cursor.execute(command).fetchone()
+                return self.cursor.execute(command, *args, **kwargs).fetchone()
             elif fetchall:
-                return self.cursor.execute(command).fetchall()
+                return self.cursor.execute(command, *args, **kwargs).fetchall()
             else:
                 self.cursor.execute(command)
                 return True
