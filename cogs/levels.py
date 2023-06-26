@@ -40,6 +40,18 @@ class Levels(commands.Cog):
         
         msg = f'**{interaction.user.display_name}**\nLevel: {levelling.get_level(interaction.user)}\nPoints: {levelling.get_points(interaction.user)}'
         await interaction.response.send_message(msg)
+    
+    @nextcord.slash_command(description='Reset a user\'s points')
+    async def resetlevel(self, interaction: nextcord.Interaction, 
+        member: Optional[nextcord.Member] = nextcord.SlashOption(description='User to reset points for', required=True),
+        reason: Optional[str] = nextcord.SlashOption(description='Why you are resetting points', required=False)):
+        db = Database(interaction.guild, reason='Level reset, check perms')
+        if utility.is_mod(interaction.user, db) or interaction.user.id in db.fetch('admins'):
+            levelling.add_points(member, 0, reset=True)
+            await moderation.modlog(interaction.guild, f'💯 Reset Points', interaction.user, member, reason=reason)
+            await interaction.send(f'Reset points for {member.display_name}.', ephemeral=True)
+        else:
+            await interaction.send(self.cfg['messages']['noperm'])
 
 def setup(bot):
     bot.add_cog(Levels(bot))
