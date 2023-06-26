@@ -83,7 +83,7 @@ class Debug(commands.Cog):
     
     @debug.subcommand(description='Add points')
     async def add_points(self, interaction: nextcord.Interaction, points: int):
-        levelling.add_points(interaction.member, points)
+        levelling.add_points(interaction.user, points)
         await interaction.send(f'You now have {levelling.get_points(interaction.user)} points!')
 
 def setup(bot):
