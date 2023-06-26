@@ -12,6 +12,7 @@ def setup(guild: nextcord.Guild):
     """ Setup tables for Levels """
     db = Database(guild, reason='Levelling, setup table')
     db.raw(f'CREATE TABLE IF NOT EXISTS "levels_{db.guild.id}" (id int, points int);', fetchall=False, fetchone=False)
+    db.close()
 
 def get_points(member: nextcord.Member):
     """ Get a member's point count """
@@ -24,6 +25,8 @@ def get_points(member: nextcord.Member):
         return 0
     except TypeError:
         return 0
+
+    db.close()
 
 def get_level(member: nextcord.Member):
     """ Get a member's level """
@@ -50,3 +53,4 @@ def add_points(member: nextcord.Member, points: int):
     else:
         db.raw(f'UPDATE "levels_{db.guild.id}" SET points={points} WHERE id={member.id}')
     
+    db.close()
