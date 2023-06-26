@@ -106,7 +106,7 @@ def valid_setting(guild: nextcord.Guild, setting: str, value):
             elif setting.endswith('_text') or setting.endswith('_game') or setting.endswith('_name'):
                 return True, value.strip(), ''
             else:
-                return False, None, 'Unknown setting type.'
+                return True, value, 'Unknown setting type.'
         except ValueError:
             return False, None, f'Not a valid {type_name}'
     else:
