@@ -20,7 +20,9 @@ def get_points(member: nextcord.Member):
     try:
         (result, *x) = db.raw(f'SELECT points FROM "levels_{db.guild.id}" WHERE id={member.id};', fetchone=True, fetchall=False)
         return int(result)
-    except ValueError or TypeError:
+    except ValueError:
+        return 0
+    except TypeError:
         return 0
 
 def get_level(member: nextcord.Member):
