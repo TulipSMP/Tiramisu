@@ -14,12 +14,12 @@ mysql:              # Login info when using MySQL
 
 discord:
   token: 'PasteBotTokenHere-from-discord.com/developers' # Your bot token
-  testing_guild: 1035313572638638110 # Guild to sync instance management commands in
+  testing_guild: 1035313572638638110 # Guild to sync instance management and debugging commands in
   owner: 705150784941064293 # ID of the instance owner. they have complete control over starting/stopping the bot
   co_owners: # List of user IDs that can also start/stop and load/unload cogs
     - 000000000
-  roles:
-    staff: 000000000000000000
+
+debug: false
 
 # List of .py files in `cogs/` to NOT load.
 # If a file ends in .py and is in `cogs/` it will be loaded by default

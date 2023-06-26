@@ -7,7 +7,9 @@ from logging42 import logger
 import nextcord
 from nextcord.ext import commands
 import yaml
+
 from libs.database import Database
+from libs import buttons, ticketing
 
 class Debug(commands.Cog):
     def __init__(self, bot):
@@ -58,6 +60,31 @@ class Debug(commands.Cog):
             message += f'\n • {user.name}#{user.discriminator} ({user.display_name}) ID: `{user.id}`'
         await interaction.send(message)
 
+
+    @debug.subcommand(description='Check if this is a ticket')
+    async def is_ticket(self, interaction: nextcord.Interaction):
+        result, reason = await ticketing.is_ticket(interaction.channel, debug=True)
+        if result:
+            await interaction.send('🗹 This is a ticket!')
+        else:
+            await interaction.send(f'🗷 This is not a ticket: {reason}')
+    
+    @debug.subcommand(description='Get creator of ticket')
+    async def ticket_creator(self, interaction: nextcord.Interaction):
+        if await ticketing.is_ticket(interaction.channel):
+            creator = await ticketing.get_ticket_creator(interaction.channel)
+            await interaction.send(f'Ticket created by {creator.mention}')
+        else:
+            await interaction.send(f'This isn\'t a ticket.')
+
+    @nextcord.slash_command(description='Test buttons')
+    async def button(self, interaction: nextcord.Interaction):
+        await buttons.HelloButton().start(interaction=interaction)
+
 def setup(bot):
-    bot.add_cog(Debug(bot))
-    logger.debug('Setup cog "debug"')
+    with open("config/config.yml", "r") as ymlfile:
+        cfg = yaml.load(ymlfile, Loader=yaml.FullLoader)
+    
+    if cfg['debug']: # Only enable debug cog if in debug mode
+        bot.add_cog(Debug(bot))
+        logger.debug('Setup cog "debug"')

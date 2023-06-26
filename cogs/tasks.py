@@ -58,6 +58,30 @@ and use the `/setting` commands to change settings for the bot.\nTo learn more a
         db.close()
         logger.success(f'Removed tables for removed guild {guild.id}!')
 
+    @commands.Cog.listener()
+    async def on_member_join(self, member: nextcord.Member):
+        db = Database(member.guild, reason='Tasks, check `system_channel`')
+        try:
+            channel = member.guild.get_channel(int(db.fetch('system_channel')))
+            if channel == None:
+                raise ValueError
+        except ValueError:
+            return
+        
+        await channel.send(f'**Welcome {member.mention} to the server!**')
+    
+    @commands.Cog.listener()
+    async def on_member_remove(self, member: nextcord.Member):
+        db = Database(member.guild, reason='Tasks, check `system_channel`')
+        try:
+            channel = member.guild.get_channel(int(db.fetch('system_channel')))
+            if channel == None:
+                raise ValueError
+        except ValueError:
+            return
+        
+        await channel.send(f'**Goodbye {member.display_name}**')
+        
 def setup(bot):
     bot.add_cog(Tasks(bot))
     logger.debug('Setup cog "tasks"')

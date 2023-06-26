@@ -13,7 +13,7 @@ main:
   contents: |
     # Help 
     [[BOT]] is a discord bot focused on elegance and simplicity, while still executing all the functions you might need in your discord server.
-    This page lists most of the basic functions you need to get started with using [[BOT]]
+    This page lists most of the basic functions you need to get started with using [[BOT]].
     ## Admins
     Adminstrators are users you have selected that can change settings for your bot, and perform all moderation actions. Admins can also add and remove other admins.
     If nobody in your discord server is an admin yet, the server owner can add themselves as an admins.
@@ -26,6 +26,30 @@ main:
     ```and replace `ROLE` with an @mention of the role you want to use.
 
     You can see what each setting is for by going to the *Settings* section of the menu.
+
+welcome:
+  name: Welcome Messages
+  contents: |
+    # Welcome Messages
+    To have the bot welcome users when they leave or join the server, set the `system_channel` setting to an appropriate channel.
+
+mods:
+  name: For Moderators
+  contents: |
+    # For Moderators
+    [[BOT]] provides multiple commands and other utilities for moderating your server.
+    ## Modlog
+    One of the best parts about Tiramisu's moderation commands is that they are logged in a specific channel so all moderators know what is happening in their server and can stay informed.
+    Make sure an administrator has set the `modlog_channel` setting to a channel that you can see.
+    ## Actions
+    [[BOT]]'s various actions are mostly provided as slash commands, but some are also available by right-clicking users or their messages.
+    You can:
+     - Warn
+     - Timeout (with more time choices)
+     - Kick
+     - Ban
+    All of which are sent to the modlog, in addition to having the appropriate reason in the Audit Log.
+    For more in-depth information for moderators, see our Moderator Guide: https://github.com/RoseSMP/Tiramisu/blob/prod/doc/moderator-guide.md
 
 admin:
   name: Admins
@@ -119,3 +143,13 @@ perms:
     Staff are people with the role in the `staff_role` setting. They can do all moderation actions, but do not have permission to change settings, admins or to do other potentially disruptive things.
     See the *Settings* section of the help menu for how to change the `staff_role` setting.
 
+tickets:
+  name: Ticket System
+  contents: |
+    # Ticket System
+    [[BOT]]'s simple ticket system allows users to get help from staff and work out problems.
+    ## Creating Tickets
+    To create a ticket, use the `/ticket create` slash command. If tickets have been set up by server admins, a ticket will be created via private threads.
+    ## Closing Tickets
+    Any member of a ticket can close it, which is done by using the `/ticket close` slash command. This will close and lock the thread, alert moderators in the Modlog channel, and DM the ticket creator a link to the thread for future refrence.
+    

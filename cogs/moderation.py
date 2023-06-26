@@ -36,7 +36,7 @@ class Moderation(commands.Cog):
         """ Warn a User """
         db = Database(interaction.guild, reason=f'Check for permission, `/warn`')
         if interaction.user.id in db.fetch('admins') or utility.is_mod(interaction.user, db):
-            await moderation.warn(interaction, self.bot.user, user, reason, dm=dm, broadcast=broadcast)
+            await moderation.warn(interaction, user, reason, dm=dm, broadcast=broadcast)
         else:
             await interaction.send(self.cfg['messages']['noperm'], ephemeral=True)
     
@@ -48,7 +48,7 @@ class Moderation(commands.Cog):
 
         db = Database(interaction.guild, reason=f'Check for permission, `/kick`')
         if interaction.user.id in db.fetch('admins') or utility.is_mod(interaction.user, db):
-            await moderation.kick(interaction, self.bot.user, user, reason, dm=dm)
+            await moderation.kick(interaction, user, reason, dm=dm)
         else:
             await interaction.send(self.cfg['messages']['noperm'], ephemeral=True)
 
@@ -82,7 +82,7 @@ class Moderation(commands.Cog):
 
         db = Database(interaction.guild, reason=f'Check for permission, `/kick`')
         if interaction.user.id in db.fetch('admins') or utility.is_mod(interaction.user, db):
-            await moderation.timeout(interaction, self.bot.user, user, duration_delta, reason)
+            await moderation.timeout(interaction, user, duration_delta, reason)
         else:
             await interaction.send(self.cfg['messages']['noperm'], ephemeral=True)
 
@@ -96,7 +96,7 @@ class Moderation(commands.Cog):
         db = Database(interaction.guild, reason='Check for permission, `/ban`')
         if interaction.user.id in db.fetch('admins') or utility.is_mod(interaction.user, db):
             
-            await  moderation.ban(interaction, self.bot.user, user, reason, dm=dm, delete_msgs=delete_message_days)
+            await  moderation.ban(interaction, user, reason, dm=dm, delete_msgs=delete_message_days)
 
         else:
             await interaction.send(self.cfg['messages']['noperm'])

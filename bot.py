@@ -22,6 +22,7 @@ from libs import utility
 # Ensure Config exists:
 if os.path.exists('config/config.yml'):
     logger.info('Successfully found config/config.yml!')
+    utility.verify_config() # and verify it
 else:
     try:
         shutil.copyfile('config/exampleconfig.yml','config/config.yml')
@@ -37,6 +38,12 @@ with open("config/config.yml", "r") as ymlfile:
 
 TESTING_GUILD_ID=cfg["discord"]["testing_guild"]
 
+# Configure Logging
+if not cfg['debug']:
+    # Only show "INFO" and above if not in debug mode
+    logger.remove(1) # Remove default logger
+    logger.add(sys.stdout, level="INFO") # Add "INFO" and above logger
+
 # Load things from cfg
 bot_token = cfg["discord"]["token"]
 # messages (just for loading cogs commands)
@@ -44,8 +51,8 @@ noperm = cfg["messages"]["noperm"]
 noperm_log = cfg["messages"]["noperm_log"]
 
 ## INTENTS
-intents = nextcord.Intents.default()
-intents.members = True
+intents = nextcord.Intents.all()
+
 ## LOGIN
 bot = commands.Bot(intents=intents)
 
