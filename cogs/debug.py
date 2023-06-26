@@ -60,6 +60,7 @@ class Debug(commands.Cog):
             message += f'\n • {user.name}#{user.discriminator} ({user.display_name}) ID: `{user.id}`'
         await interaction.send(message)
 
+
     @debug.subcommand(description='Check if this is a ticket')
     async def is_ticket(self, interaction: nextcord.Interaction):
         result, reason = await ticketing.is_ticket(interaction.channel, debug=True)

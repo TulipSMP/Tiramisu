@@ -3,7 +3,8 @@
 <a href="https://github.com/RoseSMP/Tiramisu/actions/workflows/pylint.yml"><img src="https://github.com/RoseSMP/Tiramisu/actions/workflows/pylint.yml/badge.svg?branch=main&event=push" alt="Lint"></a>
 </div>
 
-##### Code Status: Active Development! New features and breaking changes may be present in this branch.
+##### Code Status: Code Freeze! This branch is being prepared for production.
+
 
 An open source discord bot for all audiences, developed by the folks at RoseSMP.
 
@@ -30,14 +31,6 @@ There's a lot of things we'd like to do with this bot, but here's a general idea
   * [x] Message Edit
   * [x] VC Join/Leave
   * [x] VC Start/Stop streaming/camera
-
-
-#### For Users
-- [x] `/help`: informs user on how to use the bot.
-- [x] `/ip`: sends server IP address and join info (for game servers)
-- [x]  `/report `
-  * [x] Report Players and Users
-  * [x] Report vulnerabilities/bugs
 - [x] Ticketing system
   * Simple command to create ticket
 - [ ] Mod application system
@@ -52,7 +45,7 @@ There's a lot of things we'd like to do with this bot, but here's a general idea
   * [ ] Points system based on messages sent in qualifying channels
   * [ ] Levels system based on points
   * [ ] `/level`: check own level and points
-  
+
 
 ### Other Features
 #### Bot Management

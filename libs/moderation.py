@@ -96,6 +96,7 @@ async def timeout(interaction: nextcord.Interaction, user: nextcord.Member, dura
     except Exception as e:
         await interaction.send(utility.error_unexpected(e, name='libs.moderation.timeout'), ephemeral=True)
 
+
 async def ban(interaction: nextcord.Interaction, user: nextcord.Member, reason, dm=True, delete_msgs=0):
     """ Ban `user` from `interaction.guild`, and respond to `interaction`:
     Parameters:
@@ -107,6 +108,7 @@ async def ban(interaction: nextcord.Interaction, user: nextcord.Member, reason, 
       - `delete_msgs`: int, 0 - 7, how many days of messages to delete (default 0)"""
     
     try:
+
         if user.bot:
             await interaction.send('I cannot ban bots!', ephemeral=True)
             return

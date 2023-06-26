@@ -81,7 +81,7 @@ and use the `/setting` commands to change settings for the bot.\nTo learn more a
             return
         
         await channel.send(f'**Goodbye {member.display_name}**')
-
+        
 def setup(bot):
     bot.add_cog(Tasks(bot))
     logger.debug('Setup cog "tasks"')
