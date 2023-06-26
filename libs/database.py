@@ -230,7 +230,7 @@ class Database:
     
     # Send raw commands to Database
     @logger.catch
-    def raw(self, command, fetchall=True, fetchone=False, *args, **kwargs):
+    def raw(self, command, fetchall=True, fetchone=False, suppress_errors: bool = False, *args, **kwargs):
         """ Send a raw SQL query to the SQL server 
         remember to use the correct table, admins_{self.guild.id} or settings_{self.guild.id}
         Options: fetchall - use `.fetchall()` method and return result (default True)
@@ -247,7 +247,8 @@ class Database:
                 self.cursor.execute(command)
                 return True
         except self.current_database.OperationalError:
-            logger.warning(f'OperationalError when running raw command: "{command}"!')
+            if not suppress_errors:
+                logger.warning(f'OperationalError when running raw command: "{command}"!')
             return False
     
     # Delete tables of a guild
