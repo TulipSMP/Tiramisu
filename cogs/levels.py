@@ -26,7 +26,7 @@ class Levels(commands.Cog):
     
     @commands.Cog.listener()
     async def on_message(self, message: nextcord.message):
-        if message.author.is_bot:
+        if message.author.bot:
             return
         elif type(message.author) == nextcord.Member:
             levelling.add_points(message.author, 1)
