@@ -26,8 +26,6 @@ def get_points(member: nextcord.Member):
     except TypeError:
         return 0
 
-    db.close()
-
 def get_level(member: nextcord.Member):
     """ Get a member's level """
     

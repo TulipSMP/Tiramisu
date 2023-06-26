@@ -38,7 +38,7 @@ class Levels(commands.Cog):
             await interaction.send(f'Use this command in a server!')
             return
         
-        msg = f'**{interaction.user.display_name}**\nLevel: {levelling.get_level(interaction.user)}\nPoints: {levelling.get_level(interaction.user)}'
+        msg = f'**{interaction.user.display_name}**\nLevel: {levelling.get_level(interaction.user)}\nPoints: {levelling.get_points(interaction.user)}'
         await interaction.response.send_message(msg)
 
 def setup(bot):
