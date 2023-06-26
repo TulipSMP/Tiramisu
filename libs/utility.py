@@ -9,11 +9,6 @@ import nextcord
 import yaml
 import shutil
 import sys
-import os
-
-if os.path.exists('config/config.yml'):
-	with open('config/config.yml') as ymlfile:
-    	utility_cfg = yaml.load(ymlfile, Loader=yaml.FullLoader)
 
 def error_unexpected(error, name='unknown file'):
     """ Returns Appropriate Error Message for sending to user.
@@ -22,6 +17,9 @@ def error_unexpected(error, name='unknown file'):
     - `name`=`'unknown file'`: Where the error occured (for log message)
     Returns:
     - `str`: Error message to respond to interaction with """
+    with open('config/config.yml') as ymlfile:
+        utility_cfg = yaml.load(ymlfile, Loader=yaml.FullLoader)
+
     logger.error(f"Error in {name}: `{error}`")
     return utility_cfg['messages']['error'].replace('[[error]]', str(error))
 
