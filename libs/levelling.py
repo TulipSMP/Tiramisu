@@ -49,6 +49,6 @@ def add_points(member: nextcord.Member, points: int):
     if current == 0:
         db.raw(f'INSERT INTO "levels_{db.guild.id}" (id, points) VALUES ({member.id}, {points});')
     else:
-        db.raw(f'UPDATE "levels_{db.guild.id}" SET points={points} WHERE id={member.id}')
+        db.raw(f'UPDATE "levels_{db.guild.id}" SET points={current + points} WHERE id={member.id}')
     
     db.close()
