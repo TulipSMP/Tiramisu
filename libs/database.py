@@ -246,9 +246,10 @@ class Database:
             else:
                 self.cursor.execute(command)
                 return True
-        except self.current_database.OperationalError:
+        except self.current_database.OperationalError as e:
             if not suppress_errors:
                 logger.warning(f'OperationalError when running raw command: "{command}"!')
+                logger.exception(e)
             return False
     
     # Delete tables of a guild
