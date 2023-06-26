@@ -8,6 +8,7 @@ import nextcord
 from nextcord.ext import commands
 import yaml
 from libs.database import Database
+from libs import levelling
 
 class Tasks(commands.Cog):
     """ This cog is for tasks that must be run on various bot events """
@@ -28,6 +29,8 @@ class Tasks(commands.Cog):
             db = Database(guild, reason = f'Verifying database for guild {guild.id} (on start).')
             db.verify()
             db.close()
+
+            levelling.setup(guild)
 
         # Show the cool welcome messages
         with open('config/welcomescreen.yml', 'r') as ymlfile:
