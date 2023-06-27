@@ -8,7 +8,6 @@ import nextcord
 from nextcord.ext import commands
 
 import yaml
-import random
 from typing import Optional
 
 from libs.database import Database
@@ -33,12 +32,12 @@ class Levels(commands.Cog):
         elif type(message.author) == nextcord.Member:
             prev_level = levelling.get_level(message.author)
 
-            max_points = len(message.content) - 5
-            if max_points < 0:
-                max_points = 0
-            elif max_points > 5:
-                max_points = 5
-            levelling.add_points(message.author, random.randint(0, max_points))
+            points = len(message.content) - 5
+            if points < 0:
+                points = 0
+            elif points > 5:
+                points = 5
+            levelling.add_points(message.author, points)
             
             new_level = levelling.get_level(message.author)
             if new_level > prev_level:
