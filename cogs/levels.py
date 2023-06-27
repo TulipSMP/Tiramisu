@@ -57,7 +57,7 @@ class Levels(commands.Cog):
         reason: Optional[str] = nextcord.SlashOption(description='Why you are resetting points', required=False)):
         db = Database(interaction.guild, reason='Level reset, check perms')
         if utility.is_mod(interaction.user, db) or interaction.user.id in db.fetch('admins'):
-            levelling.reset_points(member)
+            levelling.add_points(member, 0, reset=True)
             await moderation.modlog(interaction.guild, f'💯 Reset Points', interaction.user, member, reason=reason)
             await interaction.send(f'Reset points for {member.display_name}.', ephemeral=True)
         else:
