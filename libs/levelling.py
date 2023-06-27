@@ -38,6 +38,9 @@ def get_level(member: nextcord.Member):
 
     level_current = int(math.trunc(level_raw))
 
+    if level_current < 0:
+        level_current = 0
+
     return level_current
 
 def add_points(member: nextcord.Member, points: int):
