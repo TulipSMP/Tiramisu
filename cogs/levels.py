@@ -30,7 +30,15 @@ class Levels(commands.Cog):
         if message.author.bot:
             return
         elif type(message.author) == nextcord.Member:
+            prev_level = levelling.get_level(message.author)
             levelling.add_points(message.author, 1)
+            
+            new_level = levelling.get_level(message.author)
+            if new_level > prev_level:
+                try:
+                    message.channel.send(f'**⬆️ {message.author.mention} is now at level {new_level}!**')
+                except nextcord.errors.HTTPException:
+                    message.author.send(f'**⬆️ You have reached level {new_level} in {message.guild.name}!**')
 
     # Commands
     @nextcord.slash_command(description="Check your level")
