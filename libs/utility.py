@@ -136,7 +136,7 @@ def verify_config(repair: Optional[bool] = True):
         return missing
     
     def _merge(a, b, path=None, update=True):
-        """ Merges lists recursively,
+        """ Merges dictionaries recursively,
         Credit to Andrew Cooke and Osiloke on StackOverflow: https://stackoverflow.com/a/25270947/16263200 """
         if path is None: path = []
         for key in b:
