@@ -40,18 +40,23 @@ def get_level(member: nextcord.Member):
 
     return level_current
 
-def add_points(member: nextcord.Member, points: int, reset: bool = False):
+def add_points(member: nextcord.Member, points: int):
     """ Add `points` to `member` """
     db = Database(member.guild, reason='Levelling, add points')
 
-    if reset:
-        current = 0
-    else:
-        current = get_points(member)
+    current = get_points(member)
 
     if current == 0:
         db.raw(f'INSERT INTO "levels_{db.guild.id}" (id, points) VALUES ({member.id}, {points});')
     else:
-        db.raw(f'UPDATE "levels_{db.guild.id}" SET points={current + points} WHERE id={member.id}')
+        db.raw(f'UPDATE "levels_{db.guild.id}" SET points={current + points} WHERE id={member.id};')
     
+    db.close()
+
+def reset_points(member: nextcord.Member):
+    """ Reset `member`'s points """
+    db = Database(member.guild, reason='Levelling, add points')
+
+    db.raw(f'DELETE FROM "levels_{db.guild.id}" WHERE id={member.id};')
+
     db.close()
