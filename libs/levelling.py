@@ -34,7 +34,7 @@ def get_level(member: nextcord.Member):
     if points <= 0:
         return 0
 
-    level_raw = math.log2(points)
+    level_raw = math.log2(points/10)
 
     level_current = int(math.trunc(level_raw))
 
