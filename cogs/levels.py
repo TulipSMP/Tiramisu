@@ -32,7 +32,7 @@ class Levels(commands.Cog):
         elif type(message.author) == nextcord.Member:
             prev_level = levelling.get_level(message.author)
 
-            levelling.add_points(message.author, 1)
+            levelling.add_points(message.author, len(message.content) )
             
             new_level = levelling.get_level(message.author)
             if new_level > prev_level:
