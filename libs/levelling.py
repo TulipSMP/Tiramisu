@@ -19,7 +19,7 @@ def get_points(member: nextcord.Member):
     db = Database(member.guild, reason='Levelling, get points')
     
     try:
-        (result, *x) = db.raw(f'SELECT points FROM "levels_{db.guild.id}" WHERE id={member.id};', fetchone=True, fetchall=False, suppress_errors=True)
+        (result, *x) = db.raw(f'SELECT points FROM "levels_{db.guild.id}" WHERE id={member.id};', fetchone=True, fetchall=False)
         return int(result)
     except ValueError:
         return 0
