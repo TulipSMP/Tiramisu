@@ -64,3 +64,11 @@ def reset_points(member: nextcord.Member):
     db.raw(f'DELETE FROM "levels_{db.guild.id}" WHERE id={member.id};')
 
     db.close()
+
+def get_leaderboard(guild: nextcord.Guild) -> dict:
+    """ Get dictionary of user IDs and points, sorted by highest points. """
+    db = Database(guild, reason='Levelling, get leaderboard')
+
+    top = db.raw(f'SELECT * FROM "levels_{db.guild.id}" LIMIT 5 ORDER BY id;', fetchall=True)
+    
+    return top
