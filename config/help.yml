@@ -153,3 +153,19 @@ tickets:
     ## Closing Tickets
     Any member of a ticket can close it, which is done by using the `/ticket close` slash command. This will close and lock the thread, alert moderators in the Modlog channel, and DM the ticket creator a link to the thread for future refrence.
     
+levels:
+  name: Levels
+  contents: |
+    # Levelling System
+    [[BOT]] has a levelling system to encourage your users to talk on your server. Note that this does not do any form of spam prevention. It is up to your automod rules and moderators to stop spam in your server.
+    ## Points
+    When someone sends a message, they are randomly added between 1 and 3 points, Unless their message is sent in one of the channels listed in the `no_points_channels` setting.
+    ## Levels
+    Levels are calculated with the following equation, rounded down:
+    ```
+    level = log₂( points ÷ 10 )
+    ```When someone levels up, a message is sent in the channel they were talking in.
+    ## Disabling Levelling
+    To disable levelling, set the `no_points_channels` setting to `all`.
+    ## Resetting Levels
+    If a user has been spamming, or you want to reset their level for any reason, moderators can use the `/resetlevel` command to set a user's points and level back to zero. This is logged in the `modlog_channel`

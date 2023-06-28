@@ -9,7 +9,7 @@ from nextcord.ext import commands
 import yaml
 
 from libs.database import Database
-from libs import buttons, ticketing
+from libs import buttons, ticketing, levelling
 
 class Debug(commands.Cog):
     def __init__(self, bot):
@@ -77,9 +77,19 @@ class Debug(commands.Cog):
         else:
             await interaction.send(f'This isn\'t a ticket.')
 
-    @nextcord.slash_command(description='Test buttons')
+    @debug.subcommand(description='Test buttons')
     async def button(self, interaction: nextcord.Interaction):
         await buttons.HelloButton().start(interaction=interaction)
+    
+    @debug.subcommand(description='Add points')
+    async def add_points(self, interaction: nextcord.Interaction, points: int):
+        levelling.add_points(interaction.user, points)
+        await interaction.send(f'You now have {levelling.get_points(interaction.user)} points!')\
+    
+    @debug.subcommand(description='Get Leaderboard')
+    async def leveltop_raw(self, interaction: nextcord.Interaction):
+        x = levelling.get_leaderboard(interaction.guild)
+        await interaction.send(f'**Leaderboard:**\n{x}')
 
 def setup(bot):
     with open("config/config.yml", "r") as ymlfile:

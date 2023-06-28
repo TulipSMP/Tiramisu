@@ -106,7 +106,7 @@ def valid_setting(guild: nextcord.Guild, setting: str, value):
             elif setting.endswith('_text') or setting.endswith('_game') or setting.endswith('_name'):
                 return True, value.strip(), ''
             else:
-                return False, None, 'Unknown setting type.'
+                return True, value, 'Unknown setting type.'
         except ValueError:
             return False, None, f'Not a valid {type_name}'
     else:
@@ -136,7 +136,7 @@ def verify_config(repair: Optional[bool] = True):
         return missing
     
     def _merge(a, b, path=None, update=True):
-        """ Merges lists recursively,
+        """ Merges dictionaries recursively,
         Credit to Andrew Cooke and Osiloke on StackOverflow: https://stackoverflow.com/a/25270947/16263200 """
         if path is None: path = []
         for key in b:
