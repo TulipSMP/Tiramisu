@@ -84,7 +84,12 @@ class Debug(commands.Cog):
     @debug.subcommand(description='Add points')
     async def add_points(self, interaction: nextcord.Interaction, points: int):
         levelling.add_points(interaction.user, points)
-        await interaction.send(f'You now have {levelling.get_points(interaction.user)} points!')
+        await interaction.send(f'You now have {levelling.get_points(interaction.user)} points!')\
+    
+    @debug.subcommand(description='Get Leaderboard')
+    async def leveltop(self, interaction: nextcord.Interaction):
+        x = levelling.get_leaderboard()
+        await interaction.send(f'**Leaderboard:**\n{x}')
 
 def setup(bot):
     with open("config/config.yml", "r") as ymlfile:
