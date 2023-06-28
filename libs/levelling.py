@@ -26,10 +26,13 @@ def get_points(member: nextcord.Member):
     except TypeError:
         return 0
 
-def get_level(member: nextcord.Member):
+def get_level(member: nextcord.Member, cached_pts: int = None):
     """ Get a member's level """
     
-    points = get_points(member)
+    if cached_pts != None:
+        points = cached_pts
+    else:
+        points = get_points(member)
 
     if points <= 0:
         return 0
