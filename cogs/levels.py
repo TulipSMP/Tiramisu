@@ -63,7 +63,7 @@ class Levels(commands.Cog):
     async def leveltop(self, interaction: nextcord.Interaction):
         db = Database(interaction.guild, reason='Levels, settings check')
         if 'all' in db.fetch('no_points_channels'):
-            await interaction.send(self.cfg['messages']['noperm'])
+            await interaction.send(self.cfg['messages']['noperm'], ephemeral=True)
         else:
             leaders = levelling.get_leaderboard(interaction.guild)
 
