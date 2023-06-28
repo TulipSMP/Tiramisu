@@ -61,19 +61,23 @@ class Levels(commands.Cog):
     
     @nextcord.slash_command(description="Points Leaderboard")
     async def leveltop(self, interaction: nextcord.Interaction):
-        leaders = levelling.get_leaderboard(interaction.guild)
+        db = Database(interaction.guild, reason='Levels, settings check')
+        if 'all' in db.fetch('no_points_channels'):
+            await interaction.send(self.cfg['messages']['noperm'])
+        else:
+            leaders = levelling.get_leaderboard(interaction.guild)
 
-        msg = '**Leaderboard:**'
-        for user_id in leaders:
-            try:
-                user = self.bot.get_user(int(user_id))
-                if user == None:
-                    raise ValueError
-            except ValueError:
-                continue
-            msg += f'\n{user.display_name} - {leaders[user_id]} pts *Level {levelling.get_level(user, cached_pts=leaders[user_id])}*'
-        
-        await interaction.send(msg)
+            msg = '**Leaderboard:**'
+            for user_id in leaders:
+                try:
+                    user = self.bot.get_user(int(user_id))
+                    if user == None:
+                        raise ValueError
+                except ValueError:
+                    continue
+                msg += f'\n{user.display_name} - {leaders[user_id]} pts *Level {levelling.get_level(user, cached_pts=leaders[user_id])}*'
+            
+            await interaction.send(msg)
 
     @nextcord.slash_command(description='Reset a user\'s points')
     async def resetlevel(self, interaction: nextcord.Interaction, 
