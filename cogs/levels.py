@@ -72,6 +72,8 @@ class Levels(commands.Cog):
             except ValueError:
                 continue
             msg += f'\n{user.display_name} - {leaders[user_id]} pts *Level {levelling.get_level(user, cached_pts=leaders[user_id])}*'
+        
+        await interaction.send(msg)
 
     @nextcord.slash_command(description='Reset a user\'s points')
     async def resetlevel(self, interaction: nextcord.Interaction, 
