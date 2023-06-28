@@ -70,5 +70,9 @@ def get_leaderboard(guild: nextcord.Guild) -> dict:
     db = Database(guild, reason='Levelling, get leaderboard')
 
     top = db.raw(f'SELECT * FROM "levels_{db.guild.id}" ORDER BY id LIMIT 5 ;', fetchall=True)
+
+    top_dict = {}
+    for user, points in top:
+        top_dict[user] = points
     
-    return top
+    return top_dict

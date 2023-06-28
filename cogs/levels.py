@@ -59,6 +59,8 @@ class Levels(commands.Cog):
         msg = f'**{interaction.user.display_name}**\nLevel: {levelling.get_level(interaction.user)}\nPoints: {levelling.get_points(interaction.user)}'
         await interaction.response.send_message(msg)
     
+    @nextcord.slash_command(description="Points Leaderboard")
+
     @nextcord.slash_command(description='Reset a user\'s points')
     async def resetlevel(self, interaction: nextcord.Interaction, 
         member: Optional[nextcord.Member] = nextcord.SlashOption(description='User to reset points for', required=True),

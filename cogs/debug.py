@@ -87,7 +87,7 @@ class Debug(commands.Cog):
         await interaction.send(f'You now have {levelling.get_points(interaction.user)} points!')\
     
     @debug.subcommand(description='Get Leaderboard')
-    async def leveltop(self, interaction: nextcord.Interaction):
+    async def leveltop_raw(self, interaction: nextcord.Interaction):
         x = levelling.get_leaderboard(interaction.guild)
         await interaction.send(f'**Leaderboard:**\n{x}')
 
