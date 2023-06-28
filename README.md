@@ -41,10 +41,10 @@ There's a lot of things we'd like to do with this bot, but here's a general idea
   * Configurable per guild
   * Different position applications (guild configurable)
 - [ ] Reaction Roles
-- [ ] User Levelling system
-  * [ ] Points system based on messages sent in qualifying channels
-  * [ ] Levels system based on points
-  * [ ] `/level`: check own level and points
+- [x] User Levelling system
+  * [x] Points system based on messages sent in qualifying channels
+  * [x] Levels system based on points
+  * [x] `/level`: check own level and points
 
 
 ### Other Features
