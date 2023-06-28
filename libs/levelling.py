@@ -14,6 +14,12 @@ def setup(guild: nextcord.Guild):
     db.raw(f'CREATE TABLE IF NOT EXISTS "levels_{db.guild.id}" (id int, points int);', fetchall=False, fetchone=False)
     db.close()
 
+def delete(guild: nextcord.Guild):
+    """ Delete `guild`'s levelling tables """
+    db = Database(guild, reason='Levelling, delete table')
+    db.raw(f'DROP TABLE "levels_{db.guild.id}");', fetchall=False, fetchone=False)
+    db.close()
+
 def get_points(member: nextcord.Member):
     """ Get a member's point count """
     db = Database(member.guild, reason='Levelling, get points')
@@ -62,7 +68,7 @@ def add_points(member: nextcord.Member, points: int):
 
 def reset_points(member: nextcord.Member):
     """ Reset `member`'s points """
-    db = Database(member.guild, reason='Levelling, add points')
+    db = Database(member.guild, reason='Levelling, reset points')
 
     db.raw(f'DELETE FROM "levels_{db.guild.id}" WHERE id={member.id};')
 

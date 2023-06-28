@@ -52,6 +52,7 @@ class Tasks(commands.Cog):
         await guild.owner.send(f'''Thanks for adding me to your server! Use the `/admin` commands to add other administrators, \
 and use the `/setting` commands to change settings for the bot.\nTo learn more about how to use {self.bot.user.name}, try the `/help` command.''')
         db.close()
+        levelling.setup(guild)
 
     @commands.Cog.listener('on_guild_remove')
     async def on_guild_remove(self, guild):
