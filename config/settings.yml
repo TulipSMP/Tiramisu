@@ -19,6 +19,7 @@ settings:
   - 'application_channel'
   - 'ticket_channel'
   - 'log_channel'
+  - 'no_points_channels'
 
 # Internal data that cannot be changed by the user.
 hidden:

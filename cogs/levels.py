@@ -31,6 +31,13 @@ class Levels(commands.Cog):
         if message.author.bot:
             return
         elif type(message.author) == nextcord.Member:
+            db = Database(message.guild, reason='Levels, check `no_points_channels`')
+            no_points = db.fetch('no_points_channels')
+            if 'all' in no_points.strip():
+                return
+            elif str(message.channel.id) in no_points:
+                return
+
             prev_level = levelling.get_level(message.author)
 
             levelling.add_points(message.author, random.randint(1, 3))
