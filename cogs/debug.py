@@ -88,7 +88,7 @@ class Debug(commands.Cog):
     
     @debug.subcommand(description='Get Leaderboard')
     async def leveltop(self, interaction: nextcord.Interaction):
-        x = levelling.get_leaderboard()
+        x = levelling.get_leaderboard(interaction.guild)
         await interaction.send(f'**Leaderboard:**\n{x}')
 
 def setup(bot):
