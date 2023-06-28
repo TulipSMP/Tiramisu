@@ -55,9 +55,12 @@ class Levels(commands.Cog):
         if type(interaction.user) != nextcord.Member:
             await interaction.send(f'Use this command in a server!')
             return
-        
-        msg = f'**{interaction.user.display_name}**\nLevel: {levelling.get_level(interaction.user)}\nPoints: {levelling.get_points(interaction.user)}'
-        await interaction.response.send_message(msg)
+        db = Database(interaction.guild, reason='Levels, settings check')
+        if 'all' in db.fetch('no_points_channels'):
+            await interaction.send(self.cfg['messages']['noperm'], ephemeral=True)
+        else:
+            msg = f'**{interaction.user.display_name}**\nLevel: {levelling.get_level(interaction.user)}\nPoints: {levelling.get_points(interaction.user)}'
+            await interaction.response.send_message(msg)
     
     @nextcord.slash_command(description="Points Leaderboard")
     async def leveltop(self, interaction: nextcord.Interaction):
