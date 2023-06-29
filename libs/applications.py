@@ -19,7 +19,7 @@ class QuestionModal(nextcord.ui.Modal):
             label = question,
             min_length = min_length,
             max_length = max_length,
-            style = nextcord.TextInputStyle.short,
+            #style = nextcord.TextInputStyle.short,
             *args, **kwargs
         )
         self.add_item(self.input)
