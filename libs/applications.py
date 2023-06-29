@@ -81,7 +81,7 @@ To add people to the application, simply **@mention** them.')
 
     db.close()
 
-async def answer_and_create(interaction: nextcord.Interaction, question_index: int = 0, responses: dict = None):
+async def answer_and_create(interaction: nextcord.Interaction, question_index: int = 0, responses: dict = {}):
     db = Database(interaction.guild, reason='Applications, fetch questions')
     application_questions = db.fetch('application_questions')
     default_questions = [
