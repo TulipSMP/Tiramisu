@@ -4,6 +4,7 @@
 # Mod Applications
 # 
 import nextcord
+import random
 
 from libs import utility, modals, buttons, moderation
 from libs.database import Database
@@ -19,6 +20,7 @@ class QuestionModal(nextcord.ui.Modal):
             label = question,
             min_length = min_length,
             max_length = max_length,
+            custom_id = f'tiramisu:{random.randint(1000,9999)}',
             #style = nextcord.TextInputStyle.short,
             *args, **kwargs
         )
