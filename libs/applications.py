@@ -128,7 +128,7 @@ async def answer_and_create(interaction: nextcord.Interaction, question_index: i
 
     
     if confirmed:
-        if question_index > len(questions):
+        if question_index > (len(questions) - 1):
             await create(interaction, answers=responses)
         else:
             await interaction.response.send_modal(QuestionModal(questions[question_index], answer_and_create, responses, question_index))
