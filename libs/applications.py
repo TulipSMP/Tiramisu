@@ -203,3 +203,37 @@ async def close(interaction: nextcord.Interaction):
     await thread.edit(name=f'{thread.name} [Closed]', archived=True, locked=True)
     await creator.send(f'Your application, {thread.name} has been closed. You can view it here: {thread.mention}.')
     await moderation.modlog(interaction.guild, '🎟️ Application Closed', interaction.user, creator, additional = {'Thread':thread.mention})
+
+async def accept(interaction: nextcord.Interaction):
+    """ Accept an Application and give user the `staff_role`"""
+    db = Database(interaction.guild, reason='Applications, accept application')
+    
+    if interaction.user.id in db.fetch('admins'):
+        if not await is_application(interaction.channel):
+            await interaction.send('Run this command in the application you wish to accept.', ephemeral=True)
+            return
+
+        try:
+            staff_role = interaction.guild.get_role(int(db.fetch('staff_role')))
+            if staff_role == None:
+                raise ValueError
+        except ValueError:
+            await interaction.send('The `staff_role` setting must be set to use this command.', ephemeral=True)
+            return
+
+        thread = interaction.channel
+        user = interaction.user
+        await interaction.response.defer()
+
+        creator = await get_applicant(thread)
+        await interaction.send(f'**✅ Application Accepted!**')
+        await thread.edit(name=f'{thread.name} [Closed]', archived=True, locked=True)
+        await creator.send(f'**Welcome to the {thread.guild.name} Staff Team**\nYour application, {thread.name} has been accepted!. You can view it here: {thread.mention}.')
+        await creator.add_roles(staff_role)
+        await moderation.modlog(interaction.guild, '✅ Application Accepted', interaction.user, creator, additional = {'Thread':thread.mention})
+
+
+    else:
+        with open('config/config.yml', 'r') as file:
+            cfg = yaml.load(file, Loader=yaml.FullLoader)
+        await interaction.send(cfg['messages']['noperm'], ephemeral=True)
