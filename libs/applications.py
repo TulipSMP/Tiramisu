@@ -6,6 +6,7 @@
 import nextcord
 from nextcord.ext import menus
 import random
+import yaml
 
 from libs import utility, modals, buttons, moderation
 from libs.database import Database
