@@ -50,7 +50,11 @@ class ContinueConfirmation(menus.ButtonMenu):
 
     @nextcord.ui.button(label='Answer')
     async def on_button_press(self, button, interaction):
-        await self.callback(interaction, *self.args, **self.kwargs, confirmed=True)
+        try:
+            self.kwargs['confirmed'] = True
+            await self.callback(interaction, *self.args, **self.kwargs)
+        except KeyError:
+            await self.callback(interaction, *self.args, **self.kwargs, confirmed=True)
         self.stop()
 
 
