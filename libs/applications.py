@@ -4,6 +4,7 @@
 # Mod Applications
 # 
 import nextcord
+from nextcord.ext import menus
 import random
 
 from libs import utility, modals, buttons, moderation
@@ -32,6 +33,25 @@ class QuestionModal(nextcord.ui.Modal):
 
     async def callback(self, interaction: nextcord.Interaction):
         await self.ext_callback(interaction, question_index=(self.question_index + 1), responses=self.responses|{self.question: self.input.value}, )
+
+class ContinueConfirmation(menus.ButtonMenu):
+    def __init__(self, callback, *args, **kwargs):
+        """ Use a button to confirm continuing Questions
+        This is a workaround-- because you cannot respond to a modal with another modal """
+        super().__init__(disable_buttons_after=True)
+
+        self.callback = callback
+        self.args = args
+        self.kwargs = kwargs
+
+    async def send_initial_message(self, ctx, channel):
+        return await channel.send(f'**Continue?**', view=self, ephemeral=True)
+
+    @nextcord.ui.button(emoji="\N{THUMBS UP SIGN}")
+    async def on_thumbs_up(self, button, interaction):
+        await self.callback(interaction, *self.args, **self.kwargs, confirmed=True)
+        self.stop()
+
 
 async def create(interaction: nextcord.Interaction, answers: dict = None):
     """ Create an Application """
@@ -83,7 +103,7 @@ To add people to the application, simply **@mention** them.')
 
     db.close()
 
-async def answer_and_create(interaction: nextcord.Interaction, question_index: int = 0, responses: dict = {}):
+async def answer_and_create(interaction: nextcord.Interaction, question_index: int = 0, responses: dict = {}, confirmed: bool = False):
     db = Database(interaction.guild, reason='Applications, fetch questions')
     application_questions = db.fetch('application_questions')
     default_questions = [
@@ -99,10 +119,13 @@ async def answer_and_create(interaction: nextcord.Interaction, question_index: i
         if questions[0] == application_questions:
             questions = default_questions
     
-    if question_index > len(questions):
-        await create(interaction, answers=responses)
+    if confirmed:
+        if question_index > len(questions):
+            await create(interaction, answers=responses)
+        else:
+            await interaction.response.send_modal(QuestionModal(questions[question_index], answer_and_create, responses, question_index))
     else:
-        await interaction.response.send_modal(QuestionModal(questions[question_index], answer_and_create, responses, question_index))
+        await ContinueConfirmation(answer_and_create, question_index = question_index, responses = responses).start(interaction)
 
 
 
