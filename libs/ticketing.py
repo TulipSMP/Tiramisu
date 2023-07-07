@@ -59,7 +59,7 @@ async def create(interaction: nextcord.Interaction, reason: str = None, buttons:
 To add people to the ticket, simply **@mention** them.')
         await init.pin(reason = 'Initial ticket message')
     
-    await interaction.send(f'*Ticket Opened in {thread.mention}*')
+    await interaction.send(f'*Ticket Opened in {thread.mention}*', ephemeral=True)
 
     db.close()
         
