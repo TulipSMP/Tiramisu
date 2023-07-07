@@ -45,7 +45,7 @@ class ContinueConfirmation(menus.ButtonMenu):
         self.kwargs = kwargs
 
     async def send_initial_message(self, ctx, channel):
-        return await channel.send(f'**Continue?**', view=self, ephemeral=True)
+        return await channel.send('**Continue?**', view=self)
 
     @nextcord.ui.button(emoji="\N{THUMBS UP SIGN}")
     async def on_thumbs_up(self, button, interaction):
