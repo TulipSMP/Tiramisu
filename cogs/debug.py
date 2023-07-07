@@ -14,6 +14,7 @@ from libs import buttons, ticketing, levelling
 class Debug(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
+        self.persistent_views_added = False
     
     with open("config/config.yml", "r") as ymlfile:
         cfg = yaml.load(ymlfile, Loader=yaml.FullLoader)
@@ -23,6 +24,10 @@ class Debug(commands.Cog):
     @commands.Cog.listener()
     async def on_ready(self):
         logger.info('Loaded cog debug.py')
+
+        if not self.persistent_views_added:
+            self.bot.add_view(buttons.PersistentTextButton())
+            self.persistent_views_added = True
 
     bot = commands.Bot()
 
@@ -90,6 +95,10 @@ class Debug(commands.Cog):
     async def leveltop_raw(self, interaction: nextcord.Interaction):
         x = levelling.get_leaderboard(interaction.guild)
         await interaction.send(f'**Leaderboard:**\n{x}')
+
+    @debug.subcommand(description='Start persistent view')
+    async def persist_butons(self, interaction: nextcord.Interaction, message: nextcord.Message):
+        await interaction.send("Test the thingy idfk", view=buttons.PersistentTextButton)
 
 def setup(bot):
     with open("config/config.yml", "r") as ymlfile:

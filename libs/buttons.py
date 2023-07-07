@@ -55,3 +55,12 @@ class TicketCloseButton(menus.ButtonMenu):
     @nextcord.ui.button(label='Close', emoji="❌", custom_id=f'tiramisu:close_ticket', style=nextcord.ButtonStyle.red)
     async def on_close(self, button, interaction: nextcord.Interaction):
         await ticketing.close(interaction)
+
+class PersistentTextButton(nextcord.ui.View):
+    def __init__(self):
+        """ Testing Persistent Buttons: https://github.com/nextcord/nextcord/blob/master/examples/views/persistent.py """
+        super().__init__(timeout=None)
+    
+    @nextcord.ui.button(label='Test', style=nextcord.ui.ButtonStyle.gray, custom_id='tiramisu:libs-buttons-persistent-text-button')
+    async def test(self, button: nextcord.ui.Button, interaction: nextcord.Interaction):
+        await interaction.response.send_message("Yup! it works!")
