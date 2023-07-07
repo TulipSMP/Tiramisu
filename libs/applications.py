@@ -104,7 +104,7 @@ To accept this application and apply the staff role, administrators can use the 
 To add people to the application, simply **@mention** them.')
     await init.pin(reason = 'Initial application message')
     
-    await interaction.send(f'*Application Opened in {thread.mention}*')
+    await interaction.send(f'*Application Opened in {thread.mention}*', ephemeral=True)
 
     db.close()
 
