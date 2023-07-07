@@ -83,21 +83,18 @@ async def create(interaction: nextcord.Interaction, answers: dict = None):
     except:
         mention_staff = ''
 
-    if buttons:
-        raise NotImplementedError
+    thread = await channel.create_thread(name=f'Application #{application_number}', type = nextcord.ChannelType.private_thread, 
+        reason=f'Created Application # {application_number} for {interaction.user.name}.')
+    if answers == None:
+        answer_text = ''
     else:
-        thread = await channel.create_thread(name=f'Application #{application_number}', type = nextcord.ChannelType.private_thread, 
-            reason=f'Created Application # {application_number} for {interaction.user.name}.')
-        if answers == None:
-            answer_text = ''
-        else:
-            answer_text = '\n'
-            for question in answers:
-                answer_text += f'**{question}:** {answers[question]}\n'
+        answer_text = '\n'
+        for question in answers:
+            answer_text += f'**{question}:** {answers[question]}\n'
 
-        init = await thread.send(f'**{thread.name}** opened by {interaction.user.mention}\n{mention_staff}{answer_text}\nTo close this application, use the `/application close` slash command.\n\
+    init = await thread.send(f'**{thread.name}** opened by {interaction.user.mention}\n{mention_staff}{answer_text}\nTo close this application, use the `/application close` slash command.\n\
 To add people to the application, simply **@mention** them.')
-        await init.pin(reason = 'Initial application message')
+    await init.pin(reason = 'Initial application message')
     
     await interaction.send(f'*Application Opened in {thread.mention}*')
 
