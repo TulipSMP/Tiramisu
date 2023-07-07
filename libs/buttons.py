@@ -61,6 +61,6 @@ class PersistentTextButton(nextcord.ui.View):
         """ Testing Persistent Buttons: https://github.com/nextcord/nextcord/blob/master/examples/views/persistent.py """
         super().__init__(timeout=None)
     
-    @nextcord.ui.button(label='Test', style=nextcord.ui.ButtonStyle.gray, custom_id='tiramisu:libs-buttons-persistent-text-button')
+    @nextcord.ui.button(label='Test', style=nextcord.ButtonStyle.gray, custom_id='tiramisu:libs-buttons-persistent-text-button')
     async def test(self, button: nextcord.ui.Button, interaction: nextcord.Interaction):
         await interaction.response.send_message("Yup! it works!")
