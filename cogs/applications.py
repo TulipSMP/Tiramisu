@@ -39,6 +39,10 @@ class Applications(commands.Cog):
     async def close(self, interaction: nextcord.Interaction):
         await applications.close(interaction)
     
+    @application.subcommand(description='Accept an Application')
+    async def accept(self, interaction: nextcord.Interaction):
+        await applications.accept(interaction) # This func checks perms by itself
+    
 
 def setup(bot):
     bot.add_cog(Applications(bot))
