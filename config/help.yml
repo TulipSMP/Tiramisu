@@ -169,3 +169,20 @@ levels:
     To disable levelling, set the `no_points_channels` setting to `all`.
     ## Resetting Levels
     If a user has been spamming, or you want to reset their level for any reason, moderators can use the `/resetlevel` command to set a user's points and level back to zero. This is logged in the `modlog_channel`
+
+applications:
+  name: Mod Applications
+  contents: |
+    # Moderator Applications
+    [[BOT]]'s applications system makes it easy to open applications for new moderators.
+    To enable this system, simply set the `application_channel` setting to a valid channel. Then, users can use the `/application create` to apply. They will be asked a series of questions which they must respond to before the application thread is created.
+    The default questions are:
+    - 'Have you moderated a community before?'
+    - 'What is your experience resolving confilicts?'
+    - 'Why are you a good fit for the position?'
+    - 'Why do you want to moderate this server?'
+    If you wish to change these questions, you can set the `application_questions` setting. Separate your questions with a semicolon (`;`).
+    ## Rejecting Applications
+    To close or reject an application, use the `/application close` slash command in the application thread.
+    ## Accepting Applications
+    To accept an application, administrators (See the *Admins* help topic) can use the `/application accept` slash command. This will close the thread, and give the applicant the `staff_role` you have set.
