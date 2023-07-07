@@ -98,7 +98,7 @@ class Debug(commands.Cog):
 
     @debug.subcommand(description='Start persistent view')
     async def persist_butons(self, interaction: nextcord.Interaction):
-        await interaction.send("Test the thingy idfk", view=buttons.PersistentTextButton)
+        await interaction.send("Test the thingy idfk", view=buttons.PersistentTextButton())
 
 def setup(bot):
     with open("config/config.yml", "r") as ymlfile:
