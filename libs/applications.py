@@ -106,18 +106,26 @@ To add people to the application, simply **@mention** them.')
 async def answer_and_create(interaction: nextcord.Interaction, question_index: int = 0, responses: dict = {}, confirmed: bool = False):
     db = Database(interaction.guild, reason='Applications, fetch questions')
     application_questions = db.fetch('application_questions')
-    default_questions = [
+    default_questions = [ # Questions cannot be greater than 45 characters
         'Have you moderated a community before?',
-        'How much experience do you have resolving confilicts?',
-        'Why do you think you would be a good fit for the position?',
-        'Why do you want to be a moderator on this server?'
+        'What is your experience resolving confilicts?',
+        'Why are you a good fit for the position?',
+        'Why do you want to moderate this server?'
     ]
     if application_questions == 'none':
         questions = default_questions
     else:
-        questions = application_questions.split(';')
-        if questions[0] == application_questions:
+        questions_unchecked = application_questions.split(';')
+        if questions_unchecked[0] == application_questions:
             questions = default_questions
+        else:
+            questions = []
+            for question in questions_unchecked:
+                if len(question) > 45:
+                    questions.append(f'{question[0:40]}...')
+                else:
+                    questions.append(question)
+
     
     if confirmed:
         if question_index > len(questions):
