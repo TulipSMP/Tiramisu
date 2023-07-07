@@ -32,8 +32,7 @@ class Applications(commands.Cog):
 
     @application.subcommand(description='Create an Application')
     async def create(self, interaction: nextcord.Interaction):
-        await applications.ContinueConfirmation(applications.answer_and_create, text='**Start answering application questions?**', confirmed = True).start(
-            interaction=interaction, ephemeral=True)
+        await applications.answer_and_create(interaction, confirmed=True)
     
     @application.subcommand(description='Close this Application')
     async def close(self, interaction: nextcord.Interaction):
