@@ -35,6 +35,10 @@ class Applications(commands.Cog):
         await applications.ContinueConfirmation(applications.answer_and_create, text='**Start answering application questions?**', confirmed = True).start(
             interaction=interaction, ephemeral=True)
     
+    @application.subcommand(description='Close this Application')
+    async def close(self, interaction: nextcord.Interaction):
+        await applications.close(interaction)
+    
 
 def setup(bot):
     bot.add_cog(Applications(bot))
