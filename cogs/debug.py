@@ -97,7 +97,7 @@ class Debug(commands.Cog):
         await interaction.send(f'**Leaderboard:**\n{x}')
 
     @debug.subcommand(description='Start persistent view')
-    async def persist_butons(self, interaction: nextcord.Interaction, message: nextcord.Message):
+    async def persist_butons(self, interaction: nextcord.Interaction):
         await interaction.send("Test the thingy idfk", view=buttons.PersistentTextButton)
 
 def setup(bot):
