@@ -131,7 +131,7 @@ async def answer_and_create(interaction: nextcord.Interaction, question_index: i
         else:
             await interaction.response.send_modal(QuestionModal(questions[question_index], answer_and_create, responses, question_index))
     else:
-        await ContinueConfirmation(answer_and_create, question_index = question_index, responses = responses).start(ctx=None, interaction=interaction, ephemeral=True)
+        await ContinueConfirmation(answer_and_create, text='**Answer the next question?**',question_index = question_index, responses = responses).start(ctx=None, interaction=interaction, ephemeral=True)
 
 
 
