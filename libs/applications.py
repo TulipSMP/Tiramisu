@@ -47,7 +47,7 @@ class ContinueConfirmation(menus.ButtonMenu):
         self.kwargs = kwargs
 
     async def send_initial_message(self, ctx, channel):
-        return await channel.send(self.text, view=self)
+        return await ctx.send(self.text, view=self, ephemeral=True)
 
     @nextcord.ui.button(label='Answer')
     async def on_button_press(self, button, interaction):
