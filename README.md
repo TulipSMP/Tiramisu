@@ -33,13 +33,8 @@ There's a lot of things we'd like to do with this bot, but here's a general idea
   * [x] VC Start/Stop streaming/camera
 - [x] Ticketing system
   * Simple command to create ticket
-- [ ] Mod application system
-  * Question 'modules'
-    - multiple choice
-    - yes/no
-    - free answer
-  * Configurable per guild
-  * Different position applications (guild configurable)
+- [x] Mod application system
+  * Configurable per guild questions
 - [ ] Reaction Roles
 - [x] User Levelling system
   * [x] Points system based on messages sent in qualifying channels
