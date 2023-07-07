@@ -35,7 +35,6 @@ There's a lot of things we'd like to do with this bot, but here's a general idea
   * Simple command to create ticket
 - [x] Mod application system
   * Configurable per guild questions
-- [ ] Reaction Roles
 - [x] User Levelling system
   * [x] Points system based on messages sent in qualifying channels
   * [x] Levels system based on points
