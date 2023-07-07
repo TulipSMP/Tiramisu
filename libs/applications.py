@@ -191,9 +191,8 @@ async def close(interaction: nextcord.Interaction):
     """ Close an Application """
     db = Database(interaction.guild, reason='Applications, close application')
 
-    response, debug = await is_application(interaction.channel, debug=True)
-    if not response:
-        await interaction.send(f'Run this command in the application you wish to close.\n```\n{debug}\n```', ephemeral=True)
+    if not await is_application(interaction.channel):
+        await interaction.send(f'Run this command in the application you wish to close.', ephemeral=True)
         return
     thread = interaction.channel # interaction is discarded upon response
     user = interaction.user
