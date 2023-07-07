@@ -35,20 +35,21 @@ class QuestionModal(nextcord.ui.Modal):
         await self.ext_callback(interaction, question_index=(self.question_index + 1), responses=self.responses|{self.question: self.input.value}, )
 
 class ContinueConfirmation(menus.ButtonMenu):
-    def __init__(self, callback, *args, **kwargs):
+    def __init__(self, callback, text: str = '**Continue?**',*args, **kwargs):
         """ Use a button to confirm continuing Questions
         This is a workaround-- because you cannot respond to a modal with another modal """
         super().__init__(disable_buttons_after=True)
 
+        self.text = text
         self.callback = callback
         self.args = args
         self.kwargs = kwargs
 
     async def send_initial_message(self, ctx, channel):
-        return await channel.send('**Continue?**', view=self)
+        return await channel.send(self.text, view=self)
 
-    @nextcord.ui.button(emoji="\N{THUMBS UP SIGN}")
-    async def on_thumbs_up(self, button, interaction):
+    @nextcord.ui.button(label='Answer')
+    async def on_button_press(self, button, interaction):
         await self.callback(interaction, *self.args, **self.kwargs, confirmed=True)
         self.stop()
 
