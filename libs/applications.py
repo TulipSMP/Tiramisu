@@ -158,9 +158,10 @@ async def is_application(thread: nextcord.Thread or nextcord.Channel, debug: boo
     
     db = Database(thread.guild, reason='Applications, checking if thread is application')
 
-    if not db.fetch('appliation').isdigit():
+    application_channel = db.fetch('application_channel')
+    if not application_channel.isdigit():
         return negative('`application_channel` is not set')
-    elif int(db.fetch('application_channel')) != thread.parent_id:
+    elif int(application_channel) != thread.parent_id:
         return negative('Not a child of `application_channel`.')
 
     number = thread.name.replace("Application #", "")
