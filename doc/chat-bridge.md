@@ -60,6 +60,7 @@ This is the base format of json sent over the webhook:
         "timestamp": 1087787882242 # Timestamp of message send in unix millis
     },
     "authority": {
+        "uuid": "00000-000000-00000-0000", # Internal UUID
         "guild": 38927598437954435, # Numerical ID of discord guild it was in
         "channel": 3897485902375984, # Numerical ID of discord channel it was in
     }
