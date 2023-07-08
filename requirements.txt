@@ -5,3 +5,4 @@ logging42
 pyyaml
 mysql-connector-python
 websockets
+py-bcrypt
