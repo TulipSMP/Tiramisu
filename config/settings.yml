@@ -27,3 +27,4 @@ settings:
 hidden:
   - 'ticket_int'
   - 'application_int'
+  - 'chat_bridge_uuid_hashed'
