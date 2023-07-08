@@ -12,6 +12,11 @@ mysql:              # Login info when using MySQL
   pass: 'SuperSafePassword123'
   db: 'tiramisu'    # Database to use
 
+bridge:           # Config for Chat Bridge
+  enabled: true   # Whether or not to run the bridge
+  ip: 0.0.0.0     # IP to run it on
+  port: 8765      # Port to run server on
+
 discord:
   token: 'PasteBotTokenHere-from-discord.com/developers' # Your bot token
   testing_guild: 1035313572638638110 # Guild to sync instance management and debugging commands in
