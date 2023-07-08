@@ -12,6 +12,8 @@ import yaml
 import json
 import uuid
 import bcrypt
+import math
+import datetime
 
 from libs.database import Database
 from libs import utility, moderation, modals
@@ -51,13 +53,23 @@ class ChatBridge(commands.Cog):
     async def register_connection(self, websocket, guild: str, channel: str):
         self.ws_clients.add(websocket)
         try:
-            self.connections[guild].add(websocket)
-        except:
-            self.connections[guild] = set()
-            self.connections[guild].add(websocket)
+            self.connections[guild][channel].add(websocket)
+        except KeyError:
+            try:
+                self.connections[guild][channel] = set()
+            except KeyError:
+                self.connections[guild] = {}
+                self.connections[guild][channel] = set()
+            self.connections[guild][channel].add(websocket)
 
 
     async def handle_websocket(self, websocket):
+        """ Handler for all incoming messages to the websocket server """
+        if self.authenticate_websocket(msg['authority']['uuid'], msg['authority']['guild']):
+            self.register_connection(websocket, msg['authority']['guild'], msg['authority']['channel'])
+            external_authenticated = True
+        else:
+            external_authenticated = False
         msg_raw = await websocket.recv()
         logger.debug('Recieved message from websocket: {msg_raw}')
         malformed_json_response = """{
@@ -109,7 +121,7 @@ class ChatBridge(commands.Cog):
                             "message": "Ok",
                         }
                     }
-                    await websocket.send(json.dumps(response))
+                    await websocket.broadcast(self.connections[ msg['authority']['guild'] ][ msg['authority']['channel'] ], json.dumps(response))
                 except KeyError:
                     await websocket.send(malformed_json_response)
             else:
@@ -117,6 +129,8 @@ class ChatBridge(commands.Cog):
         elif origin == 'external':
             if self.authenticate_websocket(msg['authority']['uuid'], msg['authority']['guild']):
                 self.register_connection(websocket, msg['authority']['guild'], msg['authority']['channel'])
+                # Send message to appropriate webhook
+                logger.debug('Recieved external message over chat bridge')
             else:
                 await websocket.send(bad_auth_response)
         elif origin == 'discord':
@@ -151,6 +165,35 @@ class ChatBridge(commands.Cog):
         logger.info('Loaded cog chatbridge.py')
 
         await self.run_server_forever()
+    
+    @commands.Cog.listener()
+    async def on_message(self, message: nextcord.Message):
+        if message.guild.id in self.connections:
+            if message.channel.id in self.connections[message.guild.id]: # nested to avoid KeyError
+                attachments = []
+                for file in message.attachments:
+                    attachments.append(file.url)
+                output = {
+                    "origin": "internal",
+                    "author": {
+                        "name": message.author.display_name,
+                        "username": message.author.name,
+                        "id": message.author.id,
+                        "profile": message.author.avatar.url
+                    },
+                    "message": {
+                        "content": message.content,
+                        "content_clean": message.clean_content,
+                        "attachments": attachments, 
+                        "timestamp": int( math.trunc(message.created_at.timestamp()) )
+                    },
+                    "authority": {
+                        "uuid": self.internal_auth_uuid,
+                        "guild": message.guild.id,
+                        "channel": message.channel.id,
+                    }
+                }
+
 
     # Commands
     @nextcord.slash_command(description='Input key to allow chat bridge connections')

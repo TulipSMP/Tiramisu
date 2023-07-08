@@ -14,7 +14,8 @@ This is the base format of json sent over the webhook:
         "profile": "https://cdn.discordapp.com/profiles/users-profile-pic-url.jpeg" # URL to their profile
     },
     "message": {
-        "content": "Heyyo, this is the message im sending!", # The content of their message
+        "content": "Heyyo <@705150784941064293>, this is the message im sending!", # The content of their message
+        "content_clean": "Heyyo @Krafter, this is the message im sending!", # The content of their message, with mentions cleaned.
         "attachments": ["https://cdn.discordapp.com/image.png"], # A list of URLs to any attachments
         "timestamp": 1087787882242 # Timestamp of message send in unix millis
     },
