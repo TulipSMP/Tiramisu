@@ -19,6 +19,10 @@ discord:
   co_owners: # List of user IDs that can also start/stop and load/unload cogs
     - 000000000
 
+bridge:
+  ip: '0.0.0.0' # Address to listen for bridge connections on
+  port: 8765    # Port to listen for bridge connections on
+
 debug: false
 
 # List of .py files in `cogs/` to NOT load.
