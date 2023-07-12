@@ -178,4 +178,9 @@ def verify_config(repair: Optional[bool] = True):
         logger.critical(f'You must add these options to `config/config.yml` manually or copy over `config/exampleconfig.yml` in its place and reconfigure your bot!')
         sys.exit()
         
-    
+async def attachments_to_url_list(message: nextcord.Message):
+    """ Get list of URLs to attachments in a message """
+    ls = []
+    for attachment in message.attachments:
+        ls.append(attachement.url)
+    return ls
