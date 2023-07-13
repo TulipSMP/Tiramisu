@@ -208,7 +208,8 @@ async def close(interaction: nextcord.Interaction):
     await moderation.modlog(interaction.guild, '🎟️ Application Closed', interaction.user, creator, additional = {'Thread':thread.mention})
 
 async def accept(interaction: nextcord.Interaction):
-    """ Accept an Application and give user the `staff_role`"""
+    """ Accept an Application and give user the `staff_role`
+    Also checks permissions for interaction.user"""
     db = Database(interaction.guild, reason='Applications, accept application')
     
     if interaction.user.id in db.fetch('admins'):
