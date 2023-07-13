@@ -37,7 +37,7 @@ class Ticketing(commands.Cog):
 
     @ticket.subcommand(description="Create a Ticket")
     async def create(self, interaction: nextcord.Interaction):
-        await ticketing.create(interaction, buttons=False, require_reason=False)
+        await ticketing.create(interaction)
     
     @ticket.subcommand(description='Close this Ticket')
     async def close(self, interaction: nextcord.Interaction):
