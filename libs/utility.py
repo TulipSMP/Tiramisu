@@ -182,5 +182,5 @@ async def attachments_to_url_list(message: nextcord.Message):
     """ Get list of URLs to attachments in a message """
     ls = []
     for attachment in message.attachments:
-        ls.append(attachement.url)
+        ls.append(attachemnt.url)
     return ls

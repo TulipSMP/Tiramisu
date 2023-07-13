@@ -76,7 +76,7 @@ class Bridge:
         if self._queue != []:
             for message in self._queue:
                 await websocket.send(message)
-                logging.debug(f'Outgoing message from bridge {self.get_uuid}: {msg}')
+                logger.debug(f'Outgoing message from bridge {self.get_uuid}: {msg}')
         else:
             msg = await websocket.recv()
             logger.debug(f'Incoming message on Bridge {self.get_uuid()}: {msg}')
@@ -103,7 +103,7 @@ class Bridge:
         
         logger.info(f'Starting chat bridge {uuid}')
 
-        async with websockets.serve(self._handle_incoming_message, ip, port):
+        async with websockets.serve(self._handle_incoming_message, address, port):
             await asyncio.Future() # Run Forever
     
     def send_bridge_message(self, message: nextcord.Message):
