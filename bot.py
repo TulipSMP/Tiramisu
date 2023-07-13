@@ -112,7 +112,7 @@ async def unload(interaction: nextcord.Interaction, extension):
         await interaction.send(noperm, ephemeral=True)
 
 # Reload Cogs
-@bot.slash_command(description="Reload cogs", guild_ids=[TESTING_GUILD_ID])
+@cogs.subcommand(description="Reload cogs")
 async def reload(interaction: nextcord.Interaction, extension=None):
     if interaction.user.id in cfg['discord']['co_owners'] or interaction.user.id == cfg['discord']['owner']:
         try:
