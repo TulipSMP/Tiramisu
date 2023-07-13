@@ -19,6 +19,8 @@ class Ticketing(commands.Cog):
         self.bot = bot
         self.button_added = False
     
+        with open("config/config.yml", "r") as ymlfile:
+            self.cfg = yaml.load(ymlfile, Loader=yaml.FullLoader)
 
     # Events
     @commands.Cog.listener()
