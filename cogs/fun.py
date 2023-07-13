@@ -12,6 +12,9 @@ from typing import Optional
 class FunCommands(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
+
+        with open("config/config.yml", "r") as ymlfile:
+            self.cfg = yaml.load(ymlfile, Loader=yaml.FullLoader)
     
     # Events
     @commands.Cog.listener()
@@ -44,12 +47,12 @@ class FunCommands(commands.Cog):
             "Outlook not so good.",
             "Very doubtful."
         ]
-        if question == 'Is fizzdev a catboy?':
+        if question == 'Is fizzdev a catboy?' and self.cfg['fizzdev=catboy']:
             # Use the positive responses for this specific question
             response = responses[random.randint(0, 10)]
         else:
             response = random.choice(responses)
-        if random.randint(1, 250) == 69:
+        if random.randint(1, 250) == 69  and self.cfg['fizzdev=catboy']:
             response = "Certainly. Fizzdev is a catboy."
         await interaction.response.send_message(response + " 🎱")
     

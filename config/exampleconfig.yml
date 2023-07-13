@@ -24,6 +24,9 @@ discord:
 # - Shows debug level messages in the log
 debug: false
 
+# Enables the `/fizz` slash command and other similar easter eggs
+fizzdev=catboy: true
+
 # List of .py files in `cogs/` to NOT load.
 # If a file ends in .py and is in `cogs/` it will be loaded by default
 cog_dontload:
