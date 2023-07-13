@@ -44,6 +44,30 @@ mods:
     All of which are sent to the modlog, in addition to having the appropriate reason in the Audit Log.
     For more in-depth information for moderators, see our Moderator Guide: https://github.com/RoseSMP/Tiramisu/blob/prod/doc/moderator-guide.md
 
+welcome:
+  name: Welcome Messages
+  contents: |
+    # Welcome Messages
+    To have the bot welcome users when they leave or join the server, set the `system_channel` setting to an appropriate channel.
+
+mods:
+  name: For Moderators
+  contents: |
+    # For Moderators
+    [[BOT]] provides multiple commands and other utilities for moderating your server.
+    ## Modlog
+    One of the best parts about Tiramisu's moderation commands is that they are logged in a specific channel so all moderators know what is happening in their server and can stay informed.
+    Make sure an administrator has set the `modlog_channel` setting to a channel that you can see.
+    ## Actions
+    [[BOT]]'s various actions are mostly provided as slash commands, but some are also available by right-clicking users or their messages.
+    You can:
+     - Warn
+     - Timeout (with more time choices)
+     - Kick
+     - Ban
+    All of which are sent to the modlog, in addition to having the appropriate reason in the Audit Log.
+    For more in-depth information for moderators, see our Moderator Guide: https://github.com/RoseSMP/Tiramisu/blob/prod/doc/moderator-guide.md
+
 admin:
   name: Admins
   contents: |

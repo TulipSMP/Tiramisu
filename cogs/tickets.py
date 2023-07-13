@@ -43,7 +43,8 @@ class Ticketing(commands.Cog):
     @ticket.subcommand(description='Close this Ticket')
     async def close(self, interaction: nextcord.Interaction):
         await ticketing.close(interaction)
-    
+
+
     @ticket.subcommand(description='Create a button for creating tickets')
     async def button(self, interaction: nextcord.Interaction,
         info: Optional[str] = nextcord.SlashOption(description='Additional text for the resulting message', required=False, default='Click the button below to create a ticket.')):
@@ -53,7 +54,7 @@ class Ticketing(commands.Cog):
             await interaction.send('Created Button!', ephemeral=True)
         else:
             await interaction.send(self.cfg['messages']['noperm'], ephemeral=True)
-        
+
 
 def setup(bot):
     bot.add_cog(Ticketing(bot))
