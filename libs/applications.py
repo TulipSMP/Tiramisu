@@ -99,8 +99,8 @@ async def create(interaction: nextcord.Interaction, answers: dict = None):
         for question in answers:
             answer_text += f'**{question}:** {answers[question]}\n'
 
-    init = await thread.send(f'**{thread.name}** opened by {interaction.user.mention}\n{mention_staff}{answer_text}\nTo close this application, use the `/application close` slash command.\n\
-To accept this application and apply the staff role, administrators can use the `/application accept` slash command.\n\
+    init = await thread.send(f'**{thread.name}** opened by {interaction.user.mention}\n{mention_staff}{answer_text}\nTo close this application, use the `/application close` slash command or the button below.\n\
+To accept this application and apply the staff role, administrators can use the `/application accept` slash command or the *Accept* button.\n\
 To add people to the application, simply **@mention** them.', view=buttons.ApplicationActions())
     await init.pin(reason = 'Initial application message')
     
