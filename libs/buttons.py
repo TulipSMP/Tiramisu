@@ -67,7 +67,7 @@ class ApplicationActions(nextcord.ui.View):
         super().__init__(timeout=None)
 
     @nextcord.ui.button(label='Accept', emoji="✅", custom_id=f'tiramisu:accept_application', style=nextcord.ButtonStyle.success)
-    async def on_close(self, button, interaction: nextcord.Interaction):
+    async def on_accept(self, button, interaction: nextcord.Interaction):
         await applications.accept(interaction)
         self.clear_items()
 
