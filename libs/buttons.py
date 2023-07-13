@@ -34,7 +34,7 @@ class TicketsButton(nextcord.ui.View):
         await ticketing.create(interaction)
 
 class TicketCloseButton(nextcord.ui.View):
-    def __init__(self, thread: nextcord.Thread, user: nextcord.Member, message: str=None):
+    def __init__(self):
         """ Button for Closing a Ticket """
         super().__init__(timeout=None)
 
@@ -62,7 +62,7 @@ class ApplicationButton(nextcord.ui.View):
         await applications.answer_and_create(interaction)
 
 class ApplicationActions(nextcord.ui.View):
-    def __init__(self, thread: nextcord.Thread, user: nextcord.Member, message: str=None):
+    def __init__(self):
         """ Button for Closing an Application """
         super().__init__(timeout=None)
 
