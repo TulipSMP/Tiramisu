@@ -33,24 +33,15 @@ class TicketsButton(nextcord.ui.View):
     async def on_create(self, button, interaction: nextcord.Interaction):
         await ticketing.create(interaction)
 
-class TicketCloseButton(menus.ButtonMenu):
+class TicketCloseButton(nextcord.ui.View):
     def __init__(self, thread: nextcord.Thread, user: nextcord.Member, message: str=None):
         """ Button for Closing a Ticket """
-        super().__init__(disable_buttons_after=True)
-        self.thread = thread
-        self.user = user
-
-        if message == None:
-            self.message = f'**{thread.name}**\nPress the button below to close this ticket.'
-        else:
-            self.message = message
-
-    async def send_initial_message(self, interaction, channel):
-        return await channel.send(self.message)
+        super().__init__(timeout=None)
 
     @nextcord.ui.button(label='Close', emoji="❌", custom_id=f'tiramisu:close_ticket', style=nextcord.ButtonStyle.red)
     async def on_close(self, button, interaction: nextcord.Interaction):
         await ticketing.close(interaction)
+        self.clear_items()
 
 class PersistentTextButton(nextcord.ui.View):
     def __init__(self):
@@ -69,3 +60,18 @@ class ApplicationButton(nextcord.ui.View):
     @nextcord.ui.button(label='Apply',emoji="⛑️", custom_id='tiramisu:create_application', style=nextcord.ButtonStyle.success)
     async def on_create(self, button, interaction: nextcord.Interaction):
         await applications.answer_and_create(interaction)
+
+class ApplicationActions(nextcord.ui.View):
+    def __init__(self, thread: nextcord.Thread, user: nextcord.Member, message: str=None):
+        """ Button for Closing an Application """
+        super().__init__(timeout=None)
+
+    @nextcord.ui.button(label='Accept', emoji="✅", custom_id=f'tiramisu:accept_application', style=nextcord.ButtonStyle.red)
+    async def on_close(self, button, interaction: nextcord.Interaction):
+        await applications.accept(interaction)
+        self.clear_items()
+
+    @nextcord.ui.button(label='Close', emoji="❌", custom_id=f'tiramisu:close_application', style=nextcord.ButtonStyle.red)
+    async def on_close(self, button, interaction: nextcord.Interaction):
+        await applications.close(interaction)
+        self.clear_items()
