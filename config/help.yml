@@ -9,23 +9,40 @@
 
 # Initial Help Menu
 main:
-  name: Main
+  name: Contents
   contents: |
-    # Help 
-    [[BOT]] is a discord bot focused on elegance and simplicity, while still executing all the functions you might need in your discord server.
-    This page lists most of the basic functions you need to get started with using [[BOT]].
-    ## Admins
-    Adminstrators are users you have selected that can change settings for your bot, and perform all moderation actions. Admins can also add and remove other admins.
-    If nobody in your discord server is an admin yet, the server owner can add themselves as an admins.
-    For information on how to use the `/admin` commands, go to the *Admins* section of the help menu.
-    ## Settings
-    You can set channels, roles, and change other functionality of the bot with the `/setting` command. Use `/setting get` to check what a setting is currently set to, and use `/setting set` to change that value.
-    The first setting you are likely to want to change is the `staff_role` setting. To do so, use the following command:
-    ```
-    /setting set setting:staff_role value:ROLE
-    ```and replace `ROLE` with an @mention of the role you want to use.
+    # Help - Contents
+    - *Welcome Messages*: How to set up join/leave messages
+    - *For Moderators*: Information regarding moderation with Tiramisu
+    - *Admins*: How to manage [[BOT]] administrators
+    - *Settings*: How to change settings for the bot, and what different settings do:
+    - *Utilities*: Info on various utility commands
+    - *Fun Commands*: Various entertainment  commands and what they do
+    - *
 
-    You can see what each setting is for by going to the *Settings* section of the menu.
+welcome:
+  name: Welcome Messages
+  contents: |
+    # Welcome Messages
+    To have the bot welcome users when they leave or join the server, set the `system_channel` setting to an appropriate channel.
+
+mods:
+  name: For Moderators
+  contents: |
+    # For Moderators
+    [[BOT]] provides multiple commands and other utilities for moderating your server.
+    ## Modlog
+    One of the best parts about Tiramisu's moderation commands is that they are logged in a specific channel so all moderators know what is happening in their server and can stay informed.
+    Make sure an administrator has set the `modlog_channel` setting to a channel that you can see.
+    ## Actions
+    [[BOT]]'s various actions are mostly provided as slash commands, but some are also available by right-clicking users or their messages.
+    You can:
+     - Warn
+     - Timeout (with more time choices)
+     - Kick
+     - Ban
+    All of which are sent to the modlog, in addition to having the appropriate reason in the Audit Log.
+    For more in-depth information for moderators, see our Moderator Guide: https://github.com/RoseSMP/Tiramisu/blob/prod/doc/moderator-guide.md
 
 welcome:
   name: Welcome Messages
@@ -85,17 +102,17 @@ setting:
     You can check what different settings are currently set to with the `/setting get` command. You can also use `/setting get setting:all` to get a list of all available settings.
     ## Available Settings
     Below is a list of some of the available settings and what they do:
-    - `staff_role`: The role for moderators and other staff members. Users with this role can use most moderation commands.
-    - `system_channel`: The channel to show join and leave messages in. 
-    - `announcement_channel`: The channel to send announcements in
-    - `announcement_role`: The role to ping for announcements if not specified.
-    - `staff_role`: the role that can perform most moderation actions
-    - `modlog_channel`: the channel to log moderation action in
-    - `bugreports_channel`: the channel to post bug reports to
-    - `ip_address`: The IP address to show in the `/ip` command
-    - `ip_text`: Notes on how to join the server or about the server, shown in the `/ip` command
-    - `ip_game`: The name of the game the `ip_address` is for, shown in the `/ip` command
-    - `application_channel`: the channel to post mod applications to
+    - `system_channel`: The channel to show join/leave messages in
+    - `announcement_channel`: The channel to put announcements from the `/announce` command in
+    - `announcement_role`: The role to mention when pings are enabled in the `/announce` command
+    - `staff_role`: The role for all staff members. Users with this role can perform moderation actions, and this role is given to users automatically when their application is accepted by an administrator.
+    - `bugreports_channel`: The channel to post bug reports in from the `/report bug` command
+    - `ip_address`: the IP address to show in the `/ip` command
+    - `ip_text`: An extended description for the `/ip` command
+    - `ip_game`: The name of the game `/ip` is for
+    - `application_channel`: the channel to create application private threads in
+    - `application_questions`: A semicolon (`;`) separated list of questions to ask applicants. See the *Mod Applications* section for the default list of questions.
+
 
 utility:
   name: Utilities
@@ -114,8 +131,6 @@ utility:
      - `ip_address`: the IP address or domain name of the game server
      - `ip_game`: the name of what game is accessible via that IP address.
      - `ip_text`: additional joining instructions or other information.
-    ## `/fizz`
-    Anyone can use this command. Checks if fizz#4096 is still a catboy.
     ## `/hello`
     Anyone can use this command. Says hello!
 
@@ -142,6 +157,9 @@ perms:
     ## Staff
     Staff are people with the role in the `staff_role` setting. They can do all moderation actions, but do not have permission to change settings, admins or to do other potentially disruptive things.
     See the *Settings* section of the help menu for how to change the `staff_role` setting.
+    ## Everyone
+    Everyone is, `@everyone`! Many of Tiramisu's commands can be used by everyone. To restrict these users from performing commands, use Discord's built-in command permissions system.
+    This is located at *Server Settings* → *Integrations* → *Tiramisu*.
 
 tickets:
   name: Ticket System
@@ -150,6 +168,40 @@ tickets:
     [[BOT]]'s simple ticket system allows users to get help from staff and work out problems.
     ## Creating Tickets
     To create a ticket, use the `/ticket create` slash command. If tickets have been set up by server admins, a ticket will be created via private threads.
+    You can also set up a button for people to press that will create a ticket. Use the `/ticket button` slash command to do this.
     ## Closing Tickets
     Any member of a ticket can close it, which is done by using the `/ticket close` slash command. This will close and lock the thread, alert moderators in the Modlog channel, and DM the ticket creator a link to the thread for future refrence.
     
+levels:
+  name: Levels
+  contents: |
+    # Levelling System
+    [[BOT]] has a levelling system to encourage your users to talk on your server. Note that this does not do any form of spam prevention. It is up to your automod rules and moderators to stop spam in your server.
+    ## Points
+    When someone sends a message, they are randomly added between 1 and 3 points, Unless their message is sent in one of the channels listed in the `no_points_channels` setting.
+    ## Levels
+    Levels are calculated with the following equation, rounded down:
+    ```
+    level = log₂( points ÷ 10 )
+    ```When someone levels up, a message is sent in the channel they were talking in.
+    ## Disabling Levelling
+    To disable levelling, set the `no_points_channels` setting to `all`.
+    ## Resetting Levels
+    If a user has been spamming, or you want to reset their level for any reason, moderators can use the `/resetlevel` command to set a user's points and level back to zero. This is logged in the `modlog_channel`
+
+applications:
+  name: Mod Applications
+  contents: |
+    # Moderator Applications
+    [[BOT]]'s applications system makes it easy to open applications for new moderators.
+    To enable this system, simply set the `application_channel` setting to a valid channel. Then, users can use the `/application create` to apply, or the button if you use the `/application button` command. They will be asked a series of questions which they must respond to before the application thread is created.
+    The default questions are:
+    - 'Have you moderated a community before?'
+    - 'What is your experience resolving confilicts?'
+    - 'Why are you a good fit for the position?'
+    - 'Why do you want to moderate this server?'
+    If you wish to change these questions, you can set the `application_questions` setting. Separate your questions with a semicolon (`;`).
+    ## Rejecting Applications
+    To close or reject an application, use the `/application close` slash command in the application thread.
+    ## Accepting Applications
+    To accept an application, administrators (See the *Admins* help topic) can use the `/application accept` slash command. This will close the thread, and give the applicant the `staff_role` you have set.

@@ -29,5 +29,10 @@ class Catboy(commands.Cog):
         logger.debug(f'Reminded {interaction.user} that fizz is a catboy.')
 
 def setup(bot):
-    bot.add_cog(Catboy(bot))
-    logger.debug('Setup cog "catboy"')
+    with open("config/config.yml", "r") as ymlfile:
+        cfg = yaml.load(ymlfile, Loader=yaml.FullLoader)
+    if cfg['fizzdev=catboy']:
+        bot.add_cog(Catboy(bot))
+        logger.debug('Setup cog "catboy"')
+    else:
+        logger.debug('Fizzdev appears to no longer be a catboy. How did that happen?')

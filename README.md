@@ -1,4 +1,4 @@
-<div align="center"><img src='src/tiramisu.png' alt='Tiramisu, an italian cake with coffee, chocolate, and creamy white icing. Drawn in a simplistic square ' width=200>
+<div align="center"><a href="https://github.com/RoseSMP/Tiramisu"><img src='src/tiramisu.png' alt='Tiramisu, an italian cake with coffee, chocolate, and creamy white icing. Drawn in a simplistic square ' width=200></a>
 <h1> Tiramisu </h1>
 <a href="https://github.com/RoseSMP/Tiramisu/actions/workflows/pylint.yml"><img src="https://github.com/RoseSMP/Tiramisu/actions/workflows/pylint.yml/badge.svg?branch=main&event=push" alt="Lint"></a>
 </div>
@@ -33,18 +33,15 @@ There's a lot of things we'd like to do with this bot, but here's a general idea
   * [x] VC Start/Stop streaming/camera
 - [x] Ticketing system
   * Simple command to create ticket
-- [ ] Mod application system
-  * Question 'modules'
-    - multiple choice
-    - yes/no
-    - free answer
-  * Configurable per guild
-  * Different position applications (guild configurable)
-- [ ] Reaction Roles
-- [ ] User Levelling system
-  * [ ] Points system based on messages sent in qualifying channels
-  * [ ] Levels system based on points
-  * [ ] `/level`: check own level and points
+  * Button to create ticket
+- [x] Mod application system
+  * Configurable per guild questions
+  * Simple command to apply
+  * Button to apply
+- [x] User Levelling system
+  * [x] Points system based on messages sent in qualifying channels
+  * [x] Levels system based on points
+  * [x] `/level`: check own level and points
 
 
 ### Other Features
@@ -56,7 +53,7 @@ There's a lot of things we'd like to do with this bot, but here's a general idea
 - [x] Shutdown bot correctly (instead of just an exit)
 - [x] Check `config/config.yml` against `config/exampleconfig.yml` and add missing options to `config.yml`
 
-#### Platform Links:
+#### Platform Links *Planned For Future Release*
 - [ ] Two-way websocket-based chat bridge (between Tiramisu and third-party client) to other platforms (i.e. Minecraft)
 
 #### Messages & Variables

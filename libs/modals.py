@@ -95,7 +95,4 @@ class InputModal(nextcord.ui.Modal):
         self.add_item(self.input)
 
     async def callback(self, interaction: nextcord.Interaction):
-        if inspect.isawaitable(self.ext_callback):
-            await self.ext_callback(interaction, self.input.value)
-        else:
-            self.ext_callback(interaction, self.input.value)
+        await self.ext_callback(interaction, self.input.value)

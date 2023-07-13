@@ -10,9 +10,12 @@ import yaml
 from libs.database import Database
 from typing import Optional
 
+from libs import applications, buttons, utility
+
 class Applications(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
+        self.button_added = False
 
         with open("config/config.yml", "r") as ymlfile:
             self.cfg = yaml.load(ymlfile, Loader=yaml.FullLoader)
@@ -23,35 +26,37 @@ class Applications(commands.Cog):
     async def on_ready(self):
         logger.info('Loaded cog applications.py')
 
+        if not self.button_added:
+            self.bot.add_view(buttons.ApplicationButton())
+            self.bot.add_view(buttons.ApplicationActions())
+            self.button_added = True
+
     # Commands
-    @nextcord.slash_command(description="Apply for a position")
-    async def apply(self, interaction: nextcord.Interaction,
-        age_group: Optional[str] = nextcord.SlashOption(description='What age group are you in?',
-            required=True, choices=["13 - 14 years old", "15 - 17 years old", "18 - 20 years old", "21+ years old"]),
-        reason: Optional[str] = nextcord.SlashOption(description='Why should you be chosen as a moderator?', required=True, min_length=15, max_length=800),
-        experience: Optional[bool] = nextcord.SlashOption(description='Have you moderated a community before?', required=True, 
-            choices={"Yes":True, "No":False}),
-        position: Optional[str] = nextcord.SlashOption(description='What position are you applying for?', default=None, required=False, max_length=15),):
-        db = Database(interaction.guild, reason = 'Slash command `/apply`')
-        try:
-            channel = interaction.guild.get_channel(int(db.fetch('application_channel'))) 
-            if channel == None:
-                raise ValueError
-        except ValueError:
-            await interaction.send(f'The admins of this server have not set up applications! Ask them to set the `application_channel` setting to a valid channel ID.')
-            return
-        message = f'**Mod Application Opened**\nBy: __{interaction.user.name}#{interaction.user.discriminator} `{interaction.user.id}`__'
-        if position != None:
-            message += f'\nPosition Applied for: __{position}__'
-        message += f'\nAge Group: __{age_group}__'
-        if experience:
-            message += '\n*This user has moderation experience*'
+    @nextcord.slash_command(description="Create or manage Moderator Applications")
+    async def application(self, interaction: nextcord.Interaction):
+        pass
+
+    @application.subcommand(description='Create an Application')
+    async def create(self, interaction: nextcord.Interaction):
+        await applications.answer_and_create(interaction, confirmed=True)
+    
+    @application.subcommand(description='Close this Application')
+    async def close(self, interaction: nextcord.Interaction):
+        await applications.close(interaction)
+    
+    @application.subcommand(description='Accept an Application')
+    async def accept(self, interaction: nextcord.Interaction):
+        await applications.accept(interaction) # This func checks perms by itself
+
+    @application.subcommand(description='Create a button that starts applications')
+    async def button(self, interaction: nextcord.Interaction,
+        info: Optional[str] = nextcord.SlashOption(description='Additional text for the resulting message', required=False, default='Click the button below to start an application.')):
+        db = Database(interaction.guild, reason='Application Button Create, check perms')
+        if utility.is_mod(interaction.user, db) or interaction.user.id in db.fetch('admins'):
+            await interaction.channel.send(f'## Start an Application\n{info}', view=buttons.ApplicationButton())
+            await interaction.send('Created Button!', ephemeral=True)
         else:
-            message += '\n*This user does not have moderation experience*'
-        message += f'\nWhy should this user be chosen as a moderator?\n> {reason}'
-        await channel.send(message)
-        await interaction.send(f'Your application has been submitted!', ephemeral=True)
-        logger.info('Successfully completed an application.')
+            await interaction.send(self.cfg['messages']['noperm'], ephemeral=True)
 
 def setup(bot):
     bot.add_cog(Applications(bot))

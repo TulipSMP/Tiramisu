@@ -1,4 +1,9 @@
+# 
+# Tiramisu Discord Bot
+# --------------------
 # Dependencies
+# 
+
 nextcord
 nextcord-ext-menus
 logging42

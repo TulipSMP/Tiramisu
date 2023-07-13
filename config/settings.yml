@@ -9,8 +9,6 @@ settings:
   - 'announcement_channel'
   - 'announcement_role'
   - 'staff_role'
-  - 'server_admin'
-  - 'commands_channel'
   - 'modlog_channel'
   - 'bugreports_channel'
   - 'ip_address'
@@ -19,7 +17,11 @@ settings:
   - 'application_channel'
   - 'ticket_channel'
   - 'log_channel'
+  - 'no_points_channels'
+  - 'application_channel'
+  - 'application_questions'
 
 # Internal data that cannot be changed by the user.
 hidden:
   - 'ticket_int'
+  - 'application_int'
