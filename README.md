@@ -50,7 +50,7 @@ There's a lot of things we'd like to do with this bot, but here's a general idea
 - [x] Shutdown bot correctly (instead of just an exit)
 - [x] Check `config/config.yml` against `config/exampleconfig.yml` and add missing options to `config.yml`
 
-#### Platform Links:
+#### Platform Links *Planned For Future Release*
 - [ ] Two-way websocket-based chat bridge (between Tiramisu and third-party client) to other platforms (i.e. Minecraft)
 
 #### Messages & Variables
