@@ -20,7 +20,6 @@ Parameters:
 
 Optional:
 - `reason`: `str`, the reason for creating the ticket.
-- **`NotImplemented:`** `buttons`: `bool`, whether to use buttons in the ticket system
 - `require_reason`: `bool`, default `True`, whether to open a modal and ask for a reason if one is not given.
 
 
