@@ -130,10 +130,8 @@ async def reload(interaction: nextcord.Interaction, extension=None):
 
 # Stop the Bot
 @bot.slash_command(description='Stop the bot', guild_ids=[TESTING_GUILD_ID])
-async def stop(interaction: nextcord.Interaction, emergency=False):
+async def stop(interaction: nextcord.Interaction):
     if interaction.user.id in cfg['discord']['co_owners'] or interaction.user.id == cfg['discord']['owner']:
-        if emergency:
-            os.system(f"sed -i 's/Restart=on-success/Restart=no/g' /home/{os.getenv('USER')}/.config/systemd/user/tiramisu.service")
         await interaction.send('**🛑 Stopping the bot!**')
         logger.info(f'{interaction.user.name} [{interaction.user.id}] stopped the bot.')
         sys.exit(0)
