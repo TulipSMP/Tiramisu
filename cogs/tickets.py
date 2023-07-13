@@ -28,6 +28,7 @@ class Ticketing(commands.Cog):
         logger.info('Loaded cog tickets.py')
         if not self.button_added:
             self.bot.add_view(buttons.TicketsButton())
+            self.bot.add_view(buttons.TicketCloseButton())
             self.button_added = True
 
     # Commands

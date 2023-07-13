@@ -28,6 +28,7 @@ class Applications(commands.Cog):
 
         if not self.button_added:
             self.bot.add_view(buttons.ApplicationButton())
+            self.bot.add_view(buttons.ApplicationActions())
             self.button_added = True
 
     # Commands
