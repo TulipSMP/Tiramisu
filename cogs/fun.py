@@ -6,6 +6,8 @@
 from logging42 import logger
 import random
 import nextcord
+import yaml
+
 from nextcord.ext import commands
 from typing import Optional
 
