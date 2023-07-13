@@ -82,14 +82,12 @@ async def list(interaction: nextcord.Interaction):
 
 # Load Cogs
 @cogs.subcommand(description="Load cogs")
-async def load(interaction: nextcord.Interaction, extension=None):
+async def load(interaction: nextcord.Interaction,
+    extension: Optional[str] = nextcord.SlashOption(description='What cog to load', required=True)):
     if interaction.user.id in cfg['discord']['co_owners'] or interaction.user.id == cfg['discord']['owner']:
         try:
-            if extension is None:
-                await interaction.send("Please specify a cog.", ephemeral=True)
-            else:
-                bot.load_extension(f'cogs.{extension}')
-                await interaction.send(f'Loaded cog `{extension}`!')
+            bot.load_extension(f'cogs.{extension}')
+            await interaction.send(f'Loaded cog `{extension}`!')
         except nextcord.ext.commands.errors.ExtensionAlreadyLoaded:
             await interaction.send(f'The cog `{extension}` is already loaded.')
         except nextcord.ext.commands.errors.ExtensionNotFound:
@@ -99,11 +97,12 @@ async def load(interaction: nextcord.Interaction, extension=None):
 
 # Unload Cogs
 @cogs.subcommand(description="Unload cogs")
-async def unload(interaction: nextcord.Interaction, extension):
+async def unload(interaction: nextcord.Interaction,
+    extension: Optional[str] = nextcord.SlashOption(description='What cog to unload', required=True)):
     if interaction.user.id in cfg['discord']['co_owners'] or interaction.user.id == cfg['discord']['owner']:
         try:
-                bot.unload_extension(f'cogs.{extension}')
-                await interaction.send(f'Unloaded cog `{extension}`!')
+            bot.unload_extension(f'cogs.{extension}')
+            await interaction.send(f'Unloaded cog `{extension}`!')
         except nextcord.ext.commands.errors.ExtensionNotLoaded:
             await interaction.send(f'The cog `{extension}` is not loaded.')
         except nextcord.ext.commands.errors.ExtensionNotFound:
@@ -113,14 +112,12 @@ async def unload(interaction: nextcord.Interaction, extension):
 
 # Reload Cogs
 @cogs.subcommand(description="Reload cogs")
-async def reload(interaction: nextcord.Interaction, extension=None):
+async def reload(interaction: nextcord.Interaction, 
+    extension: Optional[str] = nextcord.SlashOption(description='What cog to load', required=True)):
     if interaction.user.id in cfg['discord']['co_owners'] or interaction.user.id == cfg['discord']['owner']:
         try:
-            if extension is None:
-                await interaction.send("Please specify a cog.", ephemeral=True)
-            else:
-                bot.reload_extension(f'cogs.{extension}')
-                await interaction.send(f'Reloaded cog `{extension}`!')
+            bot.reload_extension(f'cogs.{extension}')
+            await interaction.send(f'Reloaded cog `{extension}`!')
         except nextcord.ext.commands.errors.ExtensionNotLoaded:
             await interaction.send(f'The cog `{extension}` is not loaded.')
         except nextcord.ext.commands.errors.ExtensionNotFound:
