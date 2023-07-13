@@ -44,8 +44,13 @@ class Ticketing(commands.Cog):
     @ticket.subcommand(description='Create a button for creating tickets')
     async def button(self, interaction: nextcord.Interaction,
         info: Optional[str] = nextcord.SlashOption(description='Additional text for the resulting message', required=False, default='Click the button below to create a ticket.')):
-        await interaction.channel.send(f'## Create a Ticket\n{info}', view=buttons.TicketsButton())
-        await interaction.send('Created Button!', ephemeral=True)
+        db = Database(interaction.guild, reason='Ticket Button Create, check perms')
+        if utility.is_mod(interaction.user, db) or interaction.user.id in db.fetch('admins'):
+            await interaction.channel.send(f'## Create a Ticket\n{info}', view=buttons.TicketsButton())
+            await interaction.send('Created Button!', ephemeral=True)
+        else:
+            await interaction.send(self.cfg['messages']['noperm'], ephemeral=True)
+        
 
 def setup(bot):
     bot.add_cog(Ticketing(bot))

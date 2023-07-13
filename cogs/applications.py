@@ -10,7 +10,7 @@ import yaml
 from libs.database import Database
 from typing import Optional
 
-from libs import applications, buttons
+from libs import applications, buttons, utility
 
 class Applications(commands.Cog):
     def __init__(self, bot):
@@ -50,8 +50,12 @@ class Applications(commands.Cog):
     @application.subcommand(description='Create a button that starts applications')
     async def button(self, interaction: nextcord.Interaction,
         info: Optional[str] = nextcord.SlashOption(description='Additional text for the resulting message', required=False, default='Click the button below to start an application.')):
-        await interaction.channel.send(f'## Start an Application\n{info}', view=buttons.ApplicationButton())
-        await interaction.send('Created Button!', ephemeral=True)
+        db = Database(interaction.guild, reason='Application Button Create, check perms')
+        if utility.is_mod(interaction.user, db) or interaction.user.id in db.fetch('admins'):
+            await interaction.channel.send(f'## Start an Application\n{info}', view=buttons.ApplicationButton())
+            await interaction.send('Created Button!', ephemeral=True)
+        else:
+            await interaction.send(self.cfg['messages']['noperm'], ephemeral=True)
 
 def setup(bot):
     bot.add_cog(Applications(bot))
