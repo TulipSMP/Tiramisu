@@ -19,7 +19,13 @@ discord:
   co_owners: # List of user IDs that can also start/stop and load/unload cogs
     - 000000000
 
+# If enabled:
+# - Enables debugging commands in the testing_guild
+# - Shows debug level messages in the log
 debug: false
+
+# Enables the `/fizz` slash command and other similar easter eggs
+fizzdev=catboy: true
 
 # List of .py files in `cogs/` to NOT load.
 # If a file ends in .py and is in `cogs/` it will be loaded by default

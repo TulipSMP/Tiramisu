@@ -33,8 +33,11 @@ There's a lot of things we'd like to do with this bot, but here's a general idea
   * [x] VC Start/Stop streaming/camera
 - [x] Ticketing system
   * Simple command to create ticket
+  * Button to create ticket
 - [x] Mod application system
   * Configurable per guild questions
+  * Simple command to apply
+  * Button to apply
 - [x] User Levelling system
   * [x] Points system based on messages sent in qualifying channels
   * [x] Levels system based on points
@@ -50,7 +53,7 @@ There's a lot of things we'd like to do with this bot, but here's a general idea
 - [x] Shutdown bot correctly (instead of just an exit)
 - [x] Check `config/config.yml` against `config/exampleconfig.yml` and add missing options to `config.yml`
 
-#### Platform Links:
+#### Platform Links *Planned For Future Release*
 - [ ] Two-way websocket-based chat bridge (between Tiramisu and third-party client) to other platforms (i.e. Minecraft)
 
 #### Messages & Variables

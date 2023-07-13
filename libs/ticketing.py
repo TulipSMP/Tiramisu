@@ -9,7 +9,7 @@ import random
 from libs import utility, modals, buttons, moderation
 from libs.database import Database
 
-async def create(interaction: nextcord.Interaction, reason: str = None, buttons: bool = False, require_reason: bool = True):
+async def create(interaction: nextcord.Interaction, reason: str = None, require_reason: bool = True):
     """ Create a Ticket """
     if reason == None and require_reason:
         await interaction.response.send_modal(modals.InputModal('Create a Ticket', 'Topic of ticket', create)) # Call create again with reason
@@ -46,18 +46,15 @@ async def create(interaction: nextcord.Interaction, reason: str = None, buttons:
     except:
         mention_staff = ''
 
-    if buttons:
-        raise NotImplementedError
+    thread = await channel.create_thread(name=f'Ticket #{ticket_number}', type = nextcord.ChannelType.private_thread, 
+        reason=f'Created Ticket # {ticket_number} for {interaction.user.name}.')
+    if reason != None:
+        reasoning = f"\nReason: **{reason}**\n"
     else:
-        thread = await channel.create_thread(name=f'Ticket #{ticket_number}', type = nextcord.ChannelType.private_thread, 
-            reason=f'Created Ticket # {ticket_number} for {interaction.user.name}.')
-        if reason != None:
-            reasoning = f"\nReason: *{reason}*"
-        else:
-            reasoning = ""
-        init = await thread.send(f'**{thread.name}** opened by {interaction.user.mention}\n{mention_staff}{reasoning}\nTo close this ticket, use the `/ticket close` slash command.\n\
-To add people to the ticket, simply **@mention** them.')
-        await init.pin(reason = 'Initial ticket message')
+        reasoning = ""
+    init = await thread.send(f'**{thread.name}** opened by {interaction.user.mention}\n{mention_staff}{reasoning}\nTo close this ticket, use the `/ticket close` slash command or the button below.\n\
+To add people to the ticket, simply **@mention** them.', view=buttons.TicketCloseButton())
+    await init.pin(reason = 'Initial ticket message')
     
     await interaction.send(f'*Ticket Opened in {thread.mention}*', ephemeral=True)
 

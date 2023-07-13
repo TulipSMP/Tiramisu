@@ -19,15 +19,15 @@ cd Tiramisu/
 
 For using this bot, you'll need to have `python` and `pip` installed. These packages are installed by default on most modern distributions. Then, you can install all dependencies with the following command (on most operating systems). 
 ```sh
-pip install -r requirements.txt
+pip install -Ur requirements.txt
 ```
 if that doesn't work, make sure you have `pip` in your `$PATH`. Or, try this:
 ```sh
-python3 -m pip install -r requirements.txt
+python3 -m pip install -Ur requirements.txt
 ```
 If you're on ms windows, try this command:
 ```powershell
-py -m pip install -r requirements.txt
+py -m pip install -Ur requirements.txt
 ```
 
 

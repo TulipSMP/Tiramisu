@@ -15,6 +15,7 @@ import sys
 import sqlite3
 import yaml
 import shutil
+from typing import Optional
 
 from libs.database import Database
 from libs import utility
@@ -82,14 +83,12 @@ async def list(interaction: nextcord.Interaction):
 
 # Load Cogs
 @cogs.subcommand(description="Load cogs")
-async def load(interaction: nextcord.Interaction, extension=None):
+async def load(interaction: nextcord.Interaction,
+    extension: Optional[str] = nextcord.SlashOption(description='What cog to load', required=True)):
     if interaction.user.id in cfg['discord']['co_owners'] or interaction.user.id == cfg['discord']['owner']:
         try:
-            if extension is None:
-                await interaction.send("Please specify a cog.", ephemeral=True)
-            else:
-                bot.load_extension(f'cogs.{extension}')
-                await interaction.send(f'Loaded cog `{extension}`!')
+            bot.load_extension(f'cogs.{extension}')
+            await interaction.send(f'Loaded cog `{extension}`!')
         except nextcord.ext.commands.errors.ExtensionAlreadyLoaded:
             await interaction.send(f'The cog `{extension}` is already loaded.')
         except nextcord.ext.commands.errors.ExtensionNotFound:
@@ -99,11 +98,12 @@ async def load(interaction: nextcord.Interaction, extension=None):
 
 # Unload Cogs
 @cogs.subcommand(description="Unload cogs")
-async def unload(interaction: nextcord.Interaction, extension):
+async def unload(interaction: nextcord.Interaction,
+    extension: Optional[str] = nextcord.SlashOption(description='What cog to unload', required=True)):
     if interaction.user.id in cfg['discord']['co_owners'] or interaction.user.id == cfg['discord']['owner']:
         try:
-                bot.unload_extension(f'cogs.{extension}')
-                await interaction.send(f'Unloaded cog `{extension}`!')
+            bot.unload_extension(f'cogs.{extension}')
+            await interaction.send(f'Unloaded cog `{extension}`!')
         except nextcord.ext.commands.errors.ExtensionNotLoaded:
             await interaction.send(f'The cog `{extension}` is not loaded.')
         except nextcord.ext.commands.errors.ExtensionNotFound:
@@ -112,15 +112,13 @@ async def unload(interaction: nextcord.Interaction, extension):
         await interaction.send(noperm, ephemeral=True)
 
 # Reload Cogs
-@bot.slash_command(description="Reload cogs", guild_ids=[TESTING_GUILD_ID])
-async def reload(interaction: nextcord.Interaction, extension=None):
+@cogs.subcommand(description="Reload cogs")
+async def reload(interaction: nextcord.Interaction, 
+    extension: Optional[str] = nextcord.SlashOption(description='What cog to load', required=True)):
     if interaction.user.id in cfg['discord']['co_owners'] or interaction.user.id == cfg['discord']['owner']:
         try:
-            if extension is None:
-                await interaction.send("Please specify a cog.", ephemeral=True)
-            else:
-                bot.reload_extension(f'cogs.{extension}')
-                await interaction.send(f'Reloaded cog `{extension}`!')
+            bot.reload_extension(f'cogs.{extension}')
+            await interaction.send(f'Reloaded cog `{extension}`!')
         except nextcord.ext.commands.errors.ExtensionNotLoaded:
             await interaction.send(f'The cog `{extension}` is not loaded.')
         except nextcord.ext.commands.errors.ExtensionNotFound:
@@ -130,10 +128,8 @@ async def reload(interaction: nextcord.Interaction, extension=None):
 
 # Stop the Bot
 @bot.slash_command(description='Stop the bot', guild_ids=[TESTING_GUILD_ID])
-async def stop(interaction: nextcord.Interaction, emergency=False):
+async def stop(interaction: nextcord.Interaction):
     if interaction.user.id in cfg['discord']['co_owners'] or interaction.user.id == cfg['discord']['owner']:
-        if emergency:
-            os.system(f"sed -i 's/Restart=on-success/Restart=no/g' /home/{os.getenv('USER')}/.config/systemd/user/tiramisu.service")
         await interaction.send('**🛑 Stopping the bot!**')
         logger.info(f'{interaction.user.name} [{interaction.user.id}] stopped the bot.')
         sys.exit(0)
