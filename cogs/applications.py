@@ -50,7 +50,7 @@ class Applications(commands.Cog):
     @application.subcommand(description='Create a button that starts applications')
     async def button(self, interaction: nextcord.Interaction,
         info: Optional[str] = nextcord.SlashOption(description='Additional text for the resulting message', required=False, default='Click the button below to start an application.')):
-        await interaction.channel.send(f'## Start an Application\n{info}')
+        await interaction.channel.send(f'## Start an Application\n{info}', view=buttons.ApplicationButton)
         await interaction.send('Created Button!', ephemeral=True)
 
 def setup(bot):
