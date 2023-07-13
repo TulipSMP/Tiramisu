@@ -15,6 +15,7 @@ import sys
 import sqlite3
 import yaml
 import shutil
+from typing import Optional
 
 from libs.database import Database
 from libs import utility
