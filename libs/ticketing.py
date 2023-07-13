@@ -52,7 +52,7 @@ async def create(interaction: nextcord.Interaction, reason: str = None, buttons:
         thread = await channel.create_thread(name=f'Ticket #{ticket_number}', type = nextcord.ChannelType.private_thread, 
             reason=f'Created Ticket # {ticket_number} for {interaction.user.name}.')
         if reason != None:
-            reasoning = f"\nReason: *{reason}*"
+            reasoning = f"\nReason: **{reason}**\n"
         else:
             reasoning = ""
         init = await thread.send(f'**{thread.name}** opened by {interaction.user.mention}\n{mention_staff}{reasoning}\nTo close this ticket, use the `/ticket close` slash command.\n\
