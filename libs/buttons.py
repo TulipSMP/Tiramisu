@@ -24,16 +24,12 @@ class HelloButton(menus.ButtonMenu):
     async def on_hello(self, button, interaction: nextcord.Interaction):
         await interaction.send(f'Hello {interaction.user.display_name}!')
 
-class TicketsButton(menus.ButtonMenu):
+class TicketsButton(nextcord.ui.View):
     def __init__(self):
-        """ Button for Tickets System """
-        super().__init__()
+        """ Button to Create a Ticket"""
+        super().__init__(timeout=None)
 
-    async def send_initial_message(self, interaction, channel):
-        """ Send message containing buttons """
-        return await channel.send(f'## Create a Ticket\nClick the button below to create a ticket so that others can chat with you.')
-
-    @nextcord.ui.button(label='New Ticket',emoji="✅", custom_id='tiramisu:create_ticket', style=nextcord.ButtonStyle.success)
+    @nextcord.ui.button(label='Ticket',emoji="🎟️", custom_id='tiramisu:create_ticket', style=nextcord.ButtonStyle.success)
     async def on_create(self, button, interaction: nextcord.Interaction):
         await ticketing.create(interaction)
 
