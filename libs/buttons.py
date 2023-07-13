@@ -7,7 +7,7 @@ import nextcord
 from nextcord.ext import menus, commands
 from logging42 import logger
 
-from libs import ticketing
+from libs import ticketing, applications
 
 class HelloButton(menus.ButtonMenu):
     def __init__(self):
@@ -60,3 +60,12 @@ class PersistentTextButton(nextcord.ui.View):
     @nextcord.ui.button(label='Test', style=nextcord.ButtonStyle.gray, custom_id='tiramisu:libs-buttons-persistent-text-button')
     async def test(self, button: nextcord.ui.Button, interaction: nextcord.Interaction):
         await interaction.response.send_message("Yup! it works!")
+
+class ApplicationButton(nextcord.ui.View):
+    def __init__(self):
+        """ Button to Create a Mod Application """
+        super().__init__(timeout=None)
+
+    @nextcord.ui.button(label='Apply',emoji="⛑️", custom_id='tiramisu:create_application', style=nextcord.ButtonStyle.success)
+    async def on_create(self, button, interaction: nextcord.Interaction):
+        await applications.answer_and_create(interaction)

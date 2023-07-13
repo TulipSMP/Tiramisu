@@ -10,11 +10,12 @@ import yaml
 from libs.database import Database
 from typing import Optional
 
-from libs import applications
+from libs import applications, buttons
 
 class Applications(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
+        self.button_added = False
 
         with open("config/config.yml", "r") as ymlfile:
             self.cfg = yaml.load(ymlfile, Loader=yaml.FullLoader)
@@ -24,6 +25,10 @@ class Applications(commands.Cog):
     @commands.Cog.listener()
     async def on_ready(self):
         logger.info('Loaded cog applications.py')
+
+        if not self.button_added:
+            self.bot.add_view(buttons.ApplicationButton())
+            self.button_added = True
 
     # Commands
     @nextcord.slash_command(description="Create or manage Moderator Applications")
@@ -41,7 +46,12 @@ class Applications(commands.Cog):
     @application.subcommand(description='Accept an Application')
     async def accept(self, interaction: nextcord.Interaction):
         await applications.accept(interaction) # This func checks perms by itself
-    
+
+    @application.subcommand(description='Create a button that starts applications')
+    async def button(self, interaction: nextcord.Interaction,
+        info: Optional[str] = nextcord.SlashOption(description='Additional text for the resulting message', required=False, default='Click the button below to start an application.')):
+        await interaction.channel.send(f'## Start an Application\n{info}')
+        await interaction.send('Created Button!', ephemeral=True)
 
 def setup(bot):
     bot.add_cog(Applications(bot))
