@@ -14,9 +14,9 @@
 | Host      | Self            | Self          | Self         | Self    |
 | **Feature Set** |           |               |              |         |
 | New Discord API | Yes       | Yes           | Yes          | No      |
-| Reaction Roles | Yes        | Yes           | Todo         | ?       |
-| Tickets   | Yes             | No            | Todo         | [Yes](https://github.com/NeuroAssassin/Toxic-Cogs/tree/master/reacticket) |
-| Applications[¹](#1)| Yes    | No            | Todo         | No      |
+| Reaction Roles | Yes        | Yes           | No           | ?       |
+| Tickets   | Yes             | No            | Yes          | [Yes](https://github.com/NeuroAssassin/Toxic-Cogs/tree/master/reacticket) |
+| Applications[¹](#1)| Yes    | No            | Yes          | No      |
 | Polls     | No              | No            | Todo         | [Yes](https://github.com/flapjax/FlapJack-Cogs/tree/red-v3-rewrites/msgvote) |
 | Announce[²](#2)| Yes        | Yes           | Yes          | [Yes](https://github.com/Obi-Wan3/OB13-Cogs/tree/main/announcements) |
 | Giveaway  | Yes             | No            | Todo         | [Yes](https://github.com/flaree/flare-cogs/tree/master/giveaways) / [Yes](https://github.com/Redjumpman/Jumper-Plugins/tree/V3/raffle) |
