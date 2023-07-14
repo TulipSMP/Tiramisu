@@ -232,7 +232,8 @@ async def accept(interaction: nextcord.Interaction):
         creator = await get_applicant(thread)
         await interaction.send(f'**✅ Application Accepted!**')
         await thread.edit(name=f'{thread.name} [Closed]', archived=True, locked=True)
-        await creator.send(f'**Welcome to the {thread.guild.name} Staff Team**\nYour application, {thread.name} has been accepted!. You can view it here: {thread.mention}.')
+        await creator.send(f'**Welcome to the {thread.guild.name} Staff Team**\nYour application, {thread.name} has been accepted!. You can view it here: {thread.mention}.\n\
+Now that you\'re a moderator, you may want to read the moderator guide: <https://github.com/RoseSMP/.github/blob/main/Tiramisu/moderator-guide.md>')
         await creator.add_roles(staff_role)
         await moderation.modlog(interaction.guild, '✅ Application Accepted', interaction.user, creator, additional = {'Thread':thread.mention})
 
