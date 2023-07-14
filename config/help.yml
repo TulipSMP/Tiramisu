@@ -89,6 +89,7 @@ setting:
     - `ip_game`: The name of the game `/ip` is for
     - `application_channel`: the channel to create application private threads in
     - `application_questions`: A semicolon (`;`) separated list of questions to ask applicants. See the *Mod Applications* section for the default list of questions.
+    - `suggestions_channel`: The channel to post suggestions in. See the *Suggestions* help topic.
 
 
 utility:
@@ -182,3 +183,9 @@ applications:
     To close or reject an application, use the `/application close` slash command in the application thread.
     ## Accepting Applications
     To accept an application, administrators (See the *Admins* help topic) can use the `/application accept` slash command. This will close the thread, and give the applicant the `staff_role` you have set.
+
+suggestions:
+  name: suggestions
+  contents: |
+    # Suggestions
+    [[BOT]]'s suggestions system allows users to suggest and vote on ideas to be added to your server.

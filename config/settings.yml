@@ -20,6 +20,7 @@ settings:
   - 'no_points_channels'
   - 'application_channel'
   - 'application_questions'
+  - 'suggestions_channel'
 
 # Internal data that cannot be changed by the user.
 hidden:

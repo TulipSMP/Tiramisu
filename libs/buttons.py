@@ -7,7 +7,7 @@ import nextcord
 from nextcord.ext import menus, commands
 from logging42 import logger
 
-from libs import ticketing, applications
+from libs import ticketing, applications, suggestions
 
 class HelloButton(menus.ButtonMenu):
     def __init__(self):
@@ -75,3 +75,29 @@ class ApplicationActions(nextcord.ui.View):
     async def on_close(self, button, interaction: nextcord.Interaction):
         await applications.close(interaction)
         self.clear_items()
+
+class SuggestionButton(nextcord.ui.View):
+    def __init__(self):
+        """ Button to Create a Suggestion """
+        super().__init__(timeout=None)
+
+    @nextcord.ui.button(label='Suggest',emoji="✏️", custom_id='tiramisu:create_suggestion', style=nextcord.ButtonStyle.secondary)
+    async def on_create(self, button, interaction: nextcord.Interaction):
+        await suggestions.create(interaction)
+
+class SuggestionActions(nextcord.ui.View):
+    def __init__(self):
+        """ Actions that can be performed on a Suggestion """
+        super().__init__(timeout=None)
+    
+    @nextcord.ui.button(label='0', emoji='👍', custom_id='tiramisu:upvote_suggestion', style=nextcord.ButtonStyle.green)
+    async def on_upvote(self, button, interaction: nextcord.Interaction):
+        await suggestions.upvote(interaction, button)
+    
+    #@nextcord.ui.button(label='0', emoji='👎', custom_id='tiramisu:downvote_suggestion', style=nextcord.ButtonStyle.red)
+    #async def on_downvote(self, button, interaction):
+    #    await suggestions.downvote(interaction, button)
+    #
+    #@nextcord.ui.button(label='Accept', custom_id='tiramisu:accept_suggestion', style=nextcord.ButtonStyle.gray)
+    #async def on_accept(self, button, interaction):
+    #    await suggestions.accept(interaction, button, self)
