@@ -9,6 +9,7 @@ import nextcord
 from nextcord.ext import commands
 
 import yaml
+from typing import Optional
 
 from libs.database import Database
 from libs import utility, moderation, buttons
