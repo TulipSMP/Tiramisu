@@ -61,7 +61,7 @@ Actions available via right-clicking a message.
 
 Demo:
 
-![Warning a user for their message via context-menu](/src/context-menu-warn-message.webm)
+![Warning a user for their message via context-menu](/src/context-menu-warn-message.gif)
 
 #### Warn For Message
 
@@ -74,7 +74,7 @@ Actions available by right-clicking a user.
 
 Demo:
 
-![Warning user via context-menu](/src/context-menu-warn.webm)
+![Warning user via context-menu](/src/context-menu-warn.gif)
 
 #### Ban
 
