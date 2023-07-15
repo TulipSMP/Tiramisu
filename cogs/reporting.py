@@ -29,7 +29,8 @@ class Reporting(commands.Cog):
         pass
 
     @report.subcommand(description='Report a discord user to the moderators')
-    async def user(self, interaction: nextcord.Interaction, user: nextcord.Member,
+    async def user(self, interaction: nextcord.Interaction,
+        user: Optional[nextcord.Member] = nextcord.SlashOption(description='Who to Report', required=True),
         reason: Optional[str] = nextcord.SlashOption(description='Why are you reporting this user?', required=True),):
         db = Database(interaction.guild, reason='Slash command `/report user`')
         try:
