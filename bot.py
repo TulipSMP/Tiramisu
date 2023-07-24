@@ -5,10 +5,20 @@
 # Main Python File
 #
 
-from logging42 import logger
+try:
+    from logging42 import logger
 
-import nextcord
-from nextcord.ext import commands
+    import nextcord
+    from nextcord.ext import commands
+except ImportError:
+    print("Please install dependencies by running `pip install -r requirements.txt`")
+    print("Press y to install requirements automatically")
+    if input().lower() == 'y':
+        import subprocess
+        subprocess.run(['pip', 'install', '-r', 'requirements.txt'])
+    else:
+        print("Aborting")
+    exit(1)
 
 import os
 import sys

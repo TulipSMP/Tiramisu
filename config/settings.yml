@@ -20,8 +20,11 @@ settings:
   - 'no_points_channels'
   - 'application_channel'
   - 'application_questions'
+  - 'internal_ip' # Not for public. This is for the bot to connect to the backend Minecraft server, behind the proxy.
+  - 
 
 # Internal data that cannot be changed by the user.
 hidden:
   - 'ticket_int'
   - 'application_int'
+  - 'private_key'
