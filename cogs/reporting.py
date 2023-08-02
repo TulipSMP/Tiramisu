@@ -4,13 +4,15 @@
 # User Reports Commands
 # 
 from logging42 import logger
+
 import nextcord
 from nextcord.ext import commands
+
 import yaml
-from libs.database import Database
 from typing import Optional
 
-from libs import reports
+from libs.database import Database
+from libs import reports, moderation
 
 class Reporting(commands.Cog):
     def __init__(self, bot):
@@ -40,9 +42,7 @@ class Reporting(commands.Cog):
             if modlog_channel == None:
                 raise ValueError
             else:
-                await modlog_channel.send(f'**User Reported:**\nBy: {interaction.user.name}#{interaction.user.discriminator} (`{interaction.user.id}`)\
-\nReported User: {user.mention} ({user.name}#{user.discriminator}`{user.id}`)\nReason: {reason}')
-                logger.info('Successfully completed a warn action.')
+                await moderation.modlog(interaction.guild, '👤 User Reported', interaction.user, user, reason=reason)
                 await interaction.send(f'Successfully sent your report to the moderators! Thanks for speaking up.', ephemeral=True)
         except ValueError:
             await interaction.send('The moderators have not yet (or incorrectly) set up where to send reports!\nAsk them to set the `modlog_channel` setting to the ID of the channel where logs should be sent.', ephemeral=True)
