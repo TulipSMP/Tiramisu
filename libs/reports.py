@@ -36,7 +36,6 @@ async def bug(interaction: nextcord.Interaction):
 
 async def player(interaction: nextcord.Interaction):
     """ Handle a Player Report """
-    await interaction.response.defer()
     db = Database(interaction.guild, reason='libs.reports:player check if modlog is setup before report')
     try:
         channel = interaction.guild.get_channel(int(db.fetch('modlog_channel')))
