@@ -17,11 +17,6 @@ async def bug(interaction: nextcord.Interaction):
         if bugreports_channel == None:
             raise ValueError
         else:
-            #place: Optional[str] = nextcord.SlashOption(description='Where does this bug occur?', required=True),
-            #behavior: Optional[str] = nextcord.SlashOption(description='What happens when this bug occurs?', required=True),
-            #expected: Optional[str] = nextcord.SlashOption(description='What should happen instead of this bug?', required=True),
-            #reproduce: Optional[str] = nextcord.SlashOption(description='What do you have to do for this bug to happen?', required=True),
-            #extra: Optional[str] = nextcord.SlashOption(description='Other info that might be helpful to us in fixing this bug', required=False, default=None)):
             default = [
                 "Where does this bug occur?",
                 "What happens when this bug occurs?",
