@@ -32,3 +32,16 @@ async def bug(interaction: nextcord.Interaction):
             await interaction.response.send_modal(modals.BugReportModal(bugreports_channel, questions))
     except ValueError:
         await interaction.send('Bug reports are not set up on this server.\nAsk an administrator to set the `bugreports_channel` setting to a proper channel.', ephemeral=True)
+
+async def player(interaction: nextcord.Interaction):
+    await interaction.response.defer()
+    db = Database(interaction.guild, reason='libs.reports:player check if modlog is setup before report')
+    try:
+        channel = interaction.guild.get_channel(int(db.fetch('modlog_channel')))
+        if channel == None:
+            raise ValueError
+    except ValueError:
+        await interaction.send('The Modlog is not set up, so there is nowhere for me to send reports!\nAsk an administrator to set the `modlog_channel` setting to an appropriate channel.', ephemeral=True)
+        return
+    
+    await interaction.response.send_modal(modals.PlayerReportModal())
