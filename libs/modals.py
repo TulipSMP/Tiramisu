@@ -126,6 +126,6 @@ class BugReportModal(nextcord.ui.Modal):
         for i in range(len(self.questions) -1):
             question = self.questions[i]
             item = self.inputs[i]
-            msg += f'{question}: {item.value}'
+            msg += f'\n{question}: {item.value}'
         result = await self.channel.send(msg)
         await interaction.send(f'Report Complete! See {result.jump_url}')
