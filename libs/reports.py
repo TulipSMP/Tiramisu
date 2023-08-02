@@ -5,6 +5,8 @@
 # 
 from logging42 import logger
 
+import nextcord
+
 from libs.database import Database
 from libs import modals, buttons
 
