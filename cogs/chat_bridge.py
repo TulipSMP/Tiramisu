@@ -1,3 +1,10 @@
+# 
+# Tiramisu Discord Bot
+# --------------------
+# Chat Bridge
+# 
+from logging42 import logger
+
 import asyncio
 import json
 import nextcord
@@ -23,14 +30,14 @@ class ChatBridge(commands.Cog):
     async def start_websocket_server(self):
         async def broadcast_info(message, guild_id):
             if self.cfg['debug']:
-                print(f"Broadcasting to guild ID: {guild_id}, Message: {message}")
+                logger.success(f"Broadcasting to guild ID: {guild_id}, Message: {message}")
 
         async def handle_connection(websocket, path):
             try:
                 # Receive guild_id from the client
                 guild_id = await websocket.recv()
 
-                db = Database(guild_id)
+                db = Database(guild_id, reason='Chat Bridge, fetch settings')
                 ip_address = db.fetch('ip_address')
                 private_key = db.fetch('private_key')
 
@@ -64,15 +71,14 @@ class ChatBridge(commands.Cog):
                 pass
 
         server = await websockets.serve(handle_connection, "localhost", 8765)
-        print("WebSocket server started.")
+        logger.info("WebSocket server started.")
 
     # Events
     @commands.Cog.listener()
     async def on_ready(self):
         logger.info('Loaded cog chat_bridge.py!')
 
-    # Rest of your commands and functions...
 
 def setup(bot):
     bot.add_cog(ChatBridge(bot))
-    logger.debug('Setup cog "moderation"')
+    logger.debug('Setup cog "chat_bridge"')
