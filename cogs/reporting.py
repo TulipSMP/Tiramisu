@@ -48,7 +48,6 @@ class Reporting(commands.Cog):
             await interaction.send('The moderators have not yet (or incorrectly) set up where to send reports!\nAsk them to set the `modlog_channel` setting to the ID of the channel where logs should be sent.', ephemeral=True)
     
     @report.subcommand(description='Report a minecraft player to the moderators')
-
     async def player(self, interaction: nextcord.Interaction):
         await reports.player(interaction)
 
