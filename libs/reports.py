@@ -11,6 +11,7 @@ from libs.database import Database
 from libs import modals, buttons
 
 async def bug(interaction: nextcord.Interaction):
+    """ Handle a bug report """
     db = Database(interaction.guild, reason='Slash command `/report user`')
     try:
         bugreports_channel =  interaction.guild.get_channel(int(db.fetch('bugreports_channel')))
@@ -34,6 +35,7 @@ async def bug(interaction: nextcord.Interaction):
         await interaction.send('Bug reports are not set up on this server.\nAsk an administrator to set the `bugreports_channel` setting to a proper channel.', ephemeral=True)
 
 async def player(interaction: nextcord.Interaction):
+    """ Handle a Player Report """
     await interaction.response.defer()
     db = Database(interaction.guild, reason='libs.reports:player check if modlog is setup before report')
     try:
