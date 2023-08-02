@@ -18,7 +18,6 @@ main:
     - *Settings*: How to change settings for the bot, and what different settings do:
     - *Utilities*: Info on various utility commands
     - *Fun Commands*: Various entertainment  commands and what they do
-    - *
 
 welcome:
   name: Welcome Messages
