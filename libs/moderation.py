@@ -9,7 +9,7 @@ import nextcord
 from libs.database import Database
 from libs import utility
 
-async def modlog(guild: nextcord.Guild, subject: str, author: nextcord.User, recipient: nextcord.User, additional=None, reason='No reason specified.'):
+async def modlog(guild: nextcord.Guild, subject: str, author: nextcord.User, recipient: nextcord.User, additional=None, reason='No reason specified.', moderator: bool = True):
     """ Send a Message in the `modlog_channel` channel
     Parameters:
      - `guild`: nextcord.Guild, which guild this message is for
@@ -18,6 +18,7 @@ async def modlog(guild: nextcord.Guild, subject: str, author: nextcord.User, rec
      - `recipient`: nextcord.User, who the action was performed on
      - `additional`: optional dict, added fields for the message
      - `reason`: optional str, why this action was performed
+     - `moderator`: optional bool, default true, set to false if the author is not a moderator.
     Returns:
      - `str`: A message about whether this action was successful, to be put in the interaction response message """
     
@@ -30,7 +31,11 @@ async def modlog(guild: nextcord.Guild, subject: str, author: nextcord.User, rec
     except ValueError:
         return "*Failed to log action. Make sure the `modlog_channel` setting is set to an actual channel.*"
 
-    message = f'**{subject}:**\nModerator: __{author.display_name}__ || {author.name}, `{author.id}` ||\nUser: __{recipient.display_name}__ || {recipient.name}, `{recipient.id}` ||\nReason: __{reason}__'
+    if moderator:
+        author_title = 'Moderator'
+    else:
+        author_title = 'Author'
+    message = f'**{subject}:**\n{author_title}: __{author.display_name}__ || {author.name}, `{author.id}` ||\nUser: __{recipient.display_name}__ || {recipient.name}, `{recipient.id}` ||\nReason: __{reason}__'
 
     if additional != None and type(additional) == type(dict()):
         for key in additional:

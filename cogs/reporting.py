@@ -42,7 +42,7 @@ class Reporting(commands.Cog):
             if modlog_channel == None:
                 raise ValueError
             else:
-                await moderation.modlog(interaction.guild, '👤 User Reported', interaction.user, user, reason=reason)
+                await moderation.modlog(interaction.guild, '👤 User Reported', interaction.user, user, reason=reason, moderator=False)
                 await interaction.send(f'Successfully sent your report to the moderators! Thanks for speaking up.', ephemeral=True)
         except ValueError:
             await interaction.send('The moderators have not yet (or incorrectly) set up where to send reports!\nAsk them to set the `modlog_channel` setting to the ID of the channel where logs should be sent.', ephemeral=True)
