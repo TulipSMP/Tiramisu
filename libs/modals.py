@@ -98,7 +98,7 @@ class InputModal(nextcord.ui.Modal):
         await self.ext_callback(interaction, self.input.value)
 
 class BugReportModal(nextcord.ui.Modal):
-    def __init__(self, channel: nextcord.Channel, questions):
+    def __init__(self, channel: nextcord.TextChannel, questions):
         """ Modal for bug reports with configurable questions """
         super().__init__('Submit Bug Report')
         self.channel = channel
