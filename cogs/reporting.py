@@ -10,6 +10,8 @@ import yaml
 from libs.database import Database
 from typing import Optional
 
+from libs import reports
+
 class Reporting(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
@@ -63,28 +65,8 @@ class Reporting(commands.Cog):
             await interaction.send('Administrators have not yet (or incorrectly) set up where to send reports!\nAsk them to set the `modlog_channel` setting to the ID of the channel where logs should be sent.', ephemeral=True)
 
     @report.subcommand(description='Report a minecraft player to the moderators')
-    async def bug(self, interaction: nextcord.Interaction, 
-        place: Optional[str] = nextcord.SlashOption(description='Where does this bug occur?', required=True),
-        behavior: Optional[str] = nextcord.SlashOption(description='What happens when this bug occurs?', required=True),
-        expected: Optional[str] = nextcord.SlashOption(description='What should happen instead of this bug?', required=True),
-        reproduce: Optional[str] = nextcord.SlashOption(description='What do you have to do for this bug to happen?', required=True),
-        extra: Optional[str] = nextcord.SlashOption(description='Other info that might be helpful to us in fixing this bug', required=False, default=None)):
-        db = Database(interaction.guild, reason='Slash command `/report user`')
-        try:
-            bugreports_channel =  interaction.guild.get_channel(int(db.fetch('bugreports_channel')))
-            if bugreports_channel == None:
-                raise ValueError
-            else:
-                if extra != None:
-                    extra_info = f'\n**Extra Information:** {extra}'
-                else:
-                    extra_info = ''
-                await bugreports_channel.send(f'**Bug Report!** By: {interaction.user.mention}\
-\n**Place:** {place}\n**Bug:** {behavior}\n**What should happen:** {expected}\n**How to Reproduce:** {reproduce}{extra_info}')
-                logger.info('Successfully completed a bug report action.')
-                await interaction.send(f'Successfully sent your bug report in {bugreports_channel.mention}!', ephemeral=True)
-        except ValueError:
-            await interaction.send('The moderators have not yet (or incorrectly) set up where to send reports!\nAsk them to set the `bugreports_channel` setting to the ID of the channel where bug reports should be sent.', ephemeral=True)
+    async def bug(self, interaction: nextcord.Interaction):
+        await reports.bug(interaction)
 def setup(bot):
     bot.add_cog(Reporting(bot))
     logger.debug('Setup cog "reporting"')
