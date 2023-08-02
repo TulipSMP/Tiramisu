@@ -70,7 +70,7 @@ class ChatBridge(commands.Cog):
                 # Connection was closed cleanly
                 pass
 
-        server = await websockets.serve(handle_connection, "localhost", 8765)
+        server = await websockets.serve(handle_connection, self.cfg['bridge']['address'], self.cfg['bridge']['port'])
         logger.info("WebSocket server started.")
 
     # Events

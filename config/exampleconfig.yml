@@ -37,3 +37,8 @@ messages:
   noperm: '**🚫 No permission**'
   noperm_log: '[[user]] (ID: [[user_id]]) tried to run "[[command]]" but doesnt have permission!'
   error: '⚠️ **An Error Occured!** ``` [[error]] ``` Please report this to the devs.'
+
+# Config options for chat bridge
+bridge:
+  port: 8765 # Port to host the websocket server on
+  address: "localhost" # address to bind websocket server to
