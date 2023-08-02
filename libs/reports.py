@@ -34,6 +34,6 @@ async def bug(interaction: nextcord.Interaction):
                 questions = default
             else:
                 questions = questions.split(';')
-            await interaction.channel.send_modal(modals.BugReportModal(bugreports_channel, questions))
+            await interaction.response.send_modal(modals.BugReportModal(bugreports_channel, questions))
     except ValueError:
         await interaction.send('Bug reports are not set up on this server.\nAsk an administrator to set the `bugreports_channel` setting to a proper channel.', ephemeral=True)
