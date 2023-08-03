@@ -149,7 +149,7 @@ class PlayerReportModal(nextcord.ui.Modal):
             self.add_item(self.questions[question])
     
     async def callback(self, interaction: nextcord.Interaction):
-        await interaction.response.defer()
+        await interaction.response.defer(ephemeral=True)
         await moderation.modlog(interaction.guild, '🪨 Minecraft User Reported',
             interaction.user, interaction.user, additional={
                 "Username": self.questions["Username"].value,
