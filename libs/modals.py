@@ -152,7 +152,7 @@ class PlayerReportModal(nextcord.ui.Modal):
         await interaction.response.defer(ephemeral=True)
         await moderation.modlog(interaction.guild, '🪨 Minecraft User Reported',
             interaction.user, interaction.user, additional={
-                "Username": self.questions["Username"].value,
+                "Username": f'`{self.questions["Username"].value}`',
             },
             reason = self.questions["Reason for Report"].value, moderator=False)
         await interaction.send('Report sent!', ephemeral=True)
