@@ -18,7 +18,8 @@ async def modlog(guild: nextcord.Guild, subject: str, author: nextcord.User, rec
      - `recipient`: nextcord.User, who the action was performed on
      - `additional`: optional dict, added fields for the message
      - `reason`: optional str, why this action was performed
-     - `moderator`: optional bool, default true, set to false if the author is not a moderator.
+     - `moderator`: optional bool, default True, set to false if the author is not a moderator.
+     - `show_recipient`: optional bool, default True, whether to show the recipient ("User") field in the modlog message
     Returns:
      - `str`: A message about whether this action was successful, to be put in the interaction response message """
     
@@ -35,7 +36,12 @@ async def modlog(guild: nextcord.Guild, subject: str, author: nextcord.User, rec
         author_title = 'Moderator'
     else:
         author_title = 'Author'
-    message = f'**{subject}:**\n{author_title}: __{author.display_name}__ || {author.name}, `{author.id}` ||\nUser: __{recipient.display_name}__ || {recipient.name}, `{recipient.id}` ||\nReason: __{reason}__'
+    
+    if show_recipient:
+        recipient_display = f'\nUser: __{recipient.display_name}__ || {recipient.name}, `{recipient.id}` ||'
+    else:
+        recipient_display = ''
+    message = f'**{subject}:**\n{author_title}: __{author.display_name}__ || {author.name}, `{author.id}` ||{recipient_display}\nReason: __{reason}__'
 
     if additional != None and type(additional) == type(dict()):
         for key in additional:

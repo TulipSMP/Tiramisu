@@ -154,5 +154,5 @@ class PlayerReportModal(nextcord.ui.Modal):
             interaction.user, interaction.user, additional={
                 "Username": f'`{self.questions["Username"].value}`',
             },
-            reason = self.questions["Reason for Report"].value, moderator=False)
+            reason = self.questions["Reason for Report"].value, moderator=False, show_recipient=False)
         await interaction.send('Report sent!', ephemeral=True)
