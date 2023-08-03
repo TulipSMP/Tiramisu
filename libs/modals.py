@@ -96,3 +96,63 @@ class InputModal(nextcord.ui.Modal):
 
     async def callback(self, interaction: nextcord.Interaction):
         await self.ext_callback(interaction, self.input.value)
+
+class BugReportModal(nextcord.ui.Modal):
+    def __init__(self, channel: nextcord.TextChannel, questions):
+        """ Modal for bug reports with configurable questions """
+        super().__init__('Submit Bug Report')
+        self.channel = channel
+
+        self.inputs = []
+        self.questions = []
+        if len(questions) > 5:
+            questions = questions[:5]
+        for question in questions:
+            if len(question) > 45:
+                self.questions.append(f'{question[0:40]}...')
+            else:
+                self.questions.append(question)
+        
+        for question in self.questions:
+            item = nextcord.ui.TextInput(
+                label = question
+            )
+            self.add_item(item)
+            self.inputs.append(item)
+    
+    async def callback(self, interaction: nextcord.Interaction):
+        await interaction.response.defer()
+        msg = f'**Bug Report**\nBy: {interaction.user.mention}'
+        for i in range(len(self.questions) -1):
+            question = self.questions[i]
+            item = self.inputs[i]
+            msg += f'\n{question}: {item.value}'
+        result = await self.channel.send(msg)
+        await interaction.send(f'Report Complete! See {result.jump_url}')
+    
+class PlayerReportModal(nextcord.ui.Modal):
+    def __init__(self):
+        """ Modal for minecraft player reports """
+        super().__init__('Report Player')
+
+        self.questions = {}
+        questions = [
+            "Username",
+            "Reason for Report",
+        ]
+        for question in questions:
+            self.questions[question] = nextcord.ui.TextInput(
+                label = question,
+                min_length = 2,
+                max_length = 250
+            )
+            self.add_item(self.questions[question])
+    
+    async def callback(self, interaction: nextcord.Interaction):
+        await interaction.response.defer(ephemeral=True)
+        await moderation.modlog(interaction.guild, '🪨 Minecraft User Reported',
+            interaction.user, interaction.user, additional={
+                "Username": f'`{self.questions["Username"].value}`',
+            },
+            reason = self.questions["Reason for Report"].value, moderator=False, show_recipient=False)
+        await interaction.send('Report sent!', ephemeral=True)
