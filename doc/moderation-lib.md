@@ -21,6 +21,8 @@ Parameters:
 Returns:
 - `str`: A message about whether this action was successful, to be put in the interaction response message
 
+See the [Modlog Documentation](/doc/modlog.md) for more about the modlog.
+
 ### kick
 (async) Kick `user` and respond to `interaction`.
 
