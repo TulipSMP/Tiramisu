@@ -9,7 +9,7 @@ import nextcord
 from libs.database import Database
 from libs import utility
 
-async def modlog(guild: nextcord.Guild, subject: str, author: nextcord.User, recipient: nextcord.User, additional=None, reason='No reason specified.', moderator: bool = True):
+async def modlog(guild: nextcord.Guild, subject: str, author: nextcord.User, recipient: nextcord.User, additional=None, reason='No reason specified.', moderator: bool = True, show_recipient: bool = True):
     """ Send a Message in the `modlog_channel` channel
     Parameters:
      - `guild`: nextcord.Guild, which guild this message is for
