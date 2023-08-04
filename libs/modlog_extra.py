@@ -19,5 +19,5 @@ def setup(guild: nextcord.Guild):
 def db(db: Database, timestamp: int, uuid: str, action: str, moderator: str, recipient: str, reason: str, extra: str):
     """ Log action in DB 
         see table /docs/modlog.md for db column descriptions """
-    db.raw(f'INSERT INTO "modlog_{db.guild.id}" (timestamp, uuid, action, moderator, recipient, reason, extra) VALUES "{timestamp}" "{uuid}" "{action}" "{moderator}" "{recipient}" ? ?;',
-        (reason, extra,), fetch=False)
+    db.raw(f'INSERT INTO "modlog_{db.guild.id}" (timestamp, uuid, action, moderator, recipient, reason, extra) VALUES %(timestamp)s %(uuid)s %(action)s %(moderator)s %(recipient)s %(reason)s %(extra)s;',
+        {"timestamp": timestamp, "uuid": uuid, "action": action, "moderator":moderator, "recipient": recipient, "reason": reason, "extra": extra}, fetch=False)
