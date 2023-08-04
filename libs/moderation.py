@@ -61,7 +61,7 @@ async def modlog(guild: nextcord.Guild, subject: str, author: nextcord.User, rec
             author, # moderator
             recipient,
             reason,
-            additional # extra
+            json.dumps(additional) # extra
             )
         db.close()
 
