@@ -6,10 +6,15 @@
 from logging42 import logger
 import nextcord
 
-from libs.database import Database
-from libs import utility
+import json
+import uuid
+import time
 
-async def modlog(guild: nextcord.Guild, subject: str, author: nextcord.User, recipient: nextcord.User, additional=None, reason='No reason specified.', moderator: bool = True, show_recipient: bool = True):
+from libs.database import Database
+from libs import utility, modlog_extra
+
+async def modlog(guild: nextcord.Guild, subject: str, author: nextcord.User, recipient: nextcord.User, additional: dict = {}, 
+    reason='No reason specified.', moderator: bool = True, show_recipient: bool = True, action: str = None):
     """ Send a Message in the `modlog_channel` channel
     Parameters:
      - `guild`: nextcord.Guild, which guild this message is for
@@ -20,6 +25,7 @@ async def modlog(guild: nextcord.Guild, subject: str, author: nextcord.User, rec
      - `reason`: optional str, why this action was performed
      - `moderator`: optional bool, default True, set to false if the author is not a moderator.
      - `show_recipient`: optional bool, default True, whether to show the recipient ("User") field in the modlog message
+     - `action`: optional str, default None, if set the action is logged in the Database and this is used in the action column
     Returns:
      - `str`: A message about whether this action was successful, to be put in the interaction response message """
     
@@ -43,10 +49,22 @@ async def modlog(guild: nextcord.Guild, subject: str, author: nextcord.User, rec
         recipient_display = ''
     message = f'**{subject}:**\n{author_title}: __{author.display_name}__ || {author.name}, `{author.id}` ||{recipient_display}\nReason: __{reason}__'
 
-    if additional != None and type(additional) == type(dict()):
-        for key in additional:
-            message += f'\n{key}: __{additional[key]}__'
+
+    for key in additional:
+        message += f'\n{key}: __{additional[key]}__'
     
+    if action != None:
+        modlog_extra.db(db, 
+            int(round(time.time() * 1000)), # timestamp
+            str(uuid.uuid4()), # uuid
+            action, # action codename
+            author, # moderator
+            recipient,
+            reason,
+            additional # extra
+            )
+        db.close()
+
     try:
         await channel.send(message)
         return f"*Successfully logged action in {channel.mention}.*"
