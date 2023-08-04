@@ -97,7 +97,7 @@ async def kick(interaction: nextcord.Interaction, user, reason, dm=True):
         except:
             await interaction.send(f'Could not kick {user.name}!', ephemeral=True)
             return
-        logging_info = await modlog(interaction.guild, '👟 User Kicked', interaction.user, user, reason=reason)
+        logging_info = await modlog(interaction.guild, '👟 User Kicked', interaction.user, user, reason=reason, action='kick')
         await interaction.send(f'{user.mention} was successfully kicked from the server!\n{logging_info}', ephemeral=True)
     except Exception as e:
         await interaction.send(utility.error_unexpected(e, name='libs.moderation.kick'), ephemeral=True)
@@ -120,7 +120,7 @@ async def timeout(interaction: nextcord.Interaction, user: nextcord.Member, dura
         except nextcord.HTTPException:
             await interaction.send(f'Could not timeout {user.name}!', ephemeral=True)
             return
-        logging_info = await modlog(interaction.guild, '🛑 User Timeouted', interaction.user, user, reason=reason, additional={'Duration':f'{duration}'})
+        logging_info = await modlog(interaction.guild, '🛑 User Timeouted', interaction.user, user, reason=reason, additional={'Duration':f'{duration}'}, action='timeout')
         await interaction.send(f'{user.mention} was successfully timed out!\n{logging_info}', ephemeral=True)
     except Exception as e:
         await interaction.send(utility.error_unexpected(e, name='libs.moderation.timeout'), ephemeral=True)
@@ -154,7 +154,7 @@ async def ban(interaction: nextcord.Interaction, user: nextcord.Member, reason, 
         except nextcord.HTTPException:
             await interaction.send('Could not ban {user.name}!', ephemeral=True)
 
-        logging_info = await modlog(interaction.guild, '🚷 User Banned', interaction.user, user, reason=reason, additional={'DMed Reason':dm})
+        logging_info = await modlog(interaction.guild, '🚷 User Banned', interaction.user, user, reason=reason, additional={'DMed Reason':dm}, action='ban')
         await interaction.send(f'Banned {user.name} from this server!\n{logging_info}', ephemeral=True)
 
     except Exception as e:
@@ -188,7 +188,7 @@ async def warn(interaction: nextcord.Interaction, user: nextcord.Member, reason:
         if broadcast:
             await interaction.channel.send(f"{user.mention} has been warned for:\n>>> **{reason}**")
         
-        logging_info = await modlog(interaction.guild, '⚠️ User Warned', interaction.user, user, reason=reason, additional={'DMed':dm, 'Publicly Broadcast':broadcast})
+        logging_info = await modlog(interaction.guild, '⚠️ User Warned', interaction.user, user, reason=reason, additional={'DMed':dm, 'Publicly Broadcast':broadcast}, action='warn')
         await interaction.send(f'{user.mention} was successfully warned!\n{logging_info}', ephemeral=True)
 
     except Exception as e:
