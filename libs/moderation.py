@@ -14,7 +14,7 @@ from libs.database import Database
 from libs import utility, modlog_extra
 
 async def modlog(guild: nextcord.Guild, subject: str, author: nextcord.User, recipient: nextcord.User, additional: dict = {}, 
-    reason='No reason specified.', moderator: bool = True, show_recipient: bool = True, action: str = None):
+    reason: str = 'No reason specified.', moderator: bool = True, show_recipient: bool = True, action: str = None):
     """ Send a Message in the `modlog_channel` channel
     Parameters:
      - `guild`: nextcord.Guild, which guild this message is for
@@ -58,8 +58,8 @@ async def modlog(guild: nextcord.Guild, subject: str, author: nextcord.User, rec
             int(round(time.time() * 1000)), # timestamp
             str(uuid.uuid4()), # uuid
             action, # action codename
-            author.id, # moderator
-            recipient.id,
+            str(author.id), # moderator
+            str(recipient.id),
             reason,
             json.dumps(additional) # extra
             )
