@@ -244,7 +244,7 @@ class Database:
             elif fetchall and fetch:
                 return self.cursor.execute(command, *args, **kwargs).fetchall()
             else:
-                self.cursor.execute(command)
+                self.cursor.execute(command, *args, **kwargs)
                 return True
         except self.current_database.OperationalError as e:
             if not suppress_errors:
