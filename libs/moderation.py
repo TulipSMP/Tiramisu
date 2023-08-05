@@ -58,8 +58,8 @@ async def modlog(guild: nextcord.Guild, subject: str, author: nextcord.User, rec
             int(round(time.time() * 1000)), # timestamp
             str(uuid.uuid4()), # uuid
             action, # action codename
-            author, # moderator
-            recipient,
+            author.id, # moderator
+            recipient.id,
             reason,
             json.dumps(additional) # extra
             )
