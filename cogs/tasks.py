@@ -8,7 +8,7 @@ import nextcord
 from nextcord.ext import commands
 import yaml
 from libs.database import Database
-from libs import levelling
+from libs import levelling, modlog_extra
 
 class Tasks(commands.Cog):
     """ This cog is for tasks that must be run on various bot events """
@@ -31,6 +31,7 @@ class Tasks(commands.Cog):
             db.close()
 
             levelling.setup(guild)
+            modlog_extra.setup(guild)
 
         # Show the cool welcome messages
         with open('config/welcomescreen.yml', 'r') as ymlfile:
@@ -60,6 +61,10 @@ and use the `/setting` commands to change settings for the bot.\nTo learn more a
         db = Database(guild, reason = f'Deletion upon guild leave')
         db.delete()
         db.close()
+
+        levelling.delete(guild)
+        modlog_extra.remove(guild)
+
         logger.success(f'Removed tables for removed guild {guild.id}!')
 
     @commands.Cog.listener()
