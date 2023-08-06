@@ -21,3 +21,9 @@ def db(db: Database, timestamp: int, uuid: str, action: str, moderator: str, rec
         see table /docs/modlog.md for db column descriptions """
     db.raw(f'INSERT INTO "modlog_{db.guild.id}" (timestamp, uuid, action, moderator, recipient, reason, extra) VALUES ( ? , ? , ? , ? , ? , ? , ? );',
         (timestamp, uuid, action, moderator, recipient, reason, extra,), fetch=False)
+
+def remove(guild: nextcord.Guild):
+    """ Remove tables for Modlog """
+    db = Database(guild, reason=f'Modlog, remove tables for {guild.id}')
+    db.raw(f'DROP TABLE "modlog_{db.guild.id}";', fetch=False)
+    db.close()

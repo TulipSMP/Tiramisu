@@ -61,6 +61,10 @@ and use the `/setting` commands to change settings for the bot.\nTo learn more a
         db = Database(guild, reason = f'Deletion upon guild leave')
         db.delete()
         db.close()
+
+        levelling.delete(guild)
+        modlog_extra.remove(guild)
+
         logger.success(f'Removed tables for removed guild {guild.id}!')
 
     @commands.Cog.listener()
