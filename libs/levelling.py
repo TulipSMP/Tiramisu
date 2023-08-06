@@ -78,7 +78,7 @@ def get_leaderboard(guild: nextcord.Guild) -> dict:
     """ Get dictionary of user IDs and points, sorted by highest points. """
     db = Database(guild, reason='Levelling, get leaderboard')
 
-    top = db.raw(f'SELECT TOP 5 * FROM "levels_{db.guild.id}" ORDER BY points DESC;', fetchall=True)
+    top = db.raw(f'SELECT * FROM "levels_{db.guild.id}" ORDER BY points DESC LIMIT 5;', fetchall=True)
 
     top_dict = {}
     for user, points in top:
