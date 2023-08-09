@@ -230,7 +230,7 @@ class Database:
     
     # Send raw commands to Database
     @logger.catch
-    def raw(self, command, fetchall=True, fetchone=False, suppress_errors: bool = False, *args, **kwargs):
+    def raw(self, command, *args, fetchall=True, fetchone=False, suppress_errors: bool = False, fetch: bool = True, **kwargs):
         """ Send a raw SQL query to the SQL server 
         remember to use the correct table, admins_{self.guild.id} or settings_{self.guild.id}
         Options: fetchall - use `.fetchall()` method and return result (default True)
@@ -239,12 +239,12 @@ class Database:
         if self.cfg['storage'] == 'mysql':
             self.connect('raw')
         try:
-            if fetchone:
+            if fetchone and fetch:
                 return self.cursor.execute(command, *args, **kwargs).fetchone()
-            elif fetchall:
+            elif fetchall and fetch:
                 return self.cursor.execute(command, *args, **kwargs).fetchall()
             else:
-                self.cursor.execute(command)
+                self.cursor.execute(command, *args, **kwargs)
                 return True
         except self.current_database.OperationalError as e:
             if not suppress_errors:

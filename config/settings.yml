@@ -11,6 +11,7 @@ settings:
   - 'staff_role'
   - 'modlog_channel'
   - 'bugreports_channel'
+  - 'bugreports_questions'
   - 'ip_address'
   - 'ip_text'
   - 'ip_game'

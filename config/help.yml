@@ -18,7 +18,6 @@ main:
     - *Settings*: How to change settings for the bot, and what different settings do:
     - *Utilities*: Info on various utility commands
     - *Fun Commands*: Various entertainment  commands and what they do
-    - *
 
 welcome:
   name: Welcome Messages
@@ -84,6 +83,7 @@ setting:
     - `announcement_role`: The role to mention when pings are enabled in the `/announce` command
     - `staff_role`: The role for all staff members. Users with this role can perform moderation actions, and this role is given to users automatically when their application is accepted by an administrator.
     - `bugreports_channel`: The channel to post bug reports in from the `/report bug` command
+    - `bugreports_questions`: A semicolon (`;`) separated list of questions for the bug reports modal.
     - `ip_address`: the IP address to show in the `/ip` command
     - `ip_text`: An extended description for the `/ip` command
     - `ip_game`: The name of the game `/ip` is for
