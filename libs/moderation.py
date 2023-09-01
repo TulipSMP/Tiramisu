@@ -41,7 +41,7 @@ async def modlog(guild: nextcord.Guild, subject: str, author: nextcord.User, rec
         except ValueError:
             channel = None
     
-    if channel != None:
+    if channel == None:
         try:
             channel = guild.get_channel(int( db.fetch('modlog_channel')))
             if channel == None:
