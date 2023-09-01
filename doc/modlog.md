@@ -4,13 +4,13 @@ Tiramisu logs most moderation-related actions in the modlog.
 
 ## Database
 
-Most of the moderator-performed actions are sent to a DB.
+Most of the moderator-performed actions are logged in a table in the database, named `modlog_{guild.id}`.
 
-Here is a db example:
+This table contains a timestamp, uuid, action, moderator, the recipient of the action, the reason, and a json string of extra information, like so:
 
 timestamp | uuid | action | moderator | recipient | reason | extra
 ----------|------|--------|-----------|-----------|--------|----------
-032342433424| 888f89-897897f-897sd897f-001123 | kick | 897327483758943 | 834754365743| bad word smh | {"Evidence":"https://cdn.discordapp.com/43534564645645/546456546.webm"}
+032342433424| 888f89-897897f-897sd897f-001123 | kick | 897327483758943 | 834754365743 | bad word smh | {"Evidence":"https://cdn.discordapp.com/43534564645645/546456546.webm"}
 
 ### Values:
 
