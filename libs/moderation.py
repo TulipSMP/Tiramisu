@@ -14,7 +14,7 @@ from libs.database import Database
 from libs import utility, mod_database
 
 async def modlog(guild: nextcord.Guild, subject: str, author: nextcord.User, recipient: nextcord.User, additional: dict = {}, 
-    reason: str = 'No reason specified.', moderator: bool = True, show_recipient: bool = True, action: str = None):
+    reason: str = 'No reason specified.', moderator: bool = True, show_recipient: bool = True, action: str = None, ticket: bool = False):
     """ Send a Message in the `modlog_channel` channel
     Parameters:
      - `guild`: nextcord.Guild, which guild this message is for
@@ -26,17 +26,27 @@ async def modlog(guild: nextcord.Guild, subject: str, author: nextcord.User, rec
      - `moderator`: optional bool, default True, set to false if the author is not a moderator.
      - `show_recipient`: optional bool, default True, whether to show the recipient ("User") field in the modlog message
      - `action`: optional str, default None, if set the action is logged in the Database and this is used in the action column
+     - `ticket`: optional bool, default False, if the modlog action is a ticket. If it is, the message is sent in the `transcript_channel` channel instead, if it is set.
     Returns:
      - `str`: A message about whether this action was successful, to be put in the interaction response message """
     
     db = Database(guild, reason='Modlog, libs.moderation.modlog')
     
-    try:
-        channel = guild.get_channel(int( db.fetch('modlog_channel')))
-        if channel == None:
-            raise ValueError
-    except ValueError:
-        return "*Failed to log action. Make sure the `modlog_channel` setting is set to an actual channel.*"
+    if ticket:
+        try:
+            channel = guild.get_channel(int( db.fetch('transcript_channel') ))
+            if channel == None:
+                raise ValueError
+        except ValueError:
+            channel = None
+    
+    if channel != None:
+        try:
+            channel = guild.get_channel(int( db.fetch('modlog_channel')))
+            if channel == None:
+                raise ValueError
+        except ValueError:
+            return "*Failed to log action. Make sure the `modlog_channel` setting is set to an actual channel.*"
 
     if moderator:
         author_title = 'Moderator'

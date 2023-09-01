@@ -17,6 +17,7 @@ settings:
   - 'ip_game'
   - 'application_channel'
   - 'ticket_channel'
+  - 'transcript_channel'
   - 'log_channel'
   - 'no_points_channels'
   - 'application_channel'
