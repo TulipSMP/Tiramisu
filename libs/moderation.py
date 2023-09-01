@@ -11,7 +11,7 @@ import uuid
 import time
 
 from libs.database import Database
-from libs import utility, modlog_extra
+from libs import utility, mod_database
 
 async def modlog(guild: nextcord.Guild, subject: str, author: nextcord.User, recipient: nextcord.User, additional: dict = {}, 
     reason: str = 'No reason specified.', moderator: bool = True, show_recipient: bool = True, action: str = None):
@@ -29,7 +29,7 @@ async def modlog(guild: nextcord.Guild, subject: str, author: nextcord.User, rec
     Returns:
      - `str`: A message about whether this action was successful, to be put in the interaction response message """
     
-    db = Database(guild, reason='Fetching `modlog_channel` in libs.moderation.modlog')
+    db = Database(guild, reason='Modlog, libs.moderation.modlog')
     
     try:
         channel = guild.get_channel(int( db.fetch('modlog_channel')))
@@ -54,7 +54,7 @@ async def modlog(guild: nextcord.Guild, subject: str, author: nextcord.User, rec
         message += f'\n{key}: __{additional[key]}__'
     
     if action != None:
-        modlog_extra.db(db, 
+        mod_database.log(db, 
             int(round(time.time() * 1000)), # timestamp
             str(uuid.uuid4()), # uuid
             action, # action codename
