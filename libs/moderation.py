@@ -31,6 +31,7 @@ async def modlog(guild: nextcord.Guild, subject: str, author: nextcord.User, rec
      - `str`: A message about whether this action was successful, to be put in the interaction response message """
     
     db = Database(guild, reason='Modlog, libs.moderation.modlog')
+    channel = None
     
     if ticket:
         try:
