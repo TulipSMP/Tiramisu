@@ -5,6 +5,7 @@
 # 
 from logging42 import logger
 import nextcord
+from nextcord.utils import escape_markdown
 
 import json
 import uuid
@@ -55,10 +56,10 @@ async def modlog(guild: nextcord.Guild, subject: str, author: nextcord.User, rec
         author_title = 'Author'
     
     if show_recipient:
-        recipient_display = f'\nUser: __{recipient.display_name}__ || {recipient.name}, `{recipient.id}` ||'
+        recipient_display = f'\nUser: __{escape_markdown(recipient.display_name)}__ || {escape_markdown(recipient.name)}, `{recipient.id}` ||'
     else:
         recipient_display = ''
-    message = f'**{subject}:**\n{author_title}: __{author.display_name}__ || {author.name}, `{author.id}` ||{recipient_display}\nReason: __{reason}__'
+    message = f'**{subject}:**\n{author_title}: __{escape_markdown(author.display_name)}__ || {escape_markdown(author.name)}, `{author.id}` ||{recipient_display}\nReason: __{reason}__'
 
 
     for key in additional:
