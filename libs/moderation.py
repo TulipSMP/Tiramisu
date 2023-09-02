@@ -5,6 +5,7 @@
 # 
 from logging42 import logger
 import nextcord
+from nextcord.utils import escape_markdown
 
 import json
 import uuid
@@ -14,7 +15,7 @@ from libs.database import Database
 from libs import utility, mod_database
 
 async def modlog(guild: nextcord.Guild, subject: str, author: nextcord.User, recipient: nextcord.User, additional: dict = {}, 
-    reason: str = 'No reason specified.', moderator: bool = True, show_recipient: bool = True, action: str = None):
+    reason: str = 'No reason specified.', moderator: bool = True, show_recipient: bool = True, action: str = None, ticket: bool = False):
     """ Send a Message in the `modlog_channel` channel
     Parameters:
      - `guild`: nextcord.Guild, which guild this message is for
@@ -26,17 +27,29 @@ async def modlog(guild: nextcord.Guild, subject: str, author: nextcord.User, rec
      - `moderator`: optional bool, default True, set to false if the author is not a moderator.
      - `show_recipient`: optional bool, default True, whether to show the recipient ("User") field in the modlog message
      - `action`: optional str, default None, if set the action is logged in the Database and this is used in the action column
+     - `ticket`: optional bool, default False, if the modlog action is a ticket. If it is, the message is sent in the `transcript_channel` channel instead, if it is set.
+                    The reason is also not shown when `ticket` is enabled.
     Returns:
      - `str`: A message about whether this action was successful, to be put in the interaction response message """
     
     db = Database(guild, reason='Modlog, libs.moderation.modlog')
+    channel = None
     
-    try:
-        channel = guild.get_channel(int( db.fetch('modlog_channel')))
-        if channel == None:
-            raise ValueError
-    except ValueError:
-        return "*Failed to log action. Make sure the `modlog_channel` setting is set to an actual channel.*"
+    if ticket:
+        try:
+            channel = guild.get_channel(int( db.fetch('transcript_channel') ))
+            if channel == None:
+                raise ValueError
+        except ValueError:
+            channel = None
+    
+    if channel == None:
+        try:
+            channel = guild.get_channel(int( db.fetch('modlog_channel')))
+            if channel == None:
+                raise ValueError
+        except ValueError:
+            return "*Failed to log action. Make sure the `modlog_channel` setting is set to an actual channel.*"
 
     if moderator:
         author_title = 'Moderator'
@@ -44,14 +57,16 @@ async def modlog(guild: nextcord.Guild, subject: str, author: nextcord.User, rec
         author_title = 'Author'
     
     if show_recipient:
-        recipient_display = f'\nUser: __{recipient.display_name}__ || {recipient.name}, `{recipient.id}` ||'
+        recipient_display = f'\n**User:** {escape_markdown(recipient.display_name)} || {escape_markdown(recipient.name)}, `{recipient.id}` ||'
     else:
         recipient_display = ''
-    message = f'**{subject}:**\n{author_title}: __{author.display_name}__ || {author.name}, `{author.id}` ||{recipient_display}\nReason: __{reason}__'
+    message = f'## {subject}:\n**{author_title}:** {escape_markdown(author.display_name)} || {escape_markdown(author.name)}, `{author.id}` ||{recipient_display}'
+    if not ticket:
+        message += f'\n**Reason:** {reason}'
 
 
     for key in additional:
-        message += f'\n{key}: __{additional[key]}__'
+        message += f'\n**{key}:** {additional[key]}'
     
     if action != None:
         mod_database.log(db, 

@@ -148,6 +148,8 @@ tickets:
     You can also set up a button for people to press that will create a ticket. Use the `/ticket button` slash command to do this.
     ## Closing Tickets
     Any member of a ticket can close it, which is done by using the `/ticket close` slash command. This will close and lock the thread, alert moderators in the Modlog channel, and DM the ticket creator a link to the thread for future refrence.
+    ### Transcripts
+    You can optionally choose a different channel to send modlog messages regarding tickets in by setting the `transcript_channel` setting to the desired channel.
     
 levels:
   name: Levels
