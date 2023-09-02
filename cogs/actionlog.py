@@ -26,7 +26,7 @@ class ActionLog(commands.Cog):
     async def on_ready(self):
         logger.info('Loaded cog actionlog.py')
 
-    @command.Cog.listener()
+    @commands.Cog.listener()
     async def on_guild_audit_log_entry_create(entry: nextcord.AuditLogEntry):
         try:
             guild = entry.user.guild
