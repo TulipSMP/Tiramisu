@@ -28,6 +28,7 @@ async def modlog(guild: nextcord.Guild, subject: str, author: nextcord.User, rec
      - `show_recipient`: optional bool, default True, whether to show the recipient ("User") field in the modlog message
      - `action`: optional str, default None, if set the action is logged in the Database and this is used in the action column
      - `ticket`: optional bool, default False, if the modlog action is a ticket. If it is, the message is sent in the `transcript_channel` channel instead, if it is set.
+                    The reason is also not shown when `ticket` is enabled.
     Returns:
      - `str`: A message about whether this action was successful, to be put in the interaction response message """
     
@@ -59,7 +60,9 @@ async def modlog(guild: nextcord.Guild, subject: str, author: nextcord.User, rec
         recipient_display = f'\n**User:** {escape_markdown(recipient.display_name)} || {escape_markdown(recipient.name)}, `{recipient.id}` ||'
     else:
         recipient_display = ''
-    message = f'## {subject}:\n**{author_title}:** {escape_markdown(author.display_name)} || {escape_markdown(author.name)}, `{author.id}` ||{recipient_display}\n**Reason:** {reason}'
+    message = f'## {subject}:\n**{author_title}:** {escape_markdown(author.display_name)} || {escape_markdown(author.name)}, `{author.id}` ||{recipient_display}'
+    if not ticket:
+        message += f'\n**Reason:** {reason}'
 
 
     for key in additional:
