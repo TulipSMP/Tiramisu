@@ -14,7 +14,7 @@ import yaml
 from libs.database import Database
 from libs import utility, moderation
 
-class Hello(commands.Cog):
+class Test(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
     
@@ -34,5 +34,5 @@ class Hello(commands.Cog):
     #    logger.debug(f"Said hello to {interaction.user.name}.")
 
 def setup(bot):
-    bot.add_cog(Hello(bot))
-    logger.debug('Setup cog "hello"')
+    bot.add_cog(Test(bot))
+    #logger.debug('Setup cog "hello"')
