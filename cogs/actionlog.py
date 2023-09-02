@@ -43,7 +43,7 @@ class ActionLog(commands.Cog):
                     f'👟 User Kicked *',
                     entry.user,
                     entry.target,
-                    additional = {'*': asterisk}
+                    additional = {'*': asterisk},
                     reason = entry.reason,
                     action = 'kick'
                 )
@@ -53,7 +53,7 @@ class ActionLog(commands.Cog):
                     f'🚷 User Banned*',
                     entry.user,
                     entry.target,
-                    additional = {'*': asterisk}
+                    additional = {'*': asterisk},
                     reason = entry.reason,
                     action = 'kick'
                 )
@@ -63,7 +63,7 @@ class ActionLog(commands.Cog):
                     f'🔨 User Unbanned*',
                     entry.user,
                     entry.target,
-                    additional = {'*': asterisk}
+                    additional = {'*': asterisk},
                     reason = entry.reason,
                     action = 'unban'
                 )
