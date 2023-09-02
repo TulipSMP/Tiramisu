@@ -14,25 +14,64 @@ import yaml
 from libs.database import Database
 from libs import utility, moderation
 
-class Test(commands.Cog):
+class ActionLog(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
-    
-    #with open("config/config.yml", "r") as ymlfile:
-    #    cfg = yaml.load(ymlfile, Loader=yaml.FullLoader)
-    #TESTING_GUILD_ID=cfg["discord"]["testing_guild"]
+        
+        with open("config/config.yml", "r") as ymlfile:
+            self.cfg = yaml.load(ymlfile, Loader=yaml.FullLoader)
 
     # Events
-    #@commands.Cog.listener()
-    #async def on_ready(self):
-    #    logger.info('Loaded cog hello.py')
+    @commands.Cog.listener()
+    async def on_ready(self):
+        logger.info('Loaded cog actionlog.py')
 
-    # Commands
-    #@nextcord.slash_command(description="Hello!", guild_ids=[TESTING_GUILD_ID])
-    #async def hello(self, interaction: nextcord.Interaction):
-    #    await interaction.response.send_message(f"Hello {interaction.user.display_name}! I'm {self.bot.user.display_name}!")
-    #    logger.debug(f"Said hello to {interaction.user.name}.")
+    @command.Cog.listener()
+    async def on_guild_audit_log_entry_create(entry: nextcord.AuditLogEntry):
+        try:
+            guild = entry.user.guild
+            if guild == None:
+                raise AttributeError
+        except AttributeError:
+            return
+
+        asterisk = '*Not performed via Tiramisu*'
+        match type(entry.action):
+            case nextcord.AuditLogAction.kick:
+                moderation.modlog(
+                    guild,
+                    f'👟 User Kicked *',
+                    entry.user,
+                    entry.target,
+                    additional = {'*': asterisk}
+                    reason = entry.reason,
+                    action = 'kick'
+                )
+            case nextcord.AuditLogAction.ban:
+                moderation.modlog(
+                    guild,
+                    f'🚷 User Banned*',
+                    entry.user,
+                    entry.target,
+                    additional = {'*': asterisk}
+                    reason = entry.reason,
+                    action = 'kick'
+                )
+            case nextcord.AuditLogAction.unban:
+                moderation.modlog(
+                    guild,
+                    f'🔨 User Unbanned*',
+                    entry.user,
+                    entry.target,
+                    additional = {'*': asterisk}
+                    reason = entry.reason,
+                    action = 'unban'
+                )
+            # TODO: Action when user timed out.
+            case other:
+                pass
+
 
 def setup(bot):
-    bot.add_cog(Test(bot))
-    #logger.debug('Setup cog "hello"')
+    bot.add_cog(ActionLog(bot))
+    logger.debug('Setup cog "actionlog"')
