@@ -35,7 +35,8 @@ else:
 
 with open("config/config.yml", "r") as ymlfile:
     cfg = yaml.load(ymlfile, Loader=yaml.FullLoader)
-    logger.info(f'Successfully loaded config/config.yml: {cfg}')
+    cfg_obfuscated = cfg.replace(cfg["discord"]["token"], "[ AUTOMATICALLY REDACTED ]")
+    logger.info(f'Successfully loaded config/config.yml: {cfg_obfuscated}')
 
 TESTING_GUILD_ID=cfg["discord"]["testing_guild"]
 
