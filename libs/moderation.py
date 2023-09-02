@@ -56,14 +56,14 @@ async def modlog(guild: nextcord.Guild, subject: str, author: nextcord.User, rec
         author_title = 'Author'
     
     if show_recipient:
-        recipient_display = f'\nUser: __{escape_markdown(recipient.display_name)}__ || {escape_markdown(recipient.name)}, `{recipient.id}` ||'
+        recipient_display = f'\n**User:** {escape_markdown(recipient.display_name)} || {escape_markdown(recipient.name)}, `{recipient.id}` ||'
     else:
         recipient_display = ''
-    message = f'**{subject}:**\n{author_title}: __{escape_markdown(author.display_name)}__ || {escape_markdown(author.name)}, `{author.id}` ||{recipient_display}\nReason: __{reason}__'
+    message = f'## {subject}:\n**{author_title}:** {escape_markdown(author.display_name)} || {escape_markdown(author.name)}, `{author.id}` ||{recipient_display}\n**Reason:** {reason}'
 
 
     for key in additional:
-        message += f'\n{key}: __{additional[key]}__'
+        message += f'\n**{key}:** {additional[key]}'
     
     if action != None:
         mod_database.log(db, 
