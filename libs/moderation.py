@@ -6,6 +6,7 @@
 from logging42 import logger
 import nextcord
 from nextcord.utils import escape_markdown
+from typing import Union, List
 
 import json
 import uuid
@@ -14,14 +15,15 @@ import time
 from libs.database import Database
 from libs import utility, mod_database
 
-async def modlog(guild: nextcord.Guild, subject: str, author: nextcord.User, recipient: nextcord.User, additional: dict = {}, 
-    reason: str = 'No reason specified.', moderator: bool = True, show_recipient: bool = True, action: str = None, ticket: bool = False):
+async def modlog(guild: nextcord.Guild, subject: str, author: nextcord.User, recipient: Union[str, nextcord.User], additional: dict = {}, 
+    reason: str = 'No reason specified.', moderator: bool = True, show_recipient: bool = True, action: str = None, ticket: bool = False,
+    attachments: None = List[nextcord.File]):
     """ Send a Message in the `modlog_channel` channel
     Parameters:
      - `guild`: nextcord.Guild, which guild this message is for
      - `subject`: bold heading in messages
      - `author`: nextcord.User, who performed the action
-     - `recipient`: nextcord.User, who the action was performed on
+     - `recipient`: nextcord.User or str, who the action was performed on
      - `additional`: optional dict, added fields for the message
      - `reason`: optional str, why this action was performed
      - `moderator`: optional bool, default True, set to false if the author is not a moderator.
@@ -81,7 +83,7 @@ async def modlog(guild: nextcord.Guild, subject: str, author: nextcord.User, rec
         db.close()
 
     try:
-        await channel.send(message)
+        await channel.send(message, files = attachments)
         return f"*Successfully logged action in {channel.mention}.*"
     except nextcord.HTTPException:
         return f"*Failed to log action. I do not have permission to send messages in {channel.mention}*"
