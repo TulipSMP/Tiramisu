@@ -100,6 +100,48 @@ class Moderation(commands.Cog):
 
         else:
             await interaction.send(self.cfg['messages']['noperm'])
+    
+    @nextcord.slash_command()
+    async def log(self, interaction: nextcord.Interaction):
+        pass
+        # Setup for subcommands
+    
+    @log.subcommand(description='Log a punishment from outside of discord')
+    async def punishment(self, interaction: nextcord.Interaction, 
+        action: Optional[str] = nextcord.SlashOption(required=True, description='Type of punishment dealt',
+            choices = ['Warned', 'Muted', 'Kicked', 'Tempbanned', 'Banned', 'IP Muted', 'IP Tempbanned', 'IP Banned']),
+        username: Optional[str] = nextcord.SlashOption(required=True, description='The user who was punished'),
+        uuid: Optional[str] = nextcord.SlashOption(required=True, description='ID or UUID of the punished player'),
+        platform: Optional[str] = nextcord.SlashOption(required=True, description='Platform the user is on'),
+        reason: Optional[str] = nextcord.SlashOption(required=True, description='Reasoning for dealing punishment'),
+        duration: Optional[str] = nextcord.SlashOption(required=False, description='Duration of punishment (if temporary)'),
+        notes: Optional[str] = nextcord.SlashOption(required=False, description='Extra Information about the event'),
+        ticket: Optional[nextcord.TextChannel] = nextcord.SlashOption(required=False, description='Ticket channel with this incident'),
+        attachments: Optonal[nextcord.Attachment] = nextcord.SlashOption(required=False, description='Screenshots of evidence or other related information.')):
+        
+        db = Database(interaction.guild, reason='Moderation, log punishment')
+        if interaction.user in db.fetch('admins') or utility.is_mod(interaction.user, db):
+            if duration == None:
+                duration = 'Permanent'
+            additional = {
+                    'UUID': uuid,
+                    'Platform': platform,
+                    'Notes': notes,
+                    'Ticket': ticket.mention,
+                }
+
+            await moderation.modlog(
+                interaction.guild,
+                subject = f'🛠️ Externally {action} User',
+                author = interaction.user,
+                recipient = username,
+                reason = reason,
+                additional = additional,
+                # TODO: Attachments support
+                #attachments = attachments
+            )
+        else:
+            await interaction.send(self.cfg['messages']['noperm'])
 
 def setup(bot):
     bot.add_cog(Moderation(bot))
