@@ -117,7 +117,7 @@ class Moderation(commands.Cog):
         duration: Optional[str] = nextcord.SlashOption(required=False, description='Duration of punishment (if temporary)'),
         notes: Optional[str] = nextcord.SlashOption(required=False, description='Extra Information about the event'),
         ticket: Optional[nextcord.TextChannel] = nextcord.SlashOption(required=False, description='Ticket channel with this incident'),
-        attachments: Optonal[nextcord.Attachment] = nextcord.SlashOption(required=False, description='Screenshots of evidence or other related information.')):
+        attachments: Optional[nextcord.Attachment] = nextcord.SlashOption(required=False, description='Screenshots of evidence or other related information.')):
         
         db = Database(interaction.guild, reason='Moderation, log punishment')
         if interaction.user in db.fetch('admins') or utility.is_mod(interaction.user, db):
