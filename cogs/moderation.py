@@ -12,7 +12,7 @@ import datetime
 from libs.database import Database
 from libs import utility, moderation
 
-from typing import Optional
+from typing import Optional, List
 
 class Moderation(commands.Cog):
     def __init__(self, bot):
