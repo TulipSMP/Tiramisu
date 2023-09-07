@@ -127,10 +127,12 @@ class Moderation(commands.Cog):
                     'UUID': uuid,
                     'Platform': platform,
                     'Notes': notes,
-                    'Ticket': ticket.mention,
                 }
+            
+            if ticket != None:
+                additional['Ticket'] = ticket.mention
 
-            await moderation.modlog(
+            response = await moderation.modlog(
                 interaction.guild,
                 subject = f'🛠️ Externally {action} User',
                 author = interaction.user,
@@ -140,6 +142,8 @@ class Moderation(commands.Cog):
                 # TODO: Attachments support
                 #attachments = attachments
             )
+
+            await interaction.send(response)
         else:
             await interaction.send(self.cfg['messages']['noperm'])
 
