@@ -88,7 +88,7 @@ async def modlog(guild: nextcord.Guild, subject: str, author: nextcord.User, rec
         db.close()
 
     try:
-        await channel.send(message, files = attachments)
+        await channel.send(message)#, files = attachments)
         return f"*Successfully logged action in {channel.mention}.*"
     except nextcord.HTTPException:
         return f"*Failed to log action. I do not have permission to send messages in {channel.mention}*"
