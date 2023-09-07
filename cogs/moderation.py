@@ -121,6 +121,8 @@ class Moderation(commands.Cog):
         
         db = Database(interaction.guild, reason='Moderation, log punishment')
         if interaction.user in db.fetch('admins') or utility.is_mod(interaction.user, db):
+            await interaction.response.defer(ephemeral=True)
+
             if duration == None:
                 duration = 'Permanent'
             additional = {
@@ -143,7 +145,7 @@ class Moderation(commands.Cog):
                 #attachments = attachments
             )
 
-            await interaction.send(response)
+            await interaction.send(response, ephemeral=True)
         else:
             await interaction.send(self.cfg['messages']['noperm'])
 
