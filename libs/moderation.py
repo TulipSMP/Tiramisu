@@ -6,7 +6,7 @@
 from logging42 import logger
 import nextcord
 from nextcord.utils import escape_markdown
-from typing import Union, List
+from typing import Optional, Union, List
 
 import json
 import uuid
@@ -17,7 +17,7 @@ from libs import utility, mod_database
 
 async def modlog(guild: nextcord.Guild, subject: str, author: nextcord.User, recipient: Union[str, nextcord.User], additional: dict = {}, 
     reason: str = 'No reason specified.', moderator: bool = True, show_recipient: bool = True, action: str = None, ticket: bool = False,
-    attachments: None = List[nextcord.File]):
+    attachments: None = Optional[Union[nextcord.File, List[nextcord.File]]]):
     """ Send a Message in the `modlog_channel` channel
     Parameters:
      - `guild`: nextcord.Guild, which guild this message is for
