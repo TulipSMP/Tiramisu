@@ -58,6 +58,11 @@ async def modlog(guild: nextcord.Guild, subject: str, author: nextcord.User, rec
     else:
         author_title = 'Author'
     
+    if type(recipient) is str:
+        recipient_display = f'\n**User:** {escape_markdown(recipient)}'
+        if action != None:
+            logger.warning(f'`action` was passed to modlog when `recipient` was a str! Disabling.')
+            action = None
     if show_recipient:
         recipient_display = f'\n**User:** {escape_markdown(recipient.display_name)} || {escape_markdown(recipient.name)}, `{recipient.id}` ||'
     else:
@@ -69,7 +74,7 @@ async def modlog(guild: nextcord.Guild, subject: str, author: nextcord.User, rec
 
     for key in additional:
         message += f'\n**{key}:** {additional[key]}'
-    
+
     if action != None:
         mod_database.log(db, 
             int(round(time.time() * 1000)), # timestamp
