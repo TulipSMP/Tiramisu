@@ -105,8 +105,12 @@ async def modlog(guild: nextcord.Guild, subject: str, author: nextcord.User, rec
         return f"*Successfully logged action in {channel.mention}.*"
     except nextcord.HTTPException:
         return f"*Failed to log action. I do not have permission to send messages in {channel.mention}*"
-    except:
-        return f'*Failed to log action. Could not send message to {channel.mention}.*'
+    except BaseException as e:
+        if hasattr(e, 'message'):
+            extra = f'\n*{e}: {e.message}*'
+        else:
+            extra = f' *({e})*'
+        return f'*Failed to log action. Could not send message to {channel.mention}.*{extra}'
 
 
 async def kick(interaction: nextcord.Interaction, user, reason, dm=True):
