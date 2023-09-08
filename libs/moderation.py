@@ -98,6 +98,7 @@ async def modlog(guild: nextcord.Guild, subject: str, author: nextcord.User, rec
                     response += f': {e}: {e.message}*'
                 else:
                     response += f': {e}*'
+                return response
             await channel.send(message, attachment = file)
         else:    
             await channel.send(message)
