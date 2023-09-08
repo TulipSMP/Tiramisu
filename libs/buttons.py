@@ -76,13 +76,3 @@ class ApplicationActions(nextcord.ui.View):
         await applications.close(interaction)
         self.clear_items()
 
-class ModlogAttachmentButtons(nextcord.ui.View):
-    def __init__(self):
-        """ Buttons for adding/clearing attachments on a message in the modlog """
-        super().__init__(timeout=None)
-    
-    @nextcord.ui.button(label='Add Attachment', emoji='📸', custom_id='tiramisu:modlog_add_attachment', style=nextcord.ButtonStyle.primary)
-    async def on_add(self, button: nextcord.ui.Button, interaction: nextcord.Interaction):
-        # Add attachment
-        message = await interaction.original_message()
-        

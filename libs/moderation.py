@@ -17,7 +17,7 @@ from libs import utility, mod_database, buttons
 
 async def modlog(guild: nextcord.Guild, subject: str, author: nextcord.User, recipient: Union[str, nextcord.User], additional: dict = {}, 
     reason: str = 'No reason specified.', moderator: bool = True, show_recipient: bool = True, action: str = None, ticket: bool = False,
-    enable_attachments: bool = False):
+    attachment: Optional[nextcord.Attachment] = None):
     """ Send a Message in the `modlog_channel` channel
     Parameters:
      - `guild`: nextcord.Guild, which guild this message is for
@@ -31,7 +31,7 @@ async def modlog(guild: nextcord.Guild, subject: str, author: nextcord.User, rec
      - `action`: optional str, default None, if set the action is logged in the Database and this is used in the action column
      - `ticket`: optional bool, default False, if the modlog action is a ticket. If it is, the message is sent in the `transcript_channel` channel instead, if it is set.
                     The reason is also not shown when `ticket` is enabled.
-     - `enable_attachments`: optional bool, default False, whether to add the buttons that allow moderators to add/clear attachments.
+     - `attachment`: optional nextcord.Attachment, default None, an attachment to add
     Returns:
      - `str`: A message about whether this action was successful, to be put in the interaction response message """
     
@@ -89,9 +89,17 @@ async def modlog(guild: nextcord.Guild, subject: str, author: nextcord.User, rec
         db.close()
 
     try:
-        if enable_attachments:
-            await channel.send(message, view = buttons.ModlogAttachmentButtons())
-        else:
+        if attachment != None:
+            try:
+                file = nextcord.File(attachment.read())
+            except Exception as e:
+                response = '*Failed to log action. Could not process attachment'
+                if hasattr(e, 'message'):
+                    response += f': {e}: {e.message}*'
+                else:
+                    response += f': {e}*'
+            await channel.send(message, attachment = file)
+        else:    
             await channel.send(message)
 
         return f"*Successfully logged action in {channel.mention}.*"
