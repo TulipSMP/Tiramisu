@@ -13,11 +13,11 @@ import uuid
 import time
 
 from libs.database import Database
-from libs import utility, mod_database
+from libs import utility, mod_database, buttons
 
 async def modlog(guild: nextcord.Guild, subject: str, author: nextcord.User, recipient: Union[str, nextcord.User], additional: dict = {}, 
     reason: str = 'No reason specified.', moderator: bool = True, show_recipient: bool = True, action: str = None, ticket: bool = False,
-    attachments: None = Optional[Union[nextcord.File, List[nextcord.File]]]):
+    enable_attachments: bool = False):
     """ Send a Message in the `modlog_channel` channel
     Parameters:
      - `guild`: nextcord.Guild, which guild this message is for
@@ -31,6 +31,7 @@ async def modlog(guild: nextcord.Guild, subject: str, author: nextcord.User, rec
      - `action`: optional str, default None, if set the action is logged in the Database and this is used in the action column
      - `ticket`: optional bool, default False, if the modlog action is a ticket. If it is, the message is sent in the `transcript_channel` channel instead, if it is set.
                     The reason is also not shown when `ticket` is enabled.
+     - `enable_attachments`: optional bool, default False, whether to add the buttons that allow moderators to add/clear attachments.
     Returns:
      - `str`: A message about whether this action was successful, to be put in the interaction response message """
     
@@ -88,7 +89,11 @@ async def modlog(guild: nextcord.Guild, subject: str, author: nextcord.User, rec
         db.close()
 
     try:
-        await channel.send(message)#, files = attachments)
+        if enable_attachments:
+            await channel.send(message, view = buttons.ModlogAttachmentButtons())
+        else:
+            await channel.send(message)
+
         return f"*Successfully logged action in {channel.mention}.*"
     except nextcord.HTTPException:
         return f"*Failed to log action. I do not have permission to send messages in {channel.mention}*"
