@@ -91,7 +91,7 @@ async def modlog(guild: nextcord.Guild, subject: str, author: nextcord.User, rec
     try:
         if attachment != None:
             try:
-                file = nextcord.File(attachment.read())
+                file = nextcord.File(await attachment.read())
             except Exception as e:
                 response = '*Failed to log action. Could not process attachment'
                 if hasattr(e, 'message'):
