@@ -142,7 +142,7 @@ class Moderation(commands.Cog):
                 recipient = username,
                 reason = reason,
                 additional = additional,
-                attachment = attachment
+                attachment = [attachment]
             )
 
             await interaction.send(response, ephemeral=True)
