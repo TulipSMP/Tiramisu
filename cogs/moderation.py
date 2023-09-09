@@ -117,7 +117,11 @@ class Moderation(commands.Cog):
         duration: Optional[str] = nextcord.SlashOption(required=False, description='Duration of punishment (if temporary)'),
         notes: Optional[str] = nextcord.SlashOption(required=False, description='Extra Information about the event'),
         ticket: Optional[nextcord.TextChannel] = nextcord.SlashOption(required=False, description='Ticket channel with this incident'),
-        attachment: Optional[nextcord.Attachment] = nextcord.SlashOption(required=False, description='Upload a relevant image')):
+        attachment1: Optional[nextcord.Attachment] = nextcord.SlashOption(required=False, description='Upload a relevant image', default=None),
+        attachment2: Optional[nextcord.Attachment] = nextcord.SlashOption(required=False, description='Upload a relevant image', default=None),
+        attachment3: Optional[nextcord.Attachment] = nextcord.SlashOption(required=False, description='Upload a relevant image', default=None),
+        attachment4: Optional[nextcord.Attachment] = nextcord.SlashOption(required=False, description='Upload a relevant image', default=None),
+        attachment5: Optional[nextcord.Attachment] = nextcord.SlashOption(required=False, description='Upload a relevant image', default=None),):
         
         db = Database(interaction.guild, reason='Moderation, log punishment')
         if interaction.user in db.fetch('admins') or utility.is_mod(interaction.user, db):
@@ -142,7 +146,13 @@ class Moderation(commands.Cog):
                 recipient = username,
                 reason = reason,
                 additional = additional,
-                attachment = [attachment]
+                attachments = [
+                    attachment1,
+                    attachment2,
+                    attachment3,
+                    attachment4,
+                    attachment5
+                ]
             )
 
             await interaction.send(response, ephemeral=True)

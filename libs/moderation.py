@@ -18,7 +18,7 @@ from libs import utility, mod_database, buttons
 
 async def modlog(guild: nextcord.Guild, subject: str, author: nextcord.User, recipient: Union[str, nextcord.User], additional: dict = {}, 
     reason: str = 'No reason specified.', moderator: bool = True, show_recipient: bool = True, action: str = None, ticket: bool = False,
-    attachment: Optional[List[nextcord.Attachment]] = None):
+    attachments: Optional[List[nextcord.Attachment]] = None):
     """ Send a Message in the `modlog_channel` channel
     Parameters:
      - `guild`: nextcord.Guild, which guild this message is for
@@ -32,7 +32,7 @@ async def modlog(guild: nextcord.Guild, subject: str, author: nextcord.User, rec
      - `action`: optional str, default None, if set the action is logged in the Database and this is used in the action column
      - `ticket`: optional bool, default False, if the modlog action is a ticket. If it is, the message is sent in the `transcript_channel` channel instead, if it is set.
                     The reason is also not shown when `ticket` is enabled.
-     - `attachment`: optional List[nextcord.Attachment], default None, an attachment to add
+     - `attachments`: optional List[nextcord.Attachment], default None, an attachment to add
     Returns:
      - `str`: A message about whether this action was successful, to be put in the interaction response message """
     
@@ -94,24 +94,25 @@ async def modlog(guild: nextcord.Guild, subject: str, author: nextcord.User, rec
             file_list = []
             file_paths = []
             for attachment in attachments:
-                try:
-                    cachedir = f'./.cache/'
+                if attachment != None:
                     try:
-                        os.mkdir(cachedir)
-                    except FileExistsError:
-                        pass
-                    filepath = f'{cachedir}/{attachment.id}-{attachment.filename}'
-                    await attachment.save(filepath)
+                        cachedir = f'./.cache/'
+                        try:
+                            os.mkdir(cachedir)
+                        except FileExistsError:
+                            pass
+                        filepath = f'{cachedir}/{attachment.id}-{attachment.filename}'
+                        await attachment.save(filepath)
 
-                    file = nextcord.File(filepath, attachment.filename, 
-                        description=attachment.description, spoiler=attachment.is_spoiler())
-                except Exception as e:
-                    response = '*Failed to log action. Could not process attachment'
-                    if hasattr(e, 'message'):
-                        response += f': {e}: {e.message}*'
-                    else:
-                        response += f': {e}*'
-                    return response
+                        file = nextcord.File(filepath, attachment.filename, 
+                            description=attachment.description, spoiler=attachment.is_spoiler())
+                    except Exception as e:
+                        response = '*Failed to log action. Could not process attachment'
+                        if hasattr(e, 'message'):
+                            response += f': {e}: {e.message}*'
+                        else:
+                            response += f': {e}*'
+                        return response
                 
                 file_list.append(file_list)
                 file_paths.append(filepath)
