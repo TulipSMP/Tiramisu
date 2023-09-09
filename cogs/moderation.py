@@ -101,7 +101,7 @@ class Moderation(commands.Cog):
         else:
             await interaction.send(self.cfg['messages']['noperm'])
     
-    @nextcord.slash_command()
+    @nextcord.slash_command(description='Log a punishment from outside of discord')
     async def log(self, interaction: nextcord.Interaction):
         pass
         # Setup for subcommands
