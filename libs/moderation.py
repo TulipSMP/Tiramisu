@@ -95,8 +95,7 @@ async def modlog(guild: nextcord.Guild, subject: str, author: nextcord.User, rec
                 cachedir = f'./.cache/'
                 os.mkdir(cachedir)
                 filepath = f'{cachedir}/{attachment.id}-{attachment.filename}'
-                with open(filepath, 'w') as fp:
-                    await attachment.save(fp)
+                await attachment.save(filepath)
 
                 file = nextcord.File(filepath, attachment.filename, 
                     description=attachment.description, spoiler=attachment.is_spoiler())
@@ -107,7 +106,6 @@ async def modlog(guild: nextcord.Guild, subject: str, author: nextcord.User, rec
                 else:
                     response += f': {e}*'
                 return response
-
 
             await channel.send(message, attachment = file)
 
