@@ -93,7 +93,10 @@ async def modlog(guild: nextcord.Guild, subject: str, author: nextcord.User, rec
         if attachment != None:
             try:
                 cachedir = f'./.cache/'
-                os.mkdir(cachedir)
+                try:
+                    os.mkdir(cachedir)
+                except FileExistsError:
+                    pass
                 filepath = f'{cachedir}/{attachment.id}-{attachment.filename}'
                 await attachment.save(filepath)
 
@@ -108,7 +111,7 @@ async def modlog(guild: nextcord.Guild, subject: str, author: nextcord.User, rec
                 return response
 
             await channel.send(message, attachment = file)
-
+            
             os.remove(filepath)
         else:    
             await channel.send(message)
