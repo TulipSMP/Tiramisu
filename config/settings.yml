@@ -16,7 +16,6 @@ settings:
   - 'ip_address'
   - 'ip_text'
   - 'ip_game'
-  - 'application_channel'
   - 'ticket_channel'
   - 'transcript_channel'
   - 'log_channel'
