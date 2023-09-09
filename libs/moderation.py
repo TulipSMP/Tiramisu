@@ -18,7 +18,7 @@ from libs import utility, mod_database, buttons
 
 async def modlog(guild: nextcord.Guild, subject: str, author: nextcord.User, recipient: Union[str, nextcord.User], additional: dict = {}, 
     reason: str = 'No reason specified.', moderator: bool = True, show_recipient: bool = True, action: str = None, ticket: bool = False,
-    attachments: Optional[List[nextcord.Attachment]] = None):
+    attachments: Optional[List[nextcord.Attachment]] = None, manual_log: bool = False):
     """ Send a Message in the `modlog_channel` channel
     Parameters:
      - `guild`: nextcord.Guild, which guild this message is for
@@ -33,6 +33,7 @@ async def modlog(guild: nextcord.Guild, subject: str, author: nextcord.User, rec
      - `ticket`: optional bool, default False, if the modlog action is a ticket. If it is, the message is sent in the `transcript_channel` channel instead, if it is set.
                     The reason is also not shown when `ticket` is enabled.
      - `attachments`: optional List[nextcord.Attachment], default None, an attachment to add
+     - `manual_log`: optional bool, default False, if modlog message was manually submitted (so it can be put in `manual_modlog_channel` if set)
     Returns:
      - `str`: A message about whether this action was successful, to be put in the interaction response message """
     
@@ -42,6 +43,14 @@ async def modlog(guild: nextcord.Guild, subject: str, author: nextcord.User, rec
     if ticket:
         try:
             channel = guild.get_channel(int( db.fetch('transcript_channel') ))
+            if channel == None:
+                raise ValueError
+        except ValueError:
+            channel = None
+    
+    if manual_log:
+        try:
+            channel = guild.get_channel(int( db.fetch('manual_modlog_channel') ))
             if channel == None:
                 raise ValueError
         except ValueError:

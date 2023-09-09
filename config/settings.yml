@@ -10,6 +10,7 @@ settings:
   - 'announcement_role'
   - 'staff_role'
   - 'modlog_channel'
+  - 'manual_modlog_channel'
   - 'bugreports_channel'
   - 'bugreports_questions'
   - 'ip_address'

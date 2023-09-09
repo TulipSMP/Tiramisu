@@ -152,7 +152,8 @@ class Moderation(commands.Cog):
                     attachment3,
                     attachment4,
                     attachment5
-                ]
+                ],
+                manual_log = True
             )
 
             await interaction.send(response, ephemeral=True)
