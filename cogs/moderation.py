@@ -116,7 +116,7 @@ class Moderation(commands.Cog):
         reason: Optional[str] = nextcord.SlashOption(required=True, description='Reasoning for dealing punishment'),
         duration: Optional[str] = nextcord.SlashOption(required=False, description='Duration of punishment (if temporary)'),
         notes: Optional[str] = nextcord.SlashOption(required=False, description='Extra Information about the event'),
-        ticket: Optional[nextcord.TextChannel] = nextcord.SlashOption(required=False, description='Ticket channel with this incident'),
+        ticket: Optional[nextcord.Thread] = nextcord.SlashOption(required=False, description='Ticket channel with this incident'),
         attachment1: Optional[nextcord.Attachment] = nextcord.SlashOption(required=False, description='Upload a relevant image', default=None),
         attachment2: Optional[nextcord.Attachment] = nextcord.SlashOption(required=False, description='Upload a relevant image', default=None),
         attachment3: Optional[nextcord.Attachment] = nextcord.SlashOption(required=False, description='Upload a relevant image', default=None),
