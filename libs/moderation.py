@@ -125,7 +125,7 @@ async def modlog(guild: nextcord.Guild, subject: str, author: nextcord.User, rec
             await channel.send(message)
 
         return f"*Successfully logged action in {channel.mention}.*"
-    except nextcord.HTTPException:
+    except nextcord.Forbidden:
         return f"*Failed to log action. I do not have permission to send messages in {channel.mention}*"
     except BaseException as e:
         if hasattr(e, 'message'):
