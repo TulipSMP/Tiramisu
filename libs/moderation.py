@@ -110,7 +110,7 @@ async def modlog(guild: nextcord.Guild, subject: str, author: nextcord.User, rec
                     response += f': {e}*'
                 return response
 
-            await channel.send(message, attachment = file)
+            await channel.send(message, files=[file])
             
             os.remove(filepath)
         else:    
