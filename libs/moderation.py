@@ -11,6 +11,7 @@ from typing import Optional, Union, List
 import json
 import uuid
 import time
+import os
 
 from libs.database import Database
 from libs import utility, mod_database, buttons
@@ -91,7 +92,13 @@ async def modlog(guild: nextcord.Guild, subject: str, author: nextcord.User, rec
     try:
         if attachment != None:
             try:
-                file = nextcord.File(await attachment.read(), attachment.filename, 
+                cachedir = f'./.cache/'
+                os.mkdir(cachedir)
+                filepath = f'{cachedir}/{attachment.id}-{attachment.filename}'
+                with open(filepath, 'w') as fp:
+                    await attachment.save(fp)
+
+                file = nextcord.File(filepath, attachment.filename, 
                     description=attachment.description, spoiler=attachment.is_spoiler())
             except Exception as e:
                 response = '*Failed to log action. Could not process attachment'
@@ -100,7 +107,11 @@ async def modlog(guild: nextcord.Guild, subject: str, author: nextcord.User, rec
                 else:
                     response += f': {e}*'
                 return response
+
+
             await channel.send(message, attachment = file)
+
+            os.remove(filepath)
         else:    
             await channel.send(message)
 
