@@ -114,7 +114,7 @@ async def modlog(guild: nextcord.Guild, subject: str, author: nextcord.User, rec
                             response += f': {e}*'
                         return response
                 
-                file_list.append(file_list)
+                file_list.append(file)
                 file_paths.append(filepath)
 
             await channel.send(message, files=file_list)
