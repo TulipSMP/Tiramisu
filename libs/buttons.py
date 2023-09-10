@@ -75,3 +75,4 @@ class ApplicationActions(nextcord.ui.View):
     async def on_close(self, button, interaction: nextcord.Interaction):
         await applications.close(interaction)
         self.clear_items()
+

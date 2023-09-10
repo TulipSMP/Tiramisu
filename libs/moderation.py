@@ -6,22 +6,25 @@
 from logging42 import logger
 import nextcord
 from nextcord.utils import escape_markdown
+from typing import Optional, Union, List
 
 import json
 import uuid
 import time
+import os
 
 from libs.database import Database
-from libs import utility, mod_database
+from libs import utility, mod_database, buttons
 
-async def modlog(guild: nextcord.Guild, subject: str, author: nextcord.User, recipient: nextcord.User, additional: dict = {}, 
-    reason: str = 'No reason specified.', moderator: bool = True, show_recipient: bool = True, action: str = None, ticket: bool = False):
+async def modlog(guild: nextcord.Guild, subject: str, author: nextcord.User, recipient: Union[str, nextcord.User], additional: dict = {}, 
+    reason: str = 'No reason specified.', moderator: bool = True, show_recipient: bool = True, action: str = None, ticket: bool = False,
+    attachments: Optional[List[nextcord.Attachment]] = None, manual_log: bool = False):
     """ Send a Message in the `modlog_channel` channel
     Parameters:
      - `guild`: nextcord.Guild, which guild this message is for
      - `subject`: bold heading in messages
      - `author`: nextcord.User, who performed the action
-     - `recipient`: nextcord.User, who the action was performed on
+     - `recipient`: nextcord.User or str, who the action was performed on
      - `additional`: optional dict, added fields for the message
      - `reason`: optional str, why this action was performed
      - `moderator`: optional bool, default True, set to false if the author is not a moderator.
@@ -29,6 +32,8 @@ async def modlog(guild: nextcord.Guild, subject: str, author: nextcord.User, rec
      - `action`: optional str, default None, if set the action is logged in the Database and this is used in the action column
      - `ticket`: optional bool, default False, if the modlog action is a ticket. If it is, the message is sent in the `transcript_channel` channel instead, if it is set.
                     The reason is also not shown when `ticket` is enabled.
+     - `attachments`: optional List[nextcord.Attachment], default None, an attachment to add
+     - `manual_log`: optional bool, default False, if modlog message was manually submitted (so it can be put in `manual_modlog_channel` if set)
     Returns:
      - `str`: A message about whether this action was successful, to be put in the interaction response message """
     
@@ -38,6 +43,14 @@ async def modlog(guild: nextcord.Guild, subject: str, author: nextcord.User, rec
     if ticket:
         try:
             channel = guild.get_channel(int( db.fetch('transcript_channel') ))
+            if channel == None:
+                raise ValueError
+        except ValueError:
+            channel = None
+    
+    if manual_log:
+        try:
+            channel = guild.get_channel(int( db.fetch('manual_modlog_channel') ))
             if channel == None:
                 raise ValueError
         except ValueError:
@@ -56,7 +69,12 @@ async def modlog(guild: nextcord.Guild, subject: str, author: nextcord.User, rec
     else:
         author_title = 'Author'
     
-    if show_recipient:
+    if type(recipient) is str:
+        recipient_display = f'\n**User:** {escape_markdown(recipient)}'
+        if action != None:
+            logger.warning(f'`action` was passed to modlog when `recipient` was a str! Disabling.')
+            action = None
+    elif show_recipient:
         recipient_display = f'\n**User:** {escape_markdown(recipient.display_name)} || {escape_markdown(recipient.name)}, `{recipient.id}` ||'
     else:
         recipient_display = ''
@@ -67,7 +85,7 @@ async def modlog(guild: nextcord.Guild, subject: str, author: nextcord.User, rec
 
     for key in additional:
         message += f'\n**{key}:** {additional[key]}'
-    
+
     if action != None:
         mod_database.log(db, 
             int(round(time.time() * 1000)), # timestamp
@@ -81,12 +99,49 @@ async def modlog(guild: nextcord.Guild, subject: str, author: nextcord.User, rec
         db.close()
 
     try:
-        await channel.send(message)
+        if attachments != None:
+            file_list = []
+            file_paths = []
+            for attachment in attachments:
+                if attachment != None:
+                    try:
+                        cachedir = f'./.cache/'
+                        try:
+                            os.mkdir(cachedir)
+                        except FileExistsError:
+                            pass
+                        filepath = f'{cachedir}/{attachment.id}-{attachment.filename}'
+                        await attachment.save(filepath)
+
+                        file = nextcord.File(filepath, attachment.filename, 
+                            description=attachment.description, spoiler=attachment.is_spoiler())
+                    except Exception as e:
+                        response = '*Failed to log action. Could not process attachment'
+                        if hasattr(e, 'message'):
+                            response += f': {e}: {e.message}*'
+                        else:
+                            response += f': {e}*'
+                        return response
+                
+                    file_list.append(file)
+                    file_paths.append(filepath)
+
+            await channel.send(message, files=file_list)
+            
+            for path in file_paths:
+                os.remove(path)
+        else:    
+            await channel.send(message)
+
         return f"*Successfully logged action in {channel.mention}.*"
-    except nextcord.HTTPException:
+    except nextcord.Forbidden:
         return f"*Failed to log action. I do not have permission to send messages in {channel.mention}*"
-    except:
-        return f'*Failed to log action. Could not send message to {channel.mention}.*'
+    except BaseException as e:
+        if hasattr(e, 'message'):
+            extra = f'\n*{e}: {e.message}*'
+        else:
+            extra = f' *({e})*'
+        return f'*Failed to log action. Could not send message to {channel.mention}.*{extra}'
 
 
 async def kick(interaction: nextcord.Interaction, user, reason, dm=True):
