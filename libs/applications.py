@@ -230,7 +230,7 @@ async def accept(interaction: nextcord.Interaction):
 
         creator = await get_applicant(thread)
         await interaction.send(f'**✅ Application Accepted!**')
-        await thread.edit(name=f'{thread.name} [Closed]', archived=True, locked=True)
+        await thread.edit(name=f'{thread.name} [Accepted]', archived=True, locked=True)
         if mod_role != None:
             try:
                 await creator.add_roles(mod_role)
