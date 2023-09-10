@@ -22,6 +22,7 @@ settings:
   - 'no_points_channels'
   - 'application_channel'
   - 'application_questions'
+  - 'new_mod_role'
 
 # Internal data that cannot be changed by the user.
 hidden:
