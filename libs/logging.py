@@ -115,6 +115,7 @@ class ChangeVoice(LoggingEvent):
             action = 'Turned __ON__ Camera in'
             use = after
         else:
+            action = 'Null'
             self.void = True # Its some other change we don't want to report
         
         super().__init__(

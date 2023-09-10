@@ -10,17 +10,19 @@ settings:
   - 'announcement_role'
   - 'staff_role'
   - 'modlog_channel'
+  - 'manual_modlog_channel'
   - 'bugreports_channel'
   - 'bugreports_questions'
   - 'ip_address'
   - 'ip_text'
   - 'ip_game'
-  - 'application_channel'
   - 'ticket_channel'
+  - 'transcript_channel'
   - 'log_channel'
   - 'no_points_channels'
   - 'application_channel'
   - 'application_questions'
+  - 'new_mod_role'
 
 # Internal data that cannot be changed by the user.
 hidden:

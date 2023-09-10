@@ -17,7 +17,11 @@ main:
     - *Admins*: How to manage [[BOT]] administrators
     - *Settings*: How to change settings for the bot, and what different settings do:
     - *Utilities*: Info on various utility commands
-    - *Fun Commands*: Various entertainment  commands and what they do
+    - *Fun Commands*: Various entertainment commands and what they do
+    - *Permissions*: How [[BOT]] permissions work
+    - *Ticket System*: How to set up and use the ticketing system
+    - *Levels*: How to set up or disable the levelling system
+    - *Mod Applications*: How to set up and use the mod applications system
 
 welcome:
   name: Welcome Messages
@@ -81,15 +85,21 @@ setting:
     - `system_channel`: The channel to show join/leave messages in
     - `announcement_channel`: The channel to put announcements from the `/announce` command in
     - `announcement_role`: The role to mention when pings are enabled in the `/announce` command
+    - `modlog_channel`: Channel to put modlog messages in
+    - `manual_modlog_channel`: Channel to put modlog messages in when submitted manually (i.e. via `/log punishment`). If not set uses `modlog_channel`
     - `staff_role`: The role for all staff members. Users with this role can perform moderation actions, and this role is given to users automatically when their application is accepted by an administrator.
     - `bugreports_channel`: The channel to post bug reports in from the `/report bug` command
     - `bugreports_questions`: A semicolon (`;`) separated list of questions for the bug reports modal.
     - `ip_address`: the IP address to show in the `/ip` command
     - `ip_text`: An extended description for the `/ip` command
     - `ip_game`: The name of the game `/ip` is for
+    - `ticket_channel`: Channel to make tickets in
+    - `transcript_channel`: Channel to post ticket closed messages in (uses `modlog_channel` by default)
+    - `log_channel`: Channel to log message edits, deletions, vc movements, and other user actions in
+    - 'no_points_channels'
     - `application_channel`: the channel to create application private threads in
     - `application_questions`: A semicolon (`;`) separated list of questions to ask applicants. See the *Mod Applications* section for the default list of questions.
-
+    - `new_mod_role`: Role to give new moderators, See the *Mod Applications* help topic
 
 utility:
   name: Utilities
@@ -148,6 +158,8 @@ tickets:
     You can also set up a button for people to press that will create a ticket. Use the `/ticket button` slash command to do this.
     ## Closing Tickets
     Any member of a ticket can close it, which is done by using the `/ticket close` slash command. This will close and lock the thread, alert moderators in the Modlog channel, and DM the ticket creator a link to the thread for future refrence.
+    ### Transcripts
+    You can optionally choose a different channel to send modlog messages regarding tickets in by setting the `transcript_channel` setting to the desired channel.
     
 levels:
   name: Levels
@@ -181,4 +193,4 @@ applications:
     ## Rejecting Applications
     To close or reject an application, use the `/application close` slash command in the application thread.
     ## Accepting Applications
-    To accept an application, administrators (See the *Admins* help topic) can use the `/application accept` slash command. This will close the thread, and give the applicant the `staff_role` you have set.
+    To accept an application, administrators (See the *Admins* help topic) can use the `/application accept` slash command. This will close the thread, DM the user that they have been accepted, and give the applicant the `new_mod_role` if set.

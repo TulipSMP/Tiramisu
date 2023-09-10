@@ -35,7 +35,7 @@ class Admin(commands.Cog):
     @admin.subcommand(description="Add an administrator")
     async def add(self, interaction: nextcord.Interaction, user: Optional[nextcord.Member] = nextcord.SlashOption(description='Who to grant administrative privileges to', required=True)):
         db = Database(interaction.guild, reason='Slash command `/admin add`')
-        if interaction.user.id == interaction.guild.owner_id or interaction.user.id in db.fetch('admins'):
+        if interaction.user.id == interaction.guild.owner_id or interaction.user.id in db.fetch('admins') or interaction.user.guild_permissions.administrator:
             admins = db.fetch('admins')
             try:
                 if user.id in admins:
@@ -56,7 +56,7 @@ class Admin(commands.Cog):
         mention_admins: Optional[bool] = nextcord.SlashOption(description='Whether or not to ping admins in the returned message', required=False, default=False,
             choices={'Yes':True, 'No':False})):
         db = Database(interaction.guild, reason='Slash command `/admin list`')
-        if interaction.user.id == interaction.guild.owner_id or interaction.user.id in db.fetch('admins'):
+        if interaction.user.id == interaction.guild.owner_id or interaction.user.id in db.fetch('admins')  or interaction.user.guild_permissions.administrator:
             msg = f'**Registered Administrators:**\n'
             try:
                 msg_admins = ''
@@ -100,7 +100,7 @@ class Admin(commands.Cog):
             required=True), mention_user: Optional[bool] = nextcord.SlashOption(
             description='Whether or not to ping the former admin in the resulting message', required=False, default=False, choices={'Yes':True, 'No':False})):
         db = Database(interaction.guild, reason='Slash command `/admin rm`')
-        if interaction.user.id == interaction.guild.owner_id or interaction.user.id in db.fetch('admins'):
+        if interaction.user.id == interaction.guild.owner_id or interaction.user.id in db.fetch('admins')  or interaction.user.guild_permissions.administrator:
             admins = db.fetch('admins')
             if mention_user:
                 show_user = user.mention

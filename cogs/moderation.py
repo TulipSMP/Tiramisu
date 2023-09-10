@@ -12,7 +12,7 @@ import datetime
 from libs.database import Database
 from libs import utility, moderation
 
-from typing import Optional
+from typing import Optional, List
 
 class Moderation(commands.Cog):
     def __init__(self, bot):
@@ -98,6 +98,65 @@ class Moderation(commands.Cog):
             
             await  moderation.ban(interaction, user, reason, dm=dm, delete_msgs=delete_message_days)
 
+        else:
+            await interaction.send(self.cfg['messages']['noperm'])
+    
+    @nextcord.slash_command(description='Log a punishment from outside of discord')
+    async def log(self, interaction: nextcord.Interaction):
+        pass
+        # Setup for subcommands
+    
+    @log.subcommand(description='Log a punishment from outside of discord')
+    async def punishment(self, interaction: nextcord.Interaction, 
+        action: Optional[str] = nextcord.SlashOption(required=True, description='Type of punishment dealt',
+            choices = ['Warned', 'Muted', 'Kicked', 'Tempbanned', 'Banned', 'IP Muted', 'IP Tempbanned', 'IP Banned']),
+        username: Optional[str] = nextcord.SlashOption(required=True, description='The user who was punished'),
+        uuid: Optional[str] = nextcord.SlashOption(required=True, description='ID or UUID of the punished player'),
+        platform: Optional[str] = nextcord.SlashOption(required=True, description='Platform the user is on'),
+        reason: Optional[str] = nextcord.SlashOption(required=True, description='Reasoning for dealing punishment'),
+        duration: Optional[str] = nextcord.SlashOption(required=False, description='Duration of punishment (if temporary)'),
+        notes: Optional[str] = nextcord.SlashOption(required=False, description='Extra Information about the event'),
+        ticket: Optional[nextcord.Thread] = nextcord.SlashOption(required=False, description='Ticket channel with this incident'),
+        attachment1: Optional[nextcord.Attachment] = nextcord.SlashOption(required=False, description='Upload a relevant image', default=None),
+        attachment2: Optional[nextcord.Attachment] = nextcord.SlashOption(required=False, description='Upload a relevant image', default=None),
+        attachment3: Optional[nextcord.Attachment] = nextcord.SlashOption(required=False, description='Upload a relevant image', default=None),
+        attachment4: Optional[nextcord.Attachment] = nextcord.SlashOption(required=False, description='Upload a relevant image', default=None),
+        attachment5: Optional[nextcord.Attachment] = nextcord.SlashOption(required=False, description='Upload a relevant image', default=None),):
+        
+        db = Database(interaction.guild, reason='Moderation, log punishment')
+        if interaction.user in db.fetch('admins') or utility.is_mod(interaction.user, db):
+            await interaction.response.defer(ephemeral=True)
+
+            if duration == None:
+                duration = 'Permanent'
+            additional = {
+                    'UUID': uuid,
+                    'Duration': duration,
+                    'Platform': platform,
+                    'Notes': notes,
+                }
+            
+            if ticket != None:
+                additional['Ticket'] = ticket.mention
+
+            response = await moderation.modlog(
+                interaction.guild,
+                subject = f'🛠️ Externally {action} User',
+                author = interaction.user,
+                recipient = username,
+                reason = reason,
+                additional = additional,
+                attachments = [
+                    attachment1,
+                    attachment2,
+                    attachment3,
+                    attachment4,
+                    attachment5
+                ],
+                manual_log = True
+            )
+
+            await interaction.send(response, ephemeral=True)
         else:
             await interaction.send(self.cfg['messages']['noperm'])
 
