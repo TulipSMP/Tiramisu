@@ -99,6 +99,7 @@ setting:
     - 'no_points_channels'
     - `application_channel`: the channel to create application private threads in
     - `application_questions`: A semicolon (`;`) separated list of questions to ask applicants. See the *Mod Applications* section for the default list of questions.
+    - `new_mod_role`: Role to give new moderators, See the *Mod Applications* help topic
 
 utility:
   name: Utilities
