@@ -193,4 +193,4 @@ applications:
     ## Rejecting Applications
     To close or reject an application, use the `/application close` slash command in the application thread.
     ## Accepting Applications
-    To accept an application, administrators (See the *Admins* help topic) can use the `/application accept` slash command. This will close the thread, and give the applicant the `new_mod_role` you have set.
+    To accept an application, administrators (See the *Admins* help topic) can use the `/application accept` slash command. This will close the thread, and give the applicant the `new_mod_role` if set.
