@@ -22,6 +22,8 @@ def get_ext_list():
     for filename in os.listdir('./ext'):
         if filename.endswith('.py') and filename not in cfg['cog_dontload']:
             extensions.append(filename.removesuffix('.py'))
+    
+    return extensions
 
 def get_settings(extensions: List[str]):
     """ Fetch a list of settings added by given extensions (by name) """
