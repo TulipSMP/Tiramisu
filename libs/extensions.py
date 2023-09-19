@@ -50,3 +50,8 @@ def get_settings_hidden(extensions: List[str]):
             continue
     
     return settings_hidden
+
+def get_all_settings():
+    """ Fetch a list of all settings added by extensions """
+    exts = get_ext_list()
+    return get_settings(exts) + get_settings_hidden(exts)
