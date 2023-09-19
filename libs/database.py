@@ -8,6 +8,8 @@ import yaml
 import itertools
 import sys
 
+from typing import List
+
 class Database:
     """ Fetch & Write information to/from from Database """
     def __init__(self, guild, reason='No Reason Specified'):
@@ -83,7 +85,7 @@ class Database:
     
     # Verify Databases
     @logger.catch
-    def verify(self, custom=None, check_others=True, check_settings=True):
+    def verify(self, custom=None, check_others=True, check_settings=True, extra_settings: List[str] = []):
         """ Verify admins_* and settings_* table, or custom tables, for a certain guild """
         if self.cfg['storage'] == 'mysql':
             self.connect('verify')
@@ -123,7 +125,7 @@ class Database:
             settings_existing = list(itertools.chain(*settings_existing))
             # Check what settings are missing
             settings_missing = []
-            for setting in settings['settings'] + settings['hidden']:
+            for setting in settings['settings'] + settings['hidden'] + extra_settings:
                 if setting in settings_existing:
                     pass
                 else:
