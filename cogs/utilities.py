@@ -12,7 +12,6 @@ import yaml
 from typing import Optional
 
 from libs.database import Database
-from libs import extensions
 
 class Utilities(commands.Cog):
     def __init__(self, bot):
