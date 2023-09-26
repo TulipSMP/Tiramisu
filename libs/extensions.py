@@ -61,4 +61,4 @@ def get_all_settings():
 def get_all_shown_settings():
     """ Fetch a list of all settings added by extensions that the user can edit """
 
-    return get_settings(get_ext_list)
+    return get_settings(get_ext_list())
