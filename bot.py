@@ -18,7 +18,7 @@ import shutil
 from typing import Optional
 
 from libs.database import Database
-from libs import utility
+from libs import utility, extensions
 
 # Ensure Config exists:
 if os.path.exists('config/config.yml'):
@@ -145,6 +145,12 @@ for filename in os.listdir('./cogs'):
     loaded_cogs.append(f'{filename[:-3]}')
 logger.info(f'Loaded Cogs: {loaded_cogs}')
 
+# Load Extensions
+loaded_exts = []
+for ext in extensions.get_ext_list():
+    bot.load_extension(f'ext.{ext}')
+    loaded_exts.append(ext)
+logger.info(f'Loaded Extensions: {loaded_exts}')
 
 # Run the Bot
 bot.run(bot_token)
