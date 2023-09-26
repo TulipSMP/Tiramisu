@@ -12,7 +12,7 @@ from nextcord.ext import commands
 from typing import Optional
 
 from libs.database import Database
-from libs import utility
+from libs import utility, extensions
 
 
 class Settings(commands.Cog):
@@ -27,7 +27,7 @@ class Settings(commands.Cog):
 
     with open("config/settings.yml", "r") as settings_yml:
         settings_raw = yaml.load(settings_yml, Loader=yaml.FullLoader)
-        SETTINGS = settings_raw['settings']
+        SETTINGS = settings_raw['settings'] + extensions.get_settings()
 
     # Events
     @commands.Cog.listener()
@@ -44,7 +44,7 @@ class Settings(commands.Cog):
         setting: Optional[str] = nextcord.SlashOption(description='Which setting to view. Use "all" to get a list of available options.', required=True, choices=SETTINGS + ['all'])):
         db = Database(interaction.guild, reason='Slash command `/setting get`')
         if interaction.user.id in db.fetch('admins'):
-            if setting in self.settings['settings']:
+            if setting in self.settings['settings'] + extensions.get_settings():
                 value = db.fetch(setting)
                 try:
                     if self.bot.get_channel(int(value)) != None:
@@ -63,7 +63,7 @@ class Settings(commands.Cog):
                 message = f'Setting **{setting}** is currently set to __{value}__'
             elif setting == 'all':
                 message = f'**Available settings:**\n'
-                for entry in self.settings['settings']:
+                for entry in self.settings['settings'] + extensions.get_settings():
                     message += f'• `{entry}`\n'
             else:
                 message = 'No such setting. Use `all` to get a list of all available settings'
