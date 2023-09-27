@@ -21,5 +21,8 @@ cogs/custom_*.py
 # Files marked to not sync
 *nosync*
 
+# Extensions
+ext/*.py
+
 # Caching
 .cache/

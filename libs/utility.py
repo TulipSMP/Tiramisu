@@ -10,6 +10,8 @@ import yaml
 import shutil
 import sys
 
+from libs import extensions
+
 
 def error_unexpected(error, name='unknown file'):
     """ Returns Appropriate Error Message for sending to user.
@@ -66,7 +68,7 @@ def valid_setting(guild: nextcord.Guild, setting: str, value):
      - `message`: a message to inform the user about what happened, if an error took place. Otherwise, it's an empty string."""
     with open('config/settings.yml', 'r') as file:
         settings_yml = yaml.load(file, Loader=yaml.FullLoader)
-    if setting in settings_yml['settings']:
+    if setting in settings_yml['settings'] + extensions.get_all_settings():
         try:
             type_name = 'Channel, Role, or User'
 
