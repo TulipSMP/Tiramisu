@@ -45,7 +45,7 @@ class DeletedMessage(LoggingEvent):
             message.author,
             extra = {
                 "Channel":message.channel.mention,
-                "Content":nextcord.utils.escape_markdown(message.content).replace('\n', '⮒'),
+                "Content":nextcord.utils.nextcord.utils.escape_markdown(message.clean_content).replace('\n', '⮒'),
                 "Attachments":attachments
             }
             )
