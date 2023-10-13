@@ -80,6 +80,7 @@ class Settings(commands.Cog):
             setting = setting.strip()
             if setting not in self.settings['settings']:
                 valid = False
+                response = 'That is not a valid setting. Use `/setting get:all` to see all available settings.'
             else:
                 valid, new_value, response = utility.valid_setting(interaction.guild, setting, value)
 
