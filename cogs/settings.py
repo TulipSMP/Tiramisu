@@ -78,7 +78,7 @@ class Settings(commands.Cog):
         db = Database(interaction.guild, reason='Slash command `/setting set`')
         if interaction.user.id in db.fetch('admins'):
             setting = setting.strip()
-            if setting not in SETTINGS:
+            if setting not in self.settings['settings']:
                 valid = False
             else:
                 valid, new_value, response = utility.valid_setting(interaction.guild, setting, value)
