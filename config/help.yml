@@ -93,6 +93,7 @@ setting:
     - `ip_address`: the IP address to show in the `/ip` command
     - `ip_text`: An extended description for the `/ip` command
     - `ip_game`: The name of the game `/ip` is for
+    - `ip_answer_channels`: A list of channels in which the bot should respond with IP information when people ask things like "What's the IP?" or "How do I join the SMP?".
     - `ticket_channel`: Channel to make tickets in
     - `transcript_channel`: Channel to post ticket closed messages in (uses `modlog_channel` by default)
     - `log_channel`: Channel to log message edits, deletions, vc movements, and other user actions in

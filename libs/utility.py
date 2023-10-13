@@ -10,7 +10,7 @@ import yaml
 import shutil
 import sys
 
-from libs import extensions
+from libs import extensions, database
 
 
 def error_unexpected(error, name='unknown file'):
@@ -182,3 +182,16 @@ def verify_config(repair: Optional[bool] = True):
         sys.exit()
         
     
+def ip_message(db: database.Database)  -> str:
+    ip = db.fetch('ip_address')
+    text = db.fetch('ip_text')
+    game = db.fetch('ip_game')
+    warn = ''
+    if ip == 'none':
+        warn += '\n*Ask the admins to change the setting `ip_address`*'
+    if text == 'none':
+        text = ''
+        warn += '\n*Ask the admins to change the setting `ip_text` to show a description.*'
+    if game == 'none':
+        warn += '\n*Ask the admins to change the setting `ip_game` to which game their server is for.*'
+    return f'**{game.title()} Server IP:** `{ip}`\n{text}{warn}'
