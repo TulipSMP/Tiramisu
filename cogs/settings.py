@@ -79,6 +79,11 @@ class Settings(commands.Cog):
                     # https://stackoverflow.com/a/312464/
                     for i in range(0, len(all_settings), n):
                         pagination.append(all_settings[i:i + n])
+                    
+                    if page > len(pagination):
+                        page = len(pagination)
+                    elif page <= 0:
+                        page = 1
                     show_settings = pagination[page - 1]
                     
                     page_note = '\n'
