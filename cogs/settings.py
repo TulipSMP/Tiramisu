@@ -61,9 +61,36 @@ class Settings(commands.Cog):
                 except ValueError:
                     pass
                 message = f'Setting **{setting}** is currently set to __{value}__'
-            elif setting == 'all':
+            elif setting.startswith('all'):
                 message = f'**Available settings:**\n'
-                for entry in self.settings['settings'] + extensions.get_all_shown_settings():
+                if setting.strip() == 'all':
+                    page = 1
+                else:
+                    try:
+                        page = int(setting.split(':')[-1])
+                    except ValueError:
+                        page = 1
+                
+                all_settings = self.settings['settings'] + extensions.get_all_shown_settings()
+                
+                if len(all_settings) > 15:
+                    pagination = []
+                    n = 10 # Settings per page
+                    # https://stackoverflow.com/a/312464/
+                    for i in range(0, len(all_settings), n):
+                        pagination.append(all_settings[i:i + n])
+                    show_settings = pagination[page - 1]
+                    
+                    page_note = '\n'
+                    if page > 1:
+                        page_note += f'**←** `all:{page - 1}` | '
+                    page_note += f'*Page {page} of {len(pagination)} | `all:{page + 1}` **→**'
+
+                else:
+                    show_settings = all_settings
+                    page_note = ''
+
+                for entry in show_settings:
                     message += f'• `{entry}`\n'
             else:
                 message = 'No such setting. Use `all` to get a list of all available settings'
