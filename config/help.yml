@@ -79,7 +79,7 @@ setting:
     When setting an channel or role, always @mention or #mention the role or channel. You can also use the ID if preferred.
     The second part of the setting after the underscore tells you what kind of input it needs.
     ## Checking Settings
-    You can check what different settings are currently set to with the `/setting get` command. You can also use `/setting get setting:all` to get a list of all available settings.
+    You can check what different settings are currently set to with the `/setting get` command. __You can also use `/setting get setting:all` to get a list of all available settings.__
     ## Available Settings
     Below is a list of some of the available settings and what they do:
     - `system_channel`: The channel to show join/leave messages in
