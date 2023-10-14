@@ -79,7 +79,7 @@ setting:
     When setting an channel or role, always @mention or #mention the role or channel. You can also use the ID if preferred.
     The second part of the setting after the underscore tells you what kind of input it needs.
     ## Checking Settings
-    You can check what different settings are currently set to with the `/setting get` command. You can also use `/setting get setting:all` to get a list of all available settings.
+    You can check what different settings are currently set to with the `/setting get` command. __You can also use `/setting get setting:all` to get a list of all available settings.__
     ## Available Settings
     Below is a list of some of the available settings and what they do:
     - `system_channel`: The channel to show join/leave messages in
@@ -93,6 +93,7 @@ setting:
     - `ip_address`: the IP address to show in the `/ip` command
     - `ip_text`: An extended description for the `/ip` command
     - `ip_game`: The name of the game `/ip` is for
+    - `ip_answer_channels`: A list of channels in which the bot should respond with IP information when people ask things like "What's the IP?" or "How do I join the SMP?".
     - `ticket_channel`: Channel to make tickets in
     - `transcript_channel`: Channel to post ticket closed messages in (uses `modlog_channel` by default)
     - `log_channel`: Channel to log message edits, deletions, vc movements, and other user actions in

@@ -43,3 +43,12 @@ Returns a Tuple:
 - `bool`: whether the value is acceptable
 - `value`: the value as it should be sent to the database, None if it is unacceptable
 - `message`: a message to inform the user about what happened, if an error took place. Otherwise, it's an empty string.
+
+### ip_message
+Creates the message for the `/ip` command and auto-reply feature.
+
+Parameters:
+- `db`: a `libs.database.Database` connection to fetch settings with
+
+Returns:
+- `str`: the text of the message that should be sent.
