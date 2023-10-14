@@ -21,7 +21,7 @@ class Utilities(commands.Cog):
         with open("config/config.yml", "r") as ymlfile:
             self.cfg = yaml.load(ymlfile, Loader=yaml.FullLoader)
         
-        ip_regex = '(?i)[Ww]hat.+[Ii][Pp]|[Hh]ow.+[Jj]oin|to.+[Jj]oin|[Ss]erver.+[Aa]ddress|[Ii]nto.+[SMPsmp]'
+        ip_regex = '(?i)what.+ip|how.+join|to.+join|server.+address|into.+smp'
         self.ip_regex = re.compile(ip_regex)
     
 
@@ -35,7 +35,7 @@ class Utilities(commands.Cog):
         """ Auto-Reply to people asking for the IP if specified. See `ip_answer_channels` in config/help.yml """
         if not message.author.bot and message.guild != None:
             db = Database(message.guild, reason='Utilites/IP Regex')
-            if str(message.channel.id) in db.fetch('ip_answer_channels') and self.ip_regex.match(message.content) != None:
+            if str(message.channel.id) in db.fetch('ip_answer_channels') and self.ip_regex.search(message.content) != None:
                 await message.reply(utility.ip_message(db))
 
     # Commands
