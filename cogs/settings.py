@@ -89,7 +89,9 @@ class Settings(commands.Cog):
                     page_note = '\n'
                     if page > 1:
                         page_note += f'**←** `all:{page - 1}` | '
-                    page_note += f'*Page {page} of {len(pagination)}* | `all:{page + 1}` **→**'
+                    page_note += f'*Page {page} of {len(pagination)}*'
+                    if page < len(pagination):
+                        page_note += f' | `all:{page + 1}` **→**'
 
                 else:
                     show_settings = all_settings
