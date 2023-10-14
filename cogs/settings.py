@@ -92,6 +92,7 @@ class Settings(commands.Cog):
 
                 for entry in show_settings:
                     message += f'• `{entry}`\n'
+                message += page_note
             else:
                 message = 'No such setting. Use `all` to get a list of all available settings'
             await interaction.send(message)
