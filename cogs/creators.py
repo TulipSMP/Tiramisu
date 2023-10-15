@@ -30,9 +30,7 @@ class Creators(commands.Cog):
     async def on_ready(self):
         logger.info('Loaded cog creators.py')
         if self.guilds == None:
-            self.guilds = []
-            for guild in self.bot.fetch_guilds(limit=None).flatten():
-                self.guilds.append(guild)
+            self.guilds = await self.bot.fetch_guilds(limit=None).flatten()
         if not self.poller_running:
             logger.info('Starting Content Creator channel poller..')
             await self.poller()
