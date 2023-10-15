@@ -106,7 +106,7 @@ async def check_for_new(guild: nextcord.Guild, post: bool = True) -> Optional[Li
     return new_posts
 
 
-async def post_video(channel: nextcord.Channel, video: dict, creator: Optional[Union[nextcord.Member, nextcord.User]], 
+async def post_video(channel: nextcord.TextChannel, video: dict, creator: Optional[Union[nextcord.Member, nextcord.User]], 
     ping: Optional[nextcord.Role]):
     """ Announce video in channel """
     if creator != None:
