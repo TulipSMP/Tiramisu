@@ -50,7 +50,7 @@ class Creators(commands.Cog):
         self.poller_running = True
         while True:
             logger.info('Checking for new Content Creator posts...')
-            for guild in await self.guilds:
+            for guild in self.guilds:
                 await youtube.check_for_new(guild, post=True)
             await asyncio.sleep(15)
     
