@@ -113,7 +113,11 @@ class Debug(commands.Cog):
             return
         
         feed = await youtube.check_for_new(interaction.guild, override_checktime=0, post=False)
-        video = feed[0]
+        try:
+            video = feed[0]
+        except IndexError:
+            await interaction.send('*No videos have been posted by content creators*')
+            return
         await youtube.post_video(channel, video, None, None)
         await interaction.send(f'Posted to {channel.mention}')
 
