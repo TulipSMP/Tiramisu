@@ -9,7 +9,7 @@ from nextcord.ext import commands
 import yaml
 
 from libs.database import Database
-from libs import buttons, ticketing, levelling
+from libs import buttons, ticketing, levelling, youtube
 
 class Debug(commands.Cog):
     def __init__(self, bot):
@@ -99,6 +99,21 @@ class Debug(commands.Cog):
     @debug.subcommand(description='Start persistent view')
     async def persist_butons(self, interaction: nextcord.Interaction):
         await interaction.send("Test the thingy idfk", view=buttons.PersistentTextButton())
+    
+    @debug.subcommand(description='Post last video from a content creator')
+    async def repost_content(self, interaction: nextcord.Interaction):
+        db = Database(interaction.guild, reason='Debug, repost_content')
+
+        try:
+            channel = interaction.guild.get_role(int(db.fetch('creator_channel')))
+            if channel == None:
+                raise ValueError
+        except ValueError:
+            await interaction.send('*Failed to fetch `creator_channel` to post to.*')
+            return
+        
+        video = await youtube.check_for_new(interaction.guild, override_checktime=0, post=False)[0]
+        await youtube.post_video(channel, video, None, None)
 
 def setup(bot):
     with open("config/config.yml", "r") as ymlfile:

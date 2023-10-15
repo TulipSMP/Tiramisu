@@ -90,15 +90,6 @@ class Creators(commands.Cog):
                 await interaction.send(f"Updated Channel to [{data['name']}](<{data['link']}>).")
         else:
             await interaction.send(self.cfg['messages']['noperm'], ephemeral=True)
-    
-    @creator.subcommand(description="Re-share last post")
-    async def reshare(self, interaction: nextcord.Interaction):
-        db = Database(interaction.guild, reason='Creators reshare, check perms')
-
-        if interaction.user.id in db.fetch('admins') or utility.is_mod(interaction.user):
-            video = 
-        else:
-            await interaction.send(self.cfg['messages']['noperm'], ephemeral=True)
 
 def setup(bot):
     bot.add_cog(Creators(bot))
