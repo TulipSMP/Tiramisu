@@ -103,7 +103,7 @@ async def check_for_new(guild: nextcord.Guild, override_checktime: Optional[int]
                     logger.debug('YouTube/new Content Creator Video found!')
                     new_posts.append(entry)
         except:
-            return # fail silently
+            continue # fail silently
 
     if post:
         try:
