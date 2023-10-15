@@ -97,6 +97,8 @@ setting:
 setting_2:
   name: Settings 2
   contents: |
+    ## Available Settings
+    *(Continued from Settings)*
     - `ip_address`: the IP address to show in the `/ip` command
     - `ip_text`: An extended description for the `/ip` command
     - `ip_game`: The name of the game `/ip` is for
