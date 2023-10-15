@@ -20,7 +20,7 @@ def validate_yt(id: str) -> Optional[str]:
     try:
         url = f'https://www.youtube.com/feeds/videos.xml?channel_id={id}'
         result = feedparser.parse(url)
-        if result['bozo'] != False:
+        if result['bozo'] == 1:
             return None
         return url
     except:
