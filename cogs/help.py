@@ -43,7 +43,7 @@ class Help(commands.Cog):
         try:
             message = self.help[topic]['contents'].replace('[[BOT]]', self.bot.user.name)
             if len(message) >= 2000:
-                message = message[0:1995] + ' *...*'
+                message = message[0:1990] + ' *...*'
         except KeyError:
             await interaction.send('*The specified help topic was not found.*')
             return
