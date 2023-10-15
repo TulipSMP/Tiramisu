@@ -64,7 +64,7 @@ def get_feed_data(url: str) -> Optional[dict]:
                 'author_url': entry['author_detail']['href'],
                 'url': entry['link'],
                 'id': entry['yt_videoid'],
-                'published': dateutil.parser.parse(entry['published']).timestamp(),
+                'published': int(dateutil.parser.parse(entry['published']).timestamp()),
                 'description': entry['summary'],
                 'thumbnail': entry['media_thumbnail'][0]['url'],
             }
