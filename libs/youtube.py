@@ -71,7 +71,7 @@ def get_feed_data(url: str) -> Optional[dict]:
         )
 
     basic = {
-        'name': raw['feed']['title'],
+        'name': 'TESTING DATA HERE',#raw['feed']['title'],
         'link': raw['feed']['link'],
         'entries': entries
     }
