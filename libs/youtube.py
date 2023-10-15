@@ -91,19 +91,19 @@ async def check_for_new(guild: nextcord.Guild, override_checktime: Optional[int]
 
     new_posts= [] 
     for creator in creators:
-        try:
-            if override_checktime != None:
-                last_check = override_checktime
-            else:
-                last_check = creator[2] # Timestamp of when last checked
-            db.raw(f'UPDATE "creators_{db.guild.id}" SET checked={time} WHERE user={creator.id};', fetch=False) # Update timestamp
-            content = get_feed_data(creator[1])
-            for entry in content['entries']:
-                if entry['published'] >= last_check:
-                    logger.debug('YouTube/new Content Creator Video found!')
-                    new_posts.append(entry)
-        except:
-            continue # fail silently
+        #try:
+        if override_checktime != None:
+            last_check = override_checktime
+        else:
+            last_check = creator[2] # Timestamp of when last checked
+        db.raw(f'UPDATE "creators_{db.guild.id}" SET checked={time} WHERE user={creator.id};', fetch=False) # Update timestamp
+        content = get_feed_data(creator[1])
+        for entry in content['entries']:
+            if entry['published'] >= last_check:
+                logger.debug('YouTube/new Content Creator Video found!')
+                new_posts.append(entry)
+        #except:
+        #    continue # fail silently
 
     if post:
         try:
