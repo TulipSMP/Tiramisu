@@ -105,7 +105,7 @@ class Debug(commands.Cog):
         db = Database(interaction.guild, reason='Debug, repost_content')
 
         try:
-            channel = interaction.guild.get_role(int(db.fetch('creator_channel')))
+            channel = interaction.guild.get_channel(int(db.fetch('creator_channel')))
             if channel == None:
                 raise ValueError
         except ValueError:
@@ -114,6 +114,7 @@ class Debug(commands.Cog):
         
         video = await youtube.check_for_new(interaction.guild, override_checktime=0, post=False)[0]
         await youtube.post_video(channel, video, None, None)
+        await interaction.send(f'Posted to {channel.mention}')
 
 def setup(bot):
     with open("config/config.yml", "r") as ymlfile:
