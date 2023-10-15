@@ -112,7 +112,8 @@ class Debug(commands.Cog):
             await interaction.send('*Failed to fetch `creator_channel` to post to.*')
             return
         
-        video = await youtube.check_for_new(interaction.guild, override_checktime=0, post=False)[0]
+        feed = await youtube.check_for_new(interaction.guild, override_checktime=0, post=False)
+        video = feed[0]
         await youtube.post_video(channel, video, None, None)
         await interaction.send(f'Posted to {channel.mention}')
 
