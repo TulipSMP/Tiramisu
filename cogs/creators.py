@@ -39,7 +39,8 @@ class Creators(commands.Cog):
             if creator_role == None:
                 raise ValueError
         except ValueError:
-            await interaction.send('Content Creators are not yet set up.\n*Ask an administrator to set the `creator_role` and `creator_channel` settings (see `/help topic:Content Creators`)*')
+            await interaction.send('Content Creators are not yet set up.\n*Ask an administrator to set the `creator_role` and `creator_channel` settings (see `/help topic:Content Creators`)*',
+                ephemeral=True)
             return
         
         if creator_role in interaction.user.roles:
