@@ -8,7 +8,7 @@ import nextcord
 from nextcord.ext import commands
 import yaml
 from libs.database import Database
-from libs import levelling, modlog_extra, extensions
+from libs import levelling, modlog_extra, extensions, youtube
 
 class Tasks(commands.Cog):
     """ This cog is for tasks that must be run on various bot events """
@@ -33,6 +33,7 @@ class Tasks(commands.Cog):
 
             levelling.setup(guild)
             modlog_extra.setup(guild)
+            youtube.setup_tables(guild)
 
         # Show the cool welcome messages
         with open('config/welcomescreen.yml', 'r') as ymlfile:
