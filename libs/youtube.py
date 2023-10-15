@@ -97,6 +97,7 @@ async def check_for_new(guild: nextcord.Guild, post: bool = True) -> Optional[Li
             content = get_feed_data(creator[1])
             for entry in content['entries']:
                 if entry['published'] >= last_check:
+                    logger.debug('YouTube/new Content Creator Video found!')
                     new_posts.append(entry)
         except:
             return # fail silently
