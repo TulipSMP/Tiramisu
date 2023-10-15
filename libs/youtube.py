@@ -129,7 +129,7 @@ async def post_video(channel: nextcord.TextChannel, video: dict, creator: Option
     else:
         mention = ''
     desc = video['description'].split('\n')[0]
-    msg = f"## [{video['title']}]({video['url']})\nby [{video['author']}](<{video['author_url']}>){note}{mention}\n>>>{desc}{mention}"
+    msg = f"## [{video['title']}]({video['url']})\nby [{video['author']}](<{video['author_url']}>){note}{mention}\n>>> {desc}{mention}"
 
     await channel.send(msg)
 
