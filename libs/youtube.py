@@ -55,6 +55,7 @@ def update_creator(guild: nextcord.Guild, user: Union[nextcord.Member, nextcord.
 def get_feed_data(url: str) -> Optional[dict]:
     """ Simplifies feed data """
     raw = feedparser.parse(url)
+    logger.debug(f'RAW DATA FOR {url} RSS: {raw}')
     entries = []
     for entry in raw['entries']:
         entries.append(
@@ -71,7 +72,7 @@ def get_feed_data(url: str) -> Optional[dict]:
         )
 
     basic = {
-        'name': 'TESTING DATA HERE',#raw['feed']['title'],
+        'name': raw['feed']['title'],
         'link': raw['feed']['link'],
         'entries': entries
     }
