@@ -96,7 +96,7 @@ async def check_for_new(guild: nextcord.Guild, override_checktime: Optional[int]
             last_check = override_checktime
         else:
             last_check = creator[2] # Timestamp of when last checked
-        db.raw(f'UPDATE "creators_{db.guild.id}" SET checked={time} WHERE user={creator[0]};', fetch=False) # Update timestamp
+        db.raw(f'UPDATE "creators_{db.guild.id}" SET checked={int(time.time())} WHERE user={creator[0]};', fetch=False) # Update timestamp
         content = get_feed_data(creator[1])
         for entry in content['entries']:
             if entry['published'] >= last_check:
