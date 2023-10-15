@@ -6,7 +6,9 @@
 from logging42 import logger
 import nextcord
 from nextcord.ext import commands
+
 import yaml
+import asyncio
 from typing import Optional
 
 from libs.database import Database
@@ -17,13 +19,28 @@ class Creators(commands.Cog):
         """ Creators Cog """
         self.bot = bot    
         with open("config/config.yml", "r") as ymlfile:
-            self.cfg = yaml.load(ymlfile, Loader=yaml.FullLoader)
+            self.cfg = yaml.load(ymlfile, Loader=yaml.FullLoader)\
+        
+        self.poller_running = False
 
 
     # Events
     @commands.Cog.listener()
     async def on_ready(self):
         logger.info('Loaded cog creators.py')
+        if not self.poller_running:
+            logger.info('Starting Content Creator channel poller..')
+            await self.poller()
+
+    async def poller(self):
+        """ Polls for new creator uploads """
+        logger.success('Started Content Creator channel poller!')
+        self.poller_running = True
+        while True:
+            logger.info('Checking for new Content Creator posts...')
+            for guild in await self.bot.fetch_guilds(limit=None).flatten():
+                youtube.check_for_new(guild, post=True)
+            asyncio.sleep(15)
 
     # Commands
     @nextcord.slash_command(description="Commands for Content Creators")
