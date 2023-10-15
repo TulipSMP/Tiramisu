@@ -24,6 +24,9 @@ settings:
   - 'application_channel'
   - 'application_questions'
   - 'new_mod_role'
+  - 'creator_role'
+  - 'creator_channel'
+  - 'creator_ping_role'
 
 # Internal data that cannot be changed by the user.
 hidden:
