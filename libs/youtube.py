@@ -35,6 +35,12 @@ def setup_tables(guild: nextcord.Guild) -> None:
     db.raw(f'CREATE TABLE IF NOT EXISTS "creators_{db.guild.id}" (user int, feed str, checked bigint);', fetch=False)
     db.close()
 
+def remove_tables(guild: nextcord.Guild) -> None:
+    """ Remove table for a guild """
+    db = Database(guild, reason='YouTube, DROP table')
+    db.raw(f'DROP TABLE "creators_{db.guild.id}";', fetch=False)
+    db.close()
+
 # Set/remove table row
 def update_creator(guild: nextcord.Guild, user: Union[nextcord.Member, nextcord.User], feed: str = 'none') -> None:
     """ Add a creator to the table if it is not already there """
