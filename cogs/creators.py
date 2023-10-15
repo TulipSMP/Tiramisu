@@ -22,25 +22,38 @@ class Creators(commands.Cog):
             self.cfg = yaml.load(ymlfile, Loader=yaml.FullLoader)\
         
         self.poller_running = False
+        self.guilds = None
 
 
     # Events
     @commands.Cog.listener()
     async def on_ready(self):
         logger.info('Loaded cog creators.py')
+        if self.guilds == None:
+            self.guilds = self.bot.fetch_guilds(limit=None).flatten()
         if not self.poller_running:
             logger.info('Starting Content Creator channel poller..')
             await self.poller()
 
+    @commands.Cog.listener()
+    async def on_guild_join(self, guild: nextcord.Guild):
+        self.guilds.append(guild)
+    
+    @commands.Cog.listener()
+    async def on_guild_remove(self, guild: nextcord.Guild):
+        self.guilds = [i for i in self.guilds if i != guild]
+
+    # Polling Service
     async def poller(self):
         """ Polls for new creator uploads """
         logger.success('Started Content Creator channel poller!')
         self.poller_running = True
         while True:
             logger.info('Checking for new Content Creator posts...')
-            for guild in await self.bot.fetch_guilds(limit=None).flatten():
+            for guild in await self.guilds:
                 await youtube.check_for_new(guild, post=True)
             await asyncio.sleep(15)
+    
 
     # Commands
     @nextcord.slash_command(description="Commands for Content Creators")
