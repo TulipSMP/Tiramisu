@@ -78,7 +78,7 @@ def get_feed_data(url: str) -> Optional[dict]:
     return basic
 
 # Check for new videos for a guild
-async def check_for_new(guild: nextcord.Guild, post: bool = True) -> Optional[List[dict]]:
+async def check_for_new(guild: nextcord.Guild, override_checktime: Optional[int] = None, post: bool = True) -> Optional[List[dict]]:
     """ Check for new videos and return a list of them (as formatted by get_feed_data() ) """
     db = Database(guild, reason='YouTube, check for new posts')
     try:
@@ -92,11 +92,14 @@ async def check_for_new(guild: nextcord.Guild, post: bool = True) -> Optional[Li
     new_posts= [] 
     for creator in creators:
         try:
-            last_check = creator[2] # Timestamp of when last checked
+            if override_checktime != None:
+                last_check = override_checktime
+            else:
+                last_check = creator[1] # Timestamp of when last checked
             db.raw(f'UPDATE "creators_{db.guild.id}" SET checked={time} WHERE user={creator.id};', fetch=False) # Update timestamp
             content = get_feed_data(creator[1])
             for entry in content['entries']:
-                if entry['published'] >= 0:
+                if entry['published'] >= last_check:
                     logger.debug('YouTube/new Content Creator Video found!')
                     new_posts.append(entry)
         except:
