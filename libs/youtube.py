@@ -96,7 +96,7 @@ async def check_for_new(guild: nextcord.Guild, post: bool = True) -> Optional[Li
             db.raw(f'UPDATE "creators_{db.guild.id}" SET checked={time} WHERE user={creator.id};', fetch=False) # Update timestamp
             content = get_feed_data(creator[1])
             for entry in content['entries']:
-                if entry['published'] >= last_check:
+                if entry['published'] >= 0:
                     logger.debug('YouTube/new Content Creator Video found!')
                     new_posts.append(entry)
         except:
