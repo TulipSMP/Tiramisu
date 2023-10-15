@@ -39,8 +39,8 @@ class Creators(commands.Cog):
         while True:
             logger.info('Checking for new Content Creator posts...')
             for guild in await self.bot.fetch_guilds(limit=None).flatten():
-                youtube.check_for_new(guild, post=True)
-            asyncio.sleep(15)
+                await youtube.check_for_new(guild, post=True)
+            await asyncio.sleep(15)
 
     # Commands
     @nextcord.slash_command(description="Commands for Content Creators")
