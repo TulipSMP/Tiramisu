@@ -59,7 +59,7 @@ class Creators(commands.Cog):
                 data = youtube.get_feed_data(feed)
                 await interaction.send(f"Updated Channel to [{data['name']}](<{data['link']}>).")
         else:
-            await interaction.send(self.cfg['messages']['noperm'])
+            await interaction.send(self.cfg['messages']['noperm'], ephemeral=True)
 
 
 def setup(bot):
