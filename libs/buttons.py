@@ -84,7 +84,7 @@ class TicketCloseConfirmation(nextcord.ui.View):
     async def disable_self(self, interaction: nextcord.Interaction):
         self.on_yes.disabled = True
         self.on_no.disabled = True
-        await self.interaction.response.edit_message(view=self)
+        await interaction.response.edit_message(view=self)
 
     @nextcord.ui.button(label='Yes', emoji='✅', style=nextcord.ButtonStyle.green)
     async def on_yes(self, button, interaction: nextcord.Interaction):
