@@ -108,13 +108,23 @@ async def get_ticket_creator(thread: nextcord.Thread):
     
     return message.mentions[0]
     
-async def close(interaction: nextcord.Interaction):
+async def close(interaction: nextcord.Interaction, confirmed: bool = False):
     """ Close a Ticket """
     db = Database(interaction.guild, reason='Ticketing, close ticket')
 
     if not await is_ticket(interaction.channel):
         await interaction.send(f'Run this command in the ticket you wish to close.', ephemeral=True)
         return
+
+    if not confirmed:
+        await interaction.send(
+            '### Are you sure?\n' +
+            '*You should only close your ticket once the issue has been completely resolved. Closing your ticket means the issue within it is no longer a problem or has been solved/dealt with.*',
+            view=buttons.TicketCloseConfirmation(),
+            ephemeral=True
+            )
+
+
     thread = interaction.channel # interaction is discarded upon response
     user = interaction.user
     await interaction.response.defer()  
