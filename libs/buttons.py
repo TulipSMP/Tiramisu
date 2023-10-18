@@ -76,3 +76,20 @@ class ApplicationActions(nextcord.ui.View):
         await applications.close(interaction)
         self.clear_items()
 
+class TicketCloseConfirmation(nextcord.ui.View):
+    def __init__(self):
+        """ Buttons to Confirm closing of a Ticket (Non-Persistent)"""
+        super().__init__(timeout=600)
+    
+    async def disable_self(self, interaction: nextcord.Interaction):
+        self.on_yes.disabled = True
+        self.on_no.disabled = True
+        await interaction.response.edit_message(view=self)
+
+    @nextcord.ui.button(label='Yes', emoji='✅', style=nextcord.ButtonStyle.green)
+    async def on_yes(self, button, interaction: nextcord.Interaction):
+        await ticketing.close(interaction, confirmed=True)
+
+    @nextcord.ui.button(label='No', emoji='🛑', style=nextcord.ButtonStyle.red)
+    async def on_no(self, button, interaction: nextcord.Interaction):
+        await self.disable_self(interaction)

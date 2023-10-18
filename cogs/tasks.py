@@ -8,7 +8,7 @@ import nextcord
 from nextcord.ext import commands
 import yaml
 from libs.database import Database
-from libs import levelling, modlog_extra
+from libs import levelling, modlog_extra, extensions
 
 class Tasks(commands.Cog):
     """ This cog is for tasks that must be run on various bot events """
@@ -25,9 +25,10 @@ class Tasks(commands.Cog):
         # Ensure databases exist for each guild the bot is in
         guilds = await self.bot.fetch_guilds(limit=None).flatten()
         logger.info(f'Verifying Database. Guilds: {guilds}')
+        ext = extensions.get_all_settings()
         for guild in guilds:
             db = Database(guild, reason = f'Verifying database for guild {guild.id} (on start).')
-            db.verify()
+            db.verify(extra_settings=ext)
             db.close()
 
             levelling.setup(guild)
@@ -46,8 +47,9 @@ class Tasks(commands.Cog):
         # Create databases on joining a guild
         logger.info(f'Creating database tables for newly joined guild {guild.id}')
         db = Database(guild, reason = f'Creating database for new guild {guild.id}')
-        db.create()
-        db.verify()
+        ext = extensions.get_all_settings()
+        db.create(extra_settings=ext)
+        db.verify(extra_settings=ext)
         # Set admin and DM them
         db.set('admin', guild.owner_id)
         await guild.owner.send(f'''Thanks for adding me to your server! Use the `/admin` commands to add other administrators, \

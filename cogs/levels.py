@@ -9,6 +9,7 @@ from nextcord.ext import commands
 
 import yaml
 import random
+import asyncio
 from typing import Optional
 
 from libs.database import Database
@@ -45,9 +46,11 @@ class Levels(commands.Cog):
             new_level = levelling.get_level(message.author)
             if new_level > prev_level:
                 if not message.channel.type == nextcord.ChannelType.news:
-                    await message.channel.send(f'**⬆️ {message.author.mention} is now at level {new_level}!**')
+                    message = await message.channel.send(f'**⬆️ {message.author.mention} is now at level {new_level}!**')
                 else:
-                    await message.author.send(f'**⬆️ You have reached level {new_level} in {message.guild.name}!**')
+                    message = await message.author.send(f'**⬆️ You have reached level {new_level} in {message.guild.name}!**')
+                
+                await message.delete(delay = 120)
 
     # Commands
     @nextcord.slash_command(description="Check your level")
