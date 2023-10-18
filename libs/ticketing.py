@@ -123,6 +123,7 @@ async def close(interaction: nextcord.Interaction, confirmed: bool = False):
             view=buttons.TicketCloseConfirmation(),
             ephemeral=True
             )
+        return
 
 
     thread = interaction.channel # interaction is discarded upon response
