@@ -12,7 +12,7 @@ from libs.database import Database
 async def create(interaction: nextcord.Interaction, reason: str = None, require_reason: bool = True):
     """ Create a Ticket """
     if reason == None and require_reason:
-        await interaction.response.send_modal(modals.InputModal('Create a Ticket', 'Topic of ticket', create)) # Call create again with reason
+        await interaction.response.send_modal(modals.InputModal('Create a Ticket', 'Topic of ticket', create, max_length=25)) # Call create again with reason
         return
     elif interaction.channel.type != nextcord.ChannelType.text:
         await interaction.response.send_message('I cannot create tickets here!')
