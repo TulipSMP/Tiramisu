@@ -76,19 +76,14 @@ class ApplicationActions(nextcord.ui.View):
         await applications.close(interaction)
         self.clear_items()
 
-class ConfirmationButtons(nextcord.ui.View):
-    def __init__(self, callback, *args, **kwargs):
-        """ Buttons to Confirm closing of a Ticket (Non-Persistent)
-            NOTE: Callback MUST be awaitable. """
+class TicketCloseConfirmation(nextcord.ui.View):
+    def __init__(self):
+        """ Buttons to Confirm closing of a Ticket (Non-Persistent)"""
         super().__init__(timeout=600)
-
-        self.callback = callback
-        self.args = args
-        self.kwargs = kwargs
 
     @nextcord.ui.button(label='Yes', emoji='✅', style=nextcord.ButtonStyle.green)
     async def on_yes(self, button, interaction: nextcord.Interaction):
-        await self.callback(*self.args, **self.kwargs)
+        await ticketing.close(interaction, confirmed=False)
         self.clear_items()
 
     @nextcord.ui.button(label='No', emoji='🛑', style=nextcord.ButtonStyle.red)
