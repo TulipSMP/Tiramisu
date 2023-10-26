@@ -113,7 +113,7 @@ class Settings(commands.Cog):
         db = Database(interaction.guild, reason='Slash command `/setting set`')
         if interaction.user.id in db.fetch('admins'):
             setting = setting.strip()
-            if setting not in self.settings['settings']:
+            if setting not in self.settings['settings'] + extensions.get_all_shown_settings():
                 valid = False
                 response = 'That is not a valid setting. Use `/setting get:all` to see all available settings.'
             else:
