@@ -118,24 +118,25 @@ class ChangeVoice(LoggingEvent):
             action = 'Null'
             self.void = True # Its some other change we don't want to report
         
-        super().__init__(
-                member.guild, f"**🎤 {action} VC**",
-                member, extra = {
-                    "VC":use.channel.mention
-                }
-            )
+        if not self.void:
+            super().__init__(
+                    member.guild, f"**🎤 {action} VC**",
+                    member, extra = {
+                        "VC":use.channel.mention
+                    }
+                )
 
 
 
 async def log(event: LoggingEvent):
     """ Send a log message in `log_channel` returned from event.message() """
-    db = Database(event.guild, reason='Logging, fetch `log_channel`')
-    try:
-        channel = event.guild.get_channel(int(db.fetch('log_channel')))
-        if channel == None:
-            raise ValueError
-    except ValueError:
-        return
-
     if not event.void:
+        db = Database(event.guild, reason='Logging, fetch `log_channel`')
+        try:
+            channel = event.guild.get_channel(int(db.fetch('log_channel')))
+            if channel == None:
+                raise ValueError
+        except ValueError:
+            return
+
         await channel.send(event.message())
