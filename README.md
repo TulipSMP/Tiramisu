@@ -61,3 +61,9 @@ There's a lot of things we'd like to do with this bot, but here's a general idea
 - [x] Get bot token from yaml
 - [x] Get role and guild IDs from db
 - [x] Guild-specific settings system via db
+
+## License
+
+All source code is provided under the terms of the BSD-3-clause license.
+
+Assets provided in the `src/` directory are provided under the terms of Creative Commons CC0 1.0 Universal.
