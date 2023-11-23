@@ -46,3 +46,4 @@ api:
   ip: 127.0.0.1             # What IP address to bind to
   port: 5006                # What port to listen on
   secret: 'config/secret.txt' # Where to store the secret
+  queue: 'config/queue.yml' # File where queue of requests for bot to process are stored
