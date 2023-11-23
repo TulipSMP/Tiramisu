@@ -39,7 +39,7 @@ messages:
   error: '⚠️ **An Error Occured!** ``` [[error]] ``` Please report this to the devs.'
 
 # REST API for REST-Based Modlog submissions
-# You must install the `flask` python library for this to work.
+# You must install the `aihttp` python library for this to work.
 # WARNING: this feature is in alpha!
 api:
   enabled: false            # Whether or not to enable the API

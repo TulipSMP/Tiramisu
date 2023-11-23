@@ -2,11 +2,14 @@
 
 The REST API is a beta feature that allows you to make modlog entries via REST requests.
 
-Endpoint: `/modlog/:guild_id`
-Methods: `POST` / `PUT`
-Accepts: `application/json`
+You need to install aiohttp manually for this to work:
+```
+pip install aiohttp
+```
 
-Where `:guild_id` is the ID of your guild.
+Endpoint: `/modlog`
+Method: `POST`
+Accepts: `application/json`
 
 #### Example JSON to post:
 
@@ -14,6 +17,7 @@ Where `:guild_id` is the ID of your guild.
 {
     "instance_secret": "dcuEJ4FNBqTkhypQWP3xIxrzdeBKcBsP9NWAYaRNk_M",
     "guild_secret": "eNAk-pQY71vV-8fFDuyqDA",
+    "guild_id": "604994115360391179",
     "action": "Banned",
     "user": "Notch",
     "uuid": "00000-00000-00000-00000",
@@ -29,6 +33,7 @@ Where `:guild_id` is the ID of your guild.
 ###### Required
 - `instance_secret`: The secret generated for the entire instance
 - `guild_secret`: The secret for the current guild
+- `guild_id`: The discord ID for the current guild
 - `action`: What moderation action was performed
 - `user`: The username for the user being acted upon
 - `platform`: Which platform the action was performed on

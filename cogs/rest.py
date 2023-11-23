@@ -7,6 +7,7 @@ from logging42 import logger
 import nextcord
 from nextcord.ext import commands
 import yaml
+import json
 import secrets
 import asyncio
 from libs.database import Database
@@ -15,13 +16,11 @@ from libs import moderation
 
 import logging
 
+from aiohttp import web
+
 class API(commands.Cog):
     def __init__(self, bot):
         """ REST API for modlog submissions """
-        try:
-            from flask import Flask, request, jsonify
-        except:
-            logger.error('Failed to enable REST API! flask is not installed.')
         self.bot = bot    
         with open("config/config.yml", "r") as ymlfile:
             self.cfg = yaml.load(ymlfile, Loader=yaml.FullLoader)
@@ -37,77 +36,15 @@ class API(commands.Cog):
                 f.write(secret)
         self.secret = secret
 
-        self.app = Flask(__name__)
-
-        # Disable warning, yes IK its bad.
-        log = logging.getLogger('werkzeug')
-        log.setLevel(logging.ERROR)
-        self.app.logger.disabled = True
-        log.disabled = True
-
+        self.app = web.Application
+        self.app.add_routes(
+            [
+                web.post('/modlog', self.modlog)
+            ]
+        )
+        
         self.running = False
 
-        @self.app.route('/modlog/<guild_id>', methods=['POST', 'PUT'])
-        async def modlog(guild_id):
-            # Load and Parse Data
-            data = json.loads(request.data)
-            try:
-                instance_secret = data["instance_secret"]
-                guild_secret = data["guild_secret"]
-                action = data["action"]
-                user = data["user"]
-                platform = data["platform"]
-                reason = data["reason"]
-                author = data["author"]
-            except KeyError:
-                return 'Missing Required Arguments', 400
-
-            # Authenticate
-            if instance_secret != self.secret:
-                return 'Invalid Instance Secret', 401
-
-            # Parse optional data
-            if 'duration' in data:
-                duration = data['duration']
-            else:
-                duration = None
-            if 'notes' in data:
-                notes = data["notes"]
-            else:
-                notes = None
-
-            # Fetch Guild
-            try:
-                guild = await self.bot.fetch_guild(int(guild_id))
-                if guild == None:
-                    raise KeyError
-            except KeyError:
-                return 'Guild Not Found', 404
-            
-            # Authenticate against Guild
-            db = Database(guild, reason='REST API Authentication')
-            if guild_secret != db.fetch('api_secret'):
-                return 'Invalid Guild Secret', 401
-            
-            # Create Modlog Entry
-            extra = {}
-            extra["Platform"] = platform
-            if duration != None:
-                extra["Duration"] = duration
-            if notes != None:
-                extra["Notes"] = notes
-            extra["INFO"] = 'Published via REST API.'
-            response = await moderation.modlog(
-                guild,
-                action,
-                author,
-                user,
-                reason = reason,
-                additional = extra
-            )
-
-            # Respond
-            return str(response), 200
 
     # Events
     @commands.Cog.listener()
@@ -141,6 +78,70 @@ class API(commands.Cog):
     def server(self):
         self.running = True
         self.app.run(debug=False, host=self.cfg['api']['ip'], port=self.cfg['api']['port'])
+    
+    # API Endpoints
+    async def modlog(self, request):
+        """ Upload a Modlog Entry """
+        # Load and Parse Data
+        data = json.loads(request.data)
+        try:
+            instance_secret = data["instance_secret"]
+            guild_secret = data["guild_secret"]
+            guild_id = data["guild_id"]
+            action = data["action"]
+            user = data["user"]
+            platform = data["platform"]
+            reason = data["reason"]
+            author = data["author"]
+        except KeyError:
+            return web.Response(text='Missing Required Arguments', status=400)
+
+        # Authenticate
+        if instance_secret != self.secret:
+            return web.Response(text='Invalid Instance Secret', status=401)
+
+        # Parse optional data
+        if 'duration' in data:
+            duration = data['duration']
+        else:
+            duration = None
+        if 'notes' in data:
+            notes = data["notes"]
+        else:
+            notes = None
+
+        # Fetch Guild
+        try:
+            guild = await self.bot.fetch_guild(int(guild_id))
+            if guild == None:
+                raise ValueError
+        except ValueError:
+            return web.Response(text='Guild Not Found', status=404)
+        
+        # Authenticate against Guild
+        db = Database(guild, reason='REST API Authentication')
+        if guild_secret != db.fetch('api_secret'):
+            return web.Response(text='Invalid Guild Secret', status=401)
+        
+        # Create Modlog Entry
+        extra = {}
+        extra["Platform"] = platform
+        if duration != None:
+            extra["Duration"] = duration
+        if notes != None:
+            extra["Notes"] = notes
+        extra["INFO"] = 'Published via REST API.'
+        response = await moderation.modlog(
+            guild,
+            action,
+            author,
+            user,
+            reason = reason,
+            additional = extra
+        )
+
+        # Respond
+        return web.Response(text=response, status=200)
 
 
 def setup(bot):
