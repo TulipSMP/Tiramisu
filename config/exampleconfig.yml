@@ -37,3 +37,12 @@ messages:
   noperm: '**🚫 No permission**'
   noperm_log: '[[user]] (ID: [[user_id]]) tried to run "[[command]]" but doesnt have permission!'
   error: '⚠️ **An Error Occured!** ``` [[error]] ``` Please report this to the devs.'
+
+# REST API for REST-Based Modlog submissions
+# You must install the `flask` python library for this to work.
+# WARNING: this feature is in alpha!
+api:
+  enabled: false            # Whether or not to enable the API
+  ip: 127.0.0.1             # What IP address to bind to
+  port: 5006                # What port to listen on
+  secret: 'config/secret.txt' # Where to store the secret

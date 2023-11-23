@@ -29,3 +29,4 @@ settings:
 hidden:
   - 'ticket_int'
   - 'application_int'
+  - 'api_secret'
