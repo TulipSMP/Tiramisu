@@ -121,7 +121,7 @@ class API(commands.Cog):
         pass
 
     @api.subcommand(description='Get secrets for REST API')
-    async def secret(self, interaction: nextcord.Interacion):
+    async def secret(self, interaction: nextcord.Interaction):
         db = Database(interaction.guild, reason='Slash command, /api secret')
         if interaction.user.id in db.fetch('admins'):
             guild_secret = db.fetch('api_secret')
