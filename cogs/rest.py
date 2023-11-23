@@ -41,7 +41,7 @@ class API(commands.Cog):
         # Disable warning, yes IK its bad.
         log = logging.getLogger('werkzeug')
         log.setLevel(logging.ERROR)
-        app.logger.disabled = True
+        self.app.logger.disabled = True
         log.disabled = True
 
         self.running = False
