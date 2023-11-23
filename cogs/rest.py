@@ -148,4 +148,4 @@ def setup(bot):
     if cfg['api']['enabled']:
         bot.add_cog(API(bot))
         logger.debug('Setup cog "rest"')
-        logger.warn('Enabling REST API: This is a beta feature! Expect bugs!')
+        logger.warning('Enabling REST API: This is a beta feature! Expect bugs!')
