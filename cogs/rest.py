@@ -46,7 +46,7 @@ class API(commands.Cog):
 
         self.running = False
 
-        @self.app.route('/modlog/<str:guild_id>', methods=['POST', 'PUT'])
+        @self.app.route('/modlog/<guild_id>', methods=['POST', 'PUT'])
         async def modlog(guild_id):
             # Load and Parse Data
             data = json.loads(request.data)
