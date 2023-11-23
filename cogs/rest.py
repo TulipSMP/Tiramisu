@@ -114,7 +114,8 @@ class API(commands.Cog):
     async def on_ready(self):
         logger.info('Loaded cog rest.py (Beta)')
         if not self.running:
-            asyncio.run(self.main())
+            task = asyncio.create_task(self.server())
+            asyncio.run(task())
 
     # Commands
     @nextcord.slash_command(description="Manage REST API")
@@ -137,7 +138,7 @@ class API(commands.Cog):
             await interaction.send(self.cfg['messages']['noperm'])
     
     # API Server
-    async def main(self):
+    def server(self):
         self.running = True
         self.app.run(debug=False, host=self.cfg['api']['ip'], port=self.cfg['api']['port'])
 
