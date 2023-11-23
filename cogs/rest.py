@@ -8,6 +8,7 @@ import nextcord
 from nextcord.ext import commands
 import yaml
 import secrets
+import asyncio
 from libs.database import Database
 
 from libs import moderation
@@ -113,7 +114,7 @@ class API(commands.Cog):
     async def on_ready(self):
         logger.info('Loaded cog rest.py (Beta)')
         if not self.running:
-            await self.main()
+            asyncio.run(self.main())
 
     # Commands
     @nextcord.slash_command(description="Manage REST API")
@@ -139,7 +140,6 @@ class API(commands.Cog):
     async def main(self):
         self.running = True
         self.app.run(debug=False, host=self.cfg['api']['ip'], port=self.cfg['api']['port'])
-        self.running = False
 
 
 def setup(bot):
