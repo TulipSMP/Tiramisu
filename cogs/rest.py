@@ -36,10 +36,10 @@ class API(commands.Cog):
                 f.write(secret)
         self.secret = secret
 
-        self.app = web.Application
+        self.app = web.Application()
         self.app.add_routes(
             [
-                web.post('/modlog', self.modlog)
+            web.post('/modlog', self.modlog),
             ]
         )
         
