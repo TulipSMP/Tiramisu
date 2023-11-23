@@ -12,6 +12,7 @@ from libs.database import Database
 
 from libs import moderation
 
+import logging
 
 class API(commands.Cog):
     def __init__(self, bot):
@@ -37,8 +38,16 @@ class API(commands.Cog):
 
         self.app = Flask(__name__)
 
+        # Disable warning, yes IK its bad.
+        log = logging.getLogger('werkzeug')
+        log.setLevel(logging.ERROR)
+        app.logger.disabled = True
+        log.disabled = True
+
+        self.running = False
+
         @self.app.route('/modlog/<str:guild_id>', methods=['POST', 'PUT'])
-        def modlog(guild_id):
+        async def modlog(guild_id):
             # Load and Parse Data
             data = json.loads(request.data)
             try:
@@ -103,6 +112,8 @@ class API(commands.Cog):
     @commands.Cog.listener()
     async def on_ready(self):
         logger.info('Loaded cog rest.py (Beta)')
+        if not self.running:
+            await self.main()
 
     # Commands
     @nextcord.slash_command(description="Manage REST API")
@@ -126,7 +137,9 @@ class API(commands.Cog):
     
     # API Server
     async def main(self):
+        self.running = True
         self.app.run(debug=False)
+        self.running = False
 
 
 def setup(bot):
