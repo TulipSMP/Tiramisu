@@ -138,7 +138,7 @@ class API(commands.Cog):
     # API Server
     async def main(self):
         self.running = True
-        self.app.run(debug=False)
+        self.app.run(debug=False, host=self.cfg['api']['ip'], port=self.cfg['api']['port'])
         self.running = False
 
 
