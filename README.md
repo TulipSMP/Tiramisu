@@ -3,13 +3,18 @@
 <a href="https://github.com/RoseSMP/Tiramisu/actions/workflows/pylint.yml"><img src="https://github.com/RoseSMP/Tiramisu/actions/workflows/pylint.yml/badge.svg?branch=main&event=push" alt="Lint"></a>
 </div>
 
-##### Code Status: Code Freeze! This branch is being prepared for production.
-
 
 An open source discord bot for all audiences, developed by the folks at RoseSMP.
 
 ### ⚠️ Not Ready for Production
 This bot is not finished, and is far from useable. In the meantime, feel free to open a pull request to help us out.
+
+### URI Change
+
+Make sure to update your local clone of the repo, with the following command:
+```
+git remote set-url origin https://github.com/TulipSMP/Tiramisu.git
+```
 
 ## Getting Started
 See [Getting Started](./doc/getting-started.md) for instructions on how to run and develop this bot.
@@ -61,3 +66,9 @@ There's a lot of things we'd like to do with this bot, but here's a general idea
 - [x] Get bot token from yaml
 - [x] Get role and guild IDs from db
 - [x] Guild-specific settings system via db
+
+## License
+
+All source code is provided under the terms of the BSD-3-clause license.
+
+Assets provided in the `src/` directory are provided under the terms of Creative Commons CC0 1.0 Universal.
