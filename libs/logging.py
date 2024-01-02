@@ -59,9 +59,9 @@ class EditedMessage(LoggingEvent):
             old.author,
             extra = {
                 "Channel":old.channel.mention,
-                "Old Content":nextcord.utils.escape_markdown(old.content).replace('\n', '⮒'),
+                "Old Content":nextcord.utils.escape_markdown(old.clean_content).replace('\n', '⮒'),
                 "Old Attachments":self._get_attachments(old),
-                "New Content":nextcord.utils.escape_markdown(new.content).replace('\n', '⮒'),
+                "New Content":nextcord.utils.escape_markdown(new.clean_content).replace('\n', '⮒'),
                 "New Attachments":self._get_attachments(new)
             }
         )
