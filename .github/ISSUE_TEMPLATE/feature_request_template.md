@@ -15,4 +15,4 @@ Remember that feature requests are not prioritized, and we'd love for you to add
 
 #### Confirmation
 <!-- Check this box by replacing the space between the brackets with an x -->
-- [ ] I acknowledge that this is not free development work, and that my request most likely will not be implemented.
+- [ ] I acknowledge that this is not free development work, and that my request may not be implemented.
