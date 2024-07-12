@@ -1,10 +1,10 @@
-<div align="center"><a href="https://github.com/RoseSMP/Tiramisu"><img src='src/tiramisu.png' alt='Tiramisu, an italian cake with coffee, chocolate, and creamy white icing. Drawn in a simplistic square ' width=200></a>
+<div align="center"><a href="https://github.com/TulipSMP/Tiramisu"><img src='src/tiramisu.png' alt='Tiramisu, an italian cake with coffee, chocolate, and creamy white icing. Drawn in a simplistic square ' width=200></a>
 <h1> Tiramisu </h1>
-<a href="https://github.com/RoseSMP/Tiramisu/actions/workflows/pylint.yml"><img src="https://github.com/RoseSMP/Tiramisu/actions/workflows/pylint.yml/badge.svg?branch=main&event=push" alt="Lint"></a>
+<a href="https://github.com/TulipSMP/Tiramisu/actions/workflows/pylint.yml"><img src="https://github.com/TulipSMP/Tiramisu/actions/workflows/pylint.yml/badge.svg?branch=main&event=push" alt="Lint"></a>
 </div>
 
 
-An open source discord bot for all audiences, developed by the folks at RoseSMP.
+An open source discord bot for all audiences, developed by the folks at Tulip SMP.
 
 ### ⚠️ Not Ready for Production
 This bot is not finished, and is far from useable. In the meantime, feel free to open a pull request to help us out.
