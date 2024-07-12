@@ -22,8 +22,8 @@ labels: bug
 <!-- What OS are you on? [Linux, BSD, Windows, or macOS]
  Run the `uname` command in a terminal or command prompt window if you are unsure-->
  
-**CPU Archetecture:** 
-<!-- What kind of cpu do u have? [x86_64, or aarch64/arm64]
+**CPU Architecture:** 
+<!-- What kind of CPU do you have? [x86_64, or aarch64/arm64]
 Run the `uname -i` command in a terminal or command prompt window if you are unsure -->
 
 **Python Version:** 
@@ -36,7 +36,6 @@ Make sure you're running the latest version by running the `git pull` command in
 or have downloaded the latest version from the releases page. 
 Check the boxes by putting an x between the brackets like this:
 - [x] Checked box -->
-
 Check only those that apply
 - [ ] I am running straight from git 
   - Branch: 
